@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<include file="Public:pageHeader" />
+	<body>
+		<div id="page">
+			<include file="Public:header" />
+			<section>
+				<include file="pbaner" />
+				
+				
+				<div class="czjg">
+					<div class="czjg1">
+						<table border="1">
+							<tr>
+								<td>展会费用</td>
+								<td class="on">
+									{$info.booth_fee_describe}<br />
+									<a href="{:U('Pavilion/choice_booth',array('pid'=>$p_id))}">预订展位</a>
+									
+								</td>
+							</tr>
+							<tr>
+								<td>注册费用</td>
+								<td class="on">
+									{$info.reg_fee_describe}
+									
+								</td>
+							</tr>
+							<tr>
+								<td>人员费用</td>
+								<td class="on">
+									{$info.staff_fee_describe}<br />
+									<a href="{:U('Pavilion/trip',array('pid'=>$p_id))}">展会行程</a>
+								</td>
+							</tr>
+							<tr>
+								<td>其他费用</td>
+								<td class="on">
+									{$info.other_fee_describe}<br />
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</section>
+			<include file="Public:pageFooter" />
+		</div>
+	</body>
+</html>

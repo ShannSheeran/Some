@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+	<include file="Public:pageHeader" />
+	<link rel="stylesheet" type="text/css" href="__JS__/dsdialog/css/base.css" />
+    <script type="text/javascript" src="__JS__/dsdialog/js/dsdialog.js"></script>
+	<script src="__JS__/order.js"></script>
+	<body>
+		<div id="page">
+			<include file="Public:header" />
+			<section>
+				<div class="zwdd">
+					<div id="tabBox1" class="tabBox">
+						<div class="hd zw-hd">
+							<ul>
+								<li><a href="javascript:void(0)">全部</a><em></em></li>
+								<li><a href="javascript:void(0)">待付定金</a><em></em></li>
+								<li><a href="javascript:void(0)">已付定金</a><em></em></li>
+								<li><a href="javascript:void(0)">已取消</a><em></em></li>
+							</ul>
+						</div>
+						<div class="clearfix"></div>
+						<div class="bd" id="tabBox1-bd"><!-- 添加id，js用到 -->
+							<div class="con"><!-- 高度自适应需添加外层 -->
+								<div class="zwdd-main">
+									<ul>
+										<foreach name="orderlist" item="item">
+										<li>
+											<div class="zw-box1">
+												<p class="zw-aa1">
+													<a href="{:U('User/order_edit',array('order_id'=>$item['order_id']))}"><span class="fl">订单号：{$item.order_sn}</span></a>
+													<if condition="$item['pay_status'] eq 0 and $item['order_status'] eq 0 ">
+													<span class="fr dfdj">待付订金</span>
+													<elseif condition="$item['pay_status'] eq 1 and $item['order_status'] eq 1 "/>
+													<span class="fr yfdj">已付订金</span>
+													<elseif condition="$item['order_status'] eq 2"/>
+													<span class="fr yfyk">已取消</span>
+													</if>
+												</p>
+												<div class="clearfix"></div>
+												
+												<p class="zw-aa2">
+													<span class="fl zw1-img"><img src="__IMG__/order.png"  width="100%"/></span>
+													<a href="{:U('User/order_edit',array('order_id'=>$item['order_id']))}">
+													<span class="fl zw1-bt">
+													<foreach name="item.goods" item="goods">
+													{$goods.ex_name}{$goods.places}<br>
+													</foreach>
+													</span>
+													</a>
+													<span class="fr zw1-rmb">￥{$item.discount_price}</span>
+												</p>
+												
+												<div class="clearfix"></div>
+												<p class="zw-aa3">
+						   							<span class="fl">
+														共计<font color="#e94546">{$item.numbers}</font>件商品&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;实付：<font color="#e94546">￥{$item.discount_price}</font>
+													</span>
+													<if condition="$item['pay_status'] eq 0 and $item['order_status'] eq 0 ">
+													<a href="JavaScript:;" onclick="cancelorder({$item.order_id})" class="fr sqtk">取消订单</a>
+													<a href="{:U('Flow/paymant',array('order_id'=>$item['order_id']))}" class="fr qx">付款</a>
+													<elseif condition="$item['pay_status'] eq 1 and $item['order_status'] eq 1 "/>
+													<a href="" class="fr qx">申请退款</a>
+													<a href="" class="fr qx">意见反馈</a>
+													<elseif condition="$item['order_status'] eq 2"/>
+													<a href="" class="fr qx">已取消</a>
+													
+													</if>
+													
+													
+												</p>
+												<div class="clearfix"></div>
+											</div>
+										</li>
+										</foreach>
+										
+										
+									</ul>
+								</div>
+							</div>
+							<div class="con"><!-- 高度自适应需添加外层 -->
+								<div class="zwdd-main">
+									<ul>
+										<foreach name="orderlist" item="item">
+										<if condition="$item['pay_status'] eq 0 and $item['order_status'] eq 0">
+										<li>
+											<div class="zw-box1">
+												<p class="zw-aa1">
+													<a href="{:U('User/order_edit',array('order_id'=>$item['order_id']))}">
+													<span class="fl">订单号：{$item.order_sn}</span>
+													</a>
+													<span class="fr dfdj">待付订金</span>
+												</p>
+												<div class="clearfix"></div>
+												
+												<p class="zw-aa2">
+													<span class="fl zw1-img"><img src="__IMG__/order.png"  width="100%"/></span>
+													<a href="{:U('User/order_edit',array('order_id'=>$item['order_id']))}">
+													<span class="fl zw1-bt">
+													<foreach name="item.goods" item="goods">
+													{$goods.ex_name}{$goods.places}<br>
+													</foreach>
+													</span>
+													</a>
+													<span class="fr zw1-rmb">￥{$item.discount_price}</span>
+												</p>
+												
+												<div class="clearfix"></div>
+												<p class="zw-aa3">
+						   							<span class="fl">
+														共计<font color="#e94546">{$item.numbers}</font>件商品&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;实付：<font color="#e94546">￥{$item.discount_price}</font>
+													</span>
+													<a href="" class="fr sqtk">取消订单</a>
+													<a href="{:U('Flow/paymant',array('order_id'=>$item['order_id']))}" class="fr qx">付款</a>
+													
+													
+												</p>
+												<div class="clearfix"></div>
+											</div>
+										</li>
+										</if>
+										</foreach>
+																		
+									
+										
+									</ul>
+								</div>
+							</div>
+							<div class="con"><!-- 高度自适应需添加外层 -->
+								<div class="zwdd-main">
+									<ul>
+										<foreach name="orderlist" item="item">
+										<if condition="$item['pay_status'] eq 1 and $item['order_status'] eq 1">
+										<li>
+											<div class="zw-box1">
+												<p class="zw-aa1">
+													<a href="{:U('User/order_edit',array('order_id'=>$item['order_id']))}">
+													<span class="fl">订单号：{$item.order_sn}</span>
+													</a>
+													<span class="fr yfdj">已付定金</span>
+												</p>
+												<div class="clearfix"></div>
+												
+												<p class="zw-aa2">
+													<span class="fl zw1-img"><img src="__IMG__/order.png"  width="100%"/></span>
+													<a href="{:U('User/order_edit',array('order_id'=>$item['order_id']))}">
+													<span class="fl zw1-bt">
+													<foreach name="item.goods" item="goods">
+													{$goods.ex_name}{$goods.places}<br>
+													</foreach>
+													</span>
+													</a>
+													<span class="fr zw1-rmb">￥{$item.discount_price}</span>
+												</p>
+												
+												<div class="clearfix"></div>
+												<p class="zw-aa3">
+						   							<span class="fl">
+														共计<font color="#e94546">{$item.numbers}</font>件商品&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;实付：<font color="#e94546">￥{$item.discount_price}</font>
+													</span>
+													<a href="" class="fr qx">申请退款</a>
+													<a href="" class="fr qx">意见反馈</a>
+													
+												</p>
+												<div class="clearfix"></div>
+											</div>
+										</li>
+										</if>
+										</foreach>
+									</ul>
+								</div>
+							</div>
+							
+							<div class="con"><!-- 高度自适应需添加外层 -->
+								<div class="zwdd-main">
+									<ul>
+										<foreach name="orderlist" item="item">
+										<if condition="$item['order_status'] eq 2">
+										<li>
+											<div class="zw-box1">
+												<p class="zw-aa1">
+													<a href="{:U('User/order_edit',array('order_id'=>$item['order_id']))}">
+													<span class="fl">订单号：{$item.order_sn}</span>
+													</a>
+													<span class="fr yfyk">已取消</span>
+												</p>
+												<div class="clearfix"></div>
+												
+												<p class="zw-aa2">
+													<span class="fl zw1-img"><img src="__IMG__/order.png"  width="100%"/></span>
+													<a href="{:U('User/order_edit',array('order_id'=>$item['order_id']))}">
+													<span class="fl zw1-bt">
+													<foreach name="item.goods" item="goods">
+													{$goods.ex_name}{$goods.places}<br>
+													</foreach>
+													</span>
+													</a>
+													<span class="fr zw1-rmb">￥{$item.discount_price}</span>
+												</p>
+												
+												<div class="clearfix"></div>
+												<p class="zw-aa3">
+						   							<span class="fl">
+														共计<font color="#e94546">{$item.numbers}</font>件商品&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;实付：<font color="#e94546">￥{$item.discount_price}</font>
+													</span>
+													<a href="" class="fr qx">已取消</a>
+													
+													
+													
+												</p>
+												<div class="clearfix"></div>
+											</div>
+										</li>
+										</if>
+										</foreach>
+										
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					<script type="text/javascript">
+					TouchSlide( { slideCell:"#tabBox1",
+		
+						endFun:function(i){ //高度自适应
+							var bd = document.getElementById("tabBox1-bd");
+							bd.parentNode.style.height = bd.children[i].children[0].offsetHeight+"px";
+							if(i>0)bd.parentNode.style.transition="200ms";//添加动画效果
+						}
+		
+					} );</script>
+				</div>
+			</section>
+			<include file="Public:pageFooter" />
+		</div>
+	</body>
+</html>

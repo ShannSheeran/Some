@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<include file="Public:pageHeader" />
+	<link rel="stylesheet" type="text/css" href="__JS__/dsdialog/css/base.css" />
+    <script type="text/javascript" src="__JS__/dsdialog/js/dsdialog.js"></script>
+	<script type="text/javascript" src="__JS__/user.js"></script>
+
+	<body>
+		<div id="page">
+			<include file="Public:header" />
+			<section>
+				<div class="my-jf">
+					<div class="wdjf1">
+						<ul>
+							<li>
+								<h3>积分：<span>{$userInfos.pay_points}</span></h3>
+								<h4>1积分={$integral_pro}元</h4>
+								<p>积分获得规则：推荐成功注册得30积分</p>
+							</li>
+						</ul>
+					</div>
+					<form  action="{:U('User/add_postal')}" method="post" name="PointsFrom" onSubmit="return postal()">
+					<div class="wdjf2" style="position: relative;">
+						<input type="text" name="postal_price"  placeholder="提现金额"/>
+						<span style="position: absolute;top: .56rem;right: .55rem;font-size: .26rem;color: #ccc;">元</span>
+						<p>提现规则：满{$postal_integral}积分可以提现</p>
+					</div>
+					<div class="wdjf3">
+						<a href="javascript:;" class="jf-ico1" onclick="showAlipay()"><em></em><span>提现到支付宝</span></a>
+						<a href="javascript:;" class="jf-ico2" onclick="showChinaBank()"><em></em><span>提现到银行卡</span></a>
+						<a href="javascript:;" class="jf-ico3" onclick="showWeiXin()"><em></em><span>提现到微信</span></a>
+					</div>
+					<div class="clearfix"></div>
+					<div class="wdjf4" id="alipay">
+						<input type="text" name="alipay_num" value="{$postal.alipay_num}" placeholder="支付宝账号" />
+						<input type="text" name="payee" value="{$postal.payee}" placeholder="收款人" />
+					</div>
+					<div class="wdjf4" id="chinabank" style="display:none;">
+						<input type="text" name="account_name" value="{$postal.account_name}" placeholder="开户名" />
+						<input type="text" name="bank_account" value="{$postal.bank_account}" placeholder="开户行" />
+						<input type="text" name="bank_num" value="{$postal.bank_num}" placeholder="账号" />
+					</div>
+					<div class="wdjf4" id="weixin" style="display:none;">
+						<input type="text" name="weixin_num" value="{$postal.weixin_num}" placeholder="微信号" />
+					</div>
+					<div class="wfjf5">
+						<input type="hidden" name="type" id="type" value="1" />
+						<input type="submit" value="提交"/>
+						
+					</div>
+					</form>
+				</div>
+			</section>
+			
+		</div>
+	</body>
+</html>

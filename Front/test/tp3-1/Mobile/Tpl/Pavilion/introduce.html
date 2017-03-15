@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+	<include file="Public:pageHeader" />
+	<body>
+		<div id="page">
+			<include file="Public:header" />
+			<section>
+				<include file="pbaner" />
+				<div class="zhjs">
+					<empty name="act">
+					{$info.introduce}
+					<else/>
+					{$info.market_data}
+					</empty>
+				</div>
+			</section>
+			<include file="Public:pageFooter" />
+		</div>
+	</body>
+</html>

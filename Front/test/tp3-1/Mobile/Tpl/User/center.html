@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+	<include file="Public:pageHeader" />
+	<body>
+		<div id="page">
+			<header>
+				<div class="sub-top" style="border: none;">
+					<a href="javascript:;" onclick=" history.back(-1)" class="fanhui"></a>
+					<span>会员中心</span>
+					<a href="#" class="fx"></a>
+				</div>
+				<div class="clearfix"></div>
+			</header>
+			
+			<section>
+				<div class="hyzx">
+					<div class="hyzx-top">
+						<div class="hyzx-top1">
+							<div class="hyzx-tx">
+								<a href="{:U('User/profiles')}">
+									<if condition="$userInfos['head_img']">
+	                                <img src="__ROOT__/{$userInfos.head_img}" >
+	                                <else/>
+	                                <img  src="__IMG__/default.png" >
+	                                </if>
+								</a>
+								
+							</div>
+							<div class="hyzx-name">
+								<h4>欢迎来到管理中心</h4>
+								<h4><empty name="userInfos['user_name']">{$userInfos.phone}<else/>{$userInfos.user_name}</empty></h4>
+							</div>
+							<div class="hyzx-sq">
+								<a href="">申请专业会员</a>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+						<div class="hyzx-top2">
+							<ul>
+								<li>
+									<a href="">
+										<div>
+											<p>{$userInfos.pay_points}</p>
+											<p>积分</p>
+										</div>
+									</a>
+								</li>
+								<li>
+									<a href="">
+										<div>
+											<p>15</p>
+											<p>收藏</p>
+										</div>
+									</a>
+								</li>
+								<li>
+									<a href="">
+										<div>
+											<p>15</p>
+											<p>消息 </p>
+										</div>
+									</a>
+								</li>
+								<li class="on"><a href="">推荐好友加入</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="hyzx-box">
+						<ul>
+							<li>
+								<a href="{:U('User/orderlist')}">
+									<div class="hyzx-mian">
+										<em class="hyzx-img1"></em>
+										<span>我的订单</span>
+										<em class="hyzx-jt"></em>
+									</div>
+									<div class="clearfix"></div>
+								</a>
+							</li>
+							<li>
+								<a href="">
+									<div class="hyzx-mian">
+										<em class="hyzx-img2"></em>
+										<span>我发布的帖子</span>
+										<em class="hyzx-jt"></em>
+									</div>
+									<div class="clearfix"></div>
+								</a>
+							</li>
+							<li>
+								<a href="">
+									<div class="hyzx-mian">
+										<em class="hyzx-img3"></em>
+										<span>我的收藏</span>
+										<em class="hyzx-jt"></em>
+									</div>
+									<div class="clearfix"></div>
+								</a>
+							</li>
+							<li>
+								<a href="{:U('User/my_points')}">
+									<div class="hyzx-mian">
+										<em class="hyzx-img4"></em>
+										<span>我的积分</span>
+										<em class="hyzx-jt"></em>
+									</div>
+									<div class="clearfix"></div>
+								</a>
+							</li>
+							<li>
+								<a href="{:U('User/message')}">
+									<div class="hyzx-mian">
+										<em class="hyzx-img5"></em>
+										<span>系统消息</span>
+										<em class="hyzx-jt"></em>
+									</div>
+									<div class="clearfix"></div>
+								</a>
+							</li>
+						</ul>
+						<ul>
+							<li>
+								<a href="{:U('User/change_pass')}">
+									<div class="hyzx-mian">
+										<em class="hyzx-img6"></em>
+										<span>修改密码</span>
+										<em class="hyzx-jt"></em>
+									</div>
+									<div class="clearfix"></div>
+								</a>
+							</li>
+							<li>
+								<a href="">
+									<div class="hyzx-mian">
+										<em class="hyzx-img7"></em>
+										<span>付款记录</span>
+										<em class="hyzx-jt"></em>
+									</div>
+									<div class="clearfix"></div>
+								</a>
+							</li>
+							<li>
+								<a href="">
+									<div class="hyzx-mian">
+										<em class="hyzx-img8"></em>
+										<span>退款记录</span>
+										<em class="hyzx-jt"></em>
+									</div>
+									<div class="clearfix"></div>
+								</a>
+							</li>
+							<li>
+								<a href="{:U('User/service')}">
+									<div class="hyzx-mian">
+										<em class="hyzx-img9"></em>
+										<span>客服中心</span>
+										<em class="hyzx-jt"></em>
+									</div>
+									<div class="clearfix"></div>
+								</a>
+							</li>
+							<li>
+								<a href="">
+									<div class="hyzx-mian">
+										<em class="hyzx-img10"></em>
+										<span>帮助</span>
+										<em class="hyzx-jt"></em>
+									</div>
+									<div class="clearfix"></div>
+								</a>
+							</li>
+							<li>
+								<a href="">
+									<div class="hyzx-mian">
+										<em class="hyzx-img11"></em>
+										<span>我的店铺</span>
+										<em class="hyzx-jt"></em>
+									</div>
+									<div class="clearfix"></div>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</section>
+			
+			<include file="Public:pageFooter" />
+		</div>
+	</body>
+</html>

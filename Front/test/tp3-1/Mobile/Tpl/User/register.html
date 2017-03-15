@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+	<include file="Public:pageHeader" />
+	<link rel="stylesheet" type="text/css" href="__JS__/dsdialog/css/base.css" />
+    <script type="text/javascript" src="__JS__/dsdialog/js/dsdialog.js"></script>
+	<script src="__JS__/user.js"></script>
+	<body>
+		<div id="page">
+			<header>
+				<div class="sub-top">
+					<a href="{$back_url}" class="fanhui"></a>
+					<span>注册</span>
+					<a href="javascript:;"></a>
+				</div>
+				<div class="clearfix"></div>
+			</header>
+			<section>
+				<div class="zhuce">
+					<form action="{:U('User/do_reg')}" method="post" onSubmit="return do_reg()" name="regFrom">
+						<div class="zhuce-sj">
+							<p><label>邮　箱:</label><input type="text" placeholder="请填写邮箱号码" name="email" id='email'/></p>
+							<!-- <a href="#">获取验证码</a> -->
+							<input type='button' style='float: left;width: 1.9rem;height: .7rem;text-align: center;line-height: .7rem;font-size: .26rem;color: #fff;background-color: #ffc000;border-radius: .05rem;  border: none;' id='tel_code' class="actform-btn4 fl" value='获取验证码' />
+							<div class="clearfix"></div>
+						</div>
+						<div class="zhuce-yzm">
+							<p><label>验证码:</label><input type="text" name="code" placeholder="请填写验证码"/></p>
+							<div class="clearfix"></div>
+						</div>
+						<div class="zhuce-yzm">
+							<p><label>手　机:</label><input type="text" name="phone" placeholder="请填写手机"/></p>
+							<div class="clearfix"></div>
+						</div>
+						<div class="zhuce-mm">
+							<p><label>密　码:</label><input type="text" name="password" placeholder="请输入字母、数字或符号"/></p>
+							<div class="clearfix"></div>
+						</div>
+						<div class="zhuce-yzm">
+							<p><label>推荐人:</label><input type="text" name="parent_phone" placeholder="推荐人手机号码"/></p>
+							<div class="clearfix"></div>
+						</div>
+						<div class="zhuce-wois">
+							<p>
+								<label>我　是:</label>
+								<a href="#" class="hy1">个人会员</a>	
+								<a href="#" class="hy2">企业会员</a>
+								<a href="#" class="hy3">代理会员</a>
+							</p>
+							<div class="clearfix"></div>
+						</div>
+						<div class="zhuce-fuwu">
+							<p>
+								<input type="checkbox" name="agree" value="yes">
+								<label>我已阅读并接受《服务条款》<span>条款说明</span></label>
+							</p>
+							<div class="clearfix"></div>
+						</div>
+						<div class="zhuce-tijiao">
+							<input type="submit" value="注册" />
+						</div>
+					</form>
+				
+				</div>
+			</section>
+			<!--<nav>
+				<div style="height: 1.15rem;"></div>
+				<div class="nav">
+					<ul>
+						<li class="on"><a href=""><em class="nav-img1"></em><p>首页</p></a></li>
+						<li><a href=""><em class="nav-img2"></em><p>我的订单</p></a></li>
+						<li><a href=""><em class="nav-img3"></em><p>会员中心</p></a></li>
+						<li><a href=""><em class="nav-img4"></em><p>客服中心</p></a></li>
+					</ul>
+				</div>
+			</nav>-->
+		</div>
+<script type="text/javascript">
+	var rand_key="{$Think.session.rand_key}";
+    
+	var wait=60;
+    
+    function time(o) {
+        if (wait == 0) {
+            
+            o.removeAttribute("disabled");           
+            o.value="重新发送";
+            $("#tel_code").css({ color: "#FFF", background: "#ffc000" });
+            wait = 60;
+            
+        }else {
+
+            o.setAttribute("disabled", true);
+            o.value=wait +"秒后重发";
+            o.style.color = '#000';
+            o.style.backgroundColor = '#949393';
+            $('#tel_code').html();
+            wait--;
+            setTimeout(function() {
+                time(o)
+            },1000);
+        }
+    }
+
+    document.getElementById("tel_code").onclick=function(){
+
+        wait=60;
+        
+        var email= $("#email").val();
+        
+        
+        var _this=this; 
+        time(_this);
+        $.get("{:U('User/send_code')}", {'email':email}, function(res){
+            if(res.status==200){
+            }else{
+
+                ds.dialog({
+			       title : '消息提示',
+			       content : res.message,
+			       timeout:3      
+			    });
+                return false;
+            }
+        }, 'json');
+    };
+
+
+
+</script>
+	</body>
+</html>

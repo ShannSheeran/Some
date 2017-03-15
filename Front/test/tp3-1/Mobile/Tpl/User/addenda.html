@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<include file="Public:pageHeader" />
+	<link rel="stylesheet" type="text/css" href="__JS__/dsdialog/css/base.css" />
+    <script type="text/javascript" src="__JS__/dsdialog/js/dsdialog.js"></script>
+	<script src="__JS__/card.js"></script>
+	<script src="__JS__/user.js"></script>
+	<body>
+		<div id="page">
+			<header>
+				<div class="sub-top">
+					<a href="{$back_url}" class="fanhui"></a>
+					<span>补充信息</span>
+					<a href="javascript:;"></a>
+				</div>
+				<div class="clearfix"></div>
+			</header>
+			<section>
+				<div class="bcxx">
+					<h3>请补充注册信息，必填部分请补充完成整。</h3>
+					<form action="{:U('User/insert_addenda')}" method="post" name="EndaFrom" onSubmit="return addenda()">
+						<h4>必填</h4>
+						<div class="input">
+							<label>公司名称：</label>
+							<input type="text" name="company" placeholder="请填写公司名称"/>
+							<div class="clearfix"></div>
+						</div>
+						<div class="input">
+							<label>姓　　名：</label>
+							<input type="text" name="full_name" placeholder="请填写真实姓名"/>
+							<div class="clearfix"></div>
+						</div>
+						<div class="input">
+							<label>邮箱地址：</label>
+							<input type="text" name="email" placeholder="请输入邮箱地址"/>
+							<div class="clearfix"></div>
+						</div>
+						<h4>必填</h4>
+						<div class="input">
+							<label>QQ号：</label>
+							<input type="text" name="qq" placeholder="请输入数字"/>
+							<div class="clearfix"></div>
+						</div>
+						<div class="input">
+							<label>微信号：</label>
+							<input type="text" name="weixin" placeholder="请输入字母、数字或符号"/>
+							<div class="clearfix"></div>
+						</div>
+						<div class="input">
+							<label>身份证号：</label>
+							<input type="text" name="IDcard" placeholder="请输入数字"/>
+							<div class="clearfix"></div>
+						</div>
+						<div class="input">
+							<label>护照英文名：</label>
+							<input type="text" name="passport" placeholder="请输入字母" />
+							<div class="clearfix"></div>
+						</div>
+						<div class="input">
+							<label>护照号：</label>
+							<input type="text" name="passport_no" placeholder="请输入数字" />
+							<div class="clearfix"></div>
+						</div>
+						<div class="bcxx-nn">
+							<input type="hidden" name="type" value="{$type}" />
+							<input type="submit" value="保存" style="  text-align: center;"  />
+						</div>
+					</form>
+					
+				</div>
+			</section>
+			
+			
+			
+			<!--<nav>
+				<div style="height: 1.15rem;"></div>
+				<div class="nav">
+					<ul>
+						<li class="on"><a href=""><em class="nav-img1"></em><p>首页</p></a></li>
+						<li><a href=""><em class="nav-img2"></em><p>我的订单</p></a></li>
+						<li><a href=""><em class="nav-img3"></em><p>会员中心</p></a></li>
+						<li><a href=""><em class="nav-img4"></em><p>客服中心</p></a></li>
+					</ul>
+				</div>
+			</nav>-->
+		</div>
+	</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<include file="Public:pageHeader" />
+	<body>
+		<div id="page">
+			<header>
+				<div class="sub-top">
+					<a href="{$back_url}" class="fanhui"></a>
+					<span>个人资料</span>
+					<a href="{:U('User/edit_profiles')}">修改</a>
+				</div>
+				<div class="clearfix"></div>
+			</header>
+			<section>
+				<div class="grzl">
+					<ul>
+						<li>
+							<span class="fkjl">头像</span>
+							<span class="fkj2">
+								<if condition="$userInfos['head_img']">
+                                <img width="80" src="__ROOT__/{$userInfos.head_img}" >
+                                <else/>
+                                <img width="80"  src="__IMG__/default.png" >
+                                </if>
+							</span>
+							<div class="clearfix"></div>
+						</li>
+						<li class="on">
+							<span class="fkjl">手机</span>
+							<span class="fkj2">{$userInfos.phone}</span>
+							<div class="clearfix"></div>
+						</li>
+						<li class="on">
+							<span class="fkjl">用户名</span>
+							<span class="fkj2">{$userInfos.user_name}</span>
+							<div class="clearfix"></div>
+						</li>
+						<li class="on">
+							<span class="fkjl">公司名</span>
+							<span class="fkj2">{$userInfos.company}</span>
+							<div class="clearfix"></div>
+						</li>
+						<li class="on">
+							<span class="fkjl">姓名</span>
+							<span class="fkj2">{$userInfos.full_name}</span>
+							<div class="clearfix"></div>
+						</li>
+						<li class="on">
+							<span class="fkjl">邮箱</span>
+							<span class="fkj2">{$userInfos.email}</span>
+							<div class="clearfix"></div>
+						</li>
+						<li class="on">
+							<span class="fkjl">qq号码</span>
+							<span class="fkj2">{$userInfos.qq}</span>
+							<div class="clearfix"></div>
+						</li>
+						<li class="on">
+							<span class="fkjl">微信号码</span>
+							<span class="fkj2">{$userInfos.weixin}</span>
+							<div class="clearfix"></div>
+						</li>
+						<li class="on">
+							<span class="fkjl">身份证号</span>
+							<span class="fkj2">{$userInfos.IDcard}</span>
+							<div class="clearfix"></div>
+						</li>
+						<li class="on">
+							<span class="fkjl">护照英文名</span>
+							<span class="fkj2">{$userInfos.passport}</span>
+							<div class="clearfix"></div>
+						</li>
+						<li class="on">
+							<span class="fkjl">护照号</span>
+							<span class="fkj2">{$userInfos.passport_no}</span>
+							<div class="clearfix"></div>
+						</li>
+					</ul>
+				</div>
+			</section>
+			<include file="Public:pageFooter" />
+		</div>
+	</body>
+</html>

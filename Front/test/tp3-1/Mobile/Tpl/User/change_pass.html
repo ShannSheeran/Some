@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<include file="Public:pageHeader" />
+	<link rel="stylesheet" type="text/css" href="__JS__/dsdialog/css/base.css" />
+    <script type="text/javascript" src="__JS__/dsdialog/js/dsdialog.js"></script>
+	<script src="__JS__/user.js"></script>
+	<body>
+		<div id="page">
+			<include file="Public:header" />
+			<section>
+				<div class="yqhsqb">
+					<form  action="{:U('User/updatepass')}" method="post" onSubmit="return uppass()" name="passFrom">
+						<input type="text"  name="old_pass" placeholder="原密码"/>
+						<input type="text"  name="passowrd" placeholder="密码"/>
+						<input type="text"  name="con_pass" placeholder="确认密码"/>
+						<input type="submit"  class="yqhsqb-nn" value="修改密码"/>
+					</form>
+				</div>
+			</section>
+		</div>
+	</body>
+</html>

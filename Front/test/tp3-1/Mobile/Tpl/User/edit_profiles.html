@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+	<include file="Public:pageHeader" />
+	<link rel="stylesheet" type="text/css" href="__JS__/dsdialog/css/base.css" />
+    <script type="text/javascript" src="__JS__/dsdialog/js/dsdialog.js"></script>
+	<script src="__JS__/card.js"></script>
+	<script src="__JS__/user.js"></script>
+	<body>
+		<div id="page">
+			<include file="Public:header" />
+			<section>
+				
+				<div class="grzl bcxx">
+					<form action="{:U('User/update_user')}" method="post" name="EndaFrom" onSubmit="return addenda()">
+					<ul>
+						<li style="  position: relative;">
+							<span>头像</span>
+							<input type="file" name="id_front_img" id="id_front_img" value="" >
+							<span class="fkj2">
+								<if condition="$userInfos['head_img']">
+                                <img id="img_front" width="80" src="__ROOT__/{$userInfos.head_img}" >
+                                <else/>
+                                <img id="img_front" width="80" src="__IMG__/default.png" >
+                                </if>
+                                <input class="J_img_original" type="hidden" name="head_img2" id="img_front_original" value="" />
+                                <input class="J_img_max" type="hidden" name="img_front_max" id="img_front_max" value="" />
+                                <input class="J_img_thumb" type="hidden" name="head_img" id="img_front_thumb" value="" />
+							</span>
+							<div class="clearfix"></div>
+						</li>
+						<li class="input">
+							<label>手　机：</label>
+							<input type="text" name="phone" value="{$userInfos.phone}">
+							<div class="clearfix"></div>
+						</li>
+						<li class="input">
+							<label>用户名：</label>
+							<input type="text" name="user_name" value="{$userInfos.user_name}">
+							<div class="clearfix"></div>
+						</li>
+						<li class="input">
+							<label>公司名：</label>
+							<input type="text" name="company" value="{$userInfos.company}">
+							<div class="clearfix"></div>
+						</li>
+						<li class="input">
+							<label>姓　名：</label>
+							<input type="text" name="full_name" value="{$userInfos.full_name}">
+							<div class="clearfix"></div>
+						</li>
+						<li class="input">
+							<label>邮　箱：</label>
+							<input type="text" name="email" value="{$userInfos.email}">
+							<div class="clearfix"></div>
+						</li>
+						<li class="input">
+							<label>qq号码：</label>
+							<input type="text" name="qq" value="{$userInfos.qq}">
+							<div class="clearfix"></div>
+						</li>
+						<li class="input">
+							<label>微信号码：</label>
+							<input type="text" name="weixin" value="{$userInfos.weixin}">
+							<div class="clearfix"></div>
+						</li>
+						<li class="input">
+							<label>身份证号：</label>
+							<input type="text" name="IDcard" value="{$userInfos.IDcard}"/>
+							<div class="clearfix"></div>
+						</li>
+						<li class="input">
+							<label>护照英文名：</label>
+							<input type="text" name="passport" value="{$userInfos.passport}" />
+							<div class="clearfix"></div>
+						</li>
+						<li class="input">
+							<label>护照号：</label>
+							<input type="text" name="passport_no" value="{$userInfos.passport_no}" />
+							<div class="clearfix"></div>
+						</li>
+					</ul>
+					<div class="xg-nn">
+						<input type="submit" value="修改资料" />
+					</div>
+					</form>	
+				</div>
+				
+				
+			</section>
+			<include file="Public:pageFooter" />
+		</div>
+<script type="text/javascript">
+    function clickToUpload(){
+        //alert('111');
+        $('#id_front_img').click();
+    }
+
+
+    $('#id_front_img').on('change',function(event){
+        var that = $(this);
+        if (!idCheckFile(that.val())) {
+            that.val('');
+            return false;
+        }
+        var front_img = that[0].files;
+        //创建FormData对象
+        var img_file = new FormData();
+        $.each(front_img, function(i, file)
+        {
+            img_file.append('upload_file', file);
+        });
+        var url = "mobile.php?m=User&a=identit_card";
+        $("#img_front").attr("src",'/Public/Mobile/images/loading.png');
+        $.ajax({
+            url:url,
+            type:'POST',
+            data:img_file,
+            cache: false,
+            contentType: false,    //不可缺
+            processData: false,    //不可缺
+            dataType: "json",
+            success:function(data){
+                if(data.code != 0)
+                {
+                    var k_front = noticesec(data.msg);
+                    setTimeout(function() {k_front.remove()}, 2000);
+                }
+                else
+                {
+                    $("#img_front").attr("src","/"+data.data.head_img);
+                    $("#img_front_original").val(data.data.head_img2);
+                    $("#img_front_max").val(data.data.img_max);
+                    $("#img_front_thumb").val(data.data.head_img);
+                }
+            }
+        });
+    });
+    function checkFile(f) {
+        if (f.lastIndexOf(".") != -1) {
+            var fileType = (f.substring(f.lastIndexOf(".")+1, f.length)).toLowerCase();
+            var suppotFile = new Array();
+            suppotFile[0] = "gif";
+            suppotFile[1] = "jpg";
+            suppotFile[2] = "jpeg";
+            suppotFile[3] = "png";
+            for (var i =0; i<suppotFile.length; i++){
+                if (suppotFile[i] == fileType) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    function idCheckFile(str) {
+        if (!checkFile(str)) {
+            var k = noticesec('请上传jpg,jpeg,gif,png格式的图片!');
+            setTimeout(function() {k.remove()}, 2000);
+            return false;
+        }
+        return true;
+    }
+</script>
+	</body>
+</html>

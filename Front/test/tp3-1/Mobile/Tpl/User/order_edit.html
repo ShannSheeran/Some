@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+	<include file="Public:pageHeader" />
+	<body>
+		<div id="page">
+			<include file="Public:header" />
+			<section>
+				<div class="dingdanxx">
+					<div class="ddxx-box">
+						<div class="ddxx1">
+							<ul>
+								<li class="ddxx-img"></li>
+								<li class="ddxx-dh">
+									<div>
+										<p>订  单  号  ：<span>{$order_info.order_sn}</span></p>
+										<p>	状　　态：
+											<if condition="$order_info['pay_status'] eq 0 and $order_info['order_status'] eq 0 ">
+											<span>待付款</span>
+											<elseif condition="$order_info['pay_status'] eq 1 and $order_info['order_status'] eq 1 "/>
+											<span>已付款</span>
+											<elseif condition="$order_info['order_status'] eq 2"/>
+											<span>已取消</span>
+											</if>
+										</p>
+										<p>	下单时间：<span>{$order_info.add_time|date="Y-m-d H:i",###}</span></p>
+									</div>
+								</li>
+							</ul>
+							<div class="clearfix"></div>
+						</div>
+						<div class="ddxx2">
+								<h3>商品信息</h3>
+								<div>
+									<!-- <span class="ddxx-img2">
+									<img src="__IMG__/order.png" width="100%"/>
+									</span> -->
+									<span class="ddxx-xx2">
+										<p class="fl zw1-bt">
+										<img src="__IMG__/order.png"/>
+										<foreach name="order_goods" item="goods">
+										{$goods.ex_name}{$goods.places}<br>
+										</foreach>
+										</p>
+									</span>
+								</div>
+								<div class="clearfix"></div>
+						</div>
+						<div class="ddxx3">
+							<h3>价格信息</h3>
+							<div>
+								<ul>
+									<li>
+										<span class="fl">展会价格</span>
+										<span class="fr"> ¥{$order_info.goods_price}</span>
+									</li>
+									<li class="in">
+										<span class="fl">阶段1：订金</span>
+										<span class="fr"> ¥{$order_info.deposit_price}</span>
+										<div class="clearfix"></div>
+									</li>
+									<li>
+										<span class="fl">阶段2：余款</span>
+										<span class="fr"> ¥{$order_info.balance}</span>
+										<div class="clearfix"></div>
+									</li>
+									<li class="on">
+										<span class="fl">积分抵扣</span>
+										<span class="fr">  - ¥ {$order_info.discounts}</span>
+										<div class="clearfix"></div>
+									</li>
+									<li class="on">
+										<span class="fl">合计</span>
+										<span class="fr"> ¥{$order_info.discount_price}</span>
+										<div class="clearfix"></div>
+									</li>
+								</ul>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+						<div class="ddxx4">
+							<h3>展商信息</h3>
+							<a href="#">
+								<div>
+									<p>公司名称：{$order_info.company_name}</p>	
+									<p>联系方式：{$order_info.company_phone}</p>		
+									<p>展商地址：{$order_info.company_address}</p>								
+								</div>
+							</a>
+						</div>
+						<div class="ddxx5">
+							<h3>发票信息</h3>
+							<div>
+								<ul>
+									<li>
+									<span class="fl">是否要发票 </span>
+									<span class="fr"><eq name="order_info.is_fapiao" value="1">是<else/>否</eq></span>
+									</li>
+									<li>
+										<span class="fl">发票抬头</span>
+										<span class="fr">{$order_info.invoice_name}</span>
+									</li>
+									<li>
+										<span class="fl">发票内容</span>
+										<span class="fr">{$order_info.invoice_content}</span>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="ddxx6">
+							<h3>备注</h3>
+							<div>
+								<p>{$order_info.remarks}</p>								
+							</div>	
+						</div>
+					</div>
+				</div>
+			</section>
+			<!--<nav>
+				<div style="height: 1.15rem;"></div>
+				<div class="nav">
+					<ul>
+						<li class="on"><a href=""><em class="nav-img1"></em><p>首页</p></a></li>
+						<li><a href=""><em class="nav-img2"></em><p>我的订单</p></a></li>
+						<li><a href=""><em class="nav-img3"></em><p>会员中心</p></a></li>
+						<li><a href=""><em class="nav-img4"></em><p>客服中心</p></a></li>
+					</ul>
+				</div>
+			</nav>-->
+			<footer>
+				<div style="height: 1.15rem;"></div>
+				<div class="ddxx-nav">
+					<ul>
+						<li><a href="#" class="on">付款</a></li>
+						<li><a href="#">取消订单</a></li>
+					</ul>
+				</div>
+			</footer>
+		</div>
+	</body>
+</html>

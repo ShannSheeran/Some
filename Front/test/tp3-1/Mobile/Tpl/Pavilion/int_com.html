@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<include file="Public:pageHeader" />
+	
+	<style type="text/css">
+	.my span {color: #fffefe;font-size: .22rem;float: left;height: .5rem;line-height: .56rem;}
+	</style>
+	<body>
+		<div id="page">
+			<header>
+				<div class="sub-top">
+					<a href="javascript:;" onclick=" history.back(-1)" class="fanhui"></a>
+					<span>互动社区</span>
+					<a href="{:U('Pavilion/com_release',array('p_id'=>$pid))}" class="my" style="display: inline-block;width: 1.5rem;border-radius: .05rem;float: left;text-align: center;margin-right: .2rem;background-color: #F4650E;background: none;line-height:.56rem;height:.56rem;  margin-left: .3rem;  margin-top: .3rem;margin-right:0rem">
+						<span style="text-align: center;  width: 1.5rem;">发布</span>
+					</a>
+				</div>
+				<div class="clearfix"></div>
+			</header>
+			<section>
+				<div class="hdsq">
+					<ul>
+						<if condition="$list">
+						<volist name="list" id="item" key="k">
+						<li>
+							<div class="hdsq-main">
+								<div class="hdsq1">
+									<div class="sq1"><img src="{$item.head_img}"  width="100%"></div>
+									<div class="sq2">
+										<h4>{$item.user_name}</h4>
+										<p>{$item.fabu_time}</p>
+									</div>
+									<div class="sq3">
+										<em></em>
+										<span><a href="{:U('Pavilion/post_detail',array('id'=>$item['card_id']))}">{$item.count}</a></span>
+									</div>
+								</div>
+								<div class="clearfix"></div>
+								<a href="{:U('Pavilion/post_detail',array('id'=>$item['card_id']))}">
+								<div class="hdsq2">
+									<h3>
+										{$item.title}
+									</h3>
+									<p>
+										{$item.content|mySubstr=###,55}
+
+									</p>
+								</div>
+								</a>
+								<div class="hdsq3">
+									<foreach name="item['img_list']" item="img">
+									<a href="{:U('Pavilion/post_detail',array('id'=>$item['card_id']))}"><img src="{$img.img_thumb}"/></a>
+									</foreach>
+								</div>
+							</div>
+						</li>
+						
+						</volist>
+						<else/>
+						<li>
+							<div>暂无帖子，快去<a href="{:U('Pavilion/com_release',array('p_id'=>$pid))}">发布</a>吧</div>
+						</li>
+						</if>
+						
+					</ul>
+				</div>
+			</section>
+			<include file="Public:pageFooter" />
+		</div>
+	</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	<include file="Public:pageHeader" />
+	<link rel="stylesheet" type="text/css" href="__JS__/dsdialog/css/base.css" />
+    <script type="text/javascript" src="__JS__/dsdialog/js/dsdialog.js"></script>
+	<script src="__JS__/user.js"></script>
+	<body>
+		<div id="page">
+			<header>
+				<div class="banner" id="banner">
+					<div class="bd" style="z-index: 1;">
+						<ul>
+							<li>
+								<a class="pic" href="#"><img src="__IMG__/hydl1.jpg" /></a>
+							</li>
+							<li>
+								<a class="pic" href="#"><img src="__IMG__/hydl2.jpg"/></a>
+							</li>
+							<li>
+								<a class="pic" href="#"><img src="__IMG__/hydl1.jpg"/></a>
+							</li>
+						</ul>
+					</div>
+					<div class="hd">
+						<ul></ul>
+					</div>
+					<div class="hydl-top">
+						<a href="" class="fanhui"></a>
+						<span>会员登陆</span>
+						<a href=""></a>
+					</div>
+					<div class="clearfix:after"></div>
+				</div>
+				<script type="text/javascript">
+					TouchSlide({
+						slideCell: "#banner",
+						titCell: ".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+						mainCell: ".bd ul",
+						effect: "leftLoop",
+						autoPage: true, //自动分页
+						autoPlay: true //自动播放
+					});
+				</script>
+			</header>
+			<section>
+				<div class="hydl-box">
+					<div class="hydl1">
+						<form name="LoginFrom">
+							<input type="text" name="phone" class="dl1" value=""  placeholder="手机号码" />
+							<input type="password" name="password" class="dl2" value="" />
+							<input type="hidden" name="back_url" class="dl2" value="{$back_url}" />
+							<input type="button" name="" class="dl3" value="登录"  onclick="checklogin()" />
+						</form>
+						<div class="hydl-zcwj">
+							<span>还没有账号？</span>
+							<a href="{:U('User/register')}" class="dl-zc">立即注册</a>
+							<a href="" class="dl-wj">忘记密码?</a>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+					<!-- <div class="hydl2">
+						<div class="hydl2-d3">
+							<hr />
+							<span>第三方账号登录</span>
+						</div>
+						<div class="clearfix"></div>
+						<div class="hydl2-tb">
+							<a href="" class="dl-qq"></a>
+							<a href="" class="dl-weixi"></a>
+							<a href="" class="dl-weibo"></a>
+							<a href="" class="dl-weizhifubao"></a>
+						</div>
+					</div> -->
+				</div>
+			</section>
+			<!--<nav>
+				<div style="height: 1.15rem;"></div>
+				<div class="nav">
+					<ul>
+						<li class="on"><a href=""><em class="nav-img1"></em><p>首页</p></a></li>
+						<li><a href=""><em class="nav-img2"></em><p>我的订单</p></a></li>
+						<li><a href=""><em class="nav-img3"></em><p>会员中心</p></a></li>
+						<li><a href=""><em class="nav-img4"></em><p>客服中心</p></a></li>
+					</ul>
+				</div>
+			</nav>-->
+		</div>
+	</body>
+</html>

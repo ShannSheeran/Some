@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<include file="Public:pageHeader" />
+	<body>
+		<div id="page">
+			<include file="Public:header" />
+			<section>
+				<div class="kfzx">
+					<div class="kfzx-suru">
+						<form>
+							<input type="text" placeholder="输入工号查询"/>
+						</form>
+					</div>
+					<div class="kfzx-bh">
+						<ul>
+							<foreach name="list" item="item">
+							<li>
+								<div class="kfzx1">
+									<div class="kfzx-img">
+										<img src="__ROOT__/{$item.original_img}" width="100%" height="100%" />
+									</div>
+									<div class="kfzx-name1">
+										<h4>{$item.link}</h4>
+										<h4>{$item.title}</h4>
+									</div>
+								</div>
+								<div class="clearfix"></div>
+								<div class="kfzx2">
+									<div class="kfzx-name2">
+										<h5>客服电话：{$item.phone}</h5>
+										<h5>客服QQ：{$item.qq}</h5>
+									</div>
+									<div class="kfzx-phone">
+										<a href="tel:{$item.phone}">
+											<em></em>
+											<span>点击拨打</span>
+										</a>
+									</div>
+								</div>
+								<div class="clearfix"></div>
+							</li>
+							</foreach>
+						</ul>
+					</div>
+				</div>
+			</section>
+			<include file="Public:pageFooter" />
+		</div>
+	</body>
+</html>
