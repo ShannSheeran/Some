@@ -1,0 +1,83 @@
+<style>
+	.dataTables_info{
+		display:none;
+	}
+	.dataTables_paginate{
+		display: none;
+	}
+	.bc-1{display: none;}
+	.col-sm-5{display: none;}
+	.col-sm-7{display:none;}
+	.fl{
+		float:left;
+	}
+</style>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+        <a href="<?php echo $this->url('admin-information' , array('action' => 'platform')) ?>">信息管理 / <a href="">资讯消息</a>
+		</h3>
+	</div>
+	
+	<div class="panel-body">
+	    <div class="fl" >
+		    <a class="btn btn-info fl " href="<?php echo $this->url('admin-information' , array('action' => 'informationOperate')) ?>" >添加资讯</a>
+		    <a class="btn btn-info fl " href="<?php echo $this->url('admin-information' , array('action' => 'column')) ?>" >栏目管理</a>
+		</div>
+    	<div class="" style="float:right;">
+            <form class="form-horizontal" action="<?php $this->url('admin-order' , array('action' => 'index')) ?>" method="get" style="float: left; margin-left: 20px;">
+			<span style="font-weight: bold; font-size: 14px;"> 关键词 :</span>
+			<input type="text" name="keyword" value="<?php echo isset($keyword)? $keyword : ''; ?>" placeholder="请输入标题搜索" style="line-height: 26px" >
+			<select style="padding: 5px" name="article_category_id">
+			     <option value="0">全部栏目</option>
+			     <?php foreach ($column_list as $key => $value):?>
+			     <option value="<?php echo $key?>" <?php if(isset($article_category_id) && $article_category_id == $key){ echo 'selected';} ?>><?php echo $value->name; ?></option>
+			     <?php endforeach;?>
+			</select>
+			<input type="submit"  value="搜索" class="btn btn-info" style="height: 26px; width: 60px; line-height: 26px; padding: 0; margin-left: 10px; margin-top: 5px;" />
+		    </form>
+    	</div>
+    	<div style="clear:both;"></div>
+		<table class="table table-bordered table-striped" id="example-4">
+			<thead>
+				<tr>
+					<th>编号</th>
+					<th>资讯栏目</th>
+					<th>信息标题</th>
+					<th>创建时间</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			     <?php foreach ($information_list as $value): ?>
+                <tr class="tr_list" valign="middle">
+					<td style="padding-top:18px;"><?php echo $value->id; ?></td>
+					<td style="padding-top:18px;"><?php echo $value->article_category_id ? $column_list[$value->article_category_id]->name : ''; ?></td>
+					<td style="padding-top:18px;"><?php echo $value->title; ?></td>
+					<td style="padding-top:18px;"><?php echo $value->timestamp; ?></td>
+					<td>
+					   <a href="<?php echo $this->url('admin-information' , array('action' => 'informationOperate' , 'id' => $value->id)) ?>" class="btn btn-info">编辑</a>
+					   <?php if(!in_array($value->article_category_id, array($company_index_id , ))): ?>
+					   <a href="#" onclick="show_confirm('<?php echo $this->url('admin-information' , array('action' => 'deleteInformation' , 'id' => $value->id)); ?>')" class="btn btn-info">删除</a>
+					   <?php endif; ?>
+					 </td>
+				</tr>
+				<?php endforeach;?>
+            </tbody>
+		</table>
+        <?php echo $this->paginationControl($paginator, 'Sliding', 'page',array('route' =>'admin-information','condition'=>$condition));?>       </div>
+</div>
+
+<script>
+function show_confirm(url)
+{
+	if(confirm('确认删除？'))
+	{
+		location.href = url;
+	}
+	else
+	{
+		return false;
+	}
+}
+</script>

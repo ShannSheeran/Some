@@ -1,0 +1,28 @@
+    <div class="producer_banner">
+        <center>
+        <img style="width:100%; height:400px;" src="<?php echo $ads_info ? ROOT_PATH.UPLOAD_PATH.$ads_info->path.$ads_info->filename : ''?>" alt="" />
+        </center>
+    </div>
+    <div class="producer_main wrap">
+        <div class="producer_main_tittle">
+            <h2 class="font22">合作生产商</h2>
+        </div>
+        <div class="pro_content">
+            <ul>
+                <?php foreach ($producer_list as $value): ?>
+                <li class="pro_content_list clearfix mb30">
+                    <a href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'articleDetail' , 'id'=>$value->id , 'cid' => 2 ))?>">
+                        <div class="pic fl">
+                            <img src="<?php echo isset($value->image_info->filename) ? ROOT_PATH.UPLOAD_PATH.$value->image_info->path.$value->image_info->filename : '' ?>" height="150" width="200" alt="" />
+                        </div>
+                        <div class="txt fr">
+                            <h3><?php echo $value->name; ?></h3>
+                            <p><?php echo $value->description; ?></p>
+                        </div>
+                    </a>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+            <?php echo $this->paginationControl($paginator, 'Sliding', 'layout_index/page',array('route' =>'index','condition'=>$condition));?>
+        </div>
+    </div>

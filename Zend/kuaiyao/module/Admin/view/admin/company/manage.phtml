@@ -1,0 +1,507 @@
+<?php echo $this->headLink()->appendStylesheet($this->basePath() . '/css/demo.Default.css')?>
+<script src="<?php echo $this->basePath();?>/kindeditor/kindeditor.js"></script>
+<script src="<?php echo $this->basePath();?>/kindeditor/lang/zh_CN.js"></script>
+<?php echo $this->headScript()->offsetSetFile(10, $this->basePath() . '/js/ajaxfileupload.js') ?>
+<?php echo $this->headScript()->prependFile($this->basePath() . '/js/jq_area.js') ?>
+<?php echo $this->headScript()->prependFile($this->basePath() . '/js/region.js') ?>
+<?php $tem = array("zero"=>'一'/*,"first"=>'二',"second"=>'三',"third"=>'四',"fourth"=>'五',"fifth"=>'六',"sixth"=>'七',"seventh"=>'八'*/); ?>
+<script language="javascript"
+        src="http://webapi.amap.com/maps?v=1.3&key=d4e906f2d3b338bc0fa31cba41b4c5ca"></script>
+<!-- //上传JS -->
+<script type="text/javascript">
+    var url = '<?php echo $this->url('admin-common',array('action'=>'getAdminFile'));?>';//图片上传地址
+    var url_two = '<?php echo $this->url('admin-common',array('action'=>'getAdminFileTwo'));?>';//图片上传地址
+</script>
+<script language="javascript">
+    $(document).ready(function (){
+        mapInit();
+        Get_Position();
+    });
+    var marker = new Array();
+    var windowsArr = new Array();
+    var mapObj;
+    function mapInit() {
+        var opt = {
+            level: 10, //设置地图缩放级别
+            center: new AMap.LngLat(113.246671, 23.125097) //设置地图中心点
+        }
+        mapObj = new AMap.Map("iCenter", opt);
+
+        //加载输入提示插件
+        mapObj.plugin(["AMap.Autocomplete"], function() {
+            //判断是否IE浏览器
+            if (navigator.userAgent.indexOf("MSIE") > 0) {
+                document.getElementById("street").onpropertychange = autoSearch;
+            }
+            else {
+                document.getElementById("street").oninput = autoSearch;
+            }
+        });
+
+        //为地图注册click事件获取鼠标点击出的经纬度坐标
+        var clickEventListener=AMap.event.addListener(mapObj,'click',function(e){
+
+            var Longitude = e.lnglat.getLng();
+            var Latitude = e.lnglat.getLat();
+            mapObj.clearMap();
+            mapObj.panTo(new AMap.LngLat(Longitude,Latitude));
+            marker = new AMap.Marker({
+                //icon:"http://api.amap.com/Public/images/js/mark.png",
+                icon:new AMap.Icon({
+                    image: "http://api.amap.com/Public/images/js/mark.png",
+                    size:new AMap.Size(58,30),
+                    imageOffset: new AMap.Pixel(-32, -0)
+                }),
+                position:new AMap.LngLat(Longitude,Latitude)
+            });
+            $("#jd").val(Longitude);
+            $("#wd").val(Latitude);
+            var lnglatXY = new AMap.LngLat(Longitude,Latitude);
+            geocoder(lnglatXY,'');
+            marker.setMap(mapObj);  //在地图上添加点
+            mapObj.setFitView(); //调整到合理视野
+        });
+    }
+
+    function Get_Position(w,j,e){
+        var w = '<?php echo $info->latitude;?>';
+        var j ='<?php echo $info->longitude;?>';
+        if(w==0 || j==0){
+            return false;
+        }
+        if(w && j){
+            var lnglatXY = new AMap.LngLat(j,w);
+            geocoder_two(lnglatXY);
+        }
+    }
+    function geocoder_two(lnglatXY) {
+        var MGeocoder;
+        //加载地理编码插件
+        mapObj.plugin(["AMap.Geocoder"], function() {
+            MGeocoder = new AMap.Geocoder({
+                radius: 1000,
+                extensions: "all"
+            });
+            //逆地理编码
+            MGeocoder.getAddress(lnglatXY);
+        });
+        //加点
+        mapObj.clearMap();
+        //加点
+        var marker = new AMap.Marker({
+            map:mapObj,
+            icon: new AMap.Icon({
+                image: "http://api.amap.com/Public/images/js/mark.png",
+                size:new AMap.Size(58,30),
+                imageOffset: new AMap.Pixel(-32, -0)
+            }),
+            position: lnglatXY,
+            offset: new AMap.Pixel(-5,-30)
+        });
+        mapObj.setFitView();
+    }
+
+    function geocoder(lnglatXY,address) {
+        var MGeocoder;
+        //加载地理编码插件
+        AMap.service(["AMap.Geocoder"], function() {
+            MGeocoder = new AMap.Geocoder({
+                radius: 1000,
+                extensions: "all"
+            });
+            //逆地理编码
+            if(lnglatXY && address == '')
+            {
+                MGeocoder.getAddress(lnglatXY, function(status, result){
+
+                    var address= result.regeocode.formattedAddress;
+                    var address_more=address.split("县");
+                    if(address_more[1]==undefined){
+                        address_more=address.split("区");
+                        if(address_more[1]==undefined){
+                            address_more=address.split("市");
+                        }
+                    }
+                    address_more=address.split(address_more[0]);
+                    address_more=address_more[1].substr(1);
+                    if(address_more==undefined || address_more==""){
+                        address_more=address;
+                    }
+
+                    //$("#street").val(address_more);
+
+                });
+            }
+
+            if(address && address!= 1)
+            {
+                MGeocoder.getLocation(address, function(status, result){
+                    if(status === 'complete' && result.info === 'OK'){
+                        geocoder_CallBack(result);
+                    }
+                });
+
+
+            }
+        });
+
+
+    }
+
+    //地理编码返回结果展示
+    function geocoder_CallBack(data){
+        console.log(data);
+        var resultStr="";
+        //地理编码结果数组
+        var geocode = new Array();
+        geocode = data.geocodes;
+        mapObj.clearMap();
+
+        if(geocode[0]){
+            var lngX = geocode[0].location.getLng();
+            var latY = geocode[0].location.getLat();
+            $("#jd").val(lngX);
+            $("#wd").val(latY);
+            mapObj.clearMap();
+            mapObj.panTo(new AMap.LngLat(lngX,latY));
+            marker = new AMap.Marker({
+                //icon:"http://api.amap.com/Public/images/js/mark.png",
+                icon:new AMap.Icon({
+                    image: "http://api.amap.com/Public/images/js/mark.png",
+                    size:new AMap.Size(58,30),
+                    imageOffset: new AMap.Pixel(-32, -0)
+                }),
+                position:new AMap.LngLat(lngX,latY)
+            });
+            var lnglatXY = new AMap.LngLat(lngX,latY);
+            geocoder(lnglatXY,1);
+            marker.setMap(mapObj);  //在地图上添加点
+            mapObj.setFitView(); //调整到合理视野
+        }
+        else
+        {
+            alert('未搜索到此地址信息!');
+        }
+
+    }
+
+    //输入提示
+    function autoSearch() {
+        var keywords = document.getElementById("street").value;
+        var auto;
+        var autoOptions = {
+            pageIndex:1,
+            pageSize:10,
+            city: "周门北路" //城市，默认全国
+        };
+        auto = new AMap.Autocomplete(autoOptions);
+        //查询成功时返回查询结果
+        AMap.event.addListener(auto, "complete", autocomplete_CallBack);
+        auto.search(keywords);
+    }
+
+    //输出输入提示结果的回调函数
+    function autocomplete_CallBack(data) {
+
+        var resultStr = "";
+        var tipArr = [];
+        tipArr = data.tips;
+        if (tipArr.length>0) {
+            for (var i = 0; i < tipArr.length; i++) {
+                resultStr += "<div id='divid" + (i+1) + "' onmouseover='openMarkerTipById(" + (i+1)
+                    + ",this)' onclick='selectResult(" + i + ")' onmouseout='onmouseout_MarkerStyle(" + (i+1)
+                    + ",this)' style=\"font-size: 13px;cursor:pointer;padding:5px 5px 5px 5px;\">" + tipArr[i].name + "<span style='color:#C1C1C1;'>"+ tipArr[i].district + "</span></div>";
+            }
+
+        }
+        else  {
+            resultStr = " π__π 亲,人家找不到结果!<br />要不试试：<br />1.请确保所有字词拼写正确<br />2.尝试不同的关键字<br />3.尝试更宽泛的关键字";
+        }
+
+        document.getElementById("result1").innerHTML = resultStr;
+        document.getElementById("result1").style.display = "block";
+    }
+
+
+
+    //输入提示框鼠标滑过时的样式
+    function openMarkerTipById(pointid, thiss) {  //根据id打开搜索结果点tip
+        thiss.style.background = '#CAE1FF';
+    }
+
+    //输入提示框鼠标移出时的样式
+    function onmouseout_MarkerStyle(pointid, thiss) {  //鼠标移开后点样式恢复
+        thiss.style.background = "";
+    }
+
+    //从输入提示框中选择关键字并查询
+    function selectResult(index) {
+        if (navigator.userAgent.indexOf("MSIE") > 0) {
+            document.getElementById("street").onpropertychange = null;
+            document.getElementById("street").onfocus = focus_callback;
+        }
+        //截取输入提示的关键字部分
+        var text = document.getElementById("divid" + (index + 1)).innerHTML.replace(/<[^>].*?>.*<\/[^>].*?>/g,"");;
+        document.getElementById("street").value = text;
+        document.getElementById("result1").style.display = "none";
+        //根据选择的输入提示关键字查询
+        mapObj.plugin(["AMap.PlaceSearch"], function() {
+            var msearch = new AMap.PlaceSearch();  //构造地点查询类
+            AMap.event.addListener(msearch, "complete", placeSearch_CallBack); //查询成功时的回调函数
+            msearch.search(text);  //关键字查询查询
+        });
+    }
+
+
+
+    //输出关键字查询结果的回调函数
+    function placeSearch_CallBack(data) {
+        //清空地图上的InfoWindow和Marker
+        windowsArr = [];
+        marker     = [];
+        mapObj.clearMap();
+        var resultStr1 = "";
+        var poiArr = data.poiList.pois;
+        var resultCount = poiArr.length;
+        addmarker(0, poiArr[0]);
+        var lg = poiArr[0].location.lng;
+        var lt = poiArr[0].location.lat;
+        $("#jd").val(lg);
+        $("#wd").val(lt);
+        mapObj.setFitView();
+    }
+
+    //定位选择输入提示关键字
+    function focus_callback() {
+        if (navigator.userAgent.indexOf("MSIE") > 0) {
+            document.getElementById("street").onpropertychange = autoSearch;
+        }
+    }
+
+    //鼠标滑过查询结果改变背景样式，根据id打开信息窗体
+    function openMarkerTipById1(pointid, thiss) {
+        thiss.style.background = '#CAE1FF';
+        windowsArr[pointid].open(mapObj, marker[pointid]);
+    }
+
+    //添加查询结果的marker&infowindow
+    function addmarker(i, d) {
+        var lngX = d.location.getLng();
+        var latY = d.location.getLat();
+        var markerOption = {
+            map:mapObj,
+            icon:new AMap.Icon({
+                image: "http://api.amap.com/Public/images/js/mark.png",
+                size:new AMap.Size(58,30),
+                imageOffset: new AMap.Pixel(-32, -0)
+            }),
+            position:new AMap.LngLat(lngX, latY)
+        };
+        var mar = new AMap.Marker(markerOption);
+        marker.push(new AMap.LngLat(lngX, latY));
+
+        var infoWindow = new AMap.InfoWindow({
+            content:"<h3><font color=\"#00a6ac\">  " + (i + 1) + ". " + d.name + "</font></h3>" + TipContents(d.type, d.address, d.tel),
+            size:new AMap.Size(300, 0),
+            autoMove:true,
+            offset:new AMap.Pixel(0,-30)
+        });
+        windowsArr.push(infoWindow);
+        var aa = function (e) {infoWindow.open(mapObj, mar.getPosition());};
+        AMap.event.addListener(mar, "click", aa);
+    }
+
+    //infowindow显示内容
+    function TipContents(type, address, tel) {  //窗体内容
+        if (type == "" || type == "undefined" || type == null || type == " undefined" || typeof type == "undefined") {
+            type = "暂无";
+        }
+        if (address == "" || address == "undefined" || address == null || address == " undefined" || typeof address == "undefined") {
+            address = "暂无";
+        }
+        if (tel == "" || tel == "undefined" || tel == null || tel == " undefined" || typeof address == "tel") {
+            tel = "暂无";
+        }
+        var str = "  地址：" + address + "<br />  电话：" + tel + " <br />  类型：" + type;
+        return str;
+    }
+    var swf ='<?php echo $this->basePath() . '/adminStyle/js/uploadify.swf'?>';
+    var uploader = '<?php echo $this->url('admin-common',array('action'=>'getInputFileTwo')) ;?>';
+</script>
+<style type="text/css">
+    .match_text div:hover {
+        background: #f0f0f0;
+    }
+
+    .add_input {
+        border: 1px dashed #cccccc;
+        margin-top: 5px;
+        color: #cccccc;
+    }
+
+    .close {
+        margin-top: 10px;
+        margin-left: 10px;
+        float: left;
+    }
+
+    .form-control {
+        width: 50%;
+        float: left;
+        margin-bottom: 5px;
+        margin-right: 5px;
+    }
+
+    .view_box {
+        width: 379px;
+        height: 795px;
+        background: url("<?php echo ROOT_PATH; ?>images/iphone-frame.png")
+        no-repeat;
+        position: fixed;
+        left: 40%;
+        top: 10%;
+        z-index: 10;
+    }
+
+    .inner_box {
+        margin-top: 116px;
+        margin-left: 32px;
+        width: 319px;
+        height: 568px;
+        overflow: hidden;
+    }
+
+    .red_star {
+        color: red;
+    }
+</style>
+<div class="row">
+    <form role="form" class="form-horizontal"
+          action="<?php echo $this->url('admin-company', array('action' => 'manage')) ?>"
+          onsubmit="return checkSubmit()" method="post" enctype="multipart/form-data">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>公司管理人添加</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-4"><i class="red_star">*&nbsp;</i>电话号码：</label>
+                        <div class="col-sm-10">
+                            <input type="text" required class="form-control" placeholder="请输入电话号码" name="mobile" value="" id="main_mobile" pattern="1[0-9]{10}" /> <span id="err_msg" style="color: red"></span>
+                        </div>
+                    </div>
+                    <div class="form-group-separator"></div>
+                    <div class="form-group-separator"></div>
+
+                    <div class="form-group">
+                        <div class="logo f222">
+                            <label class="col-sm-2 control-label">头像：</label>
+
+                            <div class="col-sm-10">
+                                <input type="file" class="up_logo" id="file0" multiple name="up_logo"><span></span>
+                                <img class="logo" src="<?php echo ROOT_PATH . 'adminStyle/img/no_pic.gif'; ?>" id="preview" alt="" style="width:200px;height:200px;" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="logo f222">
+                            <label class="col-sm-2 control-label">二维码：</label>
+
+                            <div class="col-sm-10">
+                                <input type="file" class="up_code" id="file0" multiple name="up_code"><span></span>
+                                <img class="code" src="<?php echo ROOT_PATH . 'adminStyle/img/no_pic.gif'; ?>" id="preview" alt="" style="width:200px;height:200px;" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-4"><i class="red_star">*&nbsp;</i>姓名：</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" maxlength="6" placeholder="请输入姓名,不超过6个字" name="name" required value="" /><span>(不超过6个字)</span>
+                        </div>
+                    </div>
+                    <div class="form-group-separator"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-4"><i
+                                class="red_star">*&nbsp;</i>在职公司：</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" required maxlength="30" placeholder="请输入公司名称" name="company" value="" /><span>(不超过30个字)</span>
+                        </div>
+                    </div>
+                    <div class="form-group-separator"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-4"><i
+                                class="red_star">*&nbsp;</i>职位：</label>
+                        <div class="col-sm-10">
+                                <input type="text" class="form-control" required maxlength="10" placeholder="请输入所在职位" name="position" value="" /><span>(不超过10个字)</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-4"><i
+                                class="red_star">*&nbsp;</i>qq：</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" required maxlength="10" placeholder="qq" name="qq" value="" /><span>(不超过10个字)</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-4"><i
+                                class="red_star">*&nbsp;</i>email：</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" required maxlength="10" placeholder="email" name="email" value="" /><span>(不超过10个字)</span>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-1"></label>
+                        <div class="col-sm-10">
+                            <input type="hidden" value="<?php echo $id;?>" name="id">
+                            <input type="submit" name="submit" value="保存" class="btn btn-info" />
+                        </div>
+                    </div>
+    </form>
+    </div>
+<script type="text/javascript">
+
+    /*logo*/
+    $(".up_logo").change(function(){
+        var objUrl = getObjectURL(this.files[0]) ;
+        console.log("objUrl = "+objUrl) ;
+        if (objUrl) {
+            $(".logo").attr("src", objUrl) ;
+        }
+    }) ;
+
+    /*二维码*/
+    $(".up_code").change(function(){
+        var objUrl = getObjectURL(this.files[0]) ;
+        console.log("objUrl = "+objUrl) ;
+        if (objUrl) {
+            $(".code").attr("src", objUrl) ;
+        }
+    }) ;
+
+    //建立一個可存取到該file的url
+    function getObjectURL(file) {
+        var url = null ;
+        if (window.createObjectURL!=undefined) { // basic
+            url = window.createObjectURL(file) ;
+        } else if (window.URL!=undefined) { // mozilla(firefox)
+            url = window.URL.createObjectURL(file) ;
+        } else if (window.webkitURL!=undefined) { // webkit or chrome
+            url = window.webkitURL.createObjectURL(file) ;
+        }
+        return url ;
+    }
+
+
+    function checkSubmit() {
+        var mobile=($('main_mobile').val()).length;
+        var logo=($('.up_logo').val()).length;
+        return false;
+    }
+
+</script>

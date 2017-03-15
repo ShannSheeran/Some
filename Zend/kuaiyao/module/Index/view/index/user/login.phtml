@@ -1,0 +1,138 @@
+<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/pc/css/login.css" />
+<script type="text/javascript" src="<?php echo $this->basePath();?>/pc/ckeditor/ckeditor.js"></script>
+<?php echo $this->headScript()->offsetSetFile(10, $this->basePath() . '/js/ajaxfileupload.js') ?>
+<script type="text/javascript" src="<?php echo $this->basePath();?>/js/public.js"></script>
+<script type="text/javascript">
+var url = '<?php echo $this->url('admin-common',array('action'=>'getAdminFile'));?>';//图片上传地址
+var url_two = '<?php echo $this->url('admin-common',array('action'=>'getAdminFileTwo'));?>';//图片上传地址
+</script>
+<!--  main -->
+<div class="main">
+  <div class="wrap">
+    <div class="container clearfix">
+      <dl class="tab">
+        <dd class="cur"><A href="javascript:void(0);">基本资料</A></dd>
+        <dd><a href="<?php echo $this->url('index',array('controller'=>'user','action'=>'DetailsTwo'))?>">公司信息</A></dd>
+        <dd><a href="<?php echo $this->url('index',array('controller'=>'user','action'=>'order'))?>">订单列表</A></dd>
+        <dd><a href="<?php echo $this->url('index',array('controller'=>'user','action'=>'withdraw'))?>">推荐码/提现</A></dd>
+      </dl>
+      <form method="post" action="<?php echo $this->url('index',array('controller'=>'user','action'=>'DetailsSub'))?>" enctype="multipart/form-data">
+        <table class="nr_1">
+          <tr>
+            <td rowspan="4" width="214" class="up"><dl>
+                <?php if (isset($data['head_icon']) && $data['head_icon']){?>
+                <dt><img src="<?php echo ROOT_PATH.UPLOAD_PATH.$data['path'].$data['filename'];?>" id="img0" style="width:134px;height:134px;"/></dt>
+                <?php }else {?>
+                <dt><img src="<?php echo ROOT_PATH?>pc/images/up_pic01.png"  id="img0" style="width:134px;height:134px;"/></dt>
+                <?php }?>
+                <dd>
+                  <div class="up_btn">上传您的头像</div>
+                  <input type="file" class="up_file" id="file0" multiple name="head_icon">
+                  <input type="hidden" name="image"
+									value="<?php echo isset($data['head_icon']) && $data['head_icon'] ? $data['head_icon'] : '';?>" />
+                </dd>
+              </dl></td>
+            <th width="115" align="right" style="padding-top:40px;">真实姓名</th>
+            <?php if (isset($data['name']) && $data['name']){?>
+            <td style="padding:40px 0 0 0;"><input type="text" class="text" placeholder="提交后无法修改" value="<?php echo $data['name']?>" size="45" disabled name="name"/></td>
+            <?php }else {?>
+            <td style="padding:40px 0 0 0;"><input type="text" class="text" placeholder="提交后无法修改" value="<?php echo $data['name']?>" size="45"  name="name"/></td>
+            <?php }?>
+          </tr>
+          <tr>
+            <th style="padding-top:20px;" valign="top">个人签名</th>
+            <td style="height:78px;padding-top:20px;" valign="top"><input type="text" class="text" placeholder="选填" value="<?php echo $data['signature']?>" size="65" name="signature"/>
+              <br />
+              <span>还可以输入<font color="#0066FF"> 50 </font>字符</span></td>
+          </tr>
+          <tr>
+            <th>职位</th>
+            <td><input type="text" class="text" placeholder="必填" value="<?php echo $data['position']?>" size="45" name="position" dataType="Require"/></td>
+          </tr>
+          <tr>
+            <th>固话</th>
+            <td><input type="text" class="text" placeholder="选填" value="<?php echo $data['telephone']?>" size="45" name="telephone"/></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <th>QQ</th>
+            <td><input type="text" class="text" placeholder="选填" value="<?php echo $data['qq']?>" size="45" name="qq"/></td>
+          </tr>
+          <tr>
+            <td rowspan="3" class="up"><dl>
+                <?php if (isset($data['wx_code']) && $data['wx_code']){?>
+                <dt><img src="<?php echo ROOT_PATH.UPLOAD_PATH.$image['path'].$image['filename']?>" id="img_1" style="width:134px;height:134px;"/></dt>
+                <?php }else {?>
+                <dt><img src="<?php echo ROOT_PATH?>pc/images/up_pic01.png"  id="img_1" style="width:134px;height:134px;"/></dt>
+                <?php }?>
+                <dd>
+                  <div class="up_btn">上传您的二维码</div>
+                  <input type="file" class="up_file" id="img1" name="Filedata" onchange="return ajaxFileUpload('1',1);" >
+                  <input type="hidden" name="wx_code" value="<?php echo isset($data['wx_code']) && $data['wx_code'] ? $data['wx_code'] : '';?>" id="img_id_1" />
+                </dd>
+              </dl></td>
+            <th>邮箱</th>
+            <td><input type="text" class="text" placeholder="选填" value="<?php echo $data['email']?>" size="45" name="email"/></td>
+          </tr>
+          <tr>
+            <th>手机号码</th>
+            <td><input type="text" class="text" placeholder="13622222225（不可编辑）" value="<?php echo $data['mobile']?>" size="45" disabled name="mobile"/></td>
+          </tr>
+          <!--         <tr> 
+          <th>微信号</th>
+          <td><input type="text" class="text" placeholder="选填" value="<?php echo $data['weixin_number']?>" size="45" name="weixin_number"/></td>
+        </tr> -->
+          <tr>
+            <th>微博链接</th>
+            <td><input type="text" class="text" placeholder="选填" value="<?php echo (strip_tags($data['weibo_link']))?>" size="45" name="weibo_link"/></td>
+          </tr>
+          <tr>
+            <td class="bordernone">&nbsp;</td>
+            <th class="bordernone">&nbsp;</th>
+            <td class="bordernone"><input type="submit" class="submit" value="下一步" name="submit"/></td>
+          </tr>
+        </table>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!--  contact -->
+
+<div class="contact">
+  <div class="wrap">
+    <dl>
+      <dd><img src="<?php echo $this->basePath();?>/pc/images/contact_tel.jpg" />4008383765</dd>
+      <dd><img src="<?php echo $this->basePath();?>/pc/images/contact_email.jpg"  /><a href="mailto:kefu@kuaiyao.name">kefu@kuaiyao.name</a></dd>
+      <dd><img src="<?php echo $this->basePath();?>/pc/images/contact_qq.jpg"  /><a target="blank" href="http://wpa.qq.com/msgrd?V=3&uin=3209147449&Site=QQ交谈&Menu=yes"><img border="0" SRC="http://wpa.qq.com/pa?p=1:2334131157:7" alt="点击这里给我发消息"></a></dd>
+    </dl>
+  </div>
+</div>
+<script type="text/javascript">
+$("#file0").change(function(){
+    var objUrl = getObjectURL(this.files[0]) ;
+    console.log("objUrl = "+objUrl) ;
+    if (objUrl) {
+        $("#img0").attr("src", objUrl) ;
+    }
+}) ;
+$("#erweima").change(function(){
+    var objUrl = getObjectURL(this.files[0]) ;
+    console.log("objUrl = "+objUrl) ;
+    if (objUrl) {
+        $("#erweima0").attr("src", objUrl) ;
+    }
+}) ;
+//建立一個可存取到該file的url
+function getObjectURL(file) {
+    var url = null ; 
+    if (window.createObjectURL!=undefined) { // basic
+        url = window.createObjectURL(file) ;
+    } else if (window.URL!=undefined) { // mozilla(firefox)
+        url = window.URL.createObjectURL(file) ;
+    } else if (window.webkitURL!=undefined) { // webkit or chrome
+        url = window.webkitURL.createObjectURL(file) ;
+    }
+    return url ;
+}
+</script>

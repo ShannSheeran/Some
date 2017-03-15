@@ -1,0 +1,72 @@
+<link rel="stylesheet" type="text/css" href="<?php echo ROOT_PATH?>css/page.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/pc/css/login.css" />
+<!--  main -->
+<div class="main">
+  <div class="wrap">
+    <div class="container clearfix">
+      <dl class="tab">
+        <dd> <A
+						href="<?php echo $this->url('index',array('controller'=>'user','action'=>'Details'))?>">基本资料</A> </dd>
+        <dd> <A href="<?php echo $this->url('index',array('controller'=>'user','action'=>'DetailsTwo'))?>">公司信息</A> </dd>
+        <dd class="cur"> <A href="javascript:void(0);">订单列表</A> </dd>
+        <dd><a href="<?php echo $this->url('index',array('controller'=>'user','action'=>'withdraw'))?>">推荐码/提现</A></dd>
+      </dl>
+      <div class="middle">
+        <div class="wrap wrap_style">
+          <?php $status = array(1=>'待付款', 2=>'待发货', 3=>'已发货',4 =>'已收货');?>
+          <?php if ($list) {?>
+          <?php foreach ($list as $value) {?>
+          <div class="list list_style border_style">
+            <table width="800" border="0">
+              <tbody>
+                <tr>
+                  <td align="right" style="width: 62px;">状态：</td>
+                  <td align="left" style="width: 100px;">&nbsp;&nbsp;<?php echo $status[$value['status']];?></td>
+                  <td align="right" style="width: 132px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;下单日期：</td>
+                  <td align="left" style="width: 204px;">&nbsp;&nbsp;<?php echo $value['timestamp'];?></td>
+                  <td align="right" style="width: 101px;">订单编号：</td>
+                  <td align="left" style="width: 201px;">&nbsp;&nbsp;<?php echo $value['order_sn'];?></td>
+                </tr>
+                <tr>
+                  <td align="right" style="width: 62px;">单价：</td>
+                  <td align="left" style="width: 100px;">&nbsp;&nbsp;<?php echo $value['price'];?> 元</td>
+                  <td align="right" style="width: 132px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;购买数量：</td>
+                  <td align="left" style="width: 204px;">&nbsp;&nbsp;<?php echo $value['number'];?></td>
+                  <td align="right" style="width: 101px;">总&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价：</td>
+                  <td align="left" style="width: 201px;">&nbsp;&nbsp;<?php echo $value['total']?> 元</td>
+                </tr>
+              </tbody>
+            </table>
+            
+            <!--<p class="date"><span><?php echo $status[$value['status']];?></span>下单日期<?php echo $value['timestamp'];?><br>订单编号<?php echo $value['order_sn'];?></p>
+  <p class="price">单价 <?php echo $value['price'];?> 元</p>
+  <p class="number">购买数量 <?php echo $value['number'];?></p>
+  <p class="total">总价 <?php echo $value['total']?> 元</p>--> 
+            
+          </div>
+          <?php }?>
+          <?php }?>
+          <?php $condition["controller"]="user";echo $this->paginationControl($paginator,'Sliding','layout_index/page',array('route' =>'index','condition'=>$condition));?>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- middle --> 
+
+<!--  contact -->
+<div class="contact">
+  <div class="wrap">
+    <dl>
+      <dd> <img src="<?php echo $this->basePath();?>/pc/images/contact_tel.jpg" />4008383765 </dd>
+      <dd> <img
+					src="<?php echo $this->basePath();?>/pc/images/contact_email.jpg" /><a
+					href="mailto:kefu@kuaiyao.name">kefu@kuaiyao.name</a> </dd>
+      <dd> <img src="<?php echo $this->basePath();?>/pc/images/contact_qq.jpg" /><a
+					target="blank"
+					href="http://wpa.qq.com/msgrd?V=3&uin=3209147449&Site=QQ交谈&Menu=yes"><img
+					border="0" SRC="http://wpa.qq.com/pa?p=1:2334131157:7"
+					alt="点击这里给我发消息"></a> </dd>
+    </dl>
+  </div>
+</div>

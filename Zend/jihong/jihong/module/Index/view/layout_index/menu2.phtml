@@ -1,0 +1,33 @@
+
+    <div class="header_bot">
+        <div class="wrap">
+            <a href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'index'  ))?>" class="header_bot_l"></a>
+            <div class="header_bot_r">
+                <ul class="nav clearfix">
+                    <li><a class="<?php echo ($action == 'index') ? 'current' : ''?>" href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'index'))?>">首页</a></li>
+                    <li class="navlia <?php echo ($action == 'companyIntro') ? 'current' : ''?>">
+                        <a href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'companyIntro'  ))?>">关于吉宏</a>
+                        <ul class="sub-about">
+                            <li><a class="corgrayf" href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'companyIntro'  ))?>">企业概况</a></li>
+                            <li><a class="corgrayf" href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'dynamic'  ))?>">企业动态</a></li>
+                            <li><a class="corgrayf" href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'teams'  ))?>">吉宏团队</a></li>
+                            <li><a class="corgrayf" href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'recruit'  ))?>">招聘信息</a></li>
+                            <li><a class="corgrayf" href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'questions'  ))?>">常见问题</a></li>
+                        </ul>
+                    </li>
+                    <li class="<?php echo ($action == 'dream') ? 'current' : ''?>"><a href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'articleDetail' ,'id' => 2  ))?>">吉宏梦</a></li>
+                    <li class="<?php echo ($action == 'trade') ? 'current' : ''?>"><a href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'articleDetail' ,'id' => 3 ))?>">盆栽交易平台</a></li>
+                    <li class="<?php echo ($action == 'tree') ? 'current' : ''?>"><a href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'articleDetail' ,'id' => 4  ))?>">吉宏发财树</a></li>
+                    <li class="navlia <?php echo ($action == 'industry') ? 'current' : ''?>">
+                        <a href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'supplyList'))?>">行业信息</a>
+                        <ul class="sub-about" style="height:64px">
+                            <li><a class="corgrayf" href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'producerList'  ))?>">合作生产商</a></li>
+                            <li><a class="corgrayf" href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'supplyList'  ))?>">供应信息</a></li>
+                        </ul>
+                    </li>
+                    <li class="<?php echo ($action == 'contract') ? 'current' : ''?>"><a href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'contract'  ))?>">联系我们</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+<?php echo $this->main;?>

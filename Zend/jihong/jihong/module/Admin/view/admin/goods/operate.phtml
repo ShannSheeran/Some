@@ -1,0 +1,463 @@
+<?php echo $this->headLink()->appendStylesheet($this->basePath() . '/css/admin/uploadify.css');?>
+<script src="<?php echo $this->basePath();?>/js/admin/jquery.uploadify-3.1.min.js"></script>
+<script src="<?php echo $this->basePath();?>/js/admin/Uploads.js"></script>
+<script src="<?php echo $this->basePath();?>/js/admin/jedate.min.js"></script>
+<script type="text/javascript">
+var swf ='<?php echo $this->basePath() . '/js/admin/uploadify.swf'?>';
+var uploader = '<?php echo $this->url('admin-common',array('action'=>'getAdminFile')) ;?>';
+</script>
+<script>
+
+</script>
+<style>
+    .tl{text-align: right;}
+    .main-nody{padding:5px 20px 0 20px;}
+    .main-nody h5{float: left;}
+    .tp{margin-top: 30px;}
+    .bc-1{display: none;}
+    .fl{float: left;}
+    .pd5{
+        padding:5px;	
+    }
+    .supplier-tr{
+         display:block;
+    	 width:220px;
+         border-bottom:1px solid grey;
+         height:25px;
+         line-height:25px;        
+    }
+</style>
+<div class="panel panel-default">
+   <div class="panel-heading">
+       <div calss="row">
+           <div class="col-sm-6">
+               <a href="<?php echo $this->url('admin-goods' , array('action' => 'index'));?>">商品管理 </a> / <a href="<?php echo $this->url('admin-goods' , array('action' => 'index'));?>">商品管理</a> / <a href="">商品详情</a>    
+           </div>
+       </div>
+   </div>
+    <div class="pannel-body main-nody">
+        <form class="form-horizontal" action="<?php echo $this->url('admin-goods' , array('action' => 'goodsOperate'));?>" method="post" >
+            <input type="hidden" name="id" value="<?php echo isset($good->id) ? $good->id : ''?>"/>
+            <div class="row">
+                <div class="col-lg-12">
+                    <h5>基本信息</h5>
+                </div>
+                <div class="col-lg-12">
+                
+                    <table class="table table-striped" id="example-4" >
+                        <tbody>
+                            <tr>
+                                <td>商品名称</td>
+                                <td>
+                                    <input type="text" name="name" value="<?php echo isset($good->name) ? $good->name : ''?>" class="pd5" required>
+                                    <input type="hidden" name="type" value="<?php echo !empty($type) ? $type : ''?>">
+                                    <span style="color:red"> * </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>商品简码</td>
+                                <td>
+                                    <input type="number" min="0" name="code" value="<?php echo isset($good->code) ? $good->code : ''?>" class="pd5" required>
+                                    <span style="color:red"> * </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>商品单位</td>
+                                <td>
+                                    <select name="unit_id" class="pd5" id="unit_id" onchange="unitSelect(this)">
+                                    <?php if(!empty($goods_units)){?>
+                                    <?php foreach ($goods_units as $v){?>
+                                        <option value="<?php echo $v->id?>" <?php if(isset($good->unit_id)&&$v->id==$good->unit_id) {echo "selected";}elseif($v->name == '盆' && !isset($good)) echo "selected";?>><?php echo $v->name?></option>
+                                    <?php }?>
+                                    <?php }?>
+                                    </select>
+                                    <span style="color:red"> * </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>所属分类</td>
+                                <td>
+                                    <select name="firstCategory" class="pd5" id="firstCategory" onchange="goodsCategoryLinkage(this)">
+                                        <option value="0">请选择</option>
+                                        <?php if(!empty($goods_categorys)){?>
+                                        <?php foreach ($goods_categorys as $v){?>
+                                        <?php if($v->parent_id == '0'){?>
+                                        <option value="<?php echo $v->id?>" <?php if(isset($category_info->parent_id) && $category_info->parent_id == $v->id){ echo 'selected'; } ?>><?php echo $v->name?></option>
+                                        <?php }?>
+                                        <?php }?>
+                                        <?php }?>
+                                    </select>
+                                    <select name="secondCategory"  class="pd5" id="secondCategory" >
+                                        <option value="0">请选择</option>
+                                    </select>
+                                    <span style="color:red"> * </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>排序序号</td>
+                                <td>
+                                    <input type="number" min="0" name="sort" value="<?php echo isset($good->sort) ? $good->sort : ''?>"   class="pd5" required>
+                                    <span style="color:red"> * </span>
+                                    <span>序号越小，在同等级分类中排序越前</span>
+                                </td>
+                            </tr>
+                            <?php if($type == 1): ?>
+                            <tr>
+                                <td>选择供应商</td>
+                                <td>
+                                    <input type="text" id="user_name" value="<?php echo isset($user->company_name) && $user ? $user->company_name : ''?>"   class="pd5" style="width:220px;" oninput="selectUser(this.value)" autocomplete="off" >
+                                    <input type="hidden" name="user_id" id="user_id" value="<?php echo isset($user->id) ? $user->id : ''?>"/>
+                                    <table id="supplier-table" style="border-left:1px solid grey;border-right:1px solid grey;position:absolute;background:white">
+                                    </table>
+                                </td>
+                            </tr>
+                            <?php else: ?>
+                            <input type="hidden" name="user_id"  value="0"/>
+                            <?php endif;?>
+                            <tr>
+                                <td> 上架方式</td>
+                                <td>
+                                <?php if(!isset($good->salse_type)){?>
+                                <?php foreach ($onSaleType as $k=>$v){?>
+                                <?php if($k == '1'):?>
+                                    <input type="radio" name="salse_type" class="onSaleType" value="<?php echo $k?>" id="pre-sale"><?php echo $v?>
+                                <?php elseif($k == '0'):?>
+                                    <input type="radio" name="salse_type" class="onSaleType" value="<?php echo $k?>" checked><?php echo $v?>
+                                <?php else:?>
+                                    <input type="radio" name="salse_type" class="onSaleType" value="<?php echo $k?>"><?php echo $v?>
+                                <?php endif;?>
+                                <?php }?>
+                                <?php }else{?>
+                                    <?php foreach ($onSaleType as $k=>$v){?>
+                                    <?php if($k == '1'):?>
+                                        <input type="radio" name="salse_type" class="onSaleType" value="<?php echo $k?>" id="pre-sale" <?php if($k==$good->salse_type)echo "checked"?>><?php echo $v?>
+                                    <?php elseif($k == '0'):?>
+                                        <input type="radio" name="salse_type" class="onSaleType" value="<?php echo $k?>" <?php if($k==$good->salse_type)echo "checked"?>><?php echo $v?>
+                                    <?php else:?>
+                                        <input type="radio" name="salse_type" class="onSaleType" value="<?php echo $k?>" <?php if($k==$good->salse_type)echo "checked"?>><?php echo $v?>
+                                    <?php endif;?>
+                                    <?php }?>
+                                <?php }?>
+                                    <span style="color:red"> * </span>
+                                    <span>（选择预售，预售时间必填）</span>
+                                </td>
+                            </tr>
+                            <tr id="pre-sale-date" style="display:<?php if(isset($good->salse_type) && $good->salse_type == '1'){echo "";}else{echo "none";}?>">
+                                <td> 预售时间</td>
+                                <td>
+                                    <input class="datainp" id="delivery_date" type="text" placeholder="请选择"  readonly value="<?php  if(isset($good->delivery_date) && $good->delivery_date != '0000-00-00'){ echo $good->delivery_date; } ?>" name="delivery_date"  style="line-height:22px;width:160px">
+                                    <span style="color:red"> * </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td> 推荐方式</td>
+                                <td>
+                                <?php if(!isset($good->referrer_type)):?>
+                                    <?php foreach ($referrer_type as $k=>$v){?>
+                                    <?php if($k == '2'):?>
+                                        <input type="radio" class="recommendType" id="recommendType_sale" name="referrer_type" value="<?php echo $k?>"><?php echo $v?>
+                                    <?php elseif($k == '0'):?>
+                                        <input type="radio" class="recommendType" name="referrer_type" value="<?php echo $k?>" checked><?php echo $v?>
+                                    <?php else:?>
+                                        <input type="radio" class="recommendType" name="referrer_type" value="<?php echo $k?>"><?php echo $v?>
+                                    <?php endif;?>
+                                    <?php }?>
+                                 <?php else:?>
+                                    <?php foreach ($referrer_type as $k=>$v){?>
+                                    <?php if($k == '2'):?>
+                                        <input type="radio" class="recommendType" id="recommendType_sale" name="referrer_type" value="<?php echo $k?>" <?php if($k==$good->referrer_type) echo "checked"?>><?php echo $v?>
+                                    <?php elseif($k == '0'):?>
+                                        <input type="radio" class="recommendType" name="referrer_type" value="<?php echo $k?>" <?php if($k==$good->referrer_type) echo "checked"?>><?php echo $v?>
+                                    <?php else:?>
+                                        <input type="radio" class="recommendType" name="referrer_type" value="<?php echo $k?>" <?php if($k==$good->referrer_type) echo "checked"?>><?php echo $v?>
+                                    <?php endif;?>
+                                    <?php }?>
+                                 <?php endif;?>
+                                    <span style="color:red"> * </span>
+                                    <span>（选择促销商品，商品原价必填）</span>
+                                </td>
+                            </tr>
+                             <tr id="original_price"  style="display:<?php if(isset($good->referrer_type) && $good->referrer_type == '2'){echo "";}else{echo "none";}?>">
+                                <td> 商品原价</td>
+                                <td>
+                                    <input type="text" name="original_price" value="<?php echo isset($good->original_price) ? $good->original_price : ''?>"   class="pd5" style="width:220px;"  >
+                                    <span style="color:red"> * </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    
+            <div class="row tp">
+                <div class="col-lg-12">
+                    <h5>规格型号</h5>
+                </div>
+                <div class="col-lg-12">
+                    <table class="table table-striped" id="goods-spec" >
+                        <thead>
+                            <tr>
+                                <th>盆径规格<span style="color:red"> * </span></th>
+                                <th>型号</th>
+                                <th>商品单价<span style="color:red"> * </span></th>
+                                <th>植株高度(带盆,mm)<span style="color:red"> * </span></th>
+                                <th>花苞数量</th>
+                                <th>植株冠幅(mm)<span style="color:red"> * </span></th>
+                                <th>装箱数(<span id="unitSelected">盆</span>/箱)<span style="color:red"> * </span></th>
+                                <th>供应数量<span style="color:red"> * </span></th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php if(isset($good) && isset($specs) && !empty($specs)){?>
+                        <?php foreach ($specs as $k=>$v){?>
+                            <tr>
+                                <td style="padding-top:20px;"><input type="text" min="0" name="spec[<?php echo $k?>][size]" class="pd5" value="<?php echo $v->size?>"  required/></td>
+                                <td style="padding-top:20px;"><input type="text" name="spec[<?php echo $k?>][model]" class="pd5" value="<?php echo $v->model?>"  required/></td>
+                                <td style="padding-top:20px;"><input type="number" step="0.1" min="0.1" name="spec[<?php echo $k?>][cash]" class="pd5" value="<?php echo $v->cash?>"  required/></td>
+                                <td style="padding-top:20px;"><input type="number" min="0" name="spec[<?php echo $k?>][height]" class="pd5" value="<?php echo $v->height?>"  required/></td>
+                                <td style="padding-top:20px;"><input type="number" min="0" name="spec[<?php echo $k?>][bud_number]" class="pd5" value="<?php echo $v->bud_number?>"  required/></td>
+                                <td style="padding-top:20px;"><input type="number" min="0" name="spec[<?php echo $k?>][canopy]" class="pd5" value="<?php echo $v->canopy?>"  required/></td>
+                                <td style="padding-top:20px;"><input type="number" min="0" name="spec[<?php echo $k?>][pack_number]" class="pd5" value="<?php echo $v->pack_number?>"  required/></td>
+                                <td style="padding-top:20px;"><input type="number" min="0" name="spec[<?php echo $k?>][number]" class="pd5" value="<?php echo $v->number?>"  required/></td>
+                                <td><input type="button" onclick="delSpec(this)" class="btn btn-info" value="删除" spec_id="<?php echo $v->id?>"></td>
+                                <input type="hidden" name="spec[<?php echo $k?>][spec_id]"  value="<?php echo $v->id?>"/>
+                            </tr>
+                        <?php }?>
+                        <?php }else{?>
+                            <tr>
+                                <td style="padding-top:20px;"><input type="text" min="0" name="spec[2][size]" class="pd5" required/></td>
+                                <td style="padding-top:20px;"><input type="text" name="spec[2][model]" class="pd5" required/></td>
+                                <td style="padding-top:20px;"><input type="number" step="0.1" min="0.1" name="spec[2][cash]" class="pd5" required/></td>
+                                <td style="padding-top:20px;"><input type="number" min="0" name="spec[2][height]" class="pd5" required/></td>
+                                <td style="padding-top:20px;"><input type="number" min="0" name="spec[2][bud_number]" class="pd5" required/></td>
+                                <td style="padding-top:20px;"><input type="number" min="0" name="spec[2][canopy]" class="pd5" required/></td>
+                                <td style="padding-top:20px;"><input type="number" min="0" name="spec[2][pack_number]" class="pd5" required/></td>
+                                <td style="padding-top:20px;"><input type="number" min="0" name="spec[2][number]" class="pd5" required/></td>
+                                <td><input type="button" onclick="delSpec(this)" class="btn btn-info" value="删除"></td>
+                                <input type="hidden" name="spec[2][spec_id]" value=""/>
+                            </tr>
+                        <?php }?>
+                        </tbody>
+                    </table>
+                    <input type="button" onclick="moreSpec()" value="+更多规格" class="btn btn-info">
+                </div>
+            </div>
+    
+    
+            <div class="row tp">
+                <div class="col-lg-12">
+                    <h5>其他信息</h5>
+                </div>
+                <div class="col-lg-12">
+                    <table class="table table-striped" id="example-4">
+                        <tbody>
+                            <tr>
+                                <td width="10%;">商品介绍</td>
+                                <td>
+                                    <textarea name="description" height="26px" cols="100%"><?php echo isset($good->description) ? $good->description : ''?></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="10%;">商品图片</td>
+                                <td>
+                                    <!-- <input type="button" name="" value="选择图片" class="btn btn-info">
+                                    <input type="file" name="" style="display: none">-->
+                                    <span>请上传3-10张商品图片</span>
+                                    <span style="color:red"> * </span>
+                                    <div class="mot_tright" id="img_div">									           
+                                    <input id="index_img" type="text" name="image_ids[]"  />
+                                            <?php if(isset($images)){foreach ($images as $k){?>
+                                                <div id="img_div<?php echo $k['id']?>" class="outdiv">
+                                                    <img src="<?php echo $k['image_path']?>" onmouseover='del1(this)'  width = '100px'>
+                                                	<div id='near_img<?php echo $k['id']?>' onmouseout='del3(this)' onclick='del2(<?php echo $k['id']?>,"img_div")' class='innerdiv'>删除</div>
+                                                    <input value="<?php echo $k['id']?>" name='image_ids[]' type='hidden'>
+                                                </div>
+                                            <?php }}?>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="row tp">
+                <div class="col-lg-12">
+                    <h5>
+                        <button type="submit" name="submit" value="保存商品"  class="btn btn-info btn-large">保存商品</button>
+                        <button type="submit" name="saveAndRelease"  class="btn btn-info btn-large">保存并继续发布</button>
+                     </h5>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function(){
+	$(".onSaleType").change(function(){
+		if($("#pre-sale").is(":checked")){
+		    $("#pre-sale-date").css("display","");
+		}else{
+			$("#pre-sale-date").css("display","none");
+		}
+	});
+	
+	$(".recommendType").change(function(){
+		if($("#recommendType_sale").is(":checked")){
+		    $("#original_price").css("display","");
+		}else{
+			$("#original_price").css("display","none");
+		}
+	});
+
+	$('#index_img').css("background","black");
+	$('#index_img').css("borderRadius","25px");
+})
+
+function moreSpec(){
+	var tab = document.getElementById("goods-spec") ;
+	var rows = tab.rows.length ;
+	rows++;
+	///添加商品规格
+    var html="<tr><td style='padding-top:20px;'><input type='text' name='spec["+rows+"][size]' class='pd5' required/></td><td style='padding-top:20px;'><input type='text' name='spec["+rows+"][model]' class='pd5' required/></td><td style='padding-top:20px;'><input type='number' step='0.1' min='0.1' name='spec["+rows+"][cash]' class='pd5' required/></td><td style='padding-top:20px;'><input type='number' min='0' name='spec["+rows+"][height]' class='pd5' required/></td><td style='padding-top:20px;'><input type='number' min='0' name='spec["+rows+"][bud_number]' class='pd5' required/></td><td style='padding-top:20px;'><input type='number' min='0' name='spec["+rows+"][canopy]' class='pd5' required/></td><td style='padding-top:20px;'><input type='number' min='0' name='spec["+rows+"][pack_number]' class='pd5' required/></td><td style='padding-top:20px;'><input type='number' min='0' name='spec["+rows+"][number]' class='pd5' required/></td><td><input type='button' onclick='delSpec(this)' class='btn btn-info' value='删除'></td><input type='hidden' name='spec["+rows+"][spec_id]' value=''/></tr>";
+
+    $("#goods-spec tbody").append(html);
+
+}
+
+function delSpec(obj){//删除商品规格
+	if(confirm("删除无法恢复喔！确定要删除该规格吗？")){
+		var spec_id = $(obj).attr("spec_id");
+    	if(spec_id){
+        	$.ajax({
+        	    url:'<?php echo $this->url('admin-goods',array('action'=>'delGoodsSpec'))?>',
+        	    type:'post',
+        	    data:{'id':spec_id},
+        	    dataType:'json',
+        	    success:function(data){
+        		    if(data.code == '1'){
+        		    	$(obj).parent('td').parent('tr').remove();
+        			}
+        		    else
+        		    {
+        		        alert("删除失败！");
+                	}
+        		},
+        	});
+    	}else
+    	{
+    		$(obj).parent('td').parent('tr').remove();
+        }
+	}
+}
+
+
+goodsCategoryLinkage('#firstCategory');
+//商品分类联动
+function goodsCategoryLinkage(obj){
+	var small_category = "<?php echo isset($category_info->id) ? $category_info->id : '' ?>";
+	var pid = $(obj).children('option:selected').val(); 
+	$.ajax({
+	    url:'<?php echo $this->url('admin-goods',array('action'=>'goodsCategoryLinkage'))?>',
+	    type:'post',
+	    data:{'pid':pid},
+	    dataType:'json',
+	    success:function(data){
+		    console.log(data);
+		    if(data.code == '1'){
+			    var html = "<option value='0'>请选择</option>";
+		    	$.each(data.categorys,function(i,v){
+			    	html += "<option value='"+v.id + "'";       
+			    	if(v.id == small_category)
+			    	{
+			    		html += " selected ";
+			    	}
+		    		html += " >"+v.name+"</option>";
+				});
+		    	$('#secondCategory').empty();
+		    	$('#secondCategory').append(html)    
+			}else{
+				$('#secondCategory').empty();
+			}
+		},
+	});
+}
+
+//选择供应商
+function selectUser(t){
+	var keyword = t;
+	if(keyword)
+	{
+		$.ajax({
+		    url:'<?php echo $this->url('admin-goods',array('action'=>'selectUser'))?>',
+		    type:'post',
+		    data:{'keyword':keyword},
+		    dataType:'json',
+		    success:function(data){
+		    	//console.log(data);
+			    if(data.code == '1'){
+				    var html = '';
+			    	$.each(data.users,function(i,v){
+				    	html += "<tr class='supplier-tr'><td><a class='supplier-tr'  onclick='selectOneUser(this)'  user_id='"+v.id+"'>"+v.company_name+"</a></td></tr>";
+					});
+			    	$('#supplier-table').empty();
+			    	$('#supplier-table').append(html)    
+				}
+			    else
+			    {
+			    	$('#supplier-table').empty();
+				}
+			},
+		});
+	}
+}
+
+function selectOneUser(obj)
+{
+   var user_id = $(obj).attr('user_id');
+   var user_name = $(obj).html();
+   $("#user_name").val(user_name);
+   $("#user_id").val(user_id);
+   $("#supplier-table").empty();
+}
+
+unitSelect('#unit_id');
+function unitSelect(evt)
+{
+	var unit = $(evt).find("option:selected").text();
+	$('#unitSelected').html(unit);
+}
+
+var date ={
+	dateCell:"#delivery_date",
+	format:"YYYY-MM-DD",
+	isinitVal:true,
+	isTime:true,
+	minDate:jeDate.now(0),
+	//maxDate: ,
+	choosefun: function(datas){
+        //start.maxDate = datas;
+    }
+}
+jeDate(date);
+
+$('form').submit(function(){
+	var secondCategory = $('#secondCategory').val();
+	console.log(secondCategory);
+	if(secondCategory == 0)
+	{
+		alert('请选择二级分类');
+		return false;
+	}
+
+	var pic_number = $('.outdiv').length;
+	if(pic_number < 3 || pic_number > 10)
+	{
+		alert('请上传3到10张图片');
+		return false;
+	}
+})
+
+</script>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,inital-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-status-bar-style" content="block" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>使用推荐码</title>
+    <!-- 公用样式 -->
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/kuaiyao/common.css">
+    <!-- 购买产品相关页面样式 -->
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/kuaiyao/commodity.css">
+    <!--只兼容移动端，所以直接使用jQuery 2.1.4-->
+    <script type="text/javascript" src="<?php echo $this->basePath();?>/lib/jquery.2.1.4.min.js"></script>
+    <!--调用微信js-->
+    <script type="text/javascript" src="<?php echo $this->basePath();?>/lib/jweixin-1.0.0.js"></script>
+</head>
+<body>
+    <form action="<?php echo $this->url('index',array('controller'=>'commodity','action'=>'coupon'))?>"  method="post" class="cupon">
+        <input type="text" name="recommend_code" placeholder="请输入推荐码">
+		<input type="hidden" name="user_id" value="<?php echo $user_id;?>"/>
+        <input type="submit" value="立即使用">
+    </form>
+    <ul class="rule pl15 pr15 mt10">
+        <li class="f12rem f_w_b">使用规则</li>
+        <li>1.推荐码是快摇名片推出的优惠方式，输入推荐码立即享优惠</li>
+        <li>2.每个推荐码仅使用一次；</li>
+        <li>3.快摇名片将不定期上线优惠活动，敬请留意。</li>
+    </ul>
+</body>

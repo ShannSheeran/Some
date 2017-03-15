@@ -1,0 +1,196 @@
+        <link rel="stylesheet" href="<?php echo $this->basePath();?>/js/lhgcalendar.css" />
+        <script type="text/javascript">
+        $(function(){
+            // $('.user_center ul li').click(function(){
+            //     $(this).addClass('on').siblings().removeClass('on');
+            // })
+            $('.goods_state .stata_progressbar ul li.one, .goods_state .stata_progressbar ul li.two,.goods_state .stata_progressbar ul li.three').click(function(){
+                $(this).addClass('on');
+                $(this).unbind('click');
+            })
+        })
+        </script>
+                <div class="user_content_right">
+                <?php if(in_array($good->status,array(1,2,3))){?>
+                    <div class="goods_state">
+                        <h2>商品状态</h2>
+                        <div class="stata_progressbar">
+                            <ul class="confirm_list">
+                                <li class="one <?php if($good->status >= 1) echo 'on'; ?>">
+                                    <p class="<?php if($good->status >= 1) echo 'on'; ?>">提交商品</p>
+                                    <p class="time"><?php echo isset($good_tracking[1]->timestamp) ? $good_tracking[1]->timestamp : ''?></p>
+                                </li>
+                                <li class="two <?php if($good->status >= 2) echo 'on'; ?>">
+                                    <p class="<?php if($good->status >= 2) echo 'on'; ?>">商品审核</p>
+                                    <p class="time"><?php echo isset($good_tracking[2]->timestamp) ? $good_tracking[2]->timestamp : ''?></p>
+                                </li>
+                                <li class="three <?php if($good->status >= 3) echo 'on'; ?>">
+                                    <p class="<?php if($good->status >= 3) echo 'on'; ?>">商品上架</p>
+                                    <p class="time"><?php echo isset($good_tracking[3]->timestamp) ? $good_tracking[3]->timestamp : ''?></p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <?php }?>
+                    <div class="clear"></div>                   
+                    <!--待审核-->
+                    <?php if($good->status == 1){?>
+                    <div class="wait_review">
+                        <p>当前商品状态：<i>待审核</i>  ，我们将尽快与您联系。</p>
+                        <a class="cancel_order">取消订单</a>
+                        <a class="qq"  href="http://wpa.qq.com/msgrd?v=3&uin=<?php echo $user_qq?>&site=qq&menu=yes" target="_blank">联系业务员</a>
+                    </div>
+                    <?php }?>
+                    <!--待审核-->
+                    <!--审核失败-->
+                    <?php if($good->status == 6){?>
+                    <div class="wait_review">
+                        <p>当前商品状态：<i>审核失败</i></p>
+                        <p>失败原因：<?php echo $good->reason?></p>
+                        <a class="btn_repost" href="<?php echo $this->url('index',array('controller' => 'goods' , 'action'=>'releaseGoods','id'=>$good->id))?>">重新发布</a>
+                        <a target="_blank" class="qq" href="http://wpa.qq.com/msgrd?v=3&uin=<?php echo $user_qq?>&site=qq&menu=yes" target="_blank">联系业务员</a>
+                    </div>
+                    <?php }?>
+                    <!--审核失败-->
+                    <!--已审核-->
+                    <?php if($good->status == 2){?>
+                    <div class="wait_review">
+                        <p>当前商品状态：<i>已审核</i>  ，我们将尽快将商品上架。</p>
+                        <a target="_blank" class="qq" href="http://wpa.qq.com/msgrd?v=3&uin=<?php echo $user_qq?>&site=qq&menu=yes" target="_blank" style="margin-top:0;margin-bottom:30px;">联系业务员</a>
+                    </div>
+                    <?php }?>
+                    <!--已审核-->
+                    <!--已取消-->
+                    <?php if($good->status == 5){?>
+                    <div class="wait_review">
+                        <p>当前商品状态：<i>已取消</i></p>
+                        <a class="btn_repost" href="<?php echo $this->url('index',array('controller' => 'goods' , 'action'=>'releaseGoods','id'=>$good->id))?>">重新发布</a>
+                        <a target="_blank" class="qq" href="http://wpa.qq.com/msgrd?v=3&uin=<?php echo $user_qq?>&site=qq&menu=yes" target="_blank">联系业务员</a>
+                    </div>
+                    <?php }?>
+                    <!--已取消-->
+                    <!--已上架-->
+                    <?php if($good->status == 3){?>
+                    <div class="wait_review">
+                        <p>当前商品状态：<i>已上架</i></p>
+                        <a target="_blank" class="qq"  href="http://wpa.qq.com/msgrd?v=3&uin=<?php echo $user_qq?>&site=qq&menu=yes" target="_blank" style="margin-top:0;margin-bottom:30px;">联系业务员</a>
+                    </div>
+                    <?php }?>
+                    <!--已上架-->
+                    <!--已下架-->
+                    <?php if($good->status == 4){?>
+                    <div class="wait_review">
+                        <p>当前商品状态：<i>已下架</i></p>
+                        <a class="btn_repost" href="<?php echo $this->url('index',array('controller' => 'goods' , 'action'=>'releaseGoods','id'=>$good->id))?>">重新发布</a>
+                        <a target="_blank" class="qq"  href="http://wpa.qq.com/msgrd?v=3&uin=<?php echo $user_qq?>&site=qq&menu=yes" target="_blank">联系业务员</a>
+                    </div>
+                    <?php }?>
+                    <!--已下架-->
+                    <div class="clear"></div>
+                    <div class="release_message">
+                        <h2>发布信息</h2>
+                        <ul>
+                            <li>
+                                <div class="message_label">发布编号</div>
+                                <div class="message_text"><?php echo $good->goods_sn?></div>
+                            </li>
+                            <li>
+                                <div class="message_label">发布时间</div>
+                                <div class="message_text"><?php echo $good->timestamp?></div>
+                            </li>
+                            <li class="leave_message">
+                                <div class="message_label">发布留言</div>
+                                <div class="message_text"><?php echo $good->message?></div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="goods_message">
+                        <h2>商品信息</h2>
+                        <ul>
+                            <li>
+                                <div class="message_label">商品名称</div>
+                                <div class="message_text message_name"><?php echo $good->name?></div>
+                            </li>
+                            <li>
+                                <div class="message_label">盆径规格</div>
+                                <div class="message_text"><?php echo $spec->size?> mm</div>
+                            </li>
+                            <li>
+                                <div class="message_label">商品分类</div>
+                                <div class="message_text"><?php echo $good->category_name?></div>
+                            </li>
+                            <li>
+                                <div class="message_label">质量等级</div>
+                                <div class="message_text"><?php echo $spec->model?> 级</div>
+                            </li>
+                            <li>
+                                <div class="message_label">植株高度</div>
+                                <div class="message_text"><?php echo $spec->height?> mm</div>
+                            </li>
+                            <li>
+                                <div class="message_label">植株冠幅</div>
+                                <div class="message_text"><?php echo $spec->canopy?> mm</div>
+                            </li>
+                            <li>
+                                <div class="message_label">供应数量</div>
+                                <div class="message_text"><?php echo $spec->number?> <?php echo $good->unit_name ? $good->unit_name : '盆'?></div>
+                            </li>
+                            <li>
+                                <div class="message_label">上架方式</div>
+                                <?php if($good->salse_type == 1){?>
+                                <div class="message_text">预售<i>  (可出货时间:<?php echo $good->delivery_date?>)</i></div>
+                                <?php }else{?>
+                                <div class="message_text">现货</div>
+                                <?php }?>
+                            </li>
+                            <li>
+                                <div class="message_label">商品单价</div>
+                                <div class="message_text">￥<?php echo $spec->cash?></div>
+                            </li>
+                            <li>
+                                <div class="message_label">装箱数</div>
+                                <div class="message_text"><?php echo $spec->pack_number ?> <?php echo $good->unit_name ? $good->unit_name :'盆'?>/箱</div>
+                            </li>
+                            <li class="picture_upload">
+                                <div class="message_label">图片</div>
+                                <div class="message_text">
+                                <?php if(!empty($images)){?>
+                                <?php foreach ($images as $k=>$v){?>
+                                <img alt="" src="<?php echo $v['image_path']?>" width="100px" height="100pxs">
+                                <?php }?>
+                                <?php }?>
+                                </div>
+                            </li>
+                            <li class="leave_message">
+                                <div class="message_label">商品介绍</div>
+                                <div class="message_text"><?php echo $good->description?></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <script type="text/javascript">
+    var cancel = true;
+    $('.cancel_order').click(function(){
+        if(!cancel)
+        {
+            return false;
+        }
+        cancel = false;
+    	var json = new Object();
+        json.n = "StatusUpdate";
+        json.q = new Object();
+        json.q.type = 2;
+        json.q.id = <?php echo $good->id?>;
+        $.post('<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'getJson'))?>' ,  {request: json} , function(data){
+            console.log(data);
+            cancel = true;
+            if(data.q.s == '0')
+            {
+                window.location.reload();
+            }
+        },"json");
+        });
+    </script>

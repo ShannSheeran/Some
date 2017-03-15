@@ -1,0 +1,145 @@
+<style>
+    .tl{text-align: right;}
+    .main-nody{padding:5px 20px 0 20px;}
+    .main-nody h5{float: left;}
+    .tp{margin-top: 30px;}
+    .bc-1{display: none;}
+    .fl{float: left;}
+    .pd5{
+        padding:5px;	
+    }
+</style>
+<div class="panel panel-default">
+   <div class="panel-heading">
+       <div calss="row">
+           <div class="col-sm-6">
+              <a href="<?php echo $this->url('admin-config' , array('action' => 'adminList')); ?>">管理员管理
+               / 
+               <a href="<?php echo $this->url('admin-config' , array('action' => 'adminCategory')); ?>">管理员类型</a> 
+               / 
+               <a href=""><?php echo isset($id) && $id ? '编辑类型' : '新增类型' ?></a>
+           </div>
+       </div>
+   </div>
+    <div class="pannel-body main-nody">
+    <?php if($id){ ?>
+    <form class="form-horizontal" action="<?php echo $this->url('admin-config' , array('action' =>'editCategory')); ?>" method="post" >
+    <?php }else{ ?>
+    <form class="form-horizontal" action="<?php echo $this->url('admin-config' , array('action' =>'addCategory')); ?>" method="post" >
+    <?php } ?>
+        <div class="row">
+            <div class="col-lg-12">
+                <h5>新增管理员类型</h5>
+            </div>
+            <div class="col-lg-12">
+                <table class="table table-striped" id="example-4" >
+                    <tbody>
+                        <tr>
+                            <td>管理员类型名称</td>
+                            <td>
+                                <input type="text" name="adminType" value="<?php echo isset($admin_type_info->name ) ? $admin_type_info->name : '';?>"  placeholder="请输入管理员类型名称" class="pd5" id="admin_type" required>
+                                <span id="message" style="color:red;margin-left:5px;"></span>
+                            </td>
+                        </tr>
+                        <?php foreach ($action_list as $priv){ ?>
+                        <tr>
+                            <td width="18%" valign="top" class="first-cell">
+                                <input name="chkGroup" type="checkbox" value="checkbox" onClick="check('<?php echo $priv->priv_list;?>',this);" >&nbsp;<?php echo $priv->name;?>
+                            </td>
+                            <td>
+                                <?php foreach($priv['priv'] as $priv_list =>$list){?>                                         
+                                <input type="checkbox" name="action_code[]" value="<?php echo $priv_list?>" id="<?php echo $priv_list?>" <?php if($list['cando'] == 1){ echo "checked='true'";} ?> onClick="checkrelevance('', '<?php echo $priv_list?>')" title=""/>
+                                <?php echo $list['name']; }?>           
+                            </td>
+                        </tr>
+                        <?php }?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h5></h5>
+            </div>
+            <div class="col-lg-12">
+                <table class="table table-striped" id="example-4">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input type="hidden" name="id" value="<?php echo isset($admin_type_info->id) ? $admin_type_info->id : '';?>">
+                                <input type="submit" name="submit" value="保存" class="btn btn-info"  id="addAdminType" <?php echo !isset($admin_type_info->id) ? 'disabled' :''?> >
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+
+<script>
+var id = '<?php echo isset($id) ? $id : ''?>';
+$("#admin_type").blur(function(){
+    var name = $(this).val();
+    if(name){
+    	$.post("<?php echo $this->url('admin-config',array('action'=>'check'))?>", {name: name,type:'name'},
+     		   function(data){
+     		     if(data==1 && (id == 0 || id == '')){
+   		    	         $("#message").text('用户名已存在，请重新换个！');
+   	   		    	  	$("#addAdminType").attr("disabled","disabled");
+	        	 }else{
+	        		 $("#message").text('');
+	        			$("#addAdminType").removeAttr("disabled");
+		 	      }
+     		   });
+	        }
+    else
+    {
+    	$("#addAdminType").attr("disabled","disabled");
+    }
+}) 
+
+function check(list, obj)
+{
+	 var frm = obj.form;
+    for (i = 0; i < frm.elements.length; i++)
+    {
+      if (frm.elements[i].name == "action_code[]")
+      {
+          var regx = new RegExp(frm.elements[i].value + "(?!_)", "i");
+
+          if (list.search(regx) > -1) {frm.elements[i].checked = obj.checked;
+          if(obj.checked) {
+              $(frm.elements[i]).parent().addClass("checked");
+          }else{
+          	$(frm.elements[i]).parent().removeClass("checked");
+          }
+          }
+      }
+    }
+}
+
+function checkrelevance(relevance, priv_list)
+{
+  if(document.getElementById(priv_list).checked && relevance != '')
+  {
+    document.getElementById(relevance).checked=true;
+  }
+  else
+  {
+    var ts=document.getElementsByTagName("input");
+    
+    for (var i=0; i<ts.length;i++)
+    {
+      var text=ts[i].getAttribute("title");
+
+      if( text == priv_list) 
+      {
+        document.getElementById(ts[i].value).checked = false;
+      }
+    }
+  }
+}
+</script>

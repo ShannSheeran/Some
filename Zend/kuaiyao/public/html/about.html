@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,inital-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-status-bar-style" content="block" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>关于</title>
+    <!-- 公用样式 -->
+    <link rel="stylesheet" type="text/css" href="../css/kuaiyao/common.css">
+    <!--只兼容移动端，所以直接使用jQuery 2.1.4-->
+    <script type="text/javascript" src="../lib/jquery.2.1.4.min.js"></script>
+    <style type="text/css">
+    img{
+        width:80px;
+        height: 80px;
+    }
+    footer{
+        position: absolute;
+        bottom:5px;
+        left: 50%;
+        margin-left: -130px;
+    }
+    </style>
+</head>
+<body>
+    <div class="ta_c mt50">
+        <img src="../images/logo2.png" alt="">
+        <p class="mt10 mb20">快摇名片V<span class="versions"></span></p>
+    </div>
+    <div class="bg_white p15 border_bottom border_top" onclick="window.Interactive.call('400-838-3765')">联系我们<span class="fr">400-838-3765</span></div>
+    <footer class="ta_c">
+        Copyright &copy; kuaiyao.name.All rights reserved.
+    </footer>
+</body>
+<script type="text/javascript">
+   function setVersion(version){
+    $(".versions").html(version);
+   } 
+
+</script>
+</html>

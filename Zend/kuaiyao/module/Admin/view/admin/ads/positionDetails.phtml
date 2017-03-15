@@ -1,0 +1,64 @@
+<div class="row">
+	<div class="col-sm-12">
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>广告位信息</h3>
+				<div class="panel-options">
+					<a href="#" data-toggle="panel">
+						<span class="collapse-icon">&ndash;</span>
+						<span class="expand-icon">+</span>
+					</a>
+					<a href="#" data-toggle="remove"> &times; </a>
+				</div>
+			</div>
+			<form role="form" class="form-horizontal"
+				action="<?php echo $this->url('admin-ads',array('action'=>'positionDetails'));?>"
+				method="post">
+				<div class="panel-body">
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="field-1">广告名字：</label>
+
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="field-1" name="name"
+								value="<?php echo isset($info['name'])?$info['name']:''?>">
+						</div>
+					</div>
+					<div class="form-group-separator"></div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="field-1">广告位置宽度(px)：</label>
+
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="field-1" name="width"
+								value="<?php echo isset($info['width'])?$info['width']:''?>">
+						</div>
+					</div>
+					<div class="form-group-separator"></div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="field-1">广告位置高度(px)：</label>
+
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="field-1"
+								name="height"
+								value="<?php echo isset($info['height'])?$info['height']:''?>">
+						</div>
+					</div>
+					<div class="form-group-separator"></div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="field-1"></label>
+
+						<div class="col-sm-10">
+							<input type="submit" name="submit" value="提交"
+								class="btn btn-info" style="margin-left: 50px;">
+							<input type="hidden" name="id"
+								value="<?php echo isset($info['id'])?$info['id']:''?>" />
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

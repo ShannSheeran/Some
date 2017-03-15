@@ -1,0 +1,277 @@
+<?php echo $this->headScript()->offsetSetFile(10, $this->basePath() . '/js/ajaxfileupload.js') ?>
+<?php echo $this->headScript()->prependFile($this->basePath() . '/js/jq_area.js') ?>
+<?php echo $this->headScript()->prependFile($this->basePath() . '/js/region.js') ?>
+<script type="text/javascript">
+    var url = '<?php echo $this->url('admin-common',array('action'=>'getAdminFile'));?>';//图片上传地址 
+    var url_two = '<?php echo $this->url('admin-common',array('action'=>'getAdminFileTwo'));?>';//图片上传地址
+</script>
+<style type="text/css">
+.form-group{
+	height:30px;
+}
+#area{
+	margin-bottom:30px;
+}
+.col-sm-2{
+	font-size:16px;
+	font-family:Microsoft Yahei;
+	margin-top:15px;
+	padding-left:0;
+}
+#table{
+	margin-left:0;
+	width:600px;
+	text-align:center;
+}
+.col-sm-10{
+	margin-top:15px;
+	padding-left:0;
+}
+.panel{
+	padding-left:5px;
+}
+#table tr{
+	width:100px;
+}
+.pre input{
+	width:50px;
+}
+.pre td{
+	padding-top:20px;
+	line-height:59px;
+}
+.p120{
+	width:235px;
+}
+.btn{
+	margin-left:5px;
+}
+.form-control{
+	width: 500px;
+	margin-bottom: 5px;
+	margin-right: 5px;
+}
+
+.search {
+    width: 300px;
+    height: 40px;
+    position: relative;
+}
+
+.edit {
+    overflow: hidden;
+}
+
+.search_input {
+    width: 290px;
+    height: 34px;
+    font-size: 16px;
+}
+
+.search_input:focus {
+    outline: none;
+}
+
+.match_text {
+    display: none;
+    position: absolute;
+    top: 6px;
+    width: 290px;
+    z-index: 99;
+    background-color: white;
+    border: 1px solid #ccc;
+}
+
+.match_text div:hover {
+    background: #f0f0f0;
+}
+
+.match_text ul {
+    list-style-type: none;
+    border: 1px solid #cccccc;
+    margin-bottom: 0px;
+}
+
+.match_text ul li {
+    font-size: 12px;
+    color: #333333;
+    display: block;
+    line-height: 25px;
+    padding-left: 10px;
+    cursor: pointer;
+}
+.form-control{
+	border-radius:3px;
+	width:60px;
+	float:left;
+}
+#hot{
+	width：400px;
+	margin-top:10px;
+}
+#limit{
+	width:333px;
+	folat:left;
+	
+}
+.control{
+	width:56px;
+	height:27px;
+	display:block;
+	float:left;
+	line-height:27px;
+	border-radius:3px;
+	text-align:center;
+	border:1px solid #c1c1c1;
+	paddin:6px 12px 6px 12px;
+	margin:0 5px 5px 0;
+}
+.ciry {
+    margin-left: 55px;
+}
+.ciry th{
+    text-align: center;
+    padding-bottom: 10px;
+    font-size: 110%;
+}
+</style>
+<div class="row bg-white">
+
+	<div class="col-sm-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 style="width:200px;float:left;">热门城市</h3>
+				<div style="width:400px;float:left;margin:20px 0 0 1172px;">
+    				<span><a href="<?php echo $this->url('admin-activity',array('action'=>'index'))?>">商业圈</a></span>|
+    				<span><a href="#">活动详情</a></span>
+    			</div>
+				<div class="panel-options">
+					<a href="#" data-toggle="panel">
+						<span class="collapse-icon">&ndash;</span>
+						<span class="expand-icon">+</span>
+					</a>
+					<a href="#" data-toggle="remove"> &times; </a>
+				</div>
+			</div>
+			    <form method="post">
+        			<div class="form-group">
+        			<label class="col-sm-2 control-label" for="field-4"  style="width:112px;height:35px;line-height:35px;"><i class="red_star"></i>选择城市：</label>
+        				<div class="col-sm-10">
+        					<span id="area"> <select class="form-control" id="province" name="province_id" style="width: 100px;"></select> 
+        					<select class="form-control" id="city" name="city_id" style="width: 100px;"></select>
+        					<input class="btn btn-info" name="add" type="submit" value="添加"/>
+        				</div>
+        			</div>    
+				</form>               
+            </div>
+            <div>
+                <table class="table table-bordered table-striped ciry" id="table">
+                    <tr>
+                        <th class="pr20">城市</th>
+                        <th>排序</th>
+                        <th class="pl20">操作</th>
+                    </tr>
+					<tbody class="file">
+                    <?php foreach($city as $k => $v){?>
+                        <tr class="pre">
+                            <td class="pr20"><?php echo $v['name']?></td>
+                            <td><input class="sort"  type="text" value="<?php echo $v['sort']?>"><input class="sort cost" type="hidden"  value="<?php echo $v['id']?>"/></td>
+                            <td class="pl20">
+                                <a href="javascript:void(0);" class="btn btn-info save"  onclick="save(this)" >保存</a>
+                                <a href="<?php echo $this->url('admin-activity',array('action'=>'hot','id'=>$v['id']))?>" class="btn btn-danger">删除</a>
+                            </td>
+                        </tr>
+                    <?php }?>
+					</tbody>
+                </table>
+            </div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+$("#area").area({
+        cache: region,
+        //p_id:<?php //echo isset($info->province_id) ? $info->province_id : 440000;?>,
+        //ci_id:<?php //echo isset($info->city) ? $info->city : 440100;?>,
+ });
+
+//增加活动时，判断公司是否存在
+
+
+function save(obj){
+	var sort=$.trim($(obj).parents("tr").children("td").children(".sort").eq(0).val());
+	var cid=$(obj).parents("tr").children("td").children(".sort").eq(1).val();
+	$.post('<?php echo $this->url('admin-activity',array('action'=>'hotCity'))?>',{sort:sort,cid:cid},function(data){
+		
+	});
+	
+}
+
+function jump(){
+	window.location="<?php echo $this->url('admin-activity',array('action'=>'index'))?>";
+}
+
+function check()
+{
+	var device_id  = $("#device_id").val();
+	var comment = $("#comment").val();
+
+	if(device_id == '')
+	{
+		alert('设备编号不能为空');
+		return false;
+	}
+
+	if(getlength(comment) > 30)
+	{
+		alert('申请理由不能为空！');
+		return false;
+	}
+	
+}
+
+//字段长度判断
+function getlength (str) {
+    //<summary>获得字符串实际长度，中文2，英文1</summary>
+    //<param name="str">要获得长度的字符串</param>
+    var realLength = 0, len = str.length, charCode = -1;
+    for (var i = 0; i < len; i++) {
+        charCode = str.charCodeAt(i);
+        if (charCode >= 0 && charCode <= 128) realLength += 1;
+        else realLength += 2;
+    }
+
+    return realLength;
+}
+
+function json(obj)
+{
+    if(obj==''){return;}
+    var json = new Object;
+    json.s = obj;
+
+    $.post("<?php echo $this->url('admin-device',array('action'=>'deviceBindPage'));?>", {request: json},
+        function(data)
+        {
+            data = $.parseJSON(data);
+            if(data)
+            {
+                $("#json_back").show();
+                var html = '';
+                var list = data;
+                for(var i =0;i<list.length;i++){
+                    html+='<div style="width:290px;cursor:pointer;">'+list[i].page_id+'#'+list[i].title+'</div>';
+                }
+                $("#json_back").html(html);
+                $("#json_back div").click(function(){
+                    $("#search_text").val( $(this).text() );
+                    $("#json_back").hide();
+                });
+            }
+        });
+}
+
+
+
+</script>

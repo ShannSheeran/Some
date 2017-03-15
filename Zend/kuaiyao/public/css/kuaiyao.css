@@ -1,0 +1,41 @@
+/*全局变量*/
+*{margin:0;padding:0}
+body{font: normal 100% '宋体';color:#999;background-color: #efeff4;font-size:14px;margin:0 auto;}
+ul,li{list-style-type:none;}
+body a{color:#999;text-decoration:none; font-size:14px;cursor: pointer;}
+body a:visited{color:#999;}
+img {border:0;-ms-interpolation-mode: bicubic;max-width: 100%;display: block;}
+h1,h2,h3,h4,h5,h6{font-weight: normal;}
+button{cursor: pointer;}
+@media only screen and (min-width: 480px){
+	body{width: 480px;}
+}
+
+/*apply的样式*/
+.ky-form{width: 100%;overflow: hidden;}
+.ky-form .red{border-color: #da218f;box-shadow: 0 0 2px 1px #da218f}
+.ky-form .green{border-color: #00d56e;box-shadow: 0 0 2px 1px #00d56e}
+
+
+.ky-form .upload{width: 90%;margin:20px 0 0 4.9%;height: 44px;line-height: 44px;border:1px solid #d4d4d4;border-radius:30px 5px 5px 30px;background-color: #fff;}
+.ky-form .upload input,.ky-form .upload span{float: left;width: 44px;height: 44px;border-radius: 100%;background-image: url(../images/xiangji.jpg); margin-right:5%;background-size: 44px;}
+.ky-form .group{width: 90%;margin:20px 0 0 4.9%;height: 44px;line-height: 44px;border:1px solid #d4d4d4;border-radius:5px;background-color: #fff;overflow: hidden;}
+.ky-form .group span{float: left;width: 25%;height: 44px;padding-left: 5%;}
+.ky-form .group input{float:left;width: 63%;padding-left: 2%;height: 44px;padding-right: 5%;border: none;color: #999;font-size: 14px;}
+.ky-form .title{width: 90%;margin-left: 10%;height: 38px;line-height: 38px;margin-bottom:-20px;}
+.ky-form .form-submit{width: 90%;height: 44px;margin:20px 0 10px 5%;background-color: #366afe;border: none;color: #fff;font-size: 14px;border-radius: 5px;}
+.ky-form a.tzgroup{display: block;}
+.ky-form .tzgroup p{float:left;width: 68%;height: 44px;color: #999;font-size: 14px;cursor: pointer;background:url(../images/jiantou.jpg) 93% 16px no-repeat;background-size: 8px;padding-left: 2%;}
+
+.ky-form .error{border-color: #da218f;box-shadow: 0 0 2px 1px #da218f}
+
+/*company和items的样式*/
+.miaosu{width: 94%;height: 150px;padding: 10px 3%;margin-top: 20px;background-color: #fff;color:#999;border: none;font-size: 14px;text-align: left;}
+.uploadImg{width: 90%;overflow: hidden;padding: 15px 5% 0;}
+.uploadImg div{position: relative;float: left;width: 25%;margin:0 5% 10px 0;}
+.uploadImg .img span{position: absolute;width: 24px;height: 24px;line-height: 24px;top: -12px;right: -12px;border-radius: 100px;background-color: #000;opacity: 0.7;text-align: center;color: #fff;font-size: 18px;}
+
+/*审核成功*/
+.sqsuccess{width: 100%;overflow: hidden;padding: 20px 0 40px;margin-top: 15px;background-color: #fff;text-align: center;}
+.sqsuccess .true{font-size: 16px;color: #333;margin-bottom: 25px;line-height: 25px;}
+.sqsuccess .true span{display: inline-block;width: 20px;vertical-align: -3px;margin-right: 5px;}

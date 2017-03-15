@@ -1,0 +1,156 @@
+<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/pc/css/login.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/page.css" />
+<script type="text/javascript" src="<?php echo $this->basePath();?>/pc/ckeditor/ckeditor.js"></script>
+<?php echo $this->headScript()->offsetSetFile(10, $this->basePath() . '/js/ajaxfileupload.js') ?>
+<script type="text/javascript" src="<?php echo $this->basePath();?>/js/public.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath();?>/js/myjs.js"></script>
+<script type="text/javascript">
+var url = '<?php echo $this->url('admin-common',array('action'=>'getAdminFile'));?>';//图片上传地址
+var url_two = '<?php echo $this->url('admin-common',array('action'=>'getAdminFileTwo'));?>';//图片上传地址
+</script>
+
+<!--  main -->
+<div class="main">
+  <div class="wrap">
+    <div class="container clearfix">
+      <dl class="tab">
+        <dd><A href="<?php echo $this->url('index',array('controller'=>'user','action'=>'Details'))?>">基本资料</A></dd>
+        <dd><a href="<?php echo $this->url('index',array('controller'=>'user','action'=>'DetailsTwo'))?>">公司信息</A></dd>
+        <dd><a href="<?php echo $this->url('index',array('controller'=>'user','action'=>'order'))?>">订单列表</A></dd>
+        <dd class="cur"><a href="javascript:void(0);">推荐码/提现</A></dd>
+      </dl>
+      
+          <!--body-->
+      <div class="mdb">
+        <div class="mdb_top clearfix">
+          <div class="mdb_top_left fl">
+            <div class="mdb_top_left_style">
+              <p class="mdb_top_left_a">累积获得金额奖励</p>
+              <p class="mdb_top_left_b"><?php echo $user['recommend_bonus'];?><span class="mdb_top_left_b_style">&nbsp;元</span></p>
+            </div>
+          </div>
+          <div class="mdb_top_center fl">
+            <div class="mdb_top_center_style">
+              <p class="mdb_top_center_a">可提现金金额</p>
+              <p class="mdb_top_center_b"><?php echo $user['money'];?><span class="mdb_top_center_b_style">&nbsp;元</span></p>
+            </div>
+          </div>
+          <div class="mdb_top_right fl">
+            <div class="mdb_top_right_s">
+              <div>
+                <p class="mdb_top_right_a">您已成功推荐了<span style="color:#ffa32d">&nbsp;<?php echo $user['recommend_stat'];?></span>&nbsp;位朋友，击败了<span style="color:#ffa32d">&nbsp;<?php echo $num;?></span>&nbsp;位小伙伴。</p>
+              </div>
+              <div class="mdb_top_right_n clearfix">
+                <button onclick="javascript:window.location.href='<?php echo $this->url('index',array('controller'=>'user','action'=>'withdrawapply'))?>'" class="mdb_top_right_button fl" name="sqtx" type="button" value="申请提现">申请提现</button>
+                <div class="mdb_top_right_m">
+             <p class="fl" style="font-size:14px; width: 322px;">申请提现后款项在5个工作日内转账至您的账户。
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mdb_center">
+           <div class="mdb_center_body">
+              <ul class="clearfix">
+                 <li id="wdtjm_li" class="fl <?php if(!$is_page){?>pon<?php }?>"><p id="wdtjm" <?php if(!$is_page){?>style="color:#2e6ffe;"<?php }?>>我的推荐码</p></li>
+                 <li id="txsqjl_li" class="fl <?php if($is_page){?>pon1<?php }?>"><p id="txsqjl" <?php if($is_page){?>style="color: rgb(46, 111, 254);"<?php }?>>提现申请记录</p></li>
+              </ul>
+           </div>
+        </div>
+        
+        <div class="mdb_bottom" >
+           <div class="mdb_bottom_body" <?php  if($is_page){?> style="display:none;"<?php }?>>
+   
+              <ul>
+                 <?php foreach($K_code as $val){if($val['status']==0){?>
+                 
+                 <li><p><?php echo $val['code'];?><span style="color:#2e6ffe;">（未使用）</span></p></li>
+                 
+                 <?php }else if($val['status']==1){?>
+                 <li><p class="useon"><?php echo $val['code'];?><span>（已使用）</span></p></li>
+                 
+                 <?php } }?>
+              </ul>
+              
+           </div>
+        </div>
+        
+                   <div id="two" class="mdb_bottom_body_two pr" <?php if($is_page){?>style="display:block;"<?php }else{?>style="display:none;"<?php }?>>
+                     <table width="941" border="0">
+                       <tr>
+                         <td style="font-size:14px; width:245px; height:30px; border-bottom:1px solid #eee; background:#fafafa;">申请提现时间</td>
+                         <td style="font-size:14px; width:245px; height:30px; border-bottom:1px solid #eee;background:#fafafa;">提现金额（元）</td>
+                         <td style="font-size:14px; width:245px; height:30px; border-bottom:1px solid #eee;background:#fafafa;">到账卡号</td>
+                         <td style="font-size:14px; width:245px; height:30px; border-bottom:1px solid #eee;background:#fafafa;">到账账户</td>
+                         <td style="font-size:14px; width:245px; height:30px; border-bottom:1px solid #eee;background:#fafafa;">状态</td>
+                         <td style="font-size:14px; width:245px; height:30px; border-bottom:1px solid #eee;background:#fafafa;">明细</td>
+                       </tr>
+                       <?php foreach($financial_info as $val){?>
+                       <tr>
+                         <td style="height:52px; border-bottom:1px solid #eee;"><?php echo $val['timestamp'];?></td>
+                         <td style="height:52px; border-bottom:1px solid #eee; color:#fea221;"><?php echo $val['amount'];?></td>
+                         <td style="height:52px; border-bottom:1px solid #eee;"><?php echo $val['card_number'];?></td>
+                         <td style="height:52px; border-bottom:1px solid #eee;"><?php foreach($banklist as $key => $v){if($key==$val['bank']){echo $v;break;}}?>&nbsp;<?php echo $val['card_owner'];?></td>
+                         <td style="height:52px; border-bottom:1px solid #eee;color:#999;"><?php if($val['status']==1){echo '打款完成';}else if($val['status']==2){echo '打款失败';}else if($val['status']==3){echo '待审核';}?></td>
+                         <td style="height:52px; border-bottom:1px solid #eee;color:#999;"><?php echo $val['reason'];?></td>
+                          <div style="display:none;" class="tanchu pd" id="reason_box"><?php if($val['status']==2){echo $val['reason'];}?></div>
+                       </tr>
+                       <?php }?>
+                     </table>
+                      <?php $condition["controller"]="user";echo $this->paginationControl($paginator,'Sliding','layout_index/page',array('route' =>'index','condition'=>$condition));?>
+           </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!--  contact -->
+
+<div class="contact">
+  <div class="wrap">
+    <dl>
+      <dd><img src="<?php echo $this->basePath();?>/pc/images/contact_tel.jpg" />4008383765</dd>
+      <dd><img src="<?php echo $this->basePath();?>/pc/images/contact_email.jpg"  /><a href="mailto:kefu@kuaiyao.name">kefu@kuaiyao.name</a></dd>
+      <dd><img src="<?php echo $this->basePath();?>/pc/images/contact_qq.jpg"  /><a target="blank" href="http://wpa.qq.com/msgrd?V=3&uin=3209147449&Site=QQ交谈&Menu=yes"><img border="0" SRC="http://wpa.qq.com/pa?p=1:3209147449:7" alt="点击这里给我发消息"></a></dd>
+    </dl>
+  </div>
+</div>
+<script type="text/javascript">
+// $("#reason").click(function(){
+//     $("#reason_box").show();
+// });
+
+$("#file0").change(function(){
+    var objUrl = getObjectURL(this.files[0]);
+    console.log("objUrl = "+objUrl) ;
+    if (objUrl) {
+        $("#img0").attr("src", objUrl) ;
+    }
+}) ;
+
+$("#erweima").change(function(){
+    var objUrl = getObjectURL(this.files[0]) ;
+    console.log("objUrl = "+objUrl) ;
+    if (objUrl) {
+        $("#erweima0").attr("src", objUrl) ;
+    }
+}) ;
+//建立一個可存取到該file的url
+function getObjectURL(file) {
+    var url = null ; 
+    if (window.createObjectURL!=undefined) { // basic
+        url = window.createObjectURL(file) ;
+    } else if (window.URL!=undefined) { // mozilla(firefox)
+        url = window.URL.createObjectURL(file) ;
+    } else if (window.webkitURL!=undefined) { // webkit or chrome
+        url = window.webkitURL.createObjectURL(file) ;
+    }
+    return url ;
+}
+
+
+
+</script>

@@ -1,0 +1,267 @@
+        <?php echo $this->headLink()->appendStylesheet($this->basePath() . '/css/platform/uploadify.css');?>
+        <script src="<?php echo $this->basePath();?>/js/admin/jquery.uploadify-3.1.min.js"></script>
+        <script src="<?php echo $this->basePath();?>/js/admin/Uploads.js"></script>
+        <script type="text/javascript">
+        var swf ='<?php echo $this->basePath() . '/js/admin/uploadify.swf'?>';
+        var uploader = '<?php echo $this->url('admin-common',array('action'=>'getAdminFile')) ;?>';
+        </script>
+        <div class="user_content_right">
+            <h2>发布商品</h2>
+                <div class="release_goods clearfix">
+                    <form action="<?php echo $this->url('index',array('controller'=>'goods','action'=>'submitGoods'))?>" method="post" class="clearfix" id="releaseGoods" onsubmit="return check()">
+                        <ul class="clearfix">
+                            <li>
+                                <div class="label">商品名称：</div>
+                                <div>
+                                    <input type="text" name="name" value="<?php echo isset($good->name) ? $good->name : ""?>" placeholder="请输入商品名称" required>
+                                    <input type="hidden" name="id" value="<?php echo isset($id) ? $id : ''?>"/>
+                                    <div class="name_star">
+                                        <b class="">*</b>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="label">盆径规格：</div>
+                                <div>
+                                    <input type="text" name="spec[size]" value="<?php echo isset($spec->size) ? $spec->size : ""?>" placeholder="请输入商品盆径规格" required>&nbsp;&nbsp;&nbsp;&nbsp;mm
+                                    <div class="star">
+                                        <b class="">*</b>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="clearfix">
+                                <div class="label">商品分类：</div>
+                                <div class="classify">
+                                    <div class="select_out">
+                                        <select onchange="goodsCategoryLinkage(this)" name="fc" id="firstCategory">
+                                          <option value="0">请选择商品分类</option>
+                                          <?php foreach ($firstCategory as $v){?>
+                                          <option value="<?php echo $v->id?>" <?php echo isset($fc->id)&&$fc->id == $v->id ? "selected" : ""?>><?php echo $v->name?></option>
+                                          <?php }?>
+                                        </select>
+                                    </div>
+                                    <div class="select_out">
+                                        <select id="secondCategory"  name="sc">
+                                          <option value="0">请选择子分类</option>
+                                          <?php echo isset($sc)&&$sc ? "<option value='".$sc->id."' selected>".$sc->name."</option>" : ""?>
+                                      </select>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="label">质量等级：</div>
+                                <div>
+                                    <!--  <input type="text" name="level" value="<?php //echo isset($good->level) ? $good->level : ""?>" placeholder="请输入商品质量等级">-->
+                                    <input type="text" name="spec[model]" value="<?php echo isset($spec->model) ? $spec->model : ""?>" placeholder="请输入商品质量等级">
+                                </div>
+                            </li>
+                            <li>
+                                <div class="label">植株高度：</div>
+                                <div>
+                                    <input type="text" name="spec[height]" value="<?php echo isset($spec->height) ? $spec->height : ""?>" placeholder="请输入商品质量等级" required>&nbsp;&nbsp;&nbsp;&nbsp;mm(带盆)
+                                    <div class="star">
+                                        <b class="">*</b>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="label">植株冠幅：</div>
+                                <div>
+                                    <input type="text" name="spec[canopy]" value="<?php echo isset($spec->canopy) ? $spec->canopy : ""?>" placeholder="请输入商品植株冠幅" required>&nbsp;&nbsp;&nbsp;&nbsp;mm
+                                    <div class="star">
+                                        <b class="">*</b>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="label">花苞数量：</div>
+                                <div>
+                                    <input type="text" name="spec[bud_number]" value="<?php echo isset($spec->bud_number) ? $spec->bud_number : ""?>" placeholder="请输入商品出货花苞数" required>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="label">供应数量：</div>
+                                <div>
+                                    <input type="text" name="spec[number]" value="<?php echo isset($spec->number) ? $spec->number : ""?>" placeholder="请输入该批次可供应数量" required>&nbsp;&nbsp;&nbsp;&nbsp;盆
+                                    <div class="star">
+                                        <b class="">*</b>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="label">上架方式：</div>
+                                <div class="radio">
+                                    <div class="radiogroup">
+                                        <div class="radio_btn <?php echo ((isset($good->salse_type)&&$good->salse_type == '0') || !isset($good->salse_type)) ? "checkedRadio" : "" ?>"><i id="sdfsf"><input type="radio" name="salse_type" <?php echo ((isset($good->salse_type)&&$good->salse_type == '0') || !isset($good->salse_type)) ? "checked" : "" ?> value="0"></i></div>现货
+                                    </div>
+                                    <div class="radiogroup">
+                                        <div class="radio_btn <?php echo isset($good->salse_type)&&$good->salse_type == '1' ? "checkedRadio" : "" ?>"><i id="pre_sale"><input type="radio" name="salse_type" value="1" <?php echo isset($good->salse_type)&&$good->salse_type == '1' ? "checked" : "" ?>></i></div>预售
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="delivery_time" style="display:<?php echo isset($good->salse_type)&&$good->salse_type == '1' ? " " : "none" ?>">
+                                <div class="label">出货时间：</div>
+                                <div class="select_time">
+                                    <input type="text" id="c1" name="delivery_date" value="<?php echo isset($good->delivery_date) ? $good->delivery_date : ""?>" onclick="J.calendar.get();"/>
+                                </div>  
+                            </li>
+                            <li>
+                                <div class="label">商品单价：</div>
+                                <div>
+                                    <input type="text" name="spec[cash]" value="<?php echo isset($spec->cash) ? $spec->cash : ""?>" placeholder="请输入商品在本平台的销售单价" required>
+                                    <div class="price_star">
+                                        <b class="">*</b>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="label">装箱数：</div>
+                                <div>
+                                    <input type="text" name="spec[pack_number]" value="<?php echo isset($spec->pack_number) ? $spec->pack_number : ""?>" placeholder="请输入商品的装箱数" required>&nbsp;&nbsp;&nbsp;&nbsp;盆/箱
+                                    <div class="star">
+                                        <b class="">*</b>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="label">商品图片：</div>
+                                <div class="sed_imgs">
+                                    <!-- <a class="sed_img">上传图片</a> -->
+                                    <p class="most">
+                                        请上传商品图片（最多3-10）</p>
+                                        <div class="sedimg_star">
+                                            <b class="">*</b>
+                                        </div>
+                                        <div class="clear"></div>
+                                        <div class="mot_tright" id="img_div">									           
+                                        <input id="index_img" type="text" name="image_ids[]"  />
+                                                <?php if(isset($images)&&$images){foreach ($images as $k){?>
+                                                    <div id="img_div<?php echo $k['id']?>" class="outdiv">
+                                                        <img src="<?php echo $k['image_path']?>" onmouseover='del1(this)'  height="100px" width = '100px'>
+                                                    	<div id='near_img<?php echo $k['id']?>' onmouseout='del3(this)' onclick='del2(<?php echo $k['id']?>,"img_div")' class='innerdiv'>删除</div>
+                                                        <input value="<?php echo $k['id']?>" name='image_ids[]' type='hidden'>
+                                                    </div>
+                                                <?php }}?>
+                                        </div>
+                                    <div class="clear"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="label">商品介绍：</div>
+                                <div>
+                                    <textarea name="description" cols="20" rows="5" placeholder="请输商品介绍" id="description" required><?php echo isset($good->description) ? $good->description : ""?></textarea>
+                                    <div class="describe_star">
+                                        <b class="">*</b>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="label">发布留言</div>
+                                <div>
+                                    <textarea name="message" cols="20" rows="5" placeholder="请输入您的其他要求"><?php echo isset($good->message) ? $good->message : ""?></textarea>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="label">&#12288;</div>
+                                <div class="sub">
+                                    <!-- <a class="btn_release" onclick="showDialog()">提交</a> -->
+                                    <input class="btn_release" type="submit" name="submit" value="提交"/>
+                                </div>
+                                <!-- 遮罩层 -->
+                                <div class="page_strong top2"></div>
+                                <!-- 弹窗 -->
+                                <div class="prompt dialog">
+                                    <h3>发布成功</h3>
+                                    <p>您的商品已发布成功，我们将尽快与您联系</p>  
+                                    <span class="cancel" onclick="javascript:window.location.href='<?php echo isset($gid)&&$gid ? $this->url('index',array('controller'=>'user','action'=>'myGoodsDetail','id'=>$gid)) : $this->url('index',array('controller'=>'user','action'=>'myGoods'))?>'" >查看商品</span>
+                                    <span class="sure" onclick="hideDialog()">继续发布</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+    </div>
+</div>
+<script type="text/javascript">
+var secondCategory = '<?php echo isset($sc->id) ? $sc->id : 0?>'
+$(function(){
+	if($("input[name='id']").val()&&secondCategory)
+	{
+		   $('#firstCategory').trigger('change');
+	}
+	var release_success = '<?php echo isset($release_success) ? $release_success : 0?>';
+	if(release_success > 0){
+	    $(".page_strong").css("display","block");
+	    $(".prompt").css("display","block")
+	}
+
+	$('.user_center ul li').click(function(){
+       $(this).addClass('on').siblings().removeClass('on');
+    })
+    
+   $(".radio_btn").on('click', function () {
+       var _this = $(this),
+       block = _this.parent().parent();
+       block.find('input:radio').attr('checked', false);
+       block.find(".radio_btn").removeClass('checkedRadio');
+       _this.addClass('checkedRadio');
+       _this.find('input:radio').attr('checked', true);
+
+       if($("#pre_sale input").is(":checked"))
+       {
+    	   $(".delivery_time").css("display","");
+	   }
+	   else
+	   {
+			$(".delivery_time").css("display","none");
+		} 
+   });
+   $('.prompt span').click(function(){
+       $('.prompt').hide();
+   })
+})
+//商品分类联动
+function goodsCategoryLinkage(obj){
+	var pid = $(obj).children('option:selected').val();
+	$.ajax({
+	    url:'<?php echo $this->url('index',array('controller' => 'goods','action'=>'goodsCategoryLinkage'))?>',
+	    type:'post',
+	    data:{'pid':pid ,'type':1},
+	    dataType:'json',
+	    success:function(data){
+		    if(data.code == '1'){
+			    var html = "<option value='0'>请选择商品分类</option>";
+		    	$.each(data.categorys,function(i,v){
+			    	if(v.id == secondCategory)
+			    	{
+			    		html += "<option value='"+v.id+"' selected>"+v.name+"</option>";
+				    }
+			    	else
+			    	{
+			    		html += "<option value='"+v.id+"'>"+v.name+"</option>";
+				    }
+				});
+		    	$("#secondCategory").empty();
+		    	$("#secondCategory").append(html)    
+			}else{
+				var html = "<option value='0'>请选择商品分类</option>";
+				$("#secondCategory").empty();
+				$("#secondCategory").append(html) 
+			}
+		},
+	});
+}
+
+function check()
+{
+	var num = $(".outdiv").length;
+    if(num < 3 || num > 10)
+    {
+        alert("请上传3-10张图片");
+        return false;
+    }
+    return true;
+}
+</script>
+

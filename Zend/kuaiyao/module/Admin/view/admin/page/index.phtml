@@ -1,0 +1,63 @@
+<!-- Responsive Table -->
+<!-- Table exporting -->
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+
+			<a href="" style="float: right; margin-left: 20px;">
+				<button class="btn btn-large btn-danger"
+					onclick="show_confirm_message('<?php echo $this->url("admin-page",array("action"=>"updatePageList"))?>','更新过程可能需要较长时间，请耐心等待！确定要更新服务数据吗？');">更新服务器数据与微信同步</button>
+			</a>
+		</h3>
+
+		<div class="panel-options">
+
+			<a href="#" data-toggle="panel"> <span class="collapse-icon">&ndash;</span>
+				<span class="expand-icon">+</span>
+			</a> <a href="#" data-toggle="remove"> &times; </a>
+		</div>
+	</div>
+	<div class="panel-body">
+		<table class="table table-bordered table-striped" id="example-4">
+			<thead>
+				<tr>
+					<td>ID</td>
+					<th>页面唯一ID</th>
+					<th>标题</th>
+					<th>副标题</th>
+					<th>备注</th>
+					<th>更新时间</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+						  <?php foreach ($list as $v){?>
+
+				<tr>
+					<td><?php echo $v->id?></td>
+					<td><?php echo $v->page_id; ?></td>
+					<td>
+						<div
+							style="width: 60px; height: 60px; float: left; margin-right: 10px;">
+							<img width="60" height="60" src="<?php echo $v->icon_url; ?>"
+								alt="" />
+						</div>
+                        <?php echo $v->title;?>
+                    </td>
+					<td><?php echo $v->description;?></td>
+					<td><?php echo $v->comment;?></td>
+					<td><?php echo date("Y-m-d H:i",strtotime($v['timestamp_update']));?></td>
+					<td><a class="btn btn-success"
+						href="<?php echo $this->url("admin-page",array("action"=>"page","id"=>$v->id))?>">查看</a>
+					</td>
+				</tr>
+
+							<?PHP }?>
+							
+						  </tbody>
+		</table>
+
+						<?php echo $this->paginationControl($paginator, 'Sliding', 'page',array('route'=>'admin-page','condition'=>$condition));?>
+						</div>
+
+</div>

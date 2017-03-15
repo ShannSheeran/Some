@@ -1,0 +1,160 @@
+<?php echo $this->headLink()->appendStylesheet($this->basePath() . '/css/demo.Default.css')?>
+<style type="text/css">
+    .search {
+        width: 300px;
+        height: 40px;
+        position: relative;
+    }
+
+    .edit {
+        overflow: hidden;
+    }
+
+    .search_input {
+        width: 290px;
+        height: 34px;
+        font-size: 16px;
+    }
+
+    .search_input:focus {
+        outline: none;
+    }
+
+    .match_text {
+        display: none;
+        position: absolute;
+        left: -25px;
+        width: 325px;
+        z-index: 99;
+        background-color: white;
+        margin-top: -1px;
+    }
+
+    .match_text div:hover {
+        background: #f0f0f0;
+    }
+
+    .match_text ul {
+        list-style-type: none;
+        border: 1px solid #cccccc;
+        margin-bottom: 0px;
+    }
+
+    .match_text ul li {
+        font-size: 12px;
+        color: #333333;
+        display: block;
+        line-height: 25px;
+        padding-left: 10px;
+        cursor: pointer;
+    }
+</style>
+<div class="row">
+	<div class="col-sm-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>新增设备</h3>
+				<div class="panel-options">
+					<a href="#" data-toggle="panel">
+						<span class="collapse-icon">&ndash;</span>
+						<span class="expand-icon">+</span>
+					</a>
+					<a href="#" data-toggle="remove"> &times; </a>
+				</div>
+			</div>
+		   <form role="form" class="form-horizontal" action="<?php echo $this->url("admin-device",array('action'=>'pleaseDevice'));?>" method="post"
+				onsubmit="return check();">
+			<div class="panel-body">
+			
+			<div class="form-group">
+					<label class="col-sm-2 control-label" for="field-1">*申请设备数量(数量大于	0小于500)：</label>
+
+					<div class="col-sm-10">
+						<input type="number" class="form-control" id="field-1" name="quantity" min="1" max="500" id="quantity">
+					</div>
+				</div>
+				<div class="form-group-separator"></div>
+				
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="field-1">*申请理由：</label>
+
+					<div class="col-sm-10">
+						<textarea class="autogrow" style="width: 50%" name="apply_reason" id="apply_reason"></textarea>
+					</div> 
+				</div>
+				<div class="form-group-separator"></div>
+				
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="field-1">备注(不超过15个字)：</label>
+
+					<div class="col-sm-10">
+					<input class="form-control"  name="comment" id="comment">
+						
+					</div>
+				</div>
+				<div class="form-group-separator"></div>
+
+<!--				<div class="form-group">-->
+<!--					<label class="col-sm-2 control-label" for="field-1">门店：</label>-->
+<!---->
+<!--					<div class="col-sm-10">-->
+<!--						<select name="poi_id">-->
+<!--							<option value="0">请选择</option>-->
+<!--						</select>-->
+<!--					</div> -->
+<!--				</div>-->
+<!--				<div class="form-group-separator"></div>-->
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="field-1"></label>
+						<div class="col-sm-10">
+
+							<input type="submit" class="btn btn-info" name="submit"
+								style="margin-left: 100px" value="保存">
+						</div>
+					</div>
+			</div>
+			</form>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+function check()
+{
+	var quantity  = $("#quantity").val();
+	var apply_reason = $("#apply_reason").val();
+	var comtent = $("#comment").val();
+	if(quantity == '')
+	{
+		alert('申请数量不能为空');
+		return false;
+	}
+
+	if(apply_reason == '')
+	{
+		alert('申请理由不能为空！');
+		return false;
+	}
+
+	if(getlength(comtent) > 30)
+	{
+		alert('备注不能超过15个中文字或30英文!');
+		return false;
+	}
+	
+}
+
+//字段长度判断
+function getlength (str) {
+    //<summary>获得字符串实际长度，中文2，英文1</summary>
+    //<param name="str">要获得长度的字符串</param>
+    var realLength = 0, len = str.length, charCode = -1;
+    for (var i = 0; i < len; i++) {
+        charCode = str.charCodeAt(i);
+        if (charCode >= 0 && charCode <= 128) realLength += 1;
+        else realLength += 2;
+    }
+
+    return realLength;
+}
+
+</script>

@@ -1,0 +1,152 @@
+<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/index/jhmap.css">
+<link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>  <!-- 引用网上的样式 -->
+<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=d4e906f2d3b338bc0fa31cba41b4c5ca&plugin=AMap.Geocoder"></script>
+<script src="http://webapi.amap.com/maps?v=1.3&key=d4e906f2d3b338bc0fa31cba41b4c5ca&&plugin=AMap.Scale,AMap.OverView,AMap.ToolBar"></script>
+<script type="text/javascript">
+    var coordinate = new Array;
+    
+    $(function(){
+        $('.main_tittle ul li').click(function(event) {
+            $(this).addClass('current').siblings().removeClass('current');
+        });
+
+         AMap.service('AMap.Geocoder',function(){//回调函数
+            //实例化Geocoder
+            geocoder = new AMap.Geocoder({
+                //city: "010",
+            });
+            geocoder.getLocation("<?php echo isset($setting[1]->text) ? $setting[1]->text : '广州市荔湾区龙溪大道花卉科技园艺西街18号'?>", function(status, result) {
+        
+            	console.log(result);
+                if (status === 'complete' && result.info === 'OK') {
+                	var location = result.geocodes[0].location;
+                	coordinate.push(location.lng);
+                	coordinate.push(location.lat);
+                	
+                    var map = new AMap.Map("map_con", {
+                        resizeEnable: true,
+                        center: coordinate,
+                        zoom: 17
+                    });
+
+                    var infoWindow = new AMap.InfoWindow({offset: new AMap.Pixel(0, -30)});
+                    var marker = new AMap.Marker({
+                        position: coordinate,
+                        map:map,
+                        draggable: true,
+                        cursor: 'move',
+                        raiseOnDrag: true
+                    });
+
+                    var place = '<?php echo isset($place) ? $place : 1 ?>'; 
+                    switch (place)
+                    {
+                        case '1':
+                        	marker.content = '广州吉宏';
+                            break;
+                        case '2':
+                        	marker.content = '北京吉宏';
+                            break;
+                        case '3':
+                        	marker.content = '花都吉宏';
+                            break;
+                    }
+                    marker.on('click', markerClick);
+                    marker.emit('click', {target: marker});
+                    marker.setMap(map);
+
+                    
+                    function markerClick(e) {
+                        infoWindow.setContent(e.target.content);
+                        infoWindow.open(map, e.target.getPosition());
+                    };
+                    map.setFitView();
+                    //在地图中添加ToolBar插件
+                    var toolBar = new AMap.ToolBar({
+                        visible: true
+                    });
+                    map.addControl(toolBar);
+                    
+                }else{
+                    //获取经纬度失败
+                }
+            });  
+        });
+
+       
+    });
+
+    
+      
+
+    // 初始化地图对象，加载地图
+   /*  var map = new AMap.Map("map_con", {
+        resizeEnable: true,
+        center: [113.240366, 23.131187],
+        zoom: 17
+    });
+    
+    var lnglats = [113.240366, 23.131187];
+    var infoWindow = new AMap.InfoWindow({offset: new AMap.Pixel(0, -30)});
+    var marker = new AMap.Marker({
+        position: lnglats,
+        map: map,
+        draggable: true,
+        cursor: 'move',
+        raiseOnDrag: true
+    });
+    marker.content = '吉宏';
+    marker.on('click', markerClick);
+    marker.emit('click', {target: marker});
+    marker.setMap(map);
+
+    function markerClick(e) {
+        infoWindow.setContent(e.target.content);
+        infoWindow.open(map, e.target.getPosition());
+    };
+    map.setFitView();
+    //在地图中添加ToolBar插件
+    var toolBar = new AMap.ToolBar({
+        visible: true
+    });
+    map.addControl(toolBar);
+    }) */
+</script>
+
+    <div class="banner">
+        <center><img style="width:100%; height:400px;" src="<?php echo $ads_info ? ROOT_PATH.UPLOAD_PATH.$ads_info->path.$ads_info->filename : ''?>" alt="" />
+        </center>
+    </div>
+    <div class="main wrap">
+        <div class="main_tittle">
+            <ul>
+                <li class="font22 corgray9 <?php if($place ==1) echo 'current'; ?>" onclick="map(1)">广州吉宏</li>
+                <li class="font22 corgray9 <?php if($place ==2) echo 'current'; ?>" onclick="map(2)">北京吉宏</li>
+                <li class="font22 corgray9 <?php if($place ==3) echo 'current'; ?>" onclick="map(3)">花都吉宏</li>
+            </ul>
+        </div>
+        <div class="address_con">
+            <div class="address">
+                <p class="clearfix">
+                    <span class="fl font20 corgray6">地址：<?php echo isset($setting[1]->text) ? $setting[1]->text : ''?></span>
+                    <span class="fr font20 corgray6">咨询电话：<?php echo isset($setting[2]->text) ? $setting[2]->text : ''?></span>
+                </p>
+                <p class="clearfix">
+                    <span class="fl font20 corgray6">传真：<?php echo isset($setting[3]->text) ? $setting[3]->text : ''?></span>
+                    <span class="fr font20 corgray6">E-mail：<?php echo isset($setting[4]->text) ? $setting[4]->text : ''?></span>
+                </p>
+            </div>
+            <div class="map">
+                <div id="map_con">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+function map(p)
+{
+	location.href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'contract')); ?>?place=" + p;
+}
+
+</script>

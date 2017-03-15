@@ -1,0 +1,485 @@
+<!doctype html>
+<html>
+<head>
+<title>申请快摇名片</title>
+ <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,inital-scale=1.0,minimum-scale=1.0,maximum-scake=1.0,user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-status-bar-style" content="block" />
+  <meta name="fromat-detection" content="telephone=no" />
+  <meta name="format-detection" content="email=no" />
+  <meta http-equiv="Access-Control-Allow-Origin" content="*" />
+<link rel="stylesheet" href="<?php echo ROOT_PATH;?>css/kuaiyao.css" type="text/css" />
+<link rel="stylesheet" href="<?php echo ROOT_PATH;?>wxpay/action/css/style.css" type="text/css" />
+<script type="text/javascript" src="<?php echo ROOT_PATH;?>lib/jquery-1.8.2.min.js"></script> 
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script> 
+<script src="<?php echo ROOT_PATH?>wxpay/action/js/jquery.lightbox_me.js"></script>
+</head>
+<body onload="getJssdk()">
+
+<form class="ky-form" action="<?php echo $this->url('admin-user',array('action'=>'add'));?>" method="post" id="apply_form" enctype="multipart/form-data"> 
+<input type="hidden" name="wxjs_toke" id="wxjs_toke" value="">
+
+  <div class="upload">
+    <input type="hidden" name="wx_code" id="file_img3" value="<?php echo  isset($info['wx_code']) ? $info['wx_code'] : '';?>">
+    <span id="img3" class="img3">
+    <img src="<?php echo isset($info['wx_code']) &&  isset($images[$info['wx_code']]) ? ROOT_PATH.UPLOAD_PATH.$images[$info['wx_code']]['path'] : ''; ?>"  style='border-radius:20px;height:44px;width:44px; <?php if(! isset($info['wx_code']) && !isset($images[$info['wx_code']]) ){?>display:none<?php }?>'>
+    </span>
+  
+    <b id="text_img3"
+				class="img3">请上传您的微信二维码（必填）</b> </div>
+  <p
+			style="width: 90%; margin: 12px auto 0 auto; display: block; line-height: 18px; font-size: 12px;"> <b style="color: #F00">如何获取您的微信二维码？</b><br>
+    打开“微信”，进入“我 - 个人信息 -
+    我的二维码”，点击右上角“...”,选择“保存图片”。 </p>
+  <div class="upload"> 
+    <!-- <input type="file" name="file1"> -->
+    <input type="hidden" name="head_icon" id="file_img1" value="<?php echo isset($info['head_icon']) ? $info['head_icon'] : '';?>">
+    <span id="img1" class="img1">
+    <img src="<?php echo isset($info['head_icon']) && isset($images[$info['head_icon']]) ? ROOT_PATH.UPLOAD_PATH.$images[$info['head_icon']]['path'] : ''; ?>" style='border-radius:20px;height:44px;width:44px; <?php if(! isset($info['head_icon']) && !isset($images[$info['head_icon']])){?>display:none<?php }?>'></span>
+    <b id="text_img1" class="img1">请上请传您的头像（必填）</b> </div>
+  <div class="group nbixu"> <span>真实姓名</span>
+    <input type="text" class="form_name"
+				placeholder="必填（提交后无法修改）" name="name"
+				value="<?php echo isset($info['title']) ? $info['title'] : '';?>">
+  </div>
+  <div class="group bixu"> <span>职位</span>
+    <input class="position" type="text" placeholder="必填" name="position" value="<?php echo isset($info['position']) ? $info['position'] : ''?>">
+  </div>
+      <div class="group nbixu"> <span>公司全称</span>
+    <input type="text" placeholder="必填" name="company"
+				value="<?php echo isset($info['company']) ? $info['company'] : ''?>">
+  </div>
+  <div class="group nbixu"> <span>公司网址</span>
+    <input type="text" placeholder="选填" name="web_address"
+				value="<?php echo isset($info['web_address']) ? $info['web_address'] : ''?>">
+  </div>
+  <div class="group nbixu"> <span>固话</span>
+    <input type="text" placeholder="选填" name="telephone"	value="<?php echo isset($info['telephone']) ? $info['telephone'] : ''?>">
+  </div>
+  <div class="group nbixu"> <span>QQ</span>
+    <input type="text" placeholder="选填" name="qq"
+				value="<?php echo isset($info['qq']) ? $info['qq'] : ''?>">
+  </div>
+  <div class="group nbixu"> <span>E-MAIL</span>
+    <input type="text" placeholder="选填" name="email"
+				value="<?php echo isset($info['email']) ? $info['email'] : ''?>">
+  </div>
+ 
+ <input type="hidden" value="<?php echo  isset($info['user_id']) ? $info['user_id'] : '';?>" name="user_id" id="user_id">
+  <input type="hidden" value="0" name="is_post" id="is_post">
+ <a href="javascript:void(0)" id="tij" style="background:#366afe;color:#fff; font-size:14px; border-radius:5px;width:90%;height:44px;line-height:44px;margin:20px auto 0; display:block; text-align:center;">提交</a>
+<input class="form-submit" type="button" style="visibility:hidden;" name="submits" value="提交">
+</form>
+
+<div id="send" class="sign_k" style="display: none">
+	<h2>绑定手机</h2>
+	<p>
+		<input id="mobile" name="mobile" type="text" class="text"
+			placeholder="手机号码" /> <br />
+		<input id="mobile_code" name="mobile_code" type="text" class="text" style="margin:4px 0 0 10%; width:35%;float:left;display:inline-block;"
+			placeholder="验证码" /><input style="height:40px;line-height:40px;width:33%;boder:1px solid #999;background:#ccc;color:#333;margin:4px 10% 0 0;float:right;display:inline-block;" type="button" class="submit hq_code_cur" onclick="smscode(1)" value="获取验证码" id='button_code' />
+	</p>
+	<dl>
+		<dd style="border-right: 1px solid #b2b2b6">
+			<input type="button" class="submit close" value="确认"
+				onclick="smscode(2)" />
+		</dd>
+		<dd>
+			<input type="button" class="close" value="取消" onclick="close(this)" />
+		</dd>
+	</dl>
+</div>
+	
+</body>
+</html>
+<script type="text/javascript">
+    var open_id ='<?php echo isset($_SESSION['openid']) ?  $_SESSION['openid'] : ''?>';
+	var user=(navigator.userAgent).toLocaleLowerCase(),isWeixin=false;
+	var ht="";
+	var hta="";
+	var toke="";
+	var user_id = '';
+    <?php
+    
+	$user_id = urlExec('http://'.$_SERVER['SERVER_NAME'].$this->url("index",array('controller'=>'weixin','action'=>'checkOpenId')), array('open_id'=>$_SESSION['openid']), 'post');
+	if(!$user_id)
+	 {
+	    echo "showBindMobile();";
+	}
+	else
+   {
+	    echo "user_id = '".$user_id."';";
+	}
+   ?>
+	function showBindMobile() {
+		$("#send").lightbox_me({centered: true, preventScroll: true, onLoad: function() {
+			//$("#user_id").find("input:first").focus();
+		}});
+	}
+
+	function bindMobile() {
+		var url = "<?php echo $this->url("index",array('controller'=>'weixin','action'=>'bindMobile'));?>";
+		var mobile = $("#mobile").val();
+		$.post(url, {open_id : open_id, mobile: mobile} ,function(data) {
+			user_id = data;
+			}, "text");
+	}
+
+	function smscode(action)
+	{
+		if (action != 1 && action != 2) {
+			alert("请求参数不完整");
+			return false;
+		}
+		// 短信验证码
+		var mobile = $("#mobile").val();
+		var code = $("#mobile_code").val();
+		if(mobile=="") {
+		    alert("手机号码不能为空");
+		    return false;
+		}
+		if (mobile.length != 11) {
+			alert("输入正确的手机号码");
+			return false;
+		}
+		$.post("<?php echo $this->url("index",array('controller'=>'weixin','action'=>'smscode'));?>", {mobile : mobile, action : action, code : code},
+				function(data){
+			if (action == 1) {
+				if(data.status==0) {
+				    setTimeout("startCounts(60)", 1000 );
+				}
+				else {
+					alert(data.msg);
+					return false;
+				}
+			}
+			else if (action == 2) {
+				if(data.status==0) {
+				    bindMobile()
+				}
+				else {
+					showBindMobile();
+					alert(data.msg);
+					return false;
+				}
+			}
+		},"json");
+		return true;
+	}
+
+	var time1;
+	function startCounts(num) {
+	    document.getElementById('button_code').value= num + '秒';
+	    document.getElementById('button_code').disabled=true;
+	    num=num-1;
+	    if(num<=0)
+	    {
+	    	document.getElementById('button_code').value='重新获取验证码';
+	 	    document.getElementById('button_code').disabled=false;
+	  	    clearTimeout(i1);
+	  	    return false;
+	    }
+	    time1 = setTimeout("startCounts("+num+")",1000);
+	}
+
+
+	
+	if(user.indexOf('micromessenger')!==-1)
+	{
+		isWeixin=true;
+	}
+	else
+	{
+	//	isWeixin=false;
+	//	alert("亲，请在微信客户端下打开吧！");
+		//var opened = window.open('about:blank', '_self');
+       // opened.opener = null;
+       // opened.close();
+	}
+
+    function getJssdk()
+    {
+        $.post("<?php echo $this->url('admin-user',array('action'=>'getJssdk')); ?>",'',function(data){
+            data = $.parseJSON(data);
+            if(data)
+            {
+				hta=data.url;
+				ht=data.htt;
+                wx.config({
+                    debug: false,
+                    appId: data.appId,
+                    timestamp: data.timestamp,
+                    nonceStr: data.nonceStr,
+                    signature: data.signature,
+					rawString:data.rawString,
+                    jsApiList: [
+                        'checkJsApi',
+                        'onMenuShareTimeline',
+                        'onMenuShareAppMessage',
+                        'onMenuShareQQ',
+                        'onMenuShareWeibo',
+						'chooseImage',
+        				'previewImage',
+						'uploadImage',
+                        'openLocation'
+                    ]
+                });
+				toke=data.rawString;
+				toke=toke.split("&");
+				toke=toke[0].split("=");
+				$("#wxjs_toke").val(toke[1]);
+				
+            }
+        });
+    };
+
+var isGo = true;
+$(function(){
+			$("#tij").click(function(){
+				$(".form-submit").click()
+			});
+			//获得焦点必填变红色
+			$('.bixu input').focus(function() {
+				$(this).parent().addClass('red');
+			});
+			$('.bixu input').blur(function() {
+				$(this).parent().removeClass('red');
+			});
+			//获得焦点选填变绿色
+			$('.nbixu input').focus(function() {
+				$(this).parent().addClass('green');
+			});
+			$('.nbixu input').blur(function() {
+				$(this).parent().removeClass('green');
+			});
+			//手机号码校验
+			$('.form_phone').blur(function(){
+				var form_phone = $('.form_phone').attr('value');
+				if(!/^(1[0-9])\d{9}$/.exec(form_phone)){
+					$(this).parent().addClass('error');
+				}else{
+					$(this).parent().removeClass('error');
+				}
+			});
+		
+				
+			$('.form-submit').click(function(){
+				$("#user_id").val(user_id);
+				isGo = true;
+				var form_name = $('.form_name').attr('value');
+				var position = $('.position').attr('value');
+
+				if(form_name == '')
+				{
+					$('.form_name').parent().addClass('error');
+					isGo = false;
+				}
+				if(position == '')
+				{
+					$('.position').parent().addClass('error');
+					isGo = false;
+				}
+				//如果全部写完就提交跳转页面
+				if(isGo != false)
+				{
+					$("#is_post").val('1');
+					$("#apply_form").submit(); 
+				}
+				
+			})
+		})
+
+	
+//微信分享
+wx.ready(function () {
+	var shareData = {
+		title: '邀请您申请快摇名片',
+		desc: '快来加入最具价值的商务人脉平台',
+		link: 'http://www.kuaiyao.name/admin/usera/add',
+		imgUrl: 'http://www.kuaiyao.name/images/logo2.png'
+	};
+	wx.onMenuShareAppMessage(shareData);
+	wx.onMenuShareTimeline(shareData);
+	wx.onMenuShareQQ(shareData);
+	wx.onMenuShareWeibo(shareData);
+	 var images = {
+		localId: [],
+		serverId: []
+	  };
+  $(".img1,.img3").click(function () {
+	  var cid=$(this).attr("class");
+    	wx.chooseImage({
+      success: function (res) {
+        images.localId = res.localIds;
+		wx_upload(cid);
+		
+      }
+    });
+  });
+   function wx_upload(cid) {
+	   var tt;
+	   var i_id="#"+cid+" img";
+	   if(cid=="img1"){
+		   tt="已上传头像图片"
+		}
+		else{
+			tt="已上传微信二维码图片"
+		}
+    if (images.localId.length == 0) {
+      alert('请先使用 chooseImage 接口选择图片');
+      return;
+    }
+	if(images.localId.length > 1) {
+       alert('目前仅支持单张图片上传,请重新上传');
+       images.localId = [];
+       return;
+    }
+    var i = 0, length = images.localId.length;
+    images.serverId = [];
+    function upload() {
+      wx.uploadImage({
+        localId: images.localId[i],
+        success: function (res) {
+			
+          i++;
+		  $(i_id).attr("src",images.localId[0]).show();
+		  $("#text_"+cid).html(tt);
+		  $("#file_"+cid).val(res.serverId);
+          images.serverId.push(res.serverId);
+          if (i < length) {
+            upload();
+          }
+        },
+        fail: function (res) {
+
+          alert(JSON.stringify(res));
+        }
+      });
+    }
+	
+    upload();
+  };
+});
+
+var cd=29;
+var intervalid;
+function timedown(){
+	
+	var mobile = $("#mobile").val();
+	if(!isMobile(mobile))
+	{
+		alert('请输入正确的手机号');
+	}
+	else
+	{
+    	var json = new Object;
+    	json.q = new Object;
+    	json.n = "SMSCode";
+    	json.s = '';
+    	json.q.a = 1;
+    	json.q.type = 4;
+    	json.q.mobile = mobile;
+    	json.json = JSON.stringify(json);
+    	$.post('<?php echo ROOT_PATH?>api/index',json,function(data){
+    		if(data.q.s=='0')
+    		{
+    			$("#send_code").hide();
+    			$("#cd_bg").show();
+    			intervalid = setInterval("count_down()", 1000);
+    			$("#code_id").val(data.q.id);
+    		}else{
+    			alert(data.q.d);
+    		}
+    	},"json");
+	}
+}
+function count_down()
+{
+    if (cd == 0)
+    {
+    $("#send_code").show();
+    $("#cd_bg").hide();
+    clearInterval(intervalid);
+    }
+    $("#cd_time").html(cd);
+    cd--;
+}
+
+function isMobile(str) {
+    var re = /^1\d{10}$/;
+    if (re.test(str)) {
+        return true;
+    } else {
+        return false;
+    }
+} 
+	</script>
+<?php 
+/**
+ * 发起一个get或post请求
+ * @param $url 请求的url
+ * @param int $method 请求方式
+ * @param array $params 请求参数
+ * @param array $extra_conf curl配置, 高级需求可以用, 如
+ * $extra_conf = array(
+ *    CURLOPT_HEADER => true,
+ *    CURLOPT_RETURNTRANSFER = false
+ * )
+ * @return bool|mixed 成功返回数据，失败返回false
+ * @throws Exception
+ */
+function urlExec($url, $params = array(), $method = 'get', $extra_conf = array())
+{
+    $params = is_array($params)? http_build_query($params): $params;
+    //如果是get请求，直接将参数附在url后面
+    if($method == 'get')
+    {
+        $url .= (strpos($url, '?') === false ? '?':'&') . $params;
+    }
+
+    //默认配置
+    $curl_conf = array(
+        CURLOPT_URL => $url,  //请求url
+        CURLOPT_HEADER => false,  //不输出头信息
+        CURLOPT_RETURNTRANSFER => true, //不输出返回数据
+        CURLOPT_CONNECTTIMEOUT => 3 // 连接超时时间
+    );
+
+    //配置post请求额外需要的配置项
+    if($method == 'post')
+    {
+        //使用post方式
+        $curl_conf[CURLOPT_POST] = true;
+        //post参数
+        $curl_conf[CURLOPT_POSTFIELDS] = $params;
+    }
+
+    //添加额外的配置
+    foreach($extra_conf as $k => $v)
+    {
+        $curl_conf[$k] = $v;
+    }
+
+    $data = false;
+    try
+    {
+        //初始化一个curl句柄
+        $curl_handle = curl_init();
+        //设置curl的配置项
+        curl_setopt_array($curl_handle, $curl_conf);
+        //发起请求
+        $data = curl_exec($curl_handle);
+        if($data === false)
+        {
+            throw new \Exception('CURL ERROR: ' . curl_error($curl_handle));
+        }
+    }
+    catch(\Exception $e)
+    {
+        echo $e->getMessage();
+    }
+
+    return $data;
+}	
+?>

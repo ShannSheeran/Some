@@ -1,0 +1,72 @@
+<!-- Responsive Table -->
+<!-- Table exporting -->
+<?php //echo '<pre>'; print_r($list);exit; ?>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		
+		<div class="panel-options">
+
+			<a href="#" data-toggle="panel"> <span class="collapse-icon">&ndash;</span>
+				<span class="expand-icon">+</span>
+			</a> <a href="#" data-toggle="remove"> &times; </a>
+		</div>
+	</div>
+	<a class="btn btn-info" href="<?php echo $this->url('admin-ads',array('action' =>'addads')); ?>">增加广告位</a>
+	<div class="panel-body">
+		<table class="table table-bordered table-striped" id="example-4">
+			<thead>
+				<tr>
+					<th>编号</th>
+					<th>标题文字</th>
+					<th>广告图</th>
+					<th>链接</th>
+					<th>添加时间</th>
+					<th>更新时间</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			
+			<tbody>
+                <?php foreach($data['list'] as $k => $v){?>
+                    <tr>
+    					<td><?php echo $v['id'];?></td>
+    					<td><?php echo $v['name'];?></td>
+    					<td><img class="fl" style="width:100px;height:100px;" src="<?php echo isset($image[$v['image']]) ? $this->basepath() . '/' . UPLOAD_PATH . $image[$v['image']] :$this->basepath(). '/images/logo20.png' ;?>"/></td>
+    					<td><?php 
+    					if (0 == $v['type']) {
+    					    echo '无链接/跳转';
+    					}
+    					elseif (1 == $v['type']) {
+    					    echo '网页：<br />';
+    					    echo $v['link'];
+    					}
+    					elseif (2 == $v['type']) {
+    					    echo '跳转模块：' . $v['target'] . '<br />';
+    					    echo '目标id：' . $v['link'];
+    					}
+    					?></td>
+    					<td><?php echo $v['timestamp'];?></td>
+    					<td><?php echo $v['timestamp_update'];?></td>
+    					<td><a class="btn btn-info fl mr10" href="<?php echo $this->url('admin-ads',array('action' =>'editads','id'=>$v['id']));?>">编辑</a> <input type="submit" name="submit" value="删除" class="btn btn-danger" onclick="getId(<?php echo $v['id']?>)" /></td>
+    				</tr>
+                <?php }?>
+            </tbody>
+		</table>
+              </div>
+</div>
+<script type="text/javascript">
+function getId(id) {
+	if(!window.confirm("确定该广告?")){
+		return false;
+	}
+	$.post("<?php echo $this->url('admin-ads',array('action'=>'delads'))?>", {id:id},
+		function(data){
+	        if(data==1){
+	            location.href = "<?php echo $this->url('admin-ads',array('action'=>'index'))?>";
+		    }else{
+		        alert('删除失败!');
+		        location.href = "<?php echo $this->url('admin-ads',array('action'=>'index'))?>";
+			}
+    },"json");
+}
+</script>

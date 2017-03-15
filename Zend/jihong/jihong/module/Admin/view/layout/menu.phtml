@@ -1,0 +1,533 @@
+<style>
+	nav li:nth-of-type(1) .glyphicon-envelope{
+		margin-right: 10px;
+		font-size: 30px;
+		vertical-align: 120%;
+		cursor: pointer;
+	}
+	.information{
+		position: absolute;
+		top: -3px;
+		left: 20px;
+		height: 20px;
+		line-height: 20px;
+		padding:0 2px; ;
+		border-radius: 20px;
+		text-align: center;
+		color: #fff;
+		background: #fc7366;
+	}
+	.information-list{
+		position: absolute;
+		top: 40px;
+		left: -35px;
+		display: none;
+		width: 160px;
+		border:1px solid #ddd;
+		background: #fff;
+		text-align: center;
+	}
+	.information-list li{
+		height: 50px;
+		line-height: 50px;
+		border:1px solid #ddd;
+	}
+	.information-list li a{
+		padding:0 10px;
+	}
+
+</style>
+<?php 
+$menu = array(
+	array(
+	'class'=>'fa-home',
+	'name'=>'主页',
+	'authority' =>'main_index',	
+	'route'=>$this->url('admin-index'),
+	'sub'=>array(
+			array(
+			'controller'=>'index',
+			'route'=>$this->url('admin-index'),
+			'name'=>'数据统计',
+			'other'=>'',
+			'authority' =>'main_index',
+			'class' => 'fa-line-chart'		
+			)
+		)
+	),
+    array(
+        'class'=>'fa-calculator',
+        'name'=>'订单管理',
+        'authority' =>'order_index',
+        'route'=>$this->url('admin-order'),
+        'sub'=>array(
+            array(
+                'controller'=>'order',
+                'route'=>$this->url('admin-order' , array('action' => 'index' , 'type' => 1)),
+                'name'=>'盆栽订单管理',
+                'other'=>'',
+                'authority' =>'order_index',
+                'class' => 'fa-list'
+            ),
+            array(
+                'controller'=>'order',
+                'route'=>$this->url('admin-order' , array('action' => 'index' , 'type' => 2)),
+                'name'=>'资材订单管理',
+                'other'=>'',
+                'authority' =>'order_index',
+                'class' => 'fa-list'
+            ),
+            array(
+                'controller'=>'order',
+                'route'=>$this->url('admin-order' , array('action' => 'weeklyPlan')),
+                'name'=>'周计划管理',
+                'other'=>'',
+                'authority' =>'order_weeklyplan',
+                'class' => 'fa-list'
+            ),
+        )
+    ),
+    array(
+        'class'=>'fa-calculator',
+        'name'=>'商品管理',
+        'authority' =>'goods_list',
+        'route'=>$this->url('admin-goods'),
+        'sub'=>array(
+            array(
+                'controller'=>'goods',
+                'route'=>$this->url('admin-goods' , array('action' => 'index')),
+                'name'=>'商品管理',
+                'other'=>'',
+                'authority' =>'goods_list',
+                'class' => 'fa-list'
+            ),
+            array(
+                'controller'=>'goods',
+                'route'=>$this->url('admin-goods' , array('action' => 'category')),
+                'name'=>'商品分类管理',
+                'other'=>'',
+                'authority' =>'goods_category',
+                'class' => 'fa-list'
+            ),
+            array(
+                'controller'=>'goods',
+                'route'=>$this->url('admin-goods' , array('action' => 'unit')),
+                'name'=>'商品单位管理',
+                'other'=>'',
+                'authority' =>'goods_unit',
+                'class' => 'fa-list'
+            ),
+            array(
+                'controller'=>'goods',
+                'route'=>$this->url('admin-goods' , array('action' => 'shelvesManage')),
+                'name'=>'可上架商品管理',
+                'other'=>'',
+                'authority' =>'goods_list',
+                'class' => 'fa-list'
+            ),
+        )
+    ),
+    array(
+        'class'=>'linecons-user',
+        'name'=>'售后留言管理',
+        'authority' =>'service_list',
+        'route'=> $this->url('admin-service'),
+        'sub'=>array(
+            array(
+                'controller'=>'service',
+                'route'=>$this->url('admin-service' , array('action' => 'index')),
+                'name'=>'售后管理',
+                'other'=>'',
+                'authority' =>'service_list',
+                'class' => 'fa-list'
+            ),
+            array(
+                'controller'=>'service',
+                'route'=>$this->url('admin-service' , array('action' => 'statistic')),
+                'name'=>'售后统计',
+                'other'=>'',
+                'authority' =>'service_statistic',
+                'class' => 'fa-list'
+            ),
+            array(
+                'controller'=>'service',
+                'route'=>$this->url('admin-service' , array('action' => 'message')),
+                'name'=>'客户留言管理',
+                'other'=>'',
+                'authority' =>'message_list',
+                'class' => 'fa-list'
+            ),
+            array(
+                'controller'=>'service',
+                'route'=>$this->url('admin-service' , array('action' => 'marketFeedback')),
+                'name'=>'市场反馈管理',
+                'other'=>'',
+                'authority' =>'market_feedback',
+                'class' => 'fa-list'
+            ),
+            array(
+                'controller'=>'service',
+                'route'=>$this->url('admin-service' , array('action' => 'feedback')),
+                'name'=>'意见反馈管理',
+                'other'=>'',
+                'authority' =>'user_feedback',
+                'class' => 'fa-list'
+            ),
+        )
+    ),
+    array(
+        'class'=>'fa-calculator',
+        'name'=>'财务管理',
+        'authority' =>'financial_list',
+        'route'=>$this->url('admin-financial' , array('action' => 'index')),
+        'sub'=>array(
+            array(
+                'controller'=>'financial',
+                'route'=>$this->url('admin-financial' , array('action' => 'member')),
+                'name'=>'会员充值',
+                'other'=>'',
+                'authority' =>'member_list',
+                'class' => 'fa-list'
+            ),
+            array(
+                'controller'=>'financial',
+                'route'=>$this->url('admin-financial' , array('action' => 'rechargeList')),
+                'name'=>'充值审核',
+                'other'=>'',
+                'authority' =>'user_recharge_list',
+                'class' => 'fa-list'
+            ),
+            array(
+                'controller'=>'financial',
+                'route'=>$this->url('admin-financial' , array('action' => 'index')),
+                'name'=>'财务记录',
+                'other'=>'',
+                'authority' =>'financial_list',
+                'class' => 'fa-list'
+            ),
+            array(
+                'controller'=>'financial',
+                'route'=>$this->url('admin-financial' , array('action' => 'turnoverStatistics')),
+                'name'=>'营业额统计',
+                'other'=>'',
+                'authority' =>'business_detail',
+                'class' => 'fa-list'
+            ),
+        )
+    ),
+	array(
+		'class'=>'linecons-user',
+		'name'=>'会员管理',
+		'authority' =>'member_list',
+		'route'=>$this->url('admin-user' , array('action' => 'index')),
+		'sub'=>array(
+		    array(
+		        'controller'=>'index',
+		        'route'=>$this->url('admin-user' , array('action' => 'applicationList')),
+		        'name'=>'审核申请资料',
+		        'other'=>'',
+		        'authority' =>'member_application_list',
+		        'class' => 'fa-list'
+		    ),
+		    array(
+		        'controller'=>'index',
+		        'route'=>$this->url('admin-user' , array('action' => 'index')),
+		        'name'=>'会员管理',
+		        'other'=>'',
+		        'authority' =>'member_list',
+		        'class' => 'fa-list'
+		    ),
+		    array(
+		        'controller'=>'index',
+		        'route'=>$this->url('admin-user' , array('action' => 'category')),
+		        'name'=>'会员类型',
+		        'other'=>'',
+		        'authority' =>'member_category_list',
+		        'class' => 'fa-list'
+		    ),
+		)
+	),
+    array(
+        'class'=>'linecons-globe',
+        'name'=>'信息管理',
+        'authority' =>'admin-index',
+        'route'=> $this->url('admin-information' , array('action' => 'platformInformation')),
+        'sub'=>array(
+            array(
+                'controller'=>'notification',
+                'route'=>$this->url('admin-information' , array('action' => 'platformInformation')),
+                'name'=>'平台消息',
+                'other'=>'',
+                'authority' =>'admin-index',
+                'class' => ' fa-rss'
+            ),
+            array(
+                'controller'=>'notification',
+                'route'=>$this->url('admin-information' , array('action' => 'advertisementPosition')),
+                'name'=>'广告管理',
+                'other'=>'',
+                'authority' =>'advertise_list',
+                'class' => ' fa-rss'
+            ),
+            array(
+                'controller'=>'notification',
+                'route'=>$this->url('admin-information',array('action'=>'Inform')),
+                'name'=>'资讯管理',
+                'other'=>'',
+                'authority' =>'admin-index',
+                'class' => ' fa-rss'
+            ),
+            array(
+                'controller'=>'notification',
+                'route'=>$this->url('admin-information',array('action'=>'recruit')),
+                'name'=>'招聘管理',
+                'other'=>'',
+                'authority' =>'admin-index',
+                'class' => ' fa-rss'
+            ),
+            array(
+                'controller'=>'notification',
+                'route'=>$this->url('admin-information',array('action'=>'frequentlyAskedQuestions')),
+                'name'=>'常见问题',
+                'other'=>'',
+                'authority' =>'admin-index',
+                'class' => ' fa-rss'
+            ),
+            array(
+                'controller'=>'notification',
+                'route'=>$this->url('admin-information',array('action'=>'jhTeam')),
+                'name'=>'吉宏团队',
+                'other'=>'',
+                'authority' =>'admin-index',
+                'class' => ' fa-rss'
+            ),
+            array(
+                'controller'=>'notification',
+                'route'=>$this->url('admin-information',array('action'=>'CoProducer')),
+                'name'=>'合作生产商',
+                'other'=>'',
+                'authority' =>'admin-index',
+                'class' => ' fa-rss'
+            ),
+        )
+    ),
+	array(
+		'class'=>'linecons-user',
+		'name'=>'平台管理',
+		'authority' =>'admin_list',
+		'route'=>$this->url('admin-config',array('action'=>'adminList')),
+		'sub'=>array(
+		    array(
+		        'controller'=>'notification',
+		        'route'=>$this->url('admin-config',array('action'=>'adminList')),
+		        'name'=>'管理员列表',
+		        'other'=>'',
+		        'authority' =>'admin_list',
+		        'class' => ' fa-rss'
+		    ),
+		    array(
+		        'controller'=>'notification',
+		        'route'=>$this->url('admin-config',array('action'=>'adminCategory')),
+		        'name'=>'管理员类型',
+		        'other'=>'',
+		        'authority' =>'admin_category_list',
+		        'class' => ' fa-rss'
+		    ),
+		    array(
+		        'controller'=>'notification',
+		        'route'=>$this->url('admin-config',array('action'=>'account')),
+		        'name'=>'收款账号管理',
+		        'other'=>'',
+		        'authority' =>'account_list',
+		        'class' => ' fa-rss'
+		    ),
+		    array(
+		        'controller'=>'notification',
+		        'route'=>$this->url('admin-config',array('action'=>'timeNode')),
+		        'name'=>'交易时间设置',
+		        'other'=>'',
+		        'authority' =>'time_node',
+		        'class' => ' fa-rss'
+		    ),
+		)
+	),
+);
+//$action_list = $action_list;//默认有所有权限
+
+?>
+<div class="settings-pane">
+			
+		<a href="#" data-toggle="settings-pane" data-animate="true">
+			&times;
+		</a>
+	
+</div>
+	<nav class="navbar horizontal-menu navbar-fixed-top"><!-- set fixed position by adding class "navbar-fixed-top" -->
+		
+		<div class="navbar-inner">
+		
+			<!-- Navbar Brand -->
+			<div class="navbar-brand" style="height:80px;width:80px;">
+				<a href="<?php echo $this->url('admin');?>" class="logo" style="height:80;width:80px;">
+					<img src="<?php echo ROOT_PATH;?>images/logo20.png" width="80" alt="" class="hidden-xs" />
+					<img src="<?php echo ROOT_PATH;?>images/logo20.png" width="80" alt="" class="visible-xs" />
+				</a>
+<!--				<a href="#" data-toggle="settings-pane" data-animate="true">-->
+<!--					<i class="linecons-cog"></i>-->
+<!--				</a>-->
+			</div>
+				
+			<!-- Mobile Toggles Links -->
+			<div class="nav navbar-mobile">
+			
+				<!-- This will toggle the mobile menu and will be visible only on mobile devices -->
+				<div class="mobile-menu-toggle">
+					<!-- This will open the popup with user profile settings, you can use for any purpose, just be creative -->
+					<!-- data-toggle="mobile-menu-horizontal" will show horizontal menu links only -->
+					<!-- data-toggle="mobile-menu" will show sidebar menu links only -->
+					<!-- data-toggle="mobile-menu-both" will show sidebar and horizontal menu links -->
+					<a href="#" data-toggle="mobile-menu-horizontal">
+						<i class="fa-bars"></i>
+					</a>
+				</div>
+				
+			</div>
+			
+			<div class="navbar-mobile-clear"></div>
+			
+		
+			<!-- main menu -->
+				
+			<ul class="navbar-nav">
+				 <?php foreach ($menu as $v){?>
+                <?php if(in_array($v['authority'],$action_list ) || $action_list[0]=='all'){?>
+				<li><!-- class="opened active" -->
+					<a href="<?php echo $v['route']?>">
+						<i class="<?php echo $v['class']?>"></i>
+						<span class="title"><?php echo $v['name'];?></span>
+					</a>
+					<ul>
+						<?php foreach ($v['sub'] as $val){?>
+						<li <?php if($controller==$val['controller']){ ?> class="active" <?php }?>>
+							<a href="<?php echo $val['route'];?>">
+							<i class="<?php echo $val['class']?>"></i>
+								<span class="title"><?php echo $val['name']?></span>
+								<?php if($val['other']){?>
+								<span class="label label-warning pull-right"><?php echo $val['other'];?></span>
+								<?php }?>
+							</a>
+						</li>
+						<?php }?>
+					
+					</ul>
+				</li>
+					<?php }?>
+				<?php }?>
+			</ul>
+					
+			
+			<!-- notifications and other links -->
+			<ul class="nav nav-userinfo navbar-right">
+				<!-- <li> 
+					<span class="glyphicon glyphicon-envelope" aria-hidden="true" id="infor" ></span>
+					<span class="information"><?php echo $total_num;?></span>
+					<ul class="information-list">
+						<li><a href="<?php //echo $this->url('admin-order', array('action'=>'index','cid'=>2));?>" style="color:#333;">★<span style="color:#fc7366"><?php echo $order1;?>单</span>未处理订单</a></li>
+						<li><a href="<?php //echo $this->url('admin-company', array('action'=>'indexTwo'));?>" style="color:#333;">★<span style="color:#fc7366"><?php echo $company1;?>家</span>公司待审核</a></li>
+					</ul>
+				</li> -->
+				<li class="dropdown user-profile">
+					<a href="#" data-toggle="dropdown" style="height: 85px;display: block;float: right;">
+						<img src="<?php echo ROOT_PATH;?>images/user-1.png" alt="user-image" class="img-circle img-inline" style="top:5px;display: block;height: 40px;" />
+						<div style="display: block;height: 30px;line-height: 30px;"><?php echo $_SESSION['admin_name']?><i class="fa-angle-down"></i></div>
+					</a>
+			
+					<ul class="dropdown-menu user-profile-menu list-unstyled">
+
+						<li class="">
+							<a href="<?php echo $this->url('admin-config',array('action'=>'adminPassword' )) ;?>">
+								<i class="fa-lock"></i>
+								修改密码
+							</a>
+						</li>
+						<li class="last">
+							<a href="<?php echo $this->url('admin-index',array('action'=>'logout'));?>">
+								<i class="fa-lock"></i>
+								退出登录
+							</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	
+	<div class="page-container"><!-- add class "sidebar-collapsed" to close sidebar by default, "chat-visible" to make chat appear always -->
+			<!-- add class "sidebar-collapsed" to close sidebar by default, "chat-visible" to make chat appear always -->
+		<!-- Add "fixed" class to make the sidebar fixed always to the browser viewport. -->
+		<!-- Adding class "toggle-others" will keep only one menu item open at a time. -->
+		<!-- Adding class "collapsed" collapse sidebar root elements and show only icons. -->
+		<div class="collapsed" style="background: #cccccc;width: 0;display: table-cell;">
+		</div>
+		<div class="main-content">
+
+	<?php echo $this->main;?>
+	<script>
+	jQuery(document).ready(function($)
+	{
+		$('a[href="#layout-variants"]').on('click', function(ev)
+		{
+			ev.preventDefault();
+			
+			var win = {top: $(window).scrollTop(), toTop: $("#layout-variants").offset().top - 15};
+			
+			TweenLite.to(win, .3, {top: win.toTop, roundProps: ["top"], ease: Sine.easeInOut, onUpdate: function()
+				{
+					$(window).scrollTop(win.top);
+				}
+			});
+		});
+	});
+	</script>
+	
+	<!-- Main Footer -->
+	<!-- Choose between footer styles: "footer-type-1" or "footer-type-2" -->
+	<!-- Add class "sticky" to  always stick the footer to the end of page (if page contents is small) -->
+	<!-- Or class "fixed" to  always fix the footer to the end of page -->
+	<footer class="main-footer sticky footer-type-1">
+		<div class="footer-inner">
+		
+			<!-- Add your copyright text here -->
+			<div class="footer-text">
+				&copy; 2016
+				<strong>吉宏园艺后台管理</strong> 
+				Powered by: <a href="http://www.aiitec.com/" target="_blank" title="爱特安为">爱特安为</a> 
+			</div>
+			
+			
+			<!-- Go to Top Link, just add rel="go-top" to any link to add this functionality -->
+			<div class="go-up">
+			
+				<a href="#" rel="go-top">
+					<i class="fa-angle-up"></i>
+				</a>
+				
+			</div>
+			
+		</div>
+		
+	</footer>
+		</div>
+		
+	</div>
+	<script>
+		$("#infor").click(function(){
+			$(".information-list").slideToggle("slow");
+		})
+		
+		$(document).ready(function() {
+			$(".panel-options a").css("display","none");
+		});
+	</script>
+	
+	

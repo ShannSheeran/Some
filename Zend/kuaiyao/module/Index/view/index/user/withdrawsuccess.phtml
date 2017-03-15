@@ -1,0 +1,120 @@
+<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/pc/css/mycss.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/pc/css/login.css" />
+<style type="text/css">
+.main .wrap .container .nor{
+	height: 717px;
+	}
+.main .wrap .container .nor .nor_top{
+	width:100%;
+	height: 70px;
+	border-bottom:1px solid #eee;
+	}
+.main .wrap .container .nor .nor_top .nor_top_p{
+	font-size:24px;
+	margin-top: 18px;
+    margin-left: 30px;
+	}
+.main .wrap .container .nor .nor_top_left{
+	width:110px;
+	height:50px;
+	border-right:1px solid #eee;
+	margin-top:10px;
+	}
+.main .wrap .container .nor .nor_top_left p{
+	font-size:16px;
+	line-height: 49px;
+    padding-left: 33px;
+	}
+.main .wrap .container .nor .nor_ad{
+	width:100%;
+	height:55px;
+	border-bottom:1px solid #eee;
+	}
+.main .wrap .container .nor .nor_ad .nor_ad_text{
+	clear:both;
+	height:30px;
+	line-height: 52px;
+    margin-left: 30px;
+	}
+.main .wrap .container .nor .nor_ad .nor_ad_text_p{
+	font-size:16px;
+	}
+.main .wrap .container .nor .nor_ad .nor_ad_text i{
+	width:16px;
+	height:23px;
+	background:url(<?php echo ROOT_PATH?>pc/images/light.png) no-repeat;
+	display:block;
+	margin-top: 15px;
+	}
+.main .wrap .container .nor .nor_rmb_two{
+   margin-left: 35px;
+   font-size: 24px;
+   color: black;
+   margin-top: 26px;
+	}
+</style>
+
+
+	<!--[if IE 6]>
+	<script src="js/pngAlaph.js" ></script>
+	<script>DD_belatedPNG.fix('img');</script>
+	<![endif]-->
+	<style>
+.cke {
+	visibility: hidden;
+}
+</style>
+	<script>window["_GOOG_TRANS_EXT_VER"] = "1";</script>
+
+	<!--  header -->
+	
+
+	<script type="text/javascript">
+var url = '/php/kuaiyao/public/admin/indexa/getAdminFile';//图片上传地址
+var url_two = '/php/kuaiyao/public/admin/indexa/getAdminFileTwo';//图片上传地址
+</script>
+	<!--  main -->
+	<div class="main">
+		<div class="wrap">
+			<div class="container clearfix">
+				<dl class="tab">
+					<dd>
+						<a href="<?php echo $this->url('index',array('controller'=>'user','action'=>'Details'))?>">基本资料</a>
+					</dd>
+					<dd>
+						<a href="<?php echo $this->url('index',array('controller'=>'user','action'=>'DetailsTwo'))?>">公司信息</a>
+					</dd>
+					<dd>
+						<a href="<?php echo $this->url('index',array('controller'=>'user','action'=>'order'))?>">订单列表</a>
+					</dd>
+					<dd class="cur">
+						<a href="<?php echo $this->url('index',array('controller'=>'user','action'=>'withdraw'))?>">推荐码/提现</a>
+					</dd>
+				</dl>
+
+				<!--body-->
+				<div class="nor">
+					<div class="nor_top">
+						<div class="nor_top_left fl">
+							<a href="<?php echo $this->url('index',array('controller'=>'user','action'=>'withdraw'))?>">
+								<p>
+									<返回</p></a>
+								</div>
+								<p class="nor_top_p fl">申请提现</p>
+							</div>
+							<div class="nor_ad">
+								<div class="nor_ad_text"> <i class="fl"></i>
+									<p class="nor_ad_text_p fl">申请提现后您的款项将在5个工作日内转至您的账户。</p>
+								</div>
+
+							</div>
+							<div class="nor_rmb_two">
+								<p>你的申请已成功提交。</p>
+						    </div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+	

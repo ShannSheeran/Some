@@ -1,0 +1,122 @@
+    <form action="" method="get">
+    <div class="wrap">
+      <div class="goods_classify">
+        <div class="classity_content">
+          <span>商品分类：</span>
+          <div class="select_out">
+            <select name="bc"  onchange="goodsCategoryLinkage(this)" id="bc">
+              <option value="0">请选择商品分类</option>
+              <?php foreach ($firstCategory as $v){?>
+              <option value="<?php echo $v->id?>" <?php echo isset($bc)&&$bc==$v->id ? "selected" : ""?>><?php echo $v->name?></option>
+              <?php }?>
+            </select>
+          </div>
+          <div class="select_out">
+            <select  name="sc" id="sc" onchange="goodsListBysecondCat(this)">
+              <option value="0">请选择商品分类</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="hot_search fr">
+        <div class="clearfix search_box pr">
+          <div class="fl">
+            <input type="text" class="search_input" name="keyword" placeholder="请输商品名称" value="<?php echo $keyword ? $keyword : ""?>" onfocus=";">
+          </div>
+          <div class="fr"><input type="submit" class="hot_search_btn " value="搜索" onclick="Search()"></div>
+        </div>
+      </div>
+    </div>
+    </form>
+    <div class="wrap">
+      <ul class="hot_list">
+        <li class="hot_name">商品名称</li>
+        <li class="hot_classify">商品分类</li>
+        <li class="hot_unit">单位</li>
+        <li class="hot_packnum">装箱数</li>
+        <li class="hot_univalent">商品单价</li>
+        <li class="hot_sellnum">一周内销量</li>
+        <li class="hot_operation">操作</li>
+      </ul>
+      <ul class="hot_content">
+      <?php if(!empty($goods)):?>
+      <?php foreach ($goods as $v){?>
+        <li>
+          <div class="hot_name"><?php echo $v->name?> 
+          </div>
+          <div class="hot_classify"><?php echo $v->category_name?> 
+          </div>
+          <div class="hot_unit"><?php echo $v->unit_name?> 
+          </div>
+          <div class="hot_packnum"><?php echo isset($v->pack_number_range) ? $v->pack_number_range : 0?> 
+          </div>
+          <div class="hot_univalent">
+          <?php 
+          if ($v->min_cash>0 && $v->max_cash>0)
+          {
+              echo floatval($v->min_cash)."-".floatval($v->max_cash);
+          }
+          elseif ($v->min_cash<=0 && $v->max_cash>0)
+          {
+              echo floatval($v->max_cash);
+          }
+          else
+          {
+              echo floatval($v->min_cash);
+          }
+              ?> 
+          </div>
+          <div class="hot_sellnum"><?php echo $v->number ? $v->number : 0?> 
+          </div>
+          <div class="hot_operation">
+            <a href="<?php echo $this->url('index',array('controller' => 'goods','action'=>'hotSellerDetail','id'=>$v->goods_id))?>">查看</a>
+          </div>
+        </li>
+        <?php }?>
+        <?php endif;?>
+      </ul>
+    </div>
+    <div class="clear"></div>
+    <?php echo $this->paginationControl($paginator, 'Sliding', 'layout_index/page',array('route' =>'index','condition'=>$condition));?>
+    <script type="text/javascript">
+    //商品分类联动
+    goodsCategoryLinkage('#bc');
+    var sc = '<?php echo isset($sc) ? $sc : ""?>';
+    function goodsCategoryLinkage(obj){
+    	var pid = $(obj).children('option:selected').val();
+    	$.ajax({
+    	    url:'<?php echo $this->url('index',array('controller' => 'goods','action'=>'goodsCategoryLinkage'))?>',
+    	    type:'post',
+    	    data:{'pid':pid , 'type' :1},
+    	    dataType:'json',
+    	    success:function(data){
+    		    if(data.code == '1'){
+    			    var html = "<option value='0'>请选择商品分类</option>";
+    		    	$.each(data.categorys,function(i,v){
+        		    	if(v.id == sc)
+        		    	{
+        		    		html += "<option value='"+v.id+"' selected>"+v.name+"</option>";
+        		    	}
+        		    	else
+        		    	{
+        		    		html += "<option value='"+v.id+"'>"+v.name+"</option>";
+        		    	}
+    				});
+    		    	$("#sc").empty();
+    		    	$("#sc").append(html);
+    			}else{
+    				var html = "<option value='0'>请选择商品分类</option>";
+    				$("#sc").empty();
+    				$("#sc").append(html);
+    			}
+    		},
+    	});
+    }
+    
+    function goodsListBysecondCat(evt)
+    {
+        var first_category = $(evt).parent('div.select_out').siblings('div.select_out').find('select').val();
+        
+        location.href="<?php echo $this->url('index' , array('controller' => 'goods' , 'action' => 'hotSeller'))?>?bc="+ first_category +"&sc=" + $(evt).val();
+    }
+    </script>

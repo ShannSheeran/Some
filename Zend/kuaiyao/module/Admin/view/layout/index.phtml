@@ -1,0 +1,80 @@
+<!-- Responsive Table -->
+<!-- Table exporting -->
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			<a href="<?php echo $this->url('admin-user',array('cid'=>1))?>">
+				<button class="btn btn-large <?php if($cid==1){?>btn-info<?php }?>">正常</button>
+			</a>
+			<a href="<?php echo $this->url('admin-user',array('cid'=>2))?>">
+				<button class="btn btn-large <?php if($cid==2){?>btn-info<?php }?>">已停用</button>
+			</a>
+			<form class="form-horizontal"
+				action="<?php echo $this->url('admin-user',array('action'=>'index','cid'=>$cid,'page'=>1))?>"
+				method="post" style="float: right; margin-left: 20px;">
+				<span style="font-weight: bold; font-size: 14px;"> 搜索全表</span>
+				：
+				<input type="text" name="keyword" value="<?php echo $keyword?>"
+					placeholder="搜索 ID、手机、昵称">
+				<input type="submit" name="submit" value="搜索" class="btn btn-info"
+					style="height: 25px; width: 60px; line-height: 25px; padding: 0; margin-left: 10px; margin-top: 5px;" />
+			</form>
+		</h3>
+
+		<div class="panel-options">
+
+			<a href="#" data-toggle="panel">
+				<span class="collapse-icon">&ndash;</span>
+				<span class="expand-icon">+</span>
+			</a>
+			<a href="#" data-toggle="remove"> &times; </a>
+		</div>
+	</div>
+	<div class="panel-body">
+		<table class="table table-bordered table-striped" id="example-4">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>用户名</th>
+					<th>手机</th>
+					<th>推荐人数</th>
+					<th>推荐奖励</th>
+					<th>最后登录时间</th>
+					<th>注册时间</th>
+					<th>用户状态</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+            <?php if($list){?>
+            <?php foreach($list as $v){?>
+                <tr>
+					<td><?php echo $v->id; ?></td>
+					<td><?php echo $v->name; ?></td>
+					<td> <?php echo $v->mobile; ?></td>
+					<td> <?php echo $v->recommend_stat; ?></td>
+					<td> <?php echo $v->recommend_bonus; ?></td>
+					<td><?php echo $v->last_login_time == '0000-00-00 00:00:00'? ' ' : date("Y-m-d H:i",strtotime($v->last_login_time));?></td>
+					<td><?php echo $v->timestamp == '0000-00-00 00:00:00'? ' ' : date("Y-m-d H:i",strtotime($v->timestamp));?></td>
+					<td><?php $status = $v->status; if($status==1){ echo '正常';}elseif($status==2){ echo '停用';}else{echo '未知';}?></td>
+					<td>
+						<a class="btn btn-info"
+							href="<?php echo $this->url('admin-user',array('action' =>'details','id'=>$v->id)); ?>">查看</a>
+                        <?php $status = $this->escapehtml($v->status)?>
+									<?php if($status==2){?>
+									<a class="btn" <?php if($v->delete==0){?>
+							href="<?php  echo $this->url('admin-user',array('action'=>'status','page'=>$status,'id'=>$v->id));?>"
+							<?php }else{?> disabled <?php }?>> 启用 </a>
+									<?php }else{?>
+									
+									 <a class="btn btn-warning" <?php if($v->delete==0){?>
+							href="<?php  echo $this->url('admin-user',array('action'=>'status','page'=> $status==0 ? 1 : $status,'id'=>$v->id));?>"
+							<?php }else{?> disabled <?php }?>> 停用 </a>  
+									<?php }?>
+                    </td>
+				</tr>
+            <?php }}?>
+            </tbody>
+		</table>
+        <?php echo $this->paginationControl($paginator, 'Sliding', 'page',array('route' =>'admin-user','condition'=>$condition));?>       </div>
+</div>

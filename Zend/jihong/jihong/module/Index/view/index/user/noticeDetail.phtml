@@ -1,0 +1,18 @@
+    <div class="main wrap"  style="margin-bottom:77px">
+        <div class="article">
+            <h2 class="font24 corgray3"><?php echo $notice->title; ?></h2>
+            <p class="font14 corgray3"><?php echo $notice->timestamp; ?></p>
+            <div class="main_text">
+                <?php echo $notice->content;?>
+            </div>
+        </div>
+    </div>
+<script>
+$('.pic img').width('602px');
+$('.pic img').height('377px');
+
+$('.article h2').css("width" , "800px");
+$('.article h2').css("color" ,"black");
+$('.article h2').css("border" , "none");
+
+</script>

@@ -1,0 +1,100 @@
+<style>
+	.dataTables_info{
+		display:none;
+	}
+	.dataTables_paginate{
+		display: none;
+	}
+	.bc-1{display: none;}
+	.col-sm-5{display: none;}
+	.col-sm-7{display:none;}
+	.fl{
+		float:left;
+	}
+</style>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+        <a href="">管理员管理 / <a href="">管理员列表</a>
+		</h3>
+	</div>
+	
+	<div class="panel-body">
+	    <div class="fl" >
+		    <a class="btn btn-info fl " href="<?php echo $this->url('admin-config' , array('action' => 'adminOperate')) ?>" >新增管理员</a>
+		</div>
+    	<div class="" style="float:right;">
+            <form class="form-horizontal" action="<?php $this->url('admin-config' , array('action' => 'adminList')) ?>" method="get" style="float: left; margin-left: 20px;">
+			<span style="font-weight: bold; font-size: 14px;"> 关键词 :</span>
+			<input type="text" name="keyword" value="<?php echo isset($keyword) ? $keyword :''; ?>" placeholder="请输入管理员名称搜索" style="line-height: 26px" >
+			<select style="padding: 5px" name="status">
+			     <option value="0" <?php echo !isset($status) && empty($status) ? 'selected' : ''; ?>>全部状态</option>
+			     <option value="1" <?php echo $status == 1 ? 'selected' : ''; ?>>正常</option>
+			     <option value="2" <?php echo $status == 2 ? 'selected' : ''; ?>>停用</option>
+			</select>
+			<select style="padding: 5px" name="type">
+			     <option value="0" <?php echo !isset($type) && empty($type) ? 'selected' : ''; ?>>全部类型</option>
+			     <?php foreach ($category_list as $key =>$value): ?>
+			     <option value="<?php echo $key;?>" <?php echo $type == $key ? 'selected' : ''; ?> ><?php echo $value->name ?></option>
+			     <?php endforeach; ?>
+			</select>
+			<input type="submit"  value="搜索" class="btn btn-info" style="height: 26px; width: 60px; line-height: 26px; padding: 0; margin-left: 10px; margin-top: 5px;" />
+		    </form>
+    	</div>
+    	<div style="clear:both;"></div>
+		<table class="table table-bordered table-striped" id="example-4">
+			<thead>
+				<tr>
+					<th> 管理员姓名 </th>
+					<th> 登录账号 </th>
+					<th>管理员类型</th>
+					<th>联系电话</th>
+					<th>联系QQ</th>
+					<th> 最近登录时间 </th>
+					<th>账号状态</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			     <?php foreach ($admin_list as $value):?>
+                <tr class="tr_list" valign="middle">
+					<td style="padding-top:18px;"><?php echo isset($value->name) ? $value->name : '';?></td>
+					<td style="padding-top:18px;"><?php echo isset($value->name) ? $value->name : '';?></td>
+					<td style="padding-top:18px;"><?php echo isset($value->admin_category_id) ? $category_list[$value->admin_category_id]->name : '';?></td>
+					<td style="padding-top:18px;"><?php echo isset($value->mobile) ? $value->mobile : '';?></td>
+					<td style="padding-top:18px;"><?php echo isset($value->qq) ? $value->qq : '';?></td>
+					<td style="padding-top:18px;"><?php echo isset($value->last_time) ? $value->last_time : '';?></td>
+					<td style="padding-top:18px;"><?php echo isset($value->status) ? ($value->status == 1 ? '正常' :'停用') : '';?></td>
+					<td>
+					   <a href="<?php echo $this->url('admin-config' , array('action' => 'adminOperate' ,'id'=>(isset($value->id) ? $value->id : ''))) ?>" class="btn btn-info">查看</a>
+					   <?php if($value->id != 1):?>
+    					   <?php if(isset($value->status) && $value->status == 1): ?>
+    					   <a href="#" class="btn btn-danger" onclick="show_confirm('<?php echo $this->url('admin-config' , array('action' => 'updateStatus' ,'id' => $value->id , 'status' => 2)) ?>','停用')">停用</a>
+    					   <?php elseif (isset($value->status) && $value->status == 2): ?>
+    					   <a href="#" class="btn btn-info" onclick="show_confirm('<?php echo $this->url('admin-config' , array('action' => 'updateStatus' ,'id' => $value->id , 'status' => 1)) ?>','启用')">启用</a>
+    					   <?php endif; ?>
+    					   <?php if(isset($value->delete) && $value->delete == 0): ?>
+    					   <a href="#" class="btn btn-info" onclick="show_confirm('<?php echo $this->url('admin-config' , array('action' => 'deleteAdmin' ,'id' => $value->id)) ?>','删除')">删除</a>
+    					   <?php endif;?>
+					   <?php endif;?>
+					 </td>
+				</tr>
+				<?php endforeach;?>
+            </tbody>
+		</table>
+        <?php echo $this->paginationControl($paginator, 'Sliding', 'page',array('route' =>'admin-config','condition'=>$condition));?>       </div>
+</div>
+
+<script>
+function show_confirm(url,description)
+{
+	if(confirm('确认'+ description +'该管理员？'))
+	{
+		location.href = url;
+	}
+	else
+	{
+		return false;
+	}
+}
+</script>

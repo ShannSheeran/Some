@@ -1,0 +1,222 @@
+<style type="text/css">
+.form-control{width: 500px;margin-bottom: 5px;margin-right: 5px;}
+
+.search {
+    width: 300px;
+    height: 40px;
+    position: relative;
+}
+
+.edit {
+    overflow: hidden;
+}
+
+.search_input {
+    width: 290px;
+    height: 34px;
+    font-size: 16px;
+}
+
+.search_input:focus {
+    outline: none;
+}
+
+.match_text {
+    display: none;
+    position: absolute;
+    top: 6px;
+    width: 290px;
+    z-index: 99;
+    background-color: white;
+    border: 1px solid #ccc;
+}
+
+.match_text div:hover {
+    background: #f0f0f0;
+}
+
+.match_text ul {
+    list-style-type: none;
+    border: 1px solid #cccccc;
+    margin-bottom: 0px;
+}
+
+.match_text ul li {
+    font-size: 12px;
+    color: #333333;
+    display: block;
+    line-height: 25px;
+    padding-left: 10px;
+    cursor: pointer;
+}
+</style>
+<div class="row">
+	<div class="col-sm-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>编辑设备</h3>
+				<div class="panel-options">
+					<a href="#" data-toggle="panel">
+						<span class="collapse-icon">&ndash;</span>
+						<span class="expand-icon">+</span>
+					</a>
+					<a href="#" data-toggle="remove"> &times; </a>
+				</div>
+			</div>
+			<div class="panel-body">
+                <form role="form" class="form-horizontal" action="<?php echo $this->url("admin-device",array('action'=>'deviceDetails'));?>" method="post" onsubmit="return check();">
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="field-1">*设备编号：</label>
+					<div class="col-sm-10">
+						<input class="form-control"  name="device_id" id="device_id" value="<?php echo isset($info->device_id)?$info->device_id:''; ?>" />
+                        <p>设备编号，若填了UUID、major、minor，则可不填设备编号，若二者都填，则以设备编号为优先 </p>
+					</div>
+				</div>
+				<div class="form-group-separator"></div>
+				
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="field-1">UUID：</label>
+					<div class="col-sm-10">
+                        <input class="form-control"  name="uuid" id="uuid" value="<?php echo isset($info->uuid)?$info->uuid:''; ?>" />
+					</div>
+				</div>
+				<div class="form-group-separator"></div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="field-1">major：</label>
+                    <div class="col-sm-10">
+                        <input class="form-control"  name="major" id="major" value="<?php echo isset($info->major)?$info->major:''; ?>" />
+                    </div>
+                </div>
+                <div class="form-group-separator"></div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="field-1">minor：</label>
+                    <div class="col-sm-10">
+                        <input class="form-control"  name="minor" id="minor" value="<?php echo isset($info->minor)?$info->minor:''; ?>" />
+                    </div>
+                </div>
+                <div class="form-group-separator"></div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="field-1">备注信息：</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" placeholder="(不超过15个汉字或30个英文字母)"  name="comment" id="comment" value="<?php echo isset($info->comment)?$info->comment:''; ?>" />
+                    </div>
+                </div>
+                <div class="form-group-separator"></div>
+
+                <!-- <div class="form-group">
+                    <label class="col-sm-2 control-label" for="field-1"></label>
+                    <div class="col-sm-10">
+                        <input type="hidden" name="id" value="<?php echo $info->id;?>"/>
+                        <input type="submit" class="btn btn-info" name="submit"
+                            style="margin-left: 100px" value="保存">
+                    </div> 
+                </div>
+                <div class="form-group-separator"></div>
+                </form>
+                <div class="panel-heading" style="margin-bottom: 10px;">
+                    <h3>绑定页面</h3>
+                    <div class="panel-options">
+                        <a href="#" data-toggle="panel">
+                            <span class="collapse-icon">&ndash;</span>
+                            <span class="expand-icon">+</span>
+                        </a>
+                        <a href="#" data-toggle="remove"> &times; </a>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="field-1" style="text-align: right;"></label>
+                    <div class="col-sm-10">
+                        <span class="search">
+                            <span class="edit" style="position: relative;">
+                                <?php if($page_info){ ?>
+                                    <?php foreach($page_info as $v){?>
+                                        <form action="<?php echo $this->url('admin-device',array('action'=>'deviceBindPage')); ?>" method="post">
+                                            <input style="float: left;" type="text" class="search_input form-control"
+                                                   name="page_id" value="<?php echo $v->page_id.'#'.$v->title; ?>" readonly />
+                                            <input type="hidden" name="bind" value="0" />
+                                            <input type="hidden" name="id" value="<?php echo isset($info->id)?$info->id:''; ?>" />
+                                            <input class="btn btn-danger" type="submit" name="submit" value="解除绑定" />
+                                        </form>
+                                    <?php }} ?>
+                                <form action="<?php echo $this->url('admin-device',array('action'=>'deviceBindPage')); ?>" method="post">
+                                    <input style="float: left;" type="text" class="search_input form-control" id="search_text"
+                                           value="" placeholder="请输入标签名" onkeyup="  json(this.value)"
+                                           autocomplete="off" name="page_id" />
+                                    <input type="hidden" name="bind" value="1" />
+                                    <input type="hidden" name="id" value="<?php echo isset($info->id)?$info->id:''; ?>" />
+                                    <input class="btn btn-info" type="submit" name="submit" value="绑定页面" />
+                                </form>
+                                <div class="match_text" id="json_back"></div>
+                            </span>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group-separator"></div>-->
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+function check()
+{
+	var device_id  = $("#device_id").val();
+	var comment = $("#comment").val();
+
+	if(device_id == '')
+	{
+		alert('设备编号不能为空');
+		return false;
+	}
+
+	if(getlength(comment) > 30)
+	{
+		alert('申请理由不能为空！');
+		return false;
+	}
+	
+}
+
+//字段长度判断
+function getlength (str) {
+    //<summary>获得字符串实际长度，中文2，英文1</summary>
+    //<param name="str">要获得长度的字符串</param>
+    var realLength = 0, len = str.length, charCode = -1;
+    for (var i = 0; i < len; i++) {
+        charCode = str.charCodeAt(i);
+        if (charCode >= 0 && charCode <= 128) realLength += 1;
+        else realLength += 2;
+    }
+
+    return realLength;
+}
+
+function json(obj)
+{
+    if(obj==''){return;}
+    var json = new Object;
+    json.s = obj;
+
+    $.post("<?php echo $this->url('admin-device',array('action'=>'deviceBindPage'));?>", {request: json},
+        function(data)
+        {
+            data = $.parseJSON(data);
+            if(data)
+            {
+                $("#json_back").show();
+                var html = '';
+                var list = data;
+                for(var i =0;i<list.length;i++){
+                    html+='<div style="width:290px;cursor:pointer;">'+list[i].page_id+'#'+list[i].title+'</div>';
+                }
+                $("#json_back").html(html);
+                $("#json_back div").click(function(){
+                    $("#search_text").val( $(this).text() );
+                    $("#json_back").hide();
+                });
+            }
+        });
+}
+</script>

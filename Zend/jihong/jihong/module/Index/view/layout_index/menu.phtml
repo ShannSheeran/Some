@@ -1,0 +1,42 @@
+
+<div class="wrap">
+    <div class="user_content">
+        <div class="user_content_left">
+            <div class="user_center">
+                <h2 class="tc">会员中心</h2>
+                <ul>
+                    <?php if($user_info->type == 2):?>
+                    <li  class="<?php echo ($action == 'goodsList') ? 'on' : ''?>"><a href="<?php echo $this->url('index',array('controller'=>'user','action'=>'myGoods'))?>">我的商品</a></li>
+                    <?php else:?>
+                    <li  class="<?php echo ($action == 'orderList') ? 'on' : ''?>"><a href="<?php echo $this->url('index',array('controller'=>'order','action'=>'index')) ?>">我的订单</a></li>
+                    <?php endif;?>
+                    <?php if($user_info->type == 2):?>
+                    <li  class="<?php echo ($action == 'releaseGoods') ? 'on' : ''?>"><a href="<?php echo $this->url('index',array('controller'=>'goods','action'=>'releaseGoods'))?>">发布商品</a></li>
+                    <li  class="<?php echo ($action == 'orderList') ? 'on' : ''?>"><a href="<?php echo $this->url('index',array('controller'=>'order','action'=>'index'))?>">资材订单</a></li>
+                    <?php endif;?>
+                    <li  class="<?php echo ($action == 'service') ? 'on' : ''?>"><a href="<?php echo $this->url('index',array('controller'=>'service','action'=>'serviceList'))?>">我的售后</a></li>
+                    <?php if($user_info->type == 2):?>
+                    <li  class="<?php echo ($action == 'marketFeedback') ? 'on' : ''?>"><a href="<?php echo $this->url('index',array('controller'=>'service','action'=>'marketFeedback'))?>">市场反馈</a></li>
+                    <?php else:?>
+                    <li  class="<?php echo ($action == 'message') ? 'on' : ''?>"><a href="<?php echo $this->url('index',array('controller'=>'service','action'=>'leaveMessage'))?>">我的留言</a></li>
+                    <?php endif;?>
+                    <?php if($user_info->type == 2):?>
+                    <li  class="<?php echo ($action == 'account') ? 'on' : ''?>"><a href="<?php echo $this->url('index',array('controller'=>'order','action'=>'supplierAccount'))?>">对账单查询</a></li>
+                    <?php else:?>
+                    <li  class="<?php echo ($action == 'account') ? 'on' : ''?>"><a href="<?php echo $this->url('index',array('controller'=>'order','action'=>'dealerAccount'))?>">对账单查询</a></li>
+                    <?php endif;?>
+                    <li class="<?php echo ($action == 'userInfo') ? 'on' : ''?>"><a  href="<?php echo $this->url('index',array('controller'=>'user','action'=>'user'))?>">会员信息</a></li>
+                    <li class="<?php echo ($action == 'editPassword') ? 'on' : ''?>"><a  href="<?php echo $this->url('index',array('controller'=>'user','action'=>'changePassword'))?>">修改密码</a></li>
+                    <li class="<?php echo ($action == 'editMobile') ? 'on' : ''?>"><a  href="<?php echo $this->url('index',array('controller'=>'user','action'=>'modifyPhone'))?>">修改手机号码</a></li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+            <div class="contact_us">
+                <h2>联系我们</h2>
+                <p>客服：<?php echo $setting[2]->text ?></p>
+                <p>传真：<?php echo $setting[3]->text ?></p>
+                <p>E-mail : <?php echo $setting[4]->text ?></p>
+                <p><?php echo $setting[5]->text ?></p>
+            </div>
+        </div>
+<?php echo $this->main?>

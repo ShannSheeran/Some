@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,inital-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-status-bar-style" content="block" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>快摇名片</title>
+    <!-- 公用样式 -->
+    <link rel="stylesheet" type="text/css" href="../../../../../public/css/kuaiyao/common.css">
+    <!-- 微信页面样式 -->
+    <link rel="stylesheet" type="text/css" href="../../../../../public/css/kuaiyao/weixin.css">
+    <!--只兼容移动端，所以直接使用jQuery 2.1.4-->
+    <script type="text/javascript" src="../../../../../public/lib/jquery.2.1.4.min.js"></script>
+</head>
+<body>
+    <div class="lg_logo">
+        <img src="../../../../../public/images/img_signlogo@3x.png" alt="">
+    </div>
+    <form action="" class="p15">
+        <input class="lg_import border_bottom" id="mobile" type="text"  placeholder="请输入手机号码">
+        <div class="pt_r">
+            <input class="lg_import" type="password" placeholder="请输入验证码">
+            <input class="captcha" type="button" id="btn" value="获取验证码" onclick="smscode()"/>
+        </div>
+        <input class="lg_submit" type="submit" value="立即绑定" onclick="smscode()">
+    </form>
+    <script type="text/javascript">
+    // 验证号码
+        function smscode(){
+            var mobile = $("#mobile").val();
+            var code = $("#mobile_code").val();
+            if($("#mobile").val()==''){
+                alert("手机号码不能为空");
+                return false;
+            }
+            if (mobile.length != 11) {
+                alert("输入正确的手机号码");
+                return false;
+            }else{
+                var wait=60;
+                function time(o) {
+                        if (wait == 0) {
+                            o.removeAttribute("disabled");          
+                            o.value="获取验证码";
+                            wait = 60;
+                        } else {
+                            o.setAttribute("disabled", true);
+                            o.value= wait + "秒后重新获取";
+                            wait--;
+                            setTimeout(function() {
+                                time(o)
+                            },
+                            1000)
+                        }
+                    }
+                document.getElementById("btn").onclick=function(){time(this);}
+                    }
+    
+        }
+
+        
+
+       
+        
+    </script>
+</body>
+</html>

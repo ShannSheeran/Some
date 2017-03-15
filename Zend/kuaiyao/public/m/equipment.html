@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="UTF-8">
+<meta name="Keywords" content="快摇名片" />
+<meta name="Description" content="快摇名片" />
+<title>快摇名片</title>
+<meta name="viewport" content="width=device-width,inital-scale=1.0,minimum-scale=1.0,maximum-scale=1.0" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="stylesheet" type="text/css" href="css/home.css?=212" />
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/javascript.fullPage.min.js"></script>
+</head>
+<body>
+<div class="header">
+	<div class="logo"><a href="home.html"><img  src="images/logo.png" alt=""/></a></div>
+	<span>设备</span>
+	<ul class="nav">
+		<li><a href="instructions.php?a=2">产品说明</a></li>
+	</ul>
+</div>
+<div class="equipment">
+	<!-- 第一个模块 -->
+	<div class="section eq_one">
+		<div class="e_bgright"><img src="images/e_bg2.jpg" alt=""></div>
+		<div class="e_bgleft"><img src="images/e_bg.png" alt=""></div>
+		<div class="one_img"><img src="images/5icon.png" alt=""></div>
+		<div class="one_text"><img src="images/e_text1.jpg" alt=""></div>
+		<div class="down"><img src="images/down_arrow.png" alt=""></div>
+	</div>
+	<!-- 第二个模块 -->
+	<div class="section eq_two">
+		<div class="two_head"><img src="images/timu.jpg" alt=""></div>
+		<div class="two_text"><img src="images/e_text2.jpg" alt=""></div>
+		<div class="two_icon"><img src="images/3icon.jpg" alt=""></div>
+		<div class="two_img"><img src="images/e_img2.jpg" alt=""></div>
+		<div class="two_move"><img src="images/e_img1.png" alt=""></div>
+		<div class="down"><img src="images/down_arrow.png" alt=""></div>
+	</div>
+	<!-- 第三个模块 -->
+	<div class="section eq_three">
+		<div class="three_head"><img src="images/title.jpg" alt=""></div>
+		<div class="three_text"><img src="images/written-words.jpg" alt=""></div>
+		<div class="three_move"><img src="images/e_img3.png" alt=""></div>
+		<div class="three_img"><img src="images/card.jpg" alt=""></div>
+		<div class="down"><img src="images/down_arrow.png" alt=""></div>
+	</div>
+	<!-- 第四个模块 -->
+	<div class="section eq_four">
+		<div class="four_head"><img src="images/title4.jpg" alt=""></div>
+		<div class="four_text"><img src="images/e_text3.jpg" alt=""></div>
+		<div class="four_img"><img src="images/watch.jpg" alt=""></div>
+	</div>
+</div>
+
+<!-- 横屏幕提示 -->
+<div id="orientLayer" class="mod-orient-layer">
+<div class="mod-orient-layer__content"> <i class="icon mod-orient-layer__icon-orient"></i>
+  <div class="mod-orient-layer__desc">为了更好的体验，请使用竖屏浏览</div>
+</div>
+</div>
+
+<script type="text/javascript">
+	// 滚动切换
+	$(document).ready(function(){
+		fullpage.initialize('.equipment', {
+			anchors: ['page1', 'page2', 'page3', 'page4'],
+			afterLoad: function(anchorLink, index){
+				if(anchorLink == "page2"){//第二个模块动画
+					$(".two_move").animate({left:'25%',top:'48%'},800);
+				}
+
+				if(anchorLink == "page3"){//第三个模块动画
+					$(".three_move").animate({right:'0'},1500);
+				}
+
+			},
+			menu: '#menu',
+			
+		});
+    });
+
+		
+	
+</script>
+
+	
+</body>
+</html>

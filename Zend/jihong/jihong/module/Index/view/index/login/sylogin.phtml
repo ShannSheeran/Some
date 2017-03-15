@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>吉宏园艺</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/index/base.css">
+<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/index/sylogin.css">
+<script type="text/javascript" src="<?php echo $this->basePath();?>/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath();?>/js/index.js"></script>
+
+</head>
+<body>
+    <div class="head wrap">
+        <a href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'index'  ))?>" class="sylogo fl"></a>
+        <p class="trading_tittle fl font20 corgray6 fontb">全方位中国花卉交易平台</p>
+    </div>
+    <div class="main">
+        <div class="wrap dw">
+            <div class="login_box">
+                <div class="clearfix login_box_tittle mb30">
+                    <h2 class="current border_r" enterpris_type="1">经销商</h2>  
+                    <h2 enterpris_type="2">供应商</h2> 
+                </div>
+                <div class="form pub current">
+                    <input type="hidden" value="1" name="type" id="enterprisType">
+                    <p style="position:absolute;top:55px;color:#c4234c;" id="errorTip"></p>
+                    <div class="txt1">
+                        <input class="account" type="text"  name="name" placeholder="请输入账号" id="user_name" style="color:black" />
+                        <i>&#xe714;</i>
+                    </div>
+                    <div class="txt2">
+                        <input class="password" type="password" name="password" placeholder="请输入密码" id="user_password"  style="color:black"/>
+                        <i>&#xe644;</i>
+                    </div>
+                    <div class="test clearfix">
+                        
+                            <input class="fl test_txt" style="display:<?php echo (isset($_SESSION['login_number']) && $_SESSION['login_number'] > 2) ? '' :'none' ?>" type="text" name="captcha" placeholder="请输入验证码"  id="code" />
+                            <div class="testpic fr" style="display:<?php echo (isset($_SESSION['login_number']) && $_SESSION['login_number'] > 2) ? '' :'none' ?>">
+                                <img id="Captcha" src="" onclick="onvdcodeFocus()"  height="38" width="78" >
+                            </div>
+                        <?php //endif; ?>
+                    </div>
+                    <input class="login_btn font18 corgrayf" type="button"  onclick="login()" name="submit" value="登 录" />
+                    <p class="help_txt">
+                        <span class="fl"><a class=" corgray3" href="<?php echo $this->url('index' , array('controller' => 'login' , 'action' => 'forgetPassword'))?>">忘记密码？</a></span>
+                        <span class="fr"><a class="corblue" href="<?php echo $this->url('index' , array('controller' => 'login' , 'action' => 'register'))?>">注册账号>></a></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+$(function(){
+    $('.login_box h2').click(function(event) {
+        $(this).addClass('current').siblings('').removeClass('current');
+
+        $('#user_name').val('');
+        $('#user_password').val('');
+        $('#code').val('');
+        $('#enterprisType').val($(this).attr('enterpris_type'));
+        //$('.pub').eq($(this).index()).addClass('current').siblings('').removeClass('current');
+    });
+})
+
+onvdcodeFocus();
+function onvdcodeFocus()
+{
+	$.post("<?php echo $this->url('admin-common',array('action'=>'generateCaptcha'))?>",
+		function(data){    		    	     
+			$("#Captcha").attr("src",data);
+		});
+}
+
+var actLogin = true;
+function login()
+{
+    if(!actLogin)
+    {
+        return false;
+    }
+	
+	var user_name = $('#user_name').val();
+	var user_password = $('#user_password').val();
+	if(!user_name)
+	{
+		$('.form #user_name').css('border' , "1px solid red");
+		$('.form #user_name').css('borderRadius' , "5px");
+		return false;
+	}
+	
+	if(!user_password  ||  user_password.length<6)
+	{
+		$('.form  #user_password').css('border' , "1px solid red");
+		$('.form  #user_password').css('borderRadius' , "5px");
+		return false;
+	}
+	
+    if($('#code').css("display") == "block" && $('#code').val() == '' )
+    {
+    	$('#code').css('border' , "1px solid red");
+		$('#code').css('borderRadius' , "5px");
+		return false;
+    }
+
+    $('.form #user_password').css('border' , "1px solid #ccc");
+    $('#code').css('border' , "1px solid #ccc");
+    $('.form #user_name').css('border' , "1px solid #ccc");
+    
+    actLogin = false;
+	user_password = $.md5(user_password);
+    type = $('#enterprisType').val();
+    code = $('#code').val();
+    
+    $.post('<?php echo $this->url('index' , array('controller' => 'login' , 'action' => 'login'))?>' , {"name" : user_name , "password" : user_password ,"type" : type , 'captcha' : code } ,function(data){
+        console.log(data);
+        if(data.status == 0)
+        {
+            location.href="<?php echo $this->url('index', array('controller' =>'index', 'action' => 'index')) ; ?>";
+        }
+        else if(data.status == 1)
+        {
+            $('#errorTip').html(data.description);
+            if(data.login_number > 2)
+            {
+                $('#code').show();
+                $('.testpic').show();
+            }
+            onvdcodeFocus();
+        }
+        actLogin = true;
+     },"json" );
+}
+
+$('#user_name').blur(function(){
+	if(!$('#user_name').val())
+	{
+		$('#user_name').css('border' , "1px solid red");
+		$('#user_name').css('borderRadius' , "5px");
+		//$('#user_name').focus();
+	}
+	else
+	{
+		$('#user_name').css('border' , "1px solid #ccc");
+	}
+})
+
+$('#user_password').blur(function(){
+	if(!$('#user_password').val()  || $('#user_password').val().length<6)
+	{
+		$('#user_password').css('border' , "1px solid red");
+		$('#user_password').css('borderRadius' , "5px");
+		//$('#user_password').focus();
+	}
+	else
+	{
+		$('#user_password').css('border' , "1px solid #ccc");
+	}
+})
+
+$('#code').blur(function(){
+	if(!$('#code').val())
+	{
+		$('#code').css('border' , "1px solid red");
+		$('#code').css('borderRadius' , "5px");
+		$('#code').focus();
+	}
+	else
+	{
+		$('#code').css('border' , "1px solid #ccc");
+	}
+})
+
+
+$(document).keydown(function(evt){
+	var evt = event || window.event || arguments.callee.caller.arguments[0];
+	if(evt && evt.keyCode==13){
+		login();
+    }
+})
+
+</script>
+</html>

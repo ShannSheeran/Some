@@ -1,0 +1,90 @@
+<script src="<?php echo $this->basePath();?>/js/admin/jedate.min.js"></script>
+<style>
+    .fl{
+        float:left;
+    }
+	.dataTables_info{
+		display:none;
+	}
+	.dataTables_paginate{
+		display: none;
+	}
+	.bc-1{display: none;}
+	.col-sm-5{display: none;}
+	.col-sm-7{display:none;}
+</style>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+        <a href="<?php echo $this->url('admin-service' , array('action' => 'feedback')); ?>">售后留言管理/ <a href="">意见反馈管理</a>
+		</h3>
+	</div>
+	
+	<div class="panel-body">
+    	<div class="" style="float:right;">
+            <form class="form-horizontal" action="<?php $this->url('admin-service' , array('action' => 'feedback')) ?>" method="get" style="float: left; margin-left: 20px;">
+            <span style="font-weight: bold; font-size: 14px;">提交日期：</span>
+            <input type="text"  style="line-height: 22px"  name="start_time" readonly id="start_time" class="datainp" placeholder="请选择" value="<?php echo isset($start_time) ? $start_time :''?>"/>
+            <span style="font-weight: bold; font-size: 14px;">到：</span>
+			<input type="text"  style="line-height: 22px"  name="end_time"  readonly id="end_time"  class="datainp" placeholder="请选择" value="<?php echo isset($end_time) ? $end_time :''?>"/>
+			<span style="font-weight: bold; font-size: 14px;"> 关键词 :</span>
+			<input type="text" name="keyword" value="<?php echo isset($keyword) ? $keyword :''?>" placeholder="请输入企业名称搜索" style="line-height: 26px" >
+			<input type="submit"  value="搜索" class="btn btn-info" style="height: 26px; width: 60px; line-height: 26px; padding: 0; margin-left: 10px; margin-top: 5px;" />
+		    </form>
+    	</div>
+    	<div style="clear:both;"></div>
+		<table class="table table-bordered table-striped" id="example-4">
+			<thead>
+				<tr>
+					<th>反馈时间</th>
+					<th>企业名称</th>
+					<th>企业类型</th>
+					<th>反馈内容</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?php if(!empty($message)){?>
+			<?php foreach ($message as $k=>$v){?>
+                <tr class="tr_list" valign="middle">
+					<td><?php echo $v->timestamp?></td>
+					<td><?php echo $v->company_name?></td>
+					<?php foreach ($enterprisType as $m=>$n){?>
+					<?php if($m == $v->user_type){?>
+					<td><?php echo $n?></td>
+					<?php }?>
+					<?php }?>
+					<td><?php echo $v->content?></td>
+				</tr>
+			<?php }?>
+			<?php }?>
+            </tbody>
+		</table>
+        <?php echo $this->paginationControl($paginator, 'Sliding', 'page',array('route' =>'admin-service','condition'=>$condition));?>       
+        </div>
+</div>
+<script type="text/javascript">
+var start ={
+		dateCell:"#start_time",
+		format:"YYYY-MM-DD hh:mm:ss",
+		isinitVal:false,
+		isTime:true, 
+		maxDate: jeDate.now(0),
+		minDate:"1970-01-01 00:00:00",
+		choosefun: function(datas){
+			end.minDate = datas;
+	    }
+	};
+var end ={
+	dateCell:"#end_time",
+	format:"YYYY-MM-DD hh:mm:ss",
+	isinitVal:false,
+	isTime:true,
+	minDate:"1970-01-01 00:00:00",
+	maxDate: jeDate.now(0),
+	choosefun: function(datas){
+        start.maxDate = datas;
+    }
+}
+jeDate(start);
+jeDate(end);
+</script>

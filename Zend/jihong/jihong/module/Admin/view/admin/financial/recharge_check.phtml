@@ -1,0 +1,153 @@
+<style>
+    .tl{text-align: right;}
+    .main-nody{padding:5px 20px 0 20px;}
+    .main-nody h5{float: left;}
+    .tp{margin-top: 30px;}
+    .bc-1{display: none;}
+    .fl{float: left;}
+</style>
+<div class="panel panel-default">
+   <div class="panel-heading">
+       <div calss="row">
+           <div class="col-sm-6">
+           <a href="<?php echo $this->url('admin-financial' , array('action' => 'index')) ?>">财务管理 / <a href="<?php echo $this->url('admin-financial' , array('action' => 'rechargeCheck')) ?>">充值审核</a> / <a href="">申请详情</a>
+           </div>
+       </div>
+   </div>
+    <div class="pannel-body main-nody">
+        <div class="row">
+            <div class="col-lg-12">
+                <h5>企业信息</h5>
+            </div>
+            <div class="col-lg-12">
+                <table class="table table-striped" id="example-4" >
+                    <tbody>
+                        <tr>
+                            <td width="20%">企业名称</td>
+                            <td><?php echo $financial_info->company_name ?>爱特安为网络技术有限公司</td>
+                        </tr>
+                        <tr>
+                            <td width="20%">登录账号</td>
+                            <td><?php echo $financial_info->name ?></td>
+                        </tr>
+                        <tr>
+                            <td width="20%">企业类型</td>
+                            <td><?php echo $enterpris_type[$financial_info->user_type] ?></td>
+                        </tr>
+                        <tr>
+                            <td width="20%">会员等级</td>
+                            <td><?php echo $user_level[$financial_info->user_level] ?></td>
+                        </tr>
+                        <tr>
+                            <td width="20%"> 账户余额</td>
+                            <td><?php echo $financial_info->user_cash?></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row tp">
+            <div class="col-lg-12">
+                <h5>操作信息</h5>
+            </div>
+            <div class="col-lg-12">
+                <table class="table table-striped" id="example-4" >
+                    <tbody>
+                        <tr>
+                            <td width="20%"> 操作类型</td>
+                            <td><?php echo $financial_type[$financial_info->type] ?></td>
+                        </tr>
+                        <tr>
+                            <td width="20%">操作金额</td>
+                            <td><span style="color:red"><?php echo $financial_info->cash ?></span></td>
+                        </tr>
+                        <tr>
+                            <td width="20%">申请时间</td>
+                            <td><?php echo $financial_info->timestamp ?></td>
+                        </tr>
+                        <tr>
+                            <td width="20%"> 操作备注 </td>
+                            <td><?php echo $financial_info->description ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <form class="form-horizontal" action="<?php echo $this->url('admin-financial' , array('action' => 'dealRechargeFinancial')) ?>" method="post" >
+        <div class="row tp">
+            <div class="col-lg-12">
+                <h5>审核信息</h5>
+            </div>
+            <div class="col-lg-12">
+                <table class="table table-striped" id="example-4" >
+                    <tbody>
+                        <?php if($financial_info->status == 1): ?>
+                        <tr>
+                            <td width="20%"> 
+                                审核备注
+                                <p>（审核不通过请填写原因）</p>
+                             </td>
+                            <td>
+                                <textarea style="width: 300px;height:100px;" name="refuse_reason"></textarea>
+                            </td>
+                        </tr>
+                        <?php else: ?>
+                        <tr>
+                            <td width="20%"> 审核结果</td>
+                            <td>
+                                <?php 
+                                    switch ($financial_info->status)
+                                    {
+                                        case 2:
+                                            echo '审核通过';
+                                            break;
+                                        case 3:
+                                            echo '审核不通过';
+                                            break;
+                                    }
+                                 ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%"> 审核人</td>
+                            <td> <?php  echo $financial_info->audit_admin_name  ?> </td>
+                        </tr>
+                        <tr>
+                            <td width="20%"> 审核时间</td>
+                            <td> <?php  echo $financial_info->timestamp_update  ?> </td>
+                        </tr>
+                        <tr>
+                            <td width="20%"> 审核备注</td>
+                            <td> <?php  echo $financial_info->refuse_reason  ?> </td>
+                        </tr>
+                        <?php endif;?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <?php if($financial_info->status == 1): ?>
+        <div class="row">
+            <div class="col-lg-12">
+                <h5></h5>
+            </div>
+            <div class="col-lg-12">
+                <table class="table table-striped" id="example-4">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input type="hidden" value="<?php echo $financial_info->id; ?>" name="id">
+                                <button type="submit" value="审核不通过" name="nopass" class="btn btn-info" >审核不通过</button>
+                                <button type="submit" value="审核通过" name="pass" class="btn btn-info" >审核通过</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <?php endif;?>
+        </form>
+    </div>
+</div>

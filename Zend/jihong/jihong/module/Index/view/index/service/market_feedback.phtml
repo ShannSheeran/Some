@@ -1,0 +1,117 @@
+                <script>
+                $(function(){
+                  $('.see_reply').click(function(){
+                    // alert('nihao');
+                    $('.feedback_popup').show();
+                    $('.write_reply').hide();
+                    $('.read_reply').show();
+                  })
+                  $('.reply').click(function(){
+                    // alert('nihao');
+                    $('.feedback_popup').show();
+                    $('.write_reply').show();
+                    $('.read_reply').hide();
+                  })
+                  $('.feedback_popup .away,.feedback_popup .close').click(function(){
+                    // alert('nihao');
+                    $('.feedback_popup').hide();
+                  })
+                })     
+                </script>
+                <div class="user_content_right">
+                    <h2 class="goods_h2">市场反馈</h2>
+                    <div class="feedback_center">
+                      <ul class="feedback_list">
+                        <li class="feedback_time">反馈时间</li>
+                        <li class="feedback_covers">反馈内容</li>
+                        <li class="feedback_operation">操作</li>                       
+                      </ul>
+                      <ul class="feedback_content">
+                      <?php if(!empty($feedbacks)){?>
+                      <?php foreach ($feedbacks as $v){?>
+                        <li>
+                          <div class="feedback_time"><?php echo $v->timestamp?>
+                          </div> 
+                          <div class="feedback_covers"><?php echo $v->content?>
+                          </div>                         
+                          <div class="feedback_operation">
+                            <?php if($v->file){?>
+                            <a class="download" href="<?php echo ROOT_PATH . UPLOAD_PATH . $v->file?>">下载附件</a>
+                            <?php }else{?>
+                            <a class="download">&nbsp;</a>
+                            <?php }?>
+                            <a class="reply <?php echo $v->status==1 ? '' : 'none'?>" onclick="addAttr(<?php echo $v->id?>)">回复</a>
+                            <a class="see_reply <?php echo $v->status==2 ? '' : 'none'?>"  onclick="see_reply(<?php echo $v->id?>);">查看回复</a>
+                          </div>
+                        </li>
+                        <?php }?>
+                        <?php }?>
+                      </ul>
+                    </div>
+                    <div class="clear"></div>
+                    <?php echo $this->paginationControl($paginator, 'Sliding', 'layout_index/page',array('route' =>'index','condition'=>$condition));?>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="clear"></div>
+    <!-- 遮罩>弹窗 -->
+    <div class="page_strong"></div>
+    <div class="feedback_popup">
+      <h2>回复/查看回复</h2>
+      <span class="close" onclick="hideDialog();"></span>
+      <span class="reply">回复内容：</span>
+      <label class="answer read_reply none">
+      </label>
+      <textarea cols="20" rows="5" class="write_reply none" id="response">
+      </textarea>
+      <div class="btn_away_feedback write_reply none">
+        <a class="away" onclick="hideDialog();">取消</a>
+        <a class="btn_feedback" onclick="reply(this)">回复</a>
+      </div>
+    </div>
+    <!-- 遮罩>弹窗 -->
+    <script type="text/javascript">
+    function see_reply(id){
+    	$(".feedback_popup h2").html("查看回复");
+    	$.ajax({
+    	    url:'<?php echo $this->url('index',array('controller' => 'service','action'=>'feedbackSeeReply'))?>',
+    	    type:'post',
+    	    data:{'id':id},
+    	    dataType:'json',
+    	    success:function(data){
+    		    if(data.code == '1'){
+    		    	$('.page_strong').css('display','block');
+    		    	$(".answer").html(data.reply);
+    			}
+    		},
+    	});
+        }
+    function reply(obj){
+        if($.trim($("#response").val()).length<=0){
+            alert("请输入回复内容");
+            return false;
+            }
+        var id = $(obj).attr('feedback_id');
+        var response = $.trim($("#response").val());
+    	$.ajax({
+    	    url:'<?php echo $this->url('index',array('controller' => 'service','action'=>'feedbackReply'))?>',
+    	    type:'post',
+    	    data:{'id':id,'response':response},
+    	    dataType:'json',
+    	    success:function(data){
+    		    if(data.code == '1'){
+        		    alert("回复成功");
+        		    hideDialog();
+        		    $('.feedback_popup').hide();   
+        		    window.location.reload();
+    			}
+    		},
+    	});
+        }
+    function addAttr(id){
+    	$(".feedback_popup h2").html("回复");
+    	$('.page_strong').css('display','block');
+        $('.btn_feedback').attr('feedback_id',id);
+        }
+    </script>

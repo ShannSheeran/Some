@@ -1,0 +1,144 @@
+<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/admin/page.css">
+<script src="<?php echo $this->basePath();?>/js/admin/jedate.min.js"></script>
+        <link rel="stylesheet" href="<?php echo $this->basePath();?>/css/admin/jedate.css" />
+        <div class="user_content_right">
+            <h2 class="goods_h2">我的订单</h2>
+            <ul class="my_goods_list">
+                <li class="<?php echo (!in_array($status, array(1,2,4))) ? 'on' : ''; ?>">
+                    <a href="<?php echo $this->url('index' , array('controller' => 'order' , 'action' => 'index' , 'id' => 1,'status'=> 0 ))?>">全部订单</a>
+                    <?php if($total_order>0) : ?>
+                    <i><?php echo $total_order; ?></i>
+                    <?php endif; ?>
+                </li>                        
+                <li class="<?php echo ($status == 2) ? 'on' : ''; ?>">
+                    <a href="<?php echo $this->url('index' , array('controller' => 'order' , 'action' => 'index' , 'id' => 1,'status'=> 2 ))?>">待审核</a>
+                    <?php if($check_order>0) : ?>
+                    <i><?php echo $check_order; ?></i>
+                    <?php endif; ?>
+                </li>
+                <li class="<?php echo ($status == 1) ? 'on' : ''; ?>">
+                    <a href="<?php echo $this->url('index' , array('controller' => 'order' , 'action' => 'index' , 'id' => 1,'status'=> 1 ))?>">待付款</a>
+                    <?php if($pay_order>0) : ?>
+                    <i><?php echo $pay_order; ?></i>
+                    <?php endif; ?>
+                </li>
+                <li class="<?php echo ($status == 4) ? 'on' : ''; ?>">
+                    <a href="<?php echo $this->url('index' , array('controller' => 'order' , 'action' => 'index' , 'id' => 1,'status'=> 4 ))?>">待收货</a>
+                    <?php if($deliver_order>0) : ?>
+                    <i><?php echo $deliver_order; ?></i>
+                    <?php endif; ?>
+                </li>                       
+            </ul>
+            <div class="clear"></div>
+            <div class="my_good_time">
+              <form action="<?php $this->url('index' , array('controller'=>'order','action' => 'index')) ?>" method="get" class="fl clearfix" id="byTime">
+                <div class="release_time">
+                  <span class="fl">下单时间：</span>
+                  <div class="start_time">
+                    <input type="text"  name="start_time" readonly id="start_time" class="datainp time_input" placeholder="请选择" value="<?php echo isset($start_time) ? $start_time :''?>"/>
+                  </div>
+                  <div class="to">至</div>
+                  <div class="over_time">
+                    <input type="text"  name="end_time"  readonly id="end_time"  class="datainp time_input" placeholder="请选择" value="<?php echo isset($end_time) ? $end_time :''?>"/>
+                  </div>
+                  <input type="submit" class="btn_sure" style="border:none" value="搜索">
+                </div>
+              </form>
+              <form action="<?php $this->url('index' , array('controller'=>'order','action' => 'index')) ?>" method="get" class="my_goods_search clearfix">
+                <div class="clearfix search_box pr">
+                  <div class="fl">
+                    <input type="text" name="keyword" class="search_input" placeholder="请输订单号搜索" value="<?php echo !empty($keyword) ? $keyword : ''; ?>" onfocus=";">
+                  </div>
+                  <div class="fr"><input type="submit" class="search_btn" value="搜索" onclick="Search()"></div>
+                </div>
+              </form>
+            </div>
+            <div class="myorder_center">
+              <ul class="myorder_list">
+                <li class="order_number">订单编号</li>
+                <li class="order_placetime">下单时间</li>
+                <li class="order_univalent">订单金额</li>
+                <li class="order_supplynum">商品数量</li>
+                <li class="order_logisticsdetails">物流详情</li>
+                <li class="order_state">订单状态</li>
+                <li class="order_operation">操作</li>
+            </ul>
+            <ul class="order_content">
+              <?php foreach ($order_list as $value): ?>
+                <li>
+                  <div class="order_number">
+                    <?php echo $value->order_sn; ?>
+                  </div>
+                  <div class="order_placetime">
+                    <?php echo $value->timestamp; ?>
+                  </div>
+                  <div class="order_univalent">
+                                                            ￥<?php echo $value->total_cash; ?>
+                  </div>
+                  <div class="order_supplynum">
+                    <?php echo $value->total_number; ?>
+                  </div>
+                  <div class="order_logisticsdetails">
+                    <?php if($value->status == 4 || $value->status == 5):?>
+                    <?php echo $value->express_name; ?>
+                    <?php echo $value->shipping_sn; ?>
+                    <?php endif; ?>
+                  </div>
+                  <div class="order_state">
+                    <?php echo $order_status[$value->status]; ?>
+                  </div>
+                  <div class="order_operation">
+                    <p><a href="<?php echo $this->url('index' , array('controller' => 'order' , 'action' => 'orderDetail' , 'id' => $value->id))?>">查看</a></p>
+                    <?php if($value->status == 4):?>
+                    <p><a href="<?php echo $this->url('index' , array('controller' => 'order' , 'action' => 'orderDetail' , 'id' => $value->id))?>" >确认收货</a></p>
+                    <?php elseif ($value->status == 5 && isset($value->has_service) && $value->has_service==0): ?>
+                    <p><a href="<?php echo $this->url('index' , array('controller' => 'service' , 'action' => 'applyQuality' ))?>?order_id=<?php echo $value->id ?>">申请售后</a></p>
+                    <?php endif;?>
+                  </div>
+                </li>
+                <?php endforeach;?>
+            </ul>
+            <div class="clear"></div>
+            <?php echo $this->paginationControl($paginator, 'Sliding', 'layout_index/page',array('route' =>'index','condition'=>$condition));?>
+        </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function(){
+    $('.user_center ul li').click(function(){
+        $(this).addClass('on').siblings().removeClass('on');
+    })
+    $('.my_goods_list li').click(function(){
+        $(this).addClass('on').siblings().removeClass('on');
+    })
+})
+</script>
+
+<script type="text/javascript">
+var start ={
+		dateCell:"#start_time",
+		format:"YYYY-MM-DD",
+		isinitVal:false,
+		isTime:true, 
+		maxDate: jeDate.now(0),
+		minDate:"1970-01-01",
+		choosefun: function(datas){
+			end.minDate = datas;
+	    }
+	};
+var end ={
+	dateCell:"#end_time",
+	format:"YYYY-MM-DD",
+	isinitVal:false,
+	isTime:true,
+	minDate:"1970-01-01",
+	maxDate: jeDate.now(0),
+	choosefun: function(datas){
+        start.maxDate = datas;
+    }
+}
+jeDate(start);
+jeDate(end);
+</script>

@@ -1,0 +1,53 @@
+<!-- Responsive Table -->
+<!-- Table exporting -->
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			<form class="form-horizontal"
+				action="<?php echo $this->url('admin-other',array('action'=>'tucao'))?>"
+				method="post" style="float: right; margin-left: 20px;">
+				<span style="font-weight: bold; font-size: 16px;"> 搜索全表：</span>
+				<input type="text" name="keyword" value="<?php echo $keyword?>"
+					placeholder="搜索 吐槽内容">
+				<input type="submit" name="submit" value="搜索"
+					class="btn btn-large btn-info"
+					style="height: 25px; width: 60px; line-height: 25px; padding: 0; margin-left: 10px; margin-top: 5px;" />
+			</form>
+		</h3>
+
+		<div class="panel-options">
+			<a href="#" data-toggle="panel">
+				<span class="collapse-icon">&ndash;</span>
+				<span class="expand-icon">+</span>
+			</a>
+			<a href="#" data-toggle="remove"> &times; </a>
+		</div>
+	</div>
+	<div class="panel-body">
+		<table class="table table-bordered table-striped" id="example-4">
+					<thead>
+						<tr>
+							<th>用户名</th>
+							<th>吐槽内容</th>
+							<th>吐槽时间</th>
+						</tr>
+					</thead>
+					<tbody>
+						  <?php if($list){?>
+						 <?php foreach($list as $v):?>
+						 			   
+							<tr>
+							<td><a href="<?php echo $this->url("admin-user",array('action'=>'details','id'=>$v->user_id))?>"><?php echo isset($user_name[$v->user_id]['nickname']) ? ($user_name[$v->user_id]['id_name'] ? $user_name[$v->user_id]['id_name'] : $user_name[$v->user_id]['nickname']) : '';?></a></td>
+							<td><?php echo emoji_unified_to_html($v->content);?></td>
+							<td class="center"><?php echo $v->timestamp == '0000-00-00 00:00:00' ? '' :date("Y-m-d H:i",strtotime($v->timestamp));?></td>
+							
+						</tr>
+							<?php endforeach;?>
+							<?php }?>						
+						  </tbody>
+				</table> 
+				<?php    echo $this->paginationControl($paginator, 'Sliding', 'page',array('route' =>'new-admin-other','condition'=>$condition));?> 
+			</div>
+		</div>
+
+

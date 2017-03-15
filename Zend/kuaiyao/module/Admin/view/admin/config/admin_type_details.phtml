@@ -1,0 +1,134 @@
+			<div id="content" class="span10">
+			<!-- content starts -->
+			
+
+			<div>
+				<ul class="breadcrumb">
+					<li>
+						<a href="<?php echo $this->url('admin-main');?>">主页</a> <span class="divider">/</span>
+					</li>
+					<li>
+						<a href="<?php echo $this->url('admin-config');?>">站点信息管理</a> <span class="divider">/</span>
+					</li>
+					<li>
+						<a href="<?php echo $this->url('admin-config',array('action'=> 'adminsetting'));?>">管理员类型管理</a> <span class="divider">/</span>
+					</li>
+					<li>
+						<a href="#">管理员角色权限编辑</a>
+					</li>
+				</ul>
+			</div>
+	
+			<div class="row-fluid sortable">
+				<div class="box span12">
+					<div class="box-content">
+						<form class="form-horizontal" method="post" action="<?php echo $this->url('admin-config',array('action'=>'actAdminType'))?>" name="theFrom">
+							<fieldset>
+							<legend>角色资料</legend>
+							  <div class="control-group">
+							 	 <label class="control-label" for="focusedInput">角色名：</label>
+								 	<div class="controls">
+									  <input class="input-xlarge" id="disabledInput" type="text" value="<?php echo $admin_type_info['name'];?>" />
+									</div>
+							  </div>					  
+							  <legend>角色权限</legend>
+                            <table cellspacing='10' id="list-table" style="margin-left:80px">
+                            <?php foreach ($action_list as $priv){ ?>
+                             <tr>
+                              <td width="18%" valign="top" class="first-cell">
+                                <input name="chkGroup" type="checkbox" value="checkbox" onClick="check('<?php echo $priv->priv_list;?>',this);" class="checkbox">&nbsp;<?php echo $priv->name;?>
+                              </td>
+                              <td>
+                              <?php foreach($priv['priv'] as $priv_list =>$list){?>
+                                
+                                <label for="<?php echo $priv_list?>"  style="float:left; margin-right:25px;"><input type="checkbox" name="action_code[]" value="<?php echo $priv_list?>" id="<?php echo $priv_list?>" class="checkbox" <?php if($list['cando'] == 1){ echo "checked='true'";} ?> onClick="checkrelevance('', '<?php echo $priv_list?>')" title=""/>
+                                <?php echo $list['name']?></label>
+                                
+                            <?php }?>
+                            </td></tr>
+                            <?php }?>
+                             
+                            </table>
+							  <div class="form-actions">
+							  <input type="hidden"   name="id"    value="<?php echo $admin_type_info['id'];?>" />
+							  <input type="checkbox" name="checkall" value="checkbox" onClick="checkAll_2(this.form, this);" id="checkAll"  class="btn btn-success"/><span>全选</span>
+								<input type="submit" name="submit" value="提交" class="btn btn-success">
+								<a class="btn btn-danger" href="<?php echo $this->url('admin-config',array('action'=>'index')); ?>">返回</a>
+							  </div>
+							</fieldset>
+						  </form>
+					
+					</div>
+				</div><!--/span-->
+			</div><!--/row-->
+			
+			</div>
+<script>
+function checkAll_2(frm, checkbox)
+{
+/*  for (i = 0; i < frm.elements.length; i++)
+  {
+    if (frm.elements[i].name == 'action_code[]' || frm.elements[i].name == 'chkGroup')
+    {
+      frm.elements[i].checked = checkbox.checked;
+    }
+  }
+	  */
+  var dom = document.getElementById("list-table");
+  var tabs = dom.getElementsByTagName("input");
+  var checked = checkbox.checked;
+
+  for (i = 0; i < tabs.length; i++)
+    {
+        tabs[i].checked = checked;
+        if(checked) {
+            $(tabs[i]).parent().addClass("checked");
+        }else{
+        	$(tabs[i]).parent().removeClass("checked");
+        }
+    }
+}
+
+function check(list, obj)
+{
+  var frm = obj.form;
+
+    for (i = 0; i < frm.elements.length; i++)
+    {
+      if (frm.elements[i].name == "action_code[]")
+      {
+          var regx = new RegExp(frm.elements[i].value + "(?!_)", "i");
+
+          if (list.search(regx) > -1) {frm.elements[i].checked = obj.checked;
+          if(obj.checked) {
+              $(frm.elements[i]).parent().addClass("checked");
+          }else{
+          	$(frm.elements[i]).parent().removeClass("checked");
+          }
+          }
+      }
+    }
+}
+
+function checkrelevance(relevance, priv_list)
+{
+  if(document.getElementById(priv_list).checked && relevance != '')
+  {
+    document.getElementById(relevance).checked=true;
+  }
+  else
+  {
+    var ts=document.getElementsByTagName("input");
+    
+    for (var i=0; i<ts.length;i++)
+    {
+      var text=ts[i].getAttribute("title");
+
+      if( text == priv_list) 
+      {
+        document.getElementById(ts[i].value).checked = false;
+      }
+    }
+  }
+}
+</script>			

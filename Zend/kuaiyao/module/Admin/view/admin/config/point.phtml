@@ -1,0 +1,56 @@
+<!-- Responsive Table -->
+<!-- Table exporting -->
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+				积分项设置
+		</h3>
+
+		<div class="panel-options">
+
+			<a href="#" data-toggle="panel">
+				<span class="collapse-icon">&ndash;</span>
+				<span class="expand-icon">+</span>
+			</a>
+			<a href="#" data-toggle="remove"> &times; </a>
+		</div>
+	</div>
+	<div class="panel-body">
+		<table class="table table-bordered table-striped">
+            						  <thead>
+            							  <tr>
+            							      <th>id</th>
+            							      <th>帐目类型</th>
+            							      <th>积分类型</th>
+            								  <th>描述</th>
+            								  <th>设置值</th>
+            								  <th>操作</th>
+            							  </tr>
+            						  </thead>   
+            						  <tbody>
+            						  
+    						       <?php foreach ($info as $v){ ?>
+            						  
+            							<tr>
+            							<form action="<?php echo $this->url('admin-config',array('action'=>'point'));?>" method="post">
+            							    <td><?php echo $v->id;?></td>
+            							    <td><?php echo $v->income ==1 ? '收入' : '支出';?></td>
+            							    <td><?php echo isset($pointType[$v->type]) ? $pointType[$v->type] : '';?></td>
+            								<td><?php echo $v->name?></td>           								
+            								<td>
+            								    <input class="input-xlarge disabled" name="value" type="text" value="<?php echo $v->value?>">
+            								    </td>
+            								
+            								<td>           								    
+            								    <input type="hidden" name="id" value="<?php echo $v->id?>">
+                								<input type="submit" name="submit" value="修改" class="btn btn-success">
+            								</td>
+            							</form>
+            							</tr>
+            							
+            						 <?php };?>
+            							
+            						  </tbody>
+            					  </table>
+					</div>
+				</div>

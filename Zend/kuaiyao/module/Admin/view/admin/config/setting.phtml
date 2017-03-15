@@ -1,0 +1,51 @@
+<!-- Responsive Table -->
+<!-- Table exporting -->
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+		</h3>
+
+		<div class="panel-options">
+
+			<a href="#" data-toggle="panel">
+				<span class="collapse-icon">&ndash;</span>
+				<span class="expand-icon">+</span>
+			</a>
+			<a href="#" data-toggle="remove"> &times; </a>
+		</div>
+	</div>
+	<div class="panel-body">
+		<table class="table table-bordered table-striped">
+            						  <thead>
+            							  <tr>
+            							      <th>id</th>
+            								  <th>描述</th>
+            								  <th style="width:200px">设置值</th>
+            								  <th>操作</th>
+            							  </tr>
+            						  </thead>   
+            						  <tbody>
+            						  <?php foreach ($info as $v){ ?>
+            						  <form action="<?php echo $this->url('admin-config',array('action'=>'setting'));?>" method="post">
+            							<tr>
+            							
+            							    <td class="center"><?php echo $v->id;?></td>
+            								<td class="center" style="text-align: right"><?php echo $v->text?></td>           								
+            								<td>
+            								    <input style="width:200px" class="input-xlarge disabled" name="value" <?php if($v['data_type'] == 2){?>type="text"<?php }else{?>type="number" min="0"<?php }?>  value="<?php echo $v['value']?>">
+            								    </td>
+            								
+            								<td class="center">           								    
+            								    <input type="hidden" name="id" value="<?php echo $v->id?>">
+                								<input type="submit" name="submit" value="修改" class="btn btn-success">
+            								</td>
+            							
+            							</tr>
+            							</form>
+            						 <?php };?>
+    						       
+            							
+            						  </tbody>
+            					  </table>
+					</div>
+				</div>

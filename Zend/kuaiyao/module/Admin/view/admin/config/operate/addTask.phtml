@@ -1,0 +1,651 @@
+<?php echo $this->headLink()->offsetSetStylesheet(15,$this->basePath() . '/css/uploadify.css')?>
+<?php echo $this->headScript()->prependFile($this->basePath() . '/js/jq_area.js')?>
+<?php echo $this->headScript()->prependFile($this->basePath() . '/js/region.js')?>
+<?php echo $this->headScript()->offsetSetFile(103,$this->basePath() . '/adminStyle/js/jquery.uploadify-3.1.min.js')?>
+
+<style>
+.form-horizontal .control-label {
+	width: 180px;
+}
+
+.radio.inline+.radio.inline,.checkbox.inline+.checkbox.inline {
+	margin-left: 0px;
+}
+
+.uploadify-button {
+	margin-left: 21px;
+}
+
+.search {
+	width: 300px;
+	height: 40px;
+	position: relative;
+}
+
+.edit {
+	overflow: hidden;
+}
+
+.search_input {
+	width: 290px;
+	height: 34px;
+	font-size: 16px;
+}
+
+.search_input:focus {
+	outline: none;
+}
+
+.match_text {
+	display: none;
+	position: absolute;
+	left: -25px;
+	width: 325px;
+	z-index: 99;
+	background-color: white;
+	margin-top: -1px;
+}
+
+.match_text div:hover {
+	background: #f0f0f0;
+}
+
+.match_text ul {
+	list-style-type: none;
+	border: 1px solid #cccccc;
+	margin-bottom: 0px;
+}
+
+.match_text ul li {
+	font-size: 12px;
+	color: #333333;
+	display: block;
+	line-height: 25px;
+	padding-left: 10px;
+	cursor: pointer;
+}
+</style>
+<?php echo $this->headLink()->appendStylesheet($this->basePath() . '/css/demo.Default.css')?>
+<script language="javascript" src="http://webapi.amap.com/maps?v=1.3&key=d4e906f2d3b338bc0fa31cba41b4c5ca"></script>
+<script language="javascript">
+$(document).ready(function (){
+	mapInit();
+	});
+var marker = new Array();
+var windowsArr = new Array();
+var mapObj;
+function mapInit() {
+    var opt = {
+        level: 10, //设置地图缩放级别  
+        center: new AMap.LngLat(113.246671, 23.125097) //设置地图中心点 
+    }
+    mapObj = new AMap.Map("iCenter", opt);
+
+    //加载输入提示插件
+    mapObj.plugin(["AMap.Autocomplete"], function() {
+        //判断是否IE浏览器
+        if (navigator.userAgent.indexOf("MSIE") > 0) {
+            document.getElementById("street").onpropertychange = autoSearch;
+        }
+        else {
+            document.getElementById("street").oninput = autoSearch;
+        }
+    });
+    
+  //为地图注册click事件获取鼠标点击出的经纬度坐标
+    var clickEventListener=AMap.event.addListener(mapObj,'click',function(e){
+
+    	var Longitude = e.lnglat.getLng();
+    	var Latitude = e.lnglat.getLat();
+    	mapObj.clearMap();
+        mapObj.panTo(new AMap.LngLat(Longitude,Latitude));
+        marker = new AMap.Marker({                
+        	//icon:"http://api.amap.com/Public/images/js/mark.png",
+        	icon:new AMap.Icon({
+                image: "http://api.amap.com/Public/images/js/mark.png",
+                size:new AMap.Size(58,30),
+                imageOffset: new AMap.Pixel(-32, -0)
+        	}),
+            position:new AMap.LngLat(Longitude,Latitude)
+        });
+        $("#jd").val(Longitude);
+        $("#wd").val(Latitude);
+        var lnglatXY = new AMap.LngLat(Longitude,Latitude);
+		geocoder(lnglatXY,'');
+        marker.setMap(mapObj);  //在地图上添加点
+        mapObj.setFitView(); //调整到合理视野
+    });
+}
+function geocoder(lnglatXY,address) {
+    var MGeocoder;
+    //加载地理编码插件
+    AMap.service(["AMap.Geocoder"], function() {        
+        MGeocoder = new AMap.Geocoder({ 
+            radius: 1000,
+            extensions: "all"
+        });
+        //逆地理编码
+        if(lnglatXY && address == '')
+        {
+            MGeocoder.getAddress(lnglatXY, function(status, result){
+            	
+            	var address= result.regeocode.formattedAddress;
+                var address_more=address.split("县");
+                if(address_more[1]==undefined){
+                    address_more=address.split("区");
+                        if(address_more[1]==undefined){
+                            address_more=address.split("市");
+                        }
+                }
+                address_more=address.split(address_more[0]);
+                address_more=address_more[1].substr(1);
+                if(address_more==undefined || address_more==""){
+                    address_more=address;
+                }
+
+                $("#street").val(address_more);
+
+            });
+        }
+
+        if(address && address!= 1)
+        {
+        	MGeocoder.getLocation(address, function(status, result){
+             	if(status === 'complete' && result.info === 'OK'){
+             		geocoder_CallBack(result);
+             	}
+             });
+
+        	
+        }
+    });
+	
+    
+}
+
+//地理编码返回结果展示   
+function geocoder_CallBack(data){
+	console.log(data);
+    var resultStr="";
+    //地理编码结果数组
+    var geocode = new Array();
+    geocode = data.geocodes;  
+    mapObj.clearMap();
+
+    if(geocode[0]){
+        var lngX = geocode[0].location.getLng();
+        var latY = geocode[0].location.getLat();
+        $("#jd").val(lngX);
+        $("#wd").val(latY);
+        mapObj.clearMap();
+        mapObj.panTo(new AMap.LngLat(lngX,latY));
+        marker = new AMap.Marker({                
+        	//icon:"http://api.amap.com/Public/images/js/mark.png",
+        	icon:new AMap.Icon({
+                image: "http://api.amap.com/Public/images/js/mark.png",
+                size:new AMap.Size(58,30),
+                imageOffset: new AMap.Pixel(-32, -0)
+        	}),
+            position:new AMap.LngLat(lngX,latY)
+        });
+        var lnglatXY = new AMap.LngLat(lngX,latY);
+    	geocoder(lnglatXY,1);
+        marker.setMap(mapObj);  //在地图上添加点
+        mapObj.setFitView(); //调整到合理视野 
+    }
+    else
+    {
+        alert('未搜索到此地址信息!');
+    }
+   
+}
+
+//输入提示
+function autoSearch() {
+    var keywords = document.getElementById("street").value;
+    var auto; 
+    var autoOptions = {
+        pageIndex:1,
+        pageSize:10,
+        city: "周门北路" //城市，默认全国
+    };
+    auto = new AMap.Autocomplete(autoOptions);
+    //查询成功时返回查询结果
+    AMap.event.addListener(auto, "complete", autocomplete_CallBack);
+    auto.search(keywords);
+}
+ 
+//输出输入提示结果的回调函数
+function autocomplete_CallBack(data) {
+	
+    var resultStr = "";
+    var tipArr = [];
+    tipArr = data.tips;
+    if (tipArr.length>0) {                 
+   	 for (var i = 0; i < tipArr.length; i++) { 
+            resultStr += "<div id='divid" + (i+1) + "' onmouseover='openMarkerTipById(" + (i+1)
+                        + ",this)' onclick='selectResult(" + i + ")' onmouseout='onmouseout_MarkerStyle(" + (i+1)
+                        + ",this)' style=\"font-size: 13px;cursor:pointer;padding:5px 5px 5px 5px;\">" + tipArr[i].name + "<span style='color:#C1C1C1;'>"+ tipArr[i].district + "</span></div>";
+   	 }
+        
+    }
+    else  {
+        resultStr = " π__π 亲,人家找不到结果!<br />要不试试：<br />1.请确保所有字词拼写正确<br />2.尝试不同的关键字<br />3.尝试更宽泛的关键字";
+    }
+    
+    document.getElementById("result1").innerHTML = resultStr;
+    document.getElementById("result1").style.display = "block";
+}
+
+
+
+//输入提示框鼠标滑过时的样式
+function openMarkerTipById(pointid, thiss) {  //根据id打开搜索结果点tip 
+  thiss.style.background = '#CAE1FF';
+}
+
+//输入提示框鼠标移出时的样式
+function onmouseout_MarkerStyle(pointid, thiss) {  //鼠标移开后点样式恢复 
+  thiss.style.background = "";
+}
+
+//从输入提示框中选择关键字并查询
+function selectResult(index) {
+  if (navigator.userAgent.indexOf("MSIE") > 0) {
+      document.getElementById("street").onpropertychange = null;
+      document.getElementById("street").onfocus = focus_callback;
+  }
+  //截取输入提示的关键字部分
+  var text = document.getElementById("divid" + (index + 1)).innerHTML.replace(/<[^>].*?>.*<\/[^>].*?>/g,"");;
+  document.getElementById("street").value = text;
+  document.getElementById("result1").style.display = "none";
+  //根据选择的输入提示关键字查询
+  mapObj.plugin(["AMap.PlaceSearch"], function() {       
+      var msearch = new AMap.PlaceSearch();  //构造地点查询类
+      AMap.event.addListener(msearch, "complete", placeSearch_CallBack); //查询成功时的回调函数
+      msearch.search(text);  //关键字查询查询
+  });
+}
+
+
+
+//输出关键字查询结果的回调函数
+function placeSearch_CallBack(data) {
+  //清空地图上的InfoWindow和Marker
+  windowsArr = [];
+  marker     = [];
+  mapObj.clearMap();
+  var resultStr1 = "";
+  var poiArr = data.poiList.pois;
+  var resultCount = poiArr.length;
+  addmarker(0, poiArr[0]);
+  var lg = poiArr[0].location.lng;
+  var lt = poiArr[0].location.lat;
+  $("#jd").val(lg);
+  $("#wd").val(lt);
+  mapObj.setFitView();
+}
+
+//定位选择输入提示关键字
+function focus_callback() {
+  if (navigator.userAgent.indexOf("MSIE") > 0) {
+      document.getElementById("street").onpropertychange = autoSearch;
+ }
+}
+
+//鼠标滑过查询结果改变背景样式，根据id打开信息窗体
+function openMarkerTipById1(pointid, thiss) {
+  thiss.style.background = '#CAE1FF';
+  windowsArr[pointid].open(mapObj, marker[pointid]);
+}
+
+//添加查询结果的marker&infowindow   
+function addmarker(i, d) {
+    var lngX = d.location.getLng();
+    var latY = d.location.getLat();
+    var markerOption = {
+        map:mapObj,
+        icon:new AMap.Icon({
+            image: "http://api.amap.com/Public/images/js/mark.png",
+            size:new AMap.Size(58,30),
+            imageOffset: new AMap.Pixel(-32, -0)
+    	}),
+        position:new AMap.LngLat(lngX, latY)
+    };
+    var mar = new AMap.Marker(markerOption);         
+    marker.push(new AMap.LngLat(lngX, latY));
+ 
+    var infoWindow = new AMap.InfoWindow({
+        content:"<h3><font color=\"#00a6ac\">  " + (i + 1) + ". " + d.name + "</font></h3>" + TipContents(d.type, d.address, d.tel),
+        size:new AMap.Size(300, 0),
+        autoMove:true, 
+        offset:new AMap.Pixel(0,-30)
+    });
+    windowsArr.push(infoWindow);
+    var aa = function (e) {infoWindow.open(mapObj, mar.getPosition());};
+    AMap.event.addListener(mar, "click", aa);
+}
+
+//infowindow显示内容
+function TipContents(type, address, tel) {  //窗体内容
+  if (type == "" || type == "undefined" || type == null || type == " undefined" || typeof type == "undefined") {
+      type = "暂无";
+  }
+  if (address == "" || address == "undefined" || address == null || address == " undefined" || typeof address == "undefined") {
+      address = "暂无";
+  }
+  if (tel == "" || tel == "undefined" || tel == null || tel == " undefined" || typeof address == "tel") {
+      tel = "暂无";
+  }
+  var str = "  地址：" + address + "<br />  电话：" + tel + " <br />  类型：" + type;
+  return str;
+} 
+var swf ='<?php echo $this->basePath() . '/adminStyle/js/uploadify.swf'?>';
+var uploader = '<?php echo $this->url('admin-common',array('action'=>'getInputFileTwo')) ;?>';
+    </script>
+<?php echo $this->headScript()->offsetSetFile(104,$this->basePath() . '/js/Uploads.js')?>
+
+
+<div class="row">
+	<div class="col-sm-12">
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>活动详细</h3>
+				<div class="panel-options">
+					<a href="#" data-toggle="panel">
+						<span class="collapse-icon">&ndash;</span>
+						<span class="expand-icon">+</span>
+					</a>
+					<a href="#" data-toggle="remove"> &times; </a>
+				</div>
+			</div>
+			<form role="form" class="form-horizontal" action="#" method="post"
+				onsubmit="return setJson();">
+				<div class="panel-body">
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="field-1">发布者：</label>
+
+						<div class="col-sm-10">
+							<select id="user_id" name="user_id" onchange="getUser()">
+								<option value="">请选择发布人</option>
+                					 <?php $sex = array(0=>'保密',1=>'男',2=>'女'); foreach($user_list as $v){?>
+									<option value="<?php echo $v->id ?>"
+									stat_money="<?php echo $v->stat_money;?>"
+									images="<?php echo isset($images[$v->image]['path']) ? $images[$v->image]['path'] : ROOT_PATH.'adminStyle/img/no_pic.gif';?>"><?php echo $v->nickname ? $v->nickname : $v->mobile;?>(<?php echo $sex[$v->sex];?>)---<?php echo $v->school_id ? $shool_list[$v->school_id] : '';?></option>
+								
+                					<?php }?>
+								</select>
+							<img src="<?php echo ROOT_PATH.'adminStyle/img/no_pic.gif';?>"
+								width="50" height="50" id="user_img" />
+						</div>
+					</div>
+					<div class="form-group-separator"></div>
+
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="field-1">类型：</label>
+
+						<div class="col-sm-10">
+							<label class="radio" style="padding-top: 5px;">
+								<input type="radio" name="type" value="1" onclick="setType(1);"
+									checked>
+								任务
+							</label>
+							<label class="radio" style="padding-top: 5px;">
+								<input type="radio" name="type" value="2" onclick="setType(2);">
+								活动
+							</label>
+						</div>
+					</div>
+
+					<div class="form-group-separator"></div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="field-1">内容：</label>
+
+						<div class="col-sm-10">
+							<textarea name="content" id="taskContent"
+								style="width: 300px; height: 100px;"></textarea>
+							<span>
+								<span class="search">
+									<span class="edit" style="position: relative;">
+										<input type="text" class="search_input" id="search_text"
+											value="" placeholder="请输入标签名" onkeyup="json(this.value)"
+											autocomplete="off" />
+										<div class="match_text" id="json_back"
+											style="border: 1px solid #ccc; left: 0; position: absolute; top: 25px; width: 298px">
+										</div>
+										<script>
+                    			    function json(search_text)
+                    			    {
+                    			        if(search_text==''){return;}
+                        			    var json = new Object;
+                    			        json.n = 'TaskLabelList';
+                    			        json.s = 1;
+                    			    	json.q = new Object();
+                    			    	json.q.a = 1;
+                    			    	json.q.table = new Object();
+                    			    	json.q.table.where = new Object();
+                    			    	json.q.table.where.sk = search_text; 
+                    			                        			      
+                    			        $.post("<?php echo $this->url('admin-task',array('action'=>'getJson'));?>", {request: json},
+                    			            	function(data)
+                    			            	{
+                    			            		
+                    			            		data = $.parseJSON(data);
+                    			            		if(data.q.s == 0)
+                    			            		{
+                    			            			$("#json_back").show(); 
+                                     			        var html = '';
+                                     			        var list = data.q.labels;
+                                     			        for(var i =0;i<list.length;i++){
+                                     			        	html+='<div style="width:290px;cursor:pointer;">'+list[i].label.name+'</div>';
+                                     			        }
+                                     			        $("#json_back").html(html);
+                                     			        $("#json_back div").click(function(){
+                                     			        	$("#taskContent").val( $("#taskContent").val()+'#'+$(this).text()+'# ' );
+                                     			           $("#json_back").hide();
+                                         			    });
+                    			            		}   
+                    			            	});
+                    			    }
+                    				</script>
+									</span>
+								</span>
+							</span>
+						</div>
+					</div>
+					<div class="form-group-separator"></div>
+					<div class="form-group" id="number">
+						<label class="col-sm-2 control-label" for="field-1">金额：</label>
+						<div class="col-sm-10">
+							人均：
+							<input class="input-xlarge disabled" type="text" name="reward"
+								style="width: 50px;" id="reward">
+							<span style="color: red;">X</span>
+							人数：
+							<input class="input-xlarge disabled" type="text" name="limit"
+								style="width: 50px;" id="limit">
+							= 总金额：
+							<input type="text" value="" id="amount" disabled
+								style="width: 100px; color: red;" />
+							发布人钱包余额：
+							<input type="text" id="wallet" disabled
+								style="width: 100px; color: red;" />
+						</div>
+					</div>
+
+					<div class="form-group-separator"></div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="field-1">截止时间：</label>
+						<div class="col-sm-10">
+							<span>
+								<input type="text" class="input-xlarge datepicker" id="datetime" data-mask="y-m-d h:s"
+									value="<?php echo date("Y-m-d H:i",strtotime("+1 day"));?>"
+									style="width: 150px;" name="start_date" />
+							</span>
+							
+
+						</div>
+					</div>
+
+					<div class="form-group-separator"></div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="field-1">地址：</label>
+						<div class="col-sm-10">
+							<span id="area">
+								<select id="province" name="province_id" style="width: 100px;"></select>
+								<select id="city" name="city_id" style="width: 100px;"></select>
+								<select id="county" name="county" style="width: 100px;"></select>
+							</span>
+							<input type="text" name="street" id="street"style="width: 200px" />
+							经度：
+							<input type="text" name="longitude" style="width: 100px" id="jd" />
+							纬度：
+							<input type="text" name="latitude" style="width: 100px" id="wd" />
+							<div id="result1" name="result1"
+								style="overflow: auto; width: 60%; border: 1px solid gray; display: none;"></div>
+							<div id="result" style="position: relative; display: none;"></div>
+						</div>
+					</div>
+					<div class="form-group-separator"></div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="field-1"></label>
+						<div class="col-sm-10">
+							<div id="iCenter" style="margin: 0px"></div>
+						</div>
+					</div>
+					<div class="form-group-separator"></div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="field-1">任务图片：</label>
+						<div class="col-sm-10">
+							<div class="mot_tright" id="img_div">
+								<input id="index_img" type="text" name="image_ids[]" />
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group-separator"></div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="field-1"></label>
+						<div class="col-sm-10">
+
+							<input type="submit" class="btn btn-info" name="submit"
+								style="margin-left: 100px" value="保存">
+						</div>
+					</div>
+				</div>
+
+			</form>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+$("#province,#city").change(function(){
+	var address = $("#province option:selected").text()+$("#city option:selected").text();
+	geocoder('',address);
+}); 
+											
+/* $("#street").blur(function(){
+	var address = $("#province option:selected").text()+$("#city option:selected").text()+$("#county option:selected").text()+$(this).val();
+	geocoder('',address);
+});	 */										
+$("#area").area({cache:region, p_id:440000,ci_id:440100,co_id: 440103});
+function setType(type)
+{
+	if(type==1)
+	{
+		$("#taskTime").html("截止时间：");
+	}else{
+		$("#taskTime").html("开始时间：");
+	}
+}
+
+function getUser()
+{
+	$("#wallet").val($("#user_id option:selected").attr('stat_money'));
+	$("#user_img").attr("src",$("#user_id option:selected").attr('images'));
+}
+
+$("#reward").keyup(function(){
+	var amount = $("#limit").val() * $("#reward").val();
+	var wallet  =$("#wallet").val();
+	$("#amount").val(amount);
+	if(amount > wallet)
+	{
+		alert('发布人钱包余额不足！');
+	}
+});
+
+$("#limit").keyup(function(){
+	var amount = $("#limit").val() * $("#reward").val();
+	var wallet  =$("#wallet").val();
+	$("#amount").val($("#limit").val() * $("#reward").val());
+	if(amount > wallet)
+	{
+		alert('发布人钱包余额不足！');
+	}
+});
+
+function setJson()
+{
+	var user_id = $("#user_id option:selected").val();
+	var type = $(":radio:checked").val();
+	var content = $("#taskContent").val();
+	var reward = $("#reward").val();
+	var limit = $("#limit").val();
+	var deadline = $("#datetime").val()+':00';
+	var region_id = $("#county option:selected").val() ? $("#county option:selected").val() : $("#city option:selected").val();
+	var street = $("#street").val();
+	var longitude = $("#jd").val();
+	var latitude = $("#wd").val();
+	if(user_id=='')
+	{
+	    alert('请选择发布人在提交!');
+	    return false;
+	}
+
+	if(content == '')
+	{
+	    alert('描述不能为空！');
+	    return false;
+	}
+	var json = new Object();
+	json.n = 'TaskSubmit'; 
+	json.s = user_id;
+	json.q = new Object();
+	json.q.task = new Object();
+	json.q.task.type = type;
+	json.q.task.reward = reward;
+	json.q.task.limit = limit;
+	json.q.task.content = content;
+	json.q.task.deadline = deadline;	
+	json.q.task.images = [];
+	$(":input:hidden").each(function(){
+ 		var image = new Object();
+ 		image.image = new Object();
+ 		image.image.id = $(this).val();
+ 		json.q.task.images.push(image);
+	});
+	json.q.task.address = new Object();
+	json.q.task.address.longitude = longitude;
+	json.q.task.address.latitude = latitude;
+	json.q.task.address.regionId = region_id;
+	json.q.task.address.street = street;
+	
+	$.post("<?php echo $this->url('admin-task',array('action'=>'getJson'));?>", {request: json},
+	function(data)
+	{
+		//console.log(data);
+		data = $.parseJSON(data);
+		alert(data.q.d);
+		if(data.q.s == 0)
+		{
+			window.location.href = "<?php echo $this->url("admin-task",array('action'=>'operateTaskDetails'));?>/i"+data.q.id;
+		}
+		  
+	});
+	return false;
+}
+ </script>

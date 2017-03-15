@@ -1,0 +1,159 @@
+@charset 'utf-8';
+input{
+	border:none;
+}
+/*微信登录页面*/
+.lg_logo{
+	margin:50px 0 20px 0;
+	text-align: center;
+}
+.lg_logo img{
+	max-width: 100px;
+}
+.lg_import{
+	width:90%;
+	padding:10px 5%;
+
+}
+.captcha{
+	position: absolute;
+	right: 1px;
+	top:10px;
+	color:#008df1;
+
+	background: #fff;
+}
+.lg_submit{
+	width:100%;
+	background: #008df1;
+	color:#fff;
+	border-radius: 5px;
+	padding:10px 0;
+	margin-top: 10px;
+}
+
+/*编辑名片*/
+.am_avatars{
+	width:80px;
+	height: 80px;
+	border-radius: 80px;
+	position: relative;
+	float: left;
+	margin-right: 15px;
+}
+.am_avatars img{
+	width:100%;
+}
+.am_avatars input{
+	width:60px;
+	height: 60px;
+	position: absolute;
+	left: 10px;
+	top:10px;
+	opacity: 0;
+}
+.am_name input{
+	width:65%;
+
+	border-bottom:1px solid #ebebeb;
+	padding: 6px 0;
+}
+.am_contact p{
+	padding-left: 15px;
+	height: 30px;
+	line-height: 30px;
+}
+.am_contact ul{
+	border-bottom:1px solid #ebebeb;
+	border-top:1px solid #ebebeb;
+}
+.am_contact ul li{
+	padding:5px;
+}
+.am_contact input{
+
+	padding:10px 0;
+	margin-left: 20px;
+}
+.am_contact .phone{
+	background: url(../../images/massage_img_phone@2x.png) no-repeat center left;
+	background-size:25px;
+}
+.am_contact .email{
+	background: url(../../images/massage_img_mail@2x.png) no-repeat center left;
+	background-size:25px;
+}
+.am_contact .qq{
+	background: url(../../images/massage_img_qq@2x.png) no-repeat center left;
+	background-size:25px;
+}
+.am_code{
+	margin-top: 10px;
+	border-bottom:1px solid #ebebeb;
+	border-top:1px solid #ebebeb;
+	position: relative;
+}
+.am_code{
+	height: 46px;
+}
+.am_code img{
+	width:100%
+}
+.am_code .code_img{
+	width: 50px;
+	height: 50px;
+	border-radius: 50px;
+	margin-left: 15px;
+	float:left;
+}
+.am_code .code_img input{
+	width:50px;
+	height: 50px;
+	position: absolute;
+	left: 15px;
+	top:0px;
+	opacity: 0;
+}
+.am_code span{
+	float:left;
+	color: #999;
+	margin:15px 0 0 10px;
+}
+.code_text{
+	margin: 10px 15px;
+}
+.code_text p{
+	color:#ff5f2d;
+}
+.am_company p{
+	padding-left: 15px;
+	height: 30px;
+	line-height: 30px;
+}
+.am_company span{
+	color:#999;
+}
+.avatars_hint,.name_hint,.phone_hint{
+	position: absolute;
+	bottom:10px;
+	width:60%;
+	margin-left: 20%;
+	background: #333;
+	color:#fff;
+	text-align: center;
+	padding:5px 0;
+	border-radius: 5px;
+	display: none;
+}
+.amend input[type=submit]{
+	 width: 90%;
+    margin-left: 5%;
+    margin-top: 20px;
+    border: none;
+    background: #008df1;
+    color: #fff;
+    padding: 10px 0;
+    border-radius: 5px;
+    font-size: 1.2rem;
+}
+   

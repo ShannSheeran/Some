@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+    <script type="text/javascript">
+    $(function(){
+        $('.user_center ul li').click(function(){
+            $(this).addClass('on').siblings().removeClass('on');
+        })
+    })
+    </script>
+</head>
+
+                <div class="user_content_right">
+                    <?php if($type == 1):?>
+                    <!-- 商品对账单详情 -->
+                    <section>
+                        <div class="clear"></div>
+                        <div class="release_message" style="margin-top:0;">
+                            <h2>发布信息</h2>
+                            <ul>
+                                <li>
+                                    <div class="message_label">发布编号</div>
+                                    <div class="message_text"><?php echo $info->goods_sn;?></div>
+                                </li>
+                                <li>
+                                    <div class="message_label">发布时间</div>
+                                    <div class="message_text"><?php echo $info->timestamp;?></div>
+                                </li>
+                                <li class="leave_message">
+                                    <div class="message_label">发布留言</div>
+                                    <div class="message_text"><?php echo $info->message;?></div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="goods_message">
+                            <h2>商品信息</h2>
+                            <ul>
+                                <li>
+                                    <div class="message_label">商品名称</div>
+                                    <div class="message_text message_name"><?php echo $info->name; ?></div>
+                                </li>
+                                <li>
+                                    <div class="message_label">盆径规划</div>
+                                    <div class="message_text"><?php echo $info->specification->size; ?></div>
+                                </li>
+                                <li>
+                                    <div class="message_label">商品分类</div>
+                                    <div class="message_text"><?php echo $info->category_name; ?></div>
+                                </li>
+                                <li>
+                                    <div class="message_label">质量等级</div>
+                                    <div class="message_text"><?php echo $info->specification->model; ?></div>
+                                </li>
+                                <li>
+                                    <div class="message_label">植株高度</div>
+                                    <div class="message_text"><?php echo $info->specification->height; ?>mm</div>
+                                </li>
+                                <li>
+                                    <div class="message_label">植株冠幅</div>
+                                    <div class="message_text"><?php echo $info->specification->canopy; ?></div>
+                                </li>
+                                <li>
+                                    <div class="message_label">供应数量</div>
+                                    <div class="message_text"><?php echo $info->specification->number; ?>盆</div>
+                                </li>
+                                <li>
+                                    <div class="message_label">上架方式</div>
+                                    <?php if($info->salse_type == 1){?>
+                                    <div class="message_text">预售<i>  (可出货时间:<?php echo $info->delivery_date?>)</i></div>
+                                    <?php }else{?>
+                                    <div class="message_text">现货</div>
+                                    <?php }?>
+                                </li>
+                                <li>
+                                    <div class="message_label">商品总价</div>
+                                    <div class="message_text">￥<?php echo $info->specification->cash; ?></div>
+                                </li>
+                                <li>
+                                    <div class="message_label">装箱数</div>
+                                    <div class="message_text"><?php echo $info->specification->pack_number?>   <?php echo $info->unit_name ? $info->unit_name :'盆'; ?>/箱</div>
+                                </li>
+                                <li class="leave_message">
+                                    <div class="message_label">商品介绍</div>
+                                    <div class="message_text"><?php echo $info->description?></div>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+                    <!-- 商品对账单详情 -->
+                    <?php elseif ($type==2):?>
+                    <!-- 资材对账单详情 -->
+                    <section class="materials">
+                    <div class="order_message" style="margin-top:0;">
+                        <h2>订单信息</h2>
+                        <ul>
+                            <li>
+                                <div class="message_label">订单号</div>
+                                <div class="message_text"><?php echo $info->order_sn; ?></div>
+                            </li>
+                            <li>
+                                <div class="message_label">订货时间</div>
+                                <div class="message_text"><?php echo $info->timestamp; ?></div>
+                            </li>
+                            <li>
+                                <div class="message_label">订单金额</div>
+                                <div class="message_text">￥<?php echo $info->total_cash; ?></div>
+                            </li>
+                            <li>
+                                <div class="message_label">商品数量</div>
+                                <div class="message_text"><?php echo $info->total_number; ?></div>
+                            </li>
+                            <li>
+                                <div class="message_label">收货人</div>
+                                <div class="message_text"><?php echo $info->name; ?></div>
+                            </li>
+                            <li>
+                                <div class="message_label">联系电话</div>
+                                <div class="message_text"><?php echo $info->mobile; ?></div>
+                            </li>
+                            <li class="address"> 
+                                <div class="message_label">送货地址</div>
+                                <div class="message_text"><?php echo $info->address; ?></div>
+                            </li>
+                            <li>
+                                <div class="message_label">订单状态</div>
+                                <div class="message_text"><?php echo $order_status[$info->status]; ?></div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="goods_mess mt40">
+                    <h2>商品信息</h2>
+                    <div class="my_goods_content fl">
+                      <ul class="goods_label">
+                        <li class="name">商品</li>
+                        <li class="price">单价</li>
+                        <li class="amount">数量</li>
+                        <li class="money">金额</li>
+                      </ul>
+                      <ul class="goods_details">
+                        <?php 
+                            foreach ($info->order_goods as $value):
+                                $image = array();
+                                if($value->image)
+                                {
+                                    $image = explode(',', trim($value->image , ','));
+                                }
+                        ?>
+                        <li>
+                          <div class="name">
+                            <div class="img">
+                              <a><img src="<?php echo isset($images)? ROOT_PATH.UPLOAD_PATH.$images[$image[0]]['path'].$images[$image[0]]['filename'] : ROOT_PATH.'images/no_pic.gif'; ?>"></a>
+                            </div>
+                            <div class="goods_name">
+                              <h3><?php echo $value->name?></h3>
+                              <p>规格:<?php echo $value->size?></p>
+                              <p>型号:<?php echo $value->model?></p>
+                            </div>
+                          </div>
+                          <div class="price"><?php echo $value->number > 0 ? $value->cash / $value->number : 0;?></div>
+                          <div class="amount"><?php echo $value->number ?></div>
+                          <div class="money"><i>￥<?php echo $value->cash ?></i></div>
+                        </li>
+                        <?php endforeach;?>
+                      </ul>
+                    </div>
+                    <div class="clear"></div>
+                    </section>
+                    <!-- 资材对账单详情 -->
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="wrap">
+          <div class="order_all_money">
+            <p class="goods_all_num">商品总数：<?php echo $info->total_number ?></p>
+            <p>订单总额：<i><?php echo $info->total_cash ?></i>元</p>
+            </div>
+        </div>
+        <?php endif;?>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,inital-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-status-bar-style" content="block" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>购买</title>
+    <!-- 公用样式 -->
+    <link rel="stylesheet" type="text/css" href="../../../../../public/css/kuaiyao/common.css">
+    <!-- 购买产品相关页面样式 -->
+    <link rel="stylesheet" type="text/css" href="../../../../../public/css/kuaiyao/commodity.css">
+    <!--只兼容移动端，所以直接使用jQuery 2.1.4-->
+    <script type="text/javascript" src="../../../../../public/lib/jquery.2.1.4.min.js"></script>
+    <!--调用微信js-->
+    <script type="text/javascript" src="../../../../../public/lib/jweixin-1.0.0.js"></script>
+    <!-- 图片轮播 --> 
+    <script type="text/javascript" src="../../../../../public/js/TouchSlide.1.1.js"></script>
+</head>
+<body>
+    <div id="banner">
+        <div class="bd sl">
+            <div class="tempWrap">
+                <ul>
+                    <li>
+                        <a class="db" href="javascript:(0)">
+                        <img id="image" class="db" src="../../../../../public/images/app/buy equipment1.jpg" alt="">
+                        </a>
+                    </li>
+                    <li>
+                        <a class="db" href="javascript:(0)">
+                        <img id="image" class="db" src="../../../../../public/images/app/buy equipment2.jpg" alt="">
+                        </a>
+                    </li>
+                    <li>
+                        <a class="db" href="javascript:(0)">
+                        <img id="image" class="db" src="../../../../../public/images/app/buy equipment3.jpg" alt="">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="hd">
+            <ul></ul>
+        </div> 
+    </div>
+    <main class="buy">
+        <div class="bg_white p15 mb10">
+            <h2 class="mb10">快摇名片随身设备</h2>
+            <div>
+                <div class="price fl">原价：<span>198元</span></div>
+                <div class="fr f_color_gray">销量：<span class="f_color_gray">352455</span>件</div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="coupon bg_white mb10 pl15 pr15">
+            <a href="acquisition.html">
+                <span class="fl f_color_gray">推荐码</span>
+                <span class="fr f_color_gray icon_arrowR pr20">如何获得优惠</span>
+            </a>
+        </div>
+        <div class="concept bg_white mb10 p15">
+            <h3>产品理念</h3>
+            <p class="f_color_gray">当与客户见面，只需打开快摇名片，让客户打开手机(蓝牙打开)→打开微信(或快摇名片APP)→摇一摇</p>
+            <a href="particulars.html">查看产品详情</a>
+        </div>
+    </main>
+    <div class="mt50"></div>
+    <div class="footer">
+        <a class="d_ib" href="indent.html">立即购买</a>
+    </div>
+
+
+    <script type="text/javascript">
+        function adList(){
+            TouchSlide({slideCell:"#banner",
+                        titCell:".hd ul",
+                        mainCell:'.bd ul',
+                        effect:'left',
+                        autoPlay:true,
+                        autoPage:true
+                 });           
+            $('.hd ul').css('margin-left',($('.hd').width()-$('.hd ul').width())/2+'px');
+        }
+        adList();
+    </script>
+</body>

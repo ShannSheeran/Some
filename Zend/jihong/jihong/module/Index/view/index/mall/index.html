@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="../js/jquery-1.7.2.min.js"></script>
+    <script src="../js/jquery.SuperSlide.js"></script>
+    <script src="../js/base.js"></script>
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/content.css" />
+    <link rel="stylesheet" href="../css/index.css" />
+    <script>
+    $(function(){
+      $("nav a").hover(function(){
+      // $(this).removeClass('on');
+      // $("nav a:first-child").addClass('on');
+      $(this).addClass('on').siblings().removeClass('on');
+      })
+      $('.materials').click(function(){
+        $('.supply_plan').hide();
+        $(this).css('margin-left','37px');
+        $(this).unbind("click");
+      })
+    })
+    </script>
+  </head>
+  <body>
+    <header class="">
+      <div class="wrap">
+        <div class="logo">
+          <a></a>
+        </div>
+        <div class="explain">全方位中国花卉交易平台</div>
+        <div class="header_phone">联系电话：400-0650-750</div>
+      </div>
+      <div class="clear"></div>
+      <div class="header_bottom">
+        <div class="wrap">
+          <div class="account">
+            <span>账户：7729<a href="" class="quit">[退出]</a></span>
+          </div>
+          <nav>
+            <a>首页</a>
+            <a class="">资材订购</a>
+            <a>市场反馈</a>
+            <a>对账单</a>
+            <a>会员中心</a>
+            <a>最新热销</a>
+          </nav>
+        </div>
+    </header>
+    <section class="wrap">
+      <div class="wrap">
+        <div class="trading_center">
+          <h2>交易中心</h2>
+          <div class="instructions">交易时间：每天1：00~16：30分所下订单为当天受理的订单，17：00~23：00所下订单为第二天受理的订单</div>
+          <div class="surplus_time">剩余订购时间：<span>4小时23分15秒</span></div>
+          <div class="order">
+            <a class="btn_order">发布商品</a>
+            <a class="btn_order materials">资材订购</a>
+            <a class="supply_plan">本周供货计划</a>
+          </div>
+        </div>
+        <div class="my_order">
+          <div class="my_order_title fl">
+            <ul class="fl">
+              <li class="on">我的商品</li>
+              <li>资材订单</li>
+            </ul>
+            <a class="all_arrow">全部>></a>
+          </div>
+          <section class="order_content">
+            <div class="my_goods_content fl">
+              <ul class="content_spread">
+                <li>发布编号</li>
+                <li>商品单价</li>
+                <li>当前状态</li>
+                <li>操作</li>
+              </ul>
+              <ul class="content_details">
+                <li>
+                  <div>11212112121212</div>
+                  <div>88.00</div>
+                  <div>已审核</div>
+                  <div><a>查看</a></div>
+                </li>
+                <li>
+                  <div>11212112121212</div>
+                  <div>88.00</div>
+                  <div>已审核</div>
+                  <div><a>查看</a></div>
+                </li>
+                <li>
+                  <div>11212112121212</div>
+                  <div>88.00</div>
+                  <div>已审核</div>
+                  <div><a>查看</a></div>
+                </li>
+                <li>
+                  <div>11212112121212</div>
+                  <div>88.00</div>
+                  <div>已审核</div>
+                  <div><a>查看</a></div>
+                </li>
+                <li>
+                  <div>11212112121212</div>
+                  <div>88.00</div>
+                  <div>已审核</div>
+                  <div><a>查看</a></div>
+                </li>
+              </ul>
+            </div>
+            <div class="my_order_content fl none">
+              <ul class="content_spread">
+                <li>发布编号</li>
+                <li>商品单价</li>
+                <li>当前状态</li>
+                <li>操作</li>
+              </ul>
+              <ul class="content_details">
+                <li>
+                  <div>11212112121212</div>
+                  <div>88.00</div>
+                  <div>待收货</div>
+                  <div><a>查看</a></div>
+                </li>
+                <li>
+                  <div>11212112121212</div>
+                  <div>88.00</div>
+                  <div>待收货</div>
+                  <div><a>查看</a></div>
+                </li>
+                <li>
+                  <div>11212112121212</div>
+                  <div>88.00</div>
+                  <div>已审核</div>
+                  <div><a>查看</a></div>
+                </li>
+                <li>
+                  <div>11212112121212</div>
+                  <div>88.00</div>
+                  <div>已完成</div>
+                  <div><a>查看</a></div>
+                </li>
+                <li>
+                  <div>11212112121212</div>
+                  <div>88.00</div>
+                  <div>待收货</div>
+                  <div><a>查看</a></div>
+                </li>
+              </ul>
+            </div>
+          </section>        
+        </div>
+      </div>
+      <div class="clear"></div>
+      <div class="wrap">
+        <div class="hot">
+          <div class="hot_title">
+            <h2>最新热销</h2>
+            <a class="all_arrow">全部>></a>
+          </div>
+          <div class="hot_content">
+            <ul class="hot_spread">
+              <li>发布编号</li>
+              <li>商品单价</li>
+              <li>当前状态</li>
+              <li>操作</li>
+            </ul>
+            <ul class="hot_details">
+              <li>
+                <div class="name">1121211212121211212112121212</div>
+                <div>88.00</div>
+                <div>已审核</div>
+                <div><a>查看</a></div>
+              </li>
+               <li>
+                <div class="name">1121211212121211212112121212</div>
+                <div>88.00</div>
+                <div>已审核</div>
+                <div><a>查看</a></div>
+              </li>
+               <li>
+                <div class="name">1121211212121211212112121212</div>
+                <div>88.00</div>
+                <div>已审核</div>
+                <div><a>查看</a></div>
+              </li>
+               <li>
+                <div class="name">1121211212121211212112121212</div>
+                <div>88.00</div>
+                <div>已审核</div>
+                <div><a>查看</a></div>
+              </li>
+               <li>
+                <div class="name">1121211212121211212112121212</div>
+                <div>88.00</div>
+                <div>已审核</div>
+                <div><a>查看</a></div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="notice">
+          <div class="notice_title">
+            <h2>最新热销</h2>
+            <a class="all_arrow">全部>></a>
+          </div>
+          <div class="notice_content">
+            <ul>
+              <li>
+                <div class="news">有些东西未必没有意义，只是来得太迟了，我不想要了。再见再见，再也不见。就这样算了吧。</div>
+                <div class="fr">2016-6-22</div>
+              </li>
+              <li>
+                <div class="news">有些东西未必没有意义，只是来得太迟了，我不想要了。再见再见，再也不见。就这样算了吧。</div>
+                <div class="fr">2016-6-22</div>
+              </li>
+              <li>
+                <div class="news">有些东西未必没有意义，只是来得太迟了，我不想要了。再见再见，再也不见。就这样算了吧。</div>
+                <div class="fr">2016-6-22</div>
+              </li>
+              <li>
+                <div class="news">有些东西未必没有意义，只是来得太迟了，我不想要了。再见再见，再也不见。就这样算了吧。</div>
+                <div class="fr">2016-6-22</div>
+              </li>
+              <li>
+                <div class="news">有些东西未必没有意义，只是来得太迟了，我不想要了。再见再见，再也不见。就这样算了吧。</div>
+                <div class="fr">2016-6-22</div>
+              </li>
+              <li>
+                <div class="news">有些东西未必没有意义，只是来得太迟了，我不想要了。再见再见，再也不见。就这样算了吧。</div>
+                <div class="fr">2016-6-22</div>
+              </li>
+        </div>
+      </div>
+    </section>
+    <div class="clear"></div>
+    <footer>
+      <div class="wrap">
+        <div class="external_links">
+          <a>百度</a>
+          <a>植物百度百科</a>
+        </div>
+        <p class="tc">
+          <span>版权所有  广州吉宏园艺有限公司（本公司为通过ISO9001：2008国际质量体系认证单位）</span>
+          <span class="support">技术支持：爱特安为网络科技有限公司</span>
+          <p>
+            <span class="address">地址：广州市荔湾区龙溪大道花卉科技园艺西街18号（510375）</span>
+            <span class="phone">免费咨询电话：4000-650-750</span>
+            <span>传真：020-81413138</span>
+            <span class="email">E-MAIL: xiejing@ji-hong.cn</span>
+          </p>
+      </div>
+    </footer>
+<script type="text/javascript">
+$('.order_content>div').hide();
+$('.order_content>div:first-child').show();
+$('.my_order_title ul li').click(function(){
+  $(this).addClass('on').siblings().removeClass('on');
+  $('.order_content>div').hide();
+  $('.order_content>div').eq($(this).index()).show();
+})
+</script>
+  </body>
+</html>

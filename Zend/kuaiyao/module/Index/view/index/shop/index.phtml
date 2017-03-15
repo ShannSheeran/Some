@@ -1,0 +1,107 @@
+<?php echo $this->headTitle('精品广场'. $this->translate(''))->setSeparator(' - ')->setAutoEscape(false);?>
+<?php echo $this->headMeta()->setName('description','猫王联盟——以“吃喝玩乐购”生活服务类打造实体店的免费O2O平台。为实体店搭建线上线下一体化平台；为消费者提供全国通积通用通兑积分平台，积分可线上兑换商品，线下抵现消费。服务热线4008-333-133')->setName('keywords','通用积分联盟,通用积分平台,通用积分商城,o2o积分联盟,o2o积分联盟网站,积分联盟商,生活服务'); ?>
+<script>showmenu();</script>
+		<div class="content w bc">
+			<!--web address -->
+			<p class="lh25px f14 mt20">
+				<a href="<?php echo $this->url('index',array('controller'=>'index','action'=>'index'))?>" class="f_color_gray">首页&nbsp;&gt;&nbsp;</a>
+				<a class="f_color_gray">精品广场&nbsp;&gt;&nbsp;</a>
+				<a class="f_color_gray"><?php if($id==0){echo '全部';}else{foreach($GoodsCategory as $v){if($v['id']==$id){echo $v['name'];break; }}}?></a>
+			</p>
+			<!-- web address end -->
+			<!-- screen -->
+			<div class="screen mt10 pr">
+				<h3 class="bg_f7f7f7 f16">商品筛选</h3>
+				<ul class="screen_type">
+					<li class="clearfix border_b pr"> 
+						<div class="screen_label fl lh25px mr20">分类:</div> 
+						<div class="screen_item">
+							<ul class="clearfix">
+								<li class="fl mr10"><a href="<?php echo $this->url('index',array('controller'=>'shop','action'=>'index','id'=>0,'alert'=>$a,'between'=>$b,'search'=>$s))?>" class="db lh25px pl5 pr5 <?php echo $id==0 ? 'on':''?>">全部</a></li>
+							<?php foreach($GoodsCategory as $v){?>
+								<li class="fl mr10"><a href="<?php echo $this->url('index',array('controller'=>'shop','action'=>'index','id'=>$v['id'],'alert'=>$a,'between'=>$b,'type'=>$t,'search'=>$s))?>" class="db lh25px pl5 pr5 <?php echo $id==$v['id'] ? 'on':''?>"><?php echo $v['name']?></a></li>
+							<?php }?>
+							</ul>
+						</div>
+					</li>
+					<li class="clearfix border_b">
+						<div class="screen_label fl lh25px mr20">金猫:</div>
+						<div class="screen_item">
+							<ul class="clearfix">
+								<li class="fl mr10"><a href="<?php echo $this->url('index',array('controller'=>'shop','action'=>'index','id'=>$id,'alert'=>0,'between'=>$b,'search'=>$s))?>" class="db lh25px pl5 pr5 <?php echo $a==0 ? 'on':''?>">全部</a></li>
+							<?php foreach($allSort as $v){?>
+								<li class="fl mr10"><a href="<?php echo $this->url('index',array('controller'=>'shop','action'=>'index','id'=>$id,'alert'=>$v['id'],'between'=>$b,'type'=>$t,'search'=>$s))?>" class="db lh25px pl5 pr5 <?php echo $a==$v['id'] ? 'on':''?>"><?php echo $v['str']?></a></li>
+							<?php }?>
+							</ul>
+						</div>
+					</li>
+					<li class="clearfix ">
+						<div class="screen_label fl lh25px mr20">银猫:</div> 
+						<div class="screen_item">
+							<ul class="clearfix">
+								<li class="fl mr10"><a href="<?php echo $this->url('index',array('controller'=>'shop','action'=>'index','id'=>$id,'alert'=>$a,'between'=>0,'search'=>$s))?>" class="db lh25px pl5 pr5 <?php echo $b==0 ? 'on':''?>">全部</a></li>
+							<?php foreach($allSort as $v){?>
+								<li class="fl mr10"><a href="<?php echo $this->url('index',array('controller'=>'shop','action'=>'index','id'=>$id,'alert'=>$a,'between'=>$v['id'],'type'=>$t,'search'=>$s))?>" class="db lh25px pl5 pr5 <?php echo $b==$v['id'] ? 'on':''?>"><?php echo $v['str']?></a></li>
+							<?php }?> 
+							</ul>
+						</div>
+					</li>
+				</ul>
+				<!-- 撤销全部 -->
+				<div class="screen_clear pa"><a href="<?php echo $this->url('index',array('controller'=>'shop','action'=>'index'))?>" class="db lh25px pl5 pr5">撤销全部条件</a></div>
+			</div>
+			<!-- screen end -->
+			<!-- product list -->
+			<ul class="clearfix sort_type bg_f7f7f7 mt30 mt20 border_b border_t border_l border_r">
+				<li class="fl mr10">排序:</li>
+				<li class="fl mr10"><a href="<?php echo $this->url('index',array('controller'=>'shop','action'=>'index','id'=>$id,'alert'=>$a,'between'=>$b,'type'=>0,'search'=>$s))?>" class="db  pl5 pr5 <?php echo $t==0 ? 'on':''?>">默认</a></li>
+				<li class="fl mr10"><a href="<?php echo $this->url('index',array('controller'=>'shop','action'=>'index','id'=>$id,'alert'=>$a,'between'=>$b,'type'=>1,'search'=>$s))?>" class="db  pl5 pr5 <?php echo $t==1 ? 'on':''?>">销量</a></li>
+			</ul>
+			<ul class="clearfix product_list">
+			<?php foreach($List as $k=>$v){?>
+				<li class="fl br_a_1_c good_list">
+					<div class="mb10">
+						<a target="_BANK" href="<?php echo $this->url('index',array('controller'=>'shop','action'=>'detail','id'=>$v['id']))?>" ><img src="<?php echo isset($v['image_url']) ? $v['image_url'] : ROOT_PATH.'images/no_pic.png';?>" /></a>
+					</div>
+					<div class="text pl10"> 
+						<p class="f14 lh150 pro_tit"><a href="<?php echo $this->url('index',array('controller'=>'shop','action'=>'detail','id'=>$v['id']))?>" ><?php echo mb_strlen($v['name'])>24 ? mb_substr($v['name'],0,24,'utf8').'...' : $v['name']?></a></p>
+						<div class="mt10 clearfix h35">
+						<?php if(($v['cash_group']>0||$v['cash']>0 ||$v['golden_cat']>0) && $v['silver_cat']==0 &&$v['silver_cat_group']==0){?>
+						<p class="fl f_color_red bold">￥&nbsp;<span class="f_color_red f14 bold"><?php echo floatval($v['cash_group'])?></span></p>
+						<?php if($v['cash_group']>=0  ){?>
+						<p class="fl f_color_red bold" style="line-height:14px;">&nbsp;+&nbsp;</p>
+						<?php }?>
+						<?php if($v['golden_cat']>=0){?>
+						<p class="fl f_color_red bold">金猫&nbsp;<span class="f_color_red f14 bold"><?php echo floatval($v['golden_cat'])?></span></p>
+						<?php }?>
+						<?php } 
+						else {?>
+						
+						<p class="fl f_color_red bold">￥&nbsp;<span class="f_color_red f14 bold"><?php echo floatval($v['cash'])?></span></p>
+						<?php if($v['cash']>=0 && $v['silver_cat_group']>=0 ){?>
+						<p class="fl f_color_red bold" style="line-height:14px;">&nbsp;+&nbsp;</p>
+						<?php }?>
+						<?php if($v['silver_cat_group']>=0){?>
+						<p class="fl f_color_red bold">银猫&nbsp;<span class="f_color_red f14 bold"><?php echo floatval($v['silver_cat_group'])?></span></p>
+						<?php }?>
+						<?php }?>
+						</div>
+						<div class="mt10 clearfix h35">
+						<?php if($v['silver_cat']==0 && $v['silver_cat_group']==0){?>
+						<p class="fl f_color_red bold ">￥&nbsp;<span class="f_color_red f14 bold"><?php echo floatval($v['cash'])?></span></p>
+						<?php }?>
+						<?php if($v['golden_cat']==0 && $v['cash_group']==0 &&($v['silver_cat']>0||$v['silver_cat_group']>0)){?>
+						<p class="fl f_color_red bold">银猫&nbsp;<span class="f_color_red f14 bold"><?php echo floatval($v['silver_cat'])?></span></p>
+						<?php }?>
+						</div>
+						<div>
+							<input type="button" value="立即兑换" class="pro_btn f_color_blue" onclick="js_go('<?php echo $this->url('index',array('controller'=>'shop','action'=>'detail','id'=>$v['id']))?>')" />&nbsp;&nbsp;
+							已售<span><?php echo $v['sale_number']?></span>份
+						</div>
+					</div>
+				</li>
+			<?php }?>
+			</ul>
+<?php    echo $this->paginationControl($paginator, 'Sliding', 'layout_index/page',array('route' =>'index','condition'=>$condition));?>
+			<!-- product list end -->
+		</div>

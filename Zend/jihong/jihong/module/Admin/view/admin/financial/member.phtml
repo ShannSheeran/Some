@@ -1,0 +1,66 @@
+<style>
+	.dataTables_info{
+		display:none;
+	}
+	.dataTables_paginate{
+		display: none;
+	}
+	.bc-1{display: none;}
+	.col-sm-5{display: none;}
+	.col-sm-7{display:none;}
+</style>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+        <a href="<?php echo $this->url('admin-financial' , array('action' => 'index')) ?>">财务管理 / <a href="">会员充值</a>
+		</h3>
+	</div>
+	
+	<div class="panel-body">
+    	<div class="" style="float:right;">
+            <form class="form-horizontal" action="<?php $this->url('admin-financial' , array('action' => 'member')) ?>" method="get" style="float: left; margin-left: 20px;">
+			<span style="font-weight: bold; font-size: 14px;"> 关键词 :</span>
+			<input type="text" name="keyword" value="<?php echo isset($keyword) ? $keyword : ''?>" placeholder="请输入企业名称/帐号搜索" style="line-height: 26px" >
+			<select style="padding: 5px" name="user_level">
+			     <option value="0">会员等级</option>
+			     <option value="1" <?php echo isset($level) && $level == 1 ? 'selected' :''?>>普通会员</option>
+			     <option value="2" <?php echo isset($level) && $level == 2 ? 'selected' :''?>>VIP会员</option>
+			</select>
+			<select style="padding: 5px" name="type">
+			     <option value="0">全部企业</option>
+			     <option value="1" <?php echo isset($type) && $type == 1 ? 'selected' :''?>>经销商</option>
+			     <option value="2" <?php echo isset($type) && $type == 2 ? 'selected' :''?>>供应商</option>
+			</select>
+			<input type="submit"  value="搜索" class="btn btn-info" style="height: 26px; width: 60px; line-height: 26px; padding: 0; margin-left: 10px; margin-top: 5px;" />
+		    </form>
+    	</div>
+    	<div style="clear:both;"></div>
+		<table class="table table-bordered table-striped" id="example-4">
+			<thead>
+				<tr>
+					<th>企业名称</th>
+					<th>企业类型</th>
+					<th>登录账号</th>
+					<th>会员等级</th>
+					<th>账户余额</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			    <?php foreach ($user_list as $value): ?>
+                <tr class="tr_list" valign="middle">
+					<td><?php echo $value->company_name; ?></td>
+					<td><?php echo $enterpris_type[$value->type]; ?></td>
+					<td><?php echo $value->name; ?></td>
+					<td><?php echo $user_level[$value->user_level]; ?></td>
+					<td><?php echo $value->cash ?></td>
+					<td>
+					   <a class="btn btn-info"  href="<?php echo $this->url('admin-financial' , array('action' => 'memberRecharge' ,'id'=>$value->id))?>"> 操作</a>
+					</td>
+				</tr>
+				<?php endforeach;?>
+            </tbody>
+		</table>
+        <?php echo $this->paginationControl($paginator, 'Sliding', 'page',array('route' =>'admin-financial','condition'=>$condition));?>      
+        </div>
+</div>

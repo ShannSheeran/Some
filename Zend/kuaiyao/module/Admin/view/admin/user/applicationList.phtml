@@ -1,0 +1,81 @@
+<!-- Responsive Table -->
+<!-- Table exporting -->
+<style>
+	.row{
+		display:none;
+	}
+</style>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			<a href="<?php echo $this->url('admin-user',array('action'=>'applicationList','cid'=>1))?>">
+				<button class="btn btn-large <?php if($cid==1){?>btn-info<?php }?>">待审核</button>
+			</a>
+			<a href="<?php echo $this->url('admin-user',array('action'=>'applicationList','cid'=>2))?>">
+				<button class="btn btn-large <?php if($cid==2){?>btn-info<?php }?>">审核通过</button>
+			</a>
+			<a href="<?php echo $this->url('admin-user',array('action'=>'applicationList','cid'=>3))?>">
+				<button class="btn btn-large <?php if($cid==3){?>btn-info<?php }?>">审核未通过</button>
+			</a>
+			<form class="form-horizontal"
+				action="<?php echo $this->url('admin-user',array('action'=>'applicationList','page'=>1,'cid'=>$cid))?>"
+				method="post" style="float: right; margin-left: 20px;">
+				<span style="font-weight: bold; font-size: 14px;"> 搜索全表</span>
+				：
+				<input type="text" name="keyword" value="<?php echo $keyword?>"
+					placeholder="搜索 ID、手机、昵称">
+				<input type="submit" name="submit" value="搜索" class="btn btn-info"
+					style="height: 25px; width: 60px; line-height: 25px; padding: 0; margin-left: 10px; margin-top: 5px;" />
+			</form>
+		</h3>
+
+		<div class="panel-options">
+
+			<a href="#" data-toggle="panel">
+				<span class="collapse-icon">&ndash;</span>
+				<span class="expand-icon">+</span>
+			</a>
+			<a href="#" data-toggle="remove"> &times; </a>
+		</div>
+	</div>
+	<div class="panel-body">
+		<table class="table table-bordered table-striped" id="example-4">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>用户名</th>
+					<th>手机</th>
+					<th>公司</th>
+					<th>职位</th>
+					<th>邮箱</th>
+					<th>微信</th>
+					<th>QQ</th>
+					<th>状态</th>
+					<th>时间</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+            <?php if($list){?>
+            <?php foreach($list as $v){?>
+                <tr>
+					<td><?php echo $v->id; ?></td>
+					<td><?php echo $v->name; ?></td>
+					<td> <?php echo $v->mobile; ?></td>
+					<td> <?php echo $v->company_name; ?></td>
+					<td> <?php echo $v->position; ?></td>
+					<td> <?php echo $v->email; ?></td>
+					<td> <?php echo $v->weixin_number; ?></td>
+					<td> <?php echo $v->qq; ?></td>
+					<td><?php $status  = array(1=>'待审核',2=>'审核通过',3=>'审核不通过'); echo isset($status[$v->status]) ? $status[$v->status] : '待审核';?></td>
+					<td><?php echo $v->timestamp;?></td>
+					<td>
+						<a class="btn btn-info" href="<?php echo $this->url('admin-user',array('action' =>'applyDetails','id'=>$v->id)); ?>">查看</a>
+                       <a class="btn btn-danger" href="javascript:void(0)" onclick="show_confirm_message('<?php echo $this->url('admin-user',array('action' =>'deleteApply','id'=>$v->id)); ?>','确定删除此用户申请资料吗？')">删除</a>
+                    </td>
+				</tr>
+            <?php }}?>
+            </tbody>
+		</table>
+        <?php echo $this->paginationControl($paginator, 'Sliding', 'page',array('route' =>'admin-user','condition'=>$condition));?>       </div>
+</div>

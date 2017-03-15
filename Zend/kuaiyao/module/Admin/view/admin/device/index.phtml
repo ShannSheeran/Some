@@ -1,0 +1,156 @@
+<!-- Responsive Table -->
+<!-- Table exporting -->
+<style>
+	.row{
+		display:none;
+	}
+</style>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+		<form class="form-horizontal"
+				action="<?php echo $this->url('admin-device',array('action'=>'index','cid'=>$cid,'page'=>1))?>"
+				method="post" style="float: right; margin-left: 20px;">
+				<span style="font-weight: bold; font-size: 16px;"> 搜索全表</span> ： <input
+					type="text" name="keyword" value="<?php echo $keyword?>"
+					placeholder="搜索 ID、major、minor" style="font-size:12px;  line-height:25px"> <input type="submit" name="submit"
+					value="搜索" class="btn btn-info"
+					style="height: 25px; width: 60px; line-height: 25px; padding: 0; margin-left: 10px; margin-top: 5px;" />
+			</form>
+		<a
+				href="<?php echo $this->url('admin-device',array("action"=>"pleaseDevice"))?>"
+				style="float: right;margin-left: 20px;">
+				<button class="btn btn-large btn-info">申请设备</button>
+			</a>
+			<a
+				href=""
+				style="float: right;margin-left: 20px;">
+				<button class="btn btn-large btn-danger" onclick="show_confirm_message('<?php echo $this->url('admin-device',array("action"=>"updateDeviceList"))?>','更新过程可能需要较长时间，请耐心等待！确定要更新服务数据吗？');">更新服务器数据与微信同步</button>
+			</a>
+			<a
+				href="<?php echo $this->url('admin-device',array('action'=>'index','cid'=>'0'))?>">
+				<button class="btn btn-large <?php if($cid==0){?>btn-info<?php }?>">
+					<i class="icon-edit icon-white"></i>
+					全部
+				</button>
+			</a>
+			<a
+				href="<?php echo $this->url('admin-device',array('action'=>'index','cid'=>'1'))?>">
+				<button class="btn btn-large <?php if($cid==1){?>btn-info<?php }?>">
+					<i class="icon-edit icon-white"></i>
+					未激活
+				</button>
+			</a>
+			<a
+				href="<?php echo $this->url('admin-device',array('action'=>'index','cid'=>'2'))?>">
+				<button class="btn btn-large <?php if($cid==2){?>btn-info<?php }?>">
+					<i class="icon-edit icon-white"></i>
+					已激活
+				</button>
+			</a>
+			
+			
+		</h3>
+
+		<div class="panel-options">
+
+			<a href="#" data-toggle="panel">
+				<span class="collapse-icon">&ndash;</span>
+				<span class="expand-icon">+</span>
+			</a>
+			<a href="#" data-toggle="remove"> &times; </a>
+		</div>
+	</div>
+	<div class="panel-body">
+		<table class="table table-bordered table-striped" id="example-4">
+			<thead>
+				<tr>
+					<td>设备ID</td>
+					<th>设备备注 </th>
+					<th>设备编号 </th>
+					<th>uuid</th>
+					<th>major</th>
+					<th>minor</th>
+					<th>绑定页面ID</th>
+					<th>审核状态</th>
+					<?php if($cid !=1){?>
+					<th>激活状态</th>
+					<?php }?>
+					<th>添加时间</th>
+					<th  style="width: 180px;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			   
+			    <?php //print_r($list);?>
+						  <?php foreach ($list as $v){?>
+						  
+                          <?php $carte_id = explode(',',$v->carte_ids);?>
+				<tr>
+					<td><?php echo $v->id?></td>
+					<td><?php echo $v->comment;?></td>
+					<td><?php echo $v->device_id; ?></td>
+					<td><?php echo $v->uuid;?></td>
+					<td><?php echo $v->major.'('.dechex($v->major).')';?></td>
+					<td><?php echo $v->minor.'('.dechex($v->minor).')';?></td>
+					<td><a href="<?php echo $this->url('admin-card',array('action'=>'addUser','id'=>$carte_id['0']))?>">
+					<?php echo isset($username[$v->user_id]) ? $username[$v->user_id] : '' ;?>
+					</a></td>
+
+					<td><?php  $audit_status = array('审核未通过','审核中','审核通过');echo $audit_status[$v->audit_status];?></td>
+					<?php if($cid !=1){?>
+					<td><?php  $status = array('未激活','不活跃','活跃');echo $status[$v->status];?></td>
+					<?php }?>
+					<td><?php echo date("Y-m-d H:i",strtotime($v['timestamp']));?></td>
+					<td>
+					   <button class="btn btn-setting  btn-warning" data-toggle="modal"
+							data-target="#myModal" onclick="generateCode('<?php echo $v->uuid;?>','<?php echo $v->major;?>','<?php echo $v->minor;?>','<?php echo $v->id;?>')">二维码图片</button>
+						<a class="btn btn-success"
+							href="<?php echo $this->url("admin-device",array("action"=>"deviceDetails","id"=>$v->id))?>">查看</a>
+					</td>
+				</tr>
+                       
+							<?PHP }?>
+							
+						  </tbody>
+		</table>
+
+						<?php    echo $this->paginationControl($paginator, 'Sliding', 'page',array('route' =>'admin-device','condition'=>$condition));?> 
+						</div>
+
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="false" style='z-index:8888;'>
+	<div class="modal-dialog" >
+		<div class="modal-content" >
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">×</button>
+				<h3>设备二维码信息</h3>
+			</div>
+			<div class="modal-body">
+				<img id="qc_code" src=""style="float: left;"/>
+				<div style="float: reight;width:600px;">
+				<span style="margin-left: 10px;">uuid:<span id="uuid"></span></span><br>
+				<span style="margin-left: 10px;">major:<span id="major"></span></span><br>
+				<span style="margin-left: 10px;">minor:<span id="minor"></span></span><br>
+				<span style="margin-left: 10px;">设备ID：<span id="device_id"></span></span>
+				</div>
+			</div>
+			<div style="clear: both"></div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+var url = '<?php echo HTTP.$this->url("admin-common",array('action'=>'generateCode'));?>'+'?';
+function generateCode(uuid,major,minor,device_id)
+{
+	$("#uuid").text(uuid);
+	$("#major").text(major);
+	$("#minor").text(minor);
+	$("#device_id").text(device_id);
+	$.get(url+'uuid='+uuid+'&major='+major+'&minor='+minor, 
+			function(data){    		    	     
+			     $("#qc_code").attr("src",data);
+	 		   });
+}
+</script>

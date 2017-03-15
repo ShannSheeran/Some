@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>吉宏园艺</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/index/base.css">
+<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/index/index-Englisha.css">
+<script type="text/javascript" src="<?php echo $this->basePath();?>/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath();?>/js/index.js"></script>
+
+</head>
+<body>
+    <div class="header">
+        <div class="header_bd wrap">
+            <p class="contact">联系我们：<?php echo $setting[2]->text?></p>
+            <div class="login">
+                <ul>
+                    <li><a href="<?php echo $this->url('index' , array('controller' => 'login' , 'action' => 'index'))?>">登录</a></li>
+                    <li class="fist_line">|</li>
+                    <li><a href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'indexEnglish'))?>">English</a></li>
+                    <li class="sec_line">|</li>
+                    <li><a href="">日本语</a></li>
+                </ul>
+            </div>
+        
+        </div>
+    </div>
+
+    <div class="header_bot">
+        <div class="wrap">
+            <div class="header_bot_l"></div>
+            <div class="header_bot_r">
+                <ul class="nav">
+                    <li><a class="current" href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'index'))?>">首页</a></li>
+                    <li><a   href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'companyIntro'  ))?>" class="">关于吉宏</a></li>
+                    <li><a   href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'articleDetail' ,'id' => 2  ))?>">吉宏梦</a></li>
+                    <li><a   href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'articleDetail' ,'id' => 3 ))?>">盆栽交易平台</a></li>
+                    <li><a   href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'articleDetail' ,'id' => 4  ))?>">吉宏发财树</a></li>
+                    <li><a   href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'supplyList'))?>">行业信息</a></li>
+                    <li><a   href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'contract'  ))?>">联系我们</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="banner">
+        <img style="width:1903px; height:400px;" src="<?php echo $ads_info ? ROOT_PATH.UPLOAD_PATH.$ads_info->path.$ads_info->filename : ''?>" alt="" />
+    </div>
+    <div class="main wrap clearfix">
+        <div class="main_l fl">
+            <h2 class="tittle">Message boards</h2>
+            <div class="form">
+                <input class="corgray6" type="text" placeholder="Name" id="subject" />
+                <input class="corgray6 mt20" type="text" placeholder="E-mail" id="email" />
+                <textarea class="corgray6 mt20" id="body" id="" cols="30" rows="10" placeholder="Message"></textarea>
+                <input class="btn font18 corgrayf" type="button" value="Send Message"  onclick="sendMessage()" />
+            </div> 
+        </div>
+        <div class="main-r fr">
+            <div class="contact">
+                <h3 class="font18 corgrayf">Contact Us</h3>
+                <div class="contact_tixbox">
+                    <p class="corgray6" style="width:358px;word-break:break-all">address：<?php echo $setting[7]->text ?></p>
+                    <!-- <p class="corgray6">Flower Technology Park Yilin Street No. 18</p> -->
+                    <p class="corgray6">Postcodes：<?php echo $setting[8]->text ?></p>
+                    <p class="corgray6">Tel：<?php echo $setting[2]->text ?></p>
+                    <p class="corgray6">Fax：<?php echo $setting[3]->text ?></p>
+                    <p class="corgray6">E-mail：<?php echo $setting[4]->text ?></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="popbj"></div>
+    <div class="send_success success_dialog">
+        <p>Thank you for your enquiry and it isquite easy to get access to our service </p>
+        <p class="success">close</p>
+    </div>
+    <div class="send_success failed_dialog">
+        <p>Sorry , your message is failed to send</p>
+        <p class="success">close</p>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+    $(function(){
+        // 发送成功弹窗
+/*          $('.main .main_l .form .btn').click(function(event) {
+            
+         }); */
+         // 发送成功弹窗关闭
+         $('.send_success .success').click(function(event) {
+             $('.send_success').hide();
+             $('.popbj').hide();
+         });
+
+         
+    })
+    function sendMessage()
+    {
+        var subject = $('#subject').val(),
+        email = $('#email').val(),
+        body = $('#body').val();
+
+        $.post('<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'sendMail'))?>' , {"subject" : subject , 'email' : email , 'body' : body} , function(data){
+            $('.popbj').show();
+            if(data.status == 0)
+            {
+            	$('.success_dialog').show();
+            }
+            else
+            {
+            	$('.failed_dialog').show();
+            }
+        },"json"); 
+    }
+</script>

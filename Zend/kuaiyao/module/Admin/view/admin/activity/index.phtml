@@ -1,0 +1,112 @@
+<!-- Responsive Table -->
+<!-- Table exporting-->
+<?php echo $this->headScript()->prependFile($this->basePath() . '/js/jq_area.js') ?>
+<?php echo $this->headScript()->prependFile($this->basePath() . '/js/region.js') ?>
+<style type="text/css">
+	.form-control{width:110px;}
+	#form{float:left;margin-right:5px;}
+	#sure{width:55px;float:left;margin-right:3px;background:#ccc;}
+	.panel-heading{margin-left:100px;}
+	.condition{width:35%;height:40px;float: right;}
+	.condition .form-control{width:18%;}
+	.left{float: left;}
+
+
+</style>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+		</h3>
+		<div class="left">
+			<a class="blue_bg d_ib" href="<?php echo $this->url('admin-activity',array('action' =>'add')); ?>">新增公司活动</a>
+			<a class="blue_bg d_ib" href="<?php echo $this->url('admin-ads',array('action' =>'index')); ?>">管理广告位</a>
+			<a class="blue_bg d_ib" href="<?php echo $this->url('admin-activity',array('action'=>'hot'))?>">热门城市</a>
+		</div>
+		<div class="condition">
+			<form action="" method="post">
+			 <!--公司-->
+			  <select name="recommend" id="form" class="form-control" title="请选择公司">
+				  <option value="0" <?php if($is_top == 0){ echo 'selected';}?>>全部公司</option>
+				  <option value="1" <?php if($is_top == 1){ echo 'selected';}?>> 推荐公司</option>
+				  <option value="2" <?php if($is_top == 2){ echo 'selected';}?>>未推荐公司</option>
+			  </select>
+			<!--城市-->
+
+			<select name="city" id="form" class="form-control">
+				<option value="0">所有城市</option>
+			   <?php foreach($city as $k=>$v):?>
+				  <option value="<?php echo $k?>" <?php if($k==$city_name){echo 'selected';}?>><?php echo $v?></option>
+				<?php endforeach?>
+			  </select>
+			  <!--所属行业-->
+			   <select name="category" id="form" class="form-control">
+			   <?php foreach($category as $k=>$v):?>
+				  <option value="<?php echo $k?>" <?php if($k==$cate){echo 'selected';}?>><?php echo $v?></option>
+				<?php endforeach?>
+			  </select>
+			  <!--规模-->
+			   <select name="scale" id="form" class="form-control">
+			   <?php foreach($scale as $k=>$v):?>
+				 <option value="<?php echo $k?>" <?php if($k == $c_scale){ echo 'selected';}?> ><?php echo $v?></option>
+			   <?php endforeach?>
+			  </select>
+			  <input type="submit" value="确定" class="form-control"  id="sure"/>
+			  <button onclick="cancel()" class="form-control" id="sure" style="display:none;">重置</button>
+			  </form>
+		  </div>
+		<!--<div class="panel-options">
+			<a href="#" data-toggle="panel"> <span class="collapse-icon">&ndash;</span>
+				<span class="expand-icon">+</span>
+			</a> <a href="#" data-toggle="remove"> &times; </a>
+		</div>-->
+	</div>
+	<div class="panel-body">
+		<table class="table table-bordered table-striped" id="example-4">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>公司名称</th>
+					<th>活动标题</th>
+					<th>活动描述</th>
+					<th>发布时间</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody class="file">
+                <?php foreach($list as $key=>$v):?>
+             
+                <tr >
+					<td style="min-width:20px;"><?php echo $this->escapeHtml($v->id);?></td>
+					<td style="min-width:310px;"> <img style="width:80px;height:50px;float:left;margin-right:30px;" src="<?php echo $this->basepath() . '/' .UPLOAD_PATH.$this->escapeHtml($v['c_path']).$this->escapeHtml($v['c_filename']);?>"/><?php echo $this->escapeHtml($v['c_name']);?></td>
+					<td style="min-width:145px;"><?php echo $this->escapeHtml($v->name);?></td>
+					<td style="max-width:500px;"><?php echo mb_substr(htmlspecialchars_decode($this->escapeHtml(trim(strip_tags($v->content)))),0,4,'utf-8');?></td>
+					<td style="min-width:120px;"><?php echo $this->escapeHtml($v->timestamp);?></td>
+					<td style="min-width:200px;">
+						<a class="btn btn-info" href="<?php echo $this->url('admin-activity',array('action'=>'edit','id'=>$v['id']))?>">编辑</a>
+						<a class="btn btn-danger" href="<?php echo $this->url('admin-activity',array('action'=>'delactivity','id'=>$v['id']))?>">删除</a>
+					</td>
+				</tr>
+				<?php endforeach?>
+            </tbody>
+		</table>
+        <?php /*echo $this->paginationControl($paginator, 'Sliding', 'page',array('route' =>'admin-activity','condition'=>$condition));*/?>       </div>
+</div>
+<script>
+		
+		$("#area").area({
+        cache: region,
+        //p_id:<?php //echo isset($info->province_id) ? $info->province_id : 440000;?>,
+        //ci_id:<?php //echo isset($info->city) ? $info->city : 440100;?>,
+		});
+		
+       $('.btn-danger').click(function(){
+   	       if(!window.confirm('确定删除活动？')){
+      	        return false;
+    	   }
+       });
+		function cancel(){
+			window.location.href="<?php echo $this->url('admin-activity',array('action'=>'index','alert'=>1))?>"
+		}
+      
+		
+</script>

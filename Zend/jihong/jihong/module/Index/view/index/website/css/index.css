@@ -1,0 +1,318 @@
+/* 
+* @Author: Marte
+* @Date:   2016-06-21 22:13:20
+* @Last Modified by:   Marte
+* @Last Modified time: 2016-07-05 18:17:08
+*/
+
+ /* banner图 */
+    .fullSlide{ width:100%;  position:relative;  height:460px; background:#000;  }
+    .fullSlide .bd{ margin:0 auto; position:relative; z-index:0; overflow:hidden;  }
+    .fullSlide .bd ul{ width:100% !important;  }
+    .fullSlide .bd li{ position: absolute;  width:100% !important;  height:460px; overflow:hidden; text-align:center;  }
+    .fullSlide .bd li.li01 {width: 1903px; left: 0px; top: 0px; display: none; background: url(../images/1.jpg) 50% 0px no-repeat rgb(25, 73, 130);}
+    .fullSlide .bd li.li02 {position: absolute; width: 1903px; left: 0px; top: 0px; display: none; background: url(../images/2.jpg) 50% 0px no-repeat rgb(21, 24, 30);}
+    .fullSlide .bd li.li03 {position: absolute; width: 1903px; left: 0px; top: 0px; display: none; background: url(../images/3.jpg) 50% 0px no-repeat rgb(11, 11, 11);}
+    .fullSlide .bd li.li04 {position: absolute; width: 1903px; left: 0px; top: 0px; display: none; background: url(../images/4.jpg) 50% 0px no-repeat rgb(0, 0, 0);}
+    .fullSlide .bd li.li05 {position: absolute; width: 1903px; left: 0px; top: 0px; display: none; background: url(../images/5.jpg) 50% 0px no-repeat rgb(4, 48, 75);}
+
+    .fullSlide .bd li a{ display:block; height:460px; }
+    .fullSlide .hd{ width:100%;  position:absolute; z-index:1; bottom:0; left:0; height:60px; line-height:60px; background:url(../images/touming02.png) repeat-x; text-align:center;
+         _background:#000; _filter:alpha(opacity=60); 
+    }
+    .fullSlide .hd ul{ text-align:center;  padding-top:13px;}
+    .fullSlide .hd ul li{ cursor:pointer; display:inline-block; *display:inline; zoom:1; width:24px; height:28px; margin:3px 14px; background:url(../images/tg_flash_p02.png) -50px 0; overflow:hidden; 
+        line-height:9999px; 
+    }
+    .fullSlide .hd ul .on{ background-position:0 0; }
+
+
+
+
+
+
+
+.main .main_l {
+    width: 300px;
+    height: 691px;
+    padding-top: 30px;
+}
+.login_box {
+    width: 298px;
+    height: 354px;
+    border: 1px solid #CCC;
+}
+.login_box .txt {
+    width: 298px;
+    height: 58px;
+    border-bottom: 1px solid #CCC;
+}
+.login_box .txt h2 {
+    display:block;
+    width: 148px;
+    height: 58px;
+    text-align: center;
+    line-height: 58px;
+    color:#999999!important;
+    font-size: 18px;
+    border-bottom: 1px solid #CCC;
+    cursor: pointer;
+}
+.agency {
+    border-left:1px solid #CCC ;
+}
+.main_l .account_bd {
+    display:none;
+}
+.login_box .current {
+    display:block;
+}
+.login_box .txt .current {
+    color:#C4234C!important;
+    height: 55px;
+    width: 149px;
+    border-bottom: 4px solid #C4234C;
+}
+.account_bd {margin:0 29px;}
+.account_l,.pass_word {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #CCC;
+    border-radius: 2px 0 0 2px;
+    background:#F2F2F2 url(../images/touxiang.png) no-repeat center center;
+}
+.account_r,.pass_word_r{
+    width: 187px;
+    height: 40px;
+    line-height: 40px;
+    border: 1px solid #CCC;
+    margin-left: -1px;
+    font-size: 14px;
+    padding-left: 10px;
+    border-radius: 0 2px 2px 0;
+}
+.pass_word {
+    background-image:url(../images/suo.png);
+}
+.test_txt {
+    width: 138px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border: 1px solid #CCC;
+}
+.test_word {
+    width: 84px;
+    height: 40px;
+    border: 1px solid #CCC;
+    margin-left: 14px;
+    background:url(../images/test_word.png) no-repeat center center;
+}
+.loging {
+    width: 240px;
+    height: 42px;
+    line-height: 42px;
+    text-align: center;
+    border:0 none;
+    color:#fff;
+    font-size: 18px;
+    cursor: pointer;
+}
+.version {
+    line-height: 34px;
+}
+.main_l .title{
+    height: 50px;
+    line-height: 50px;
+    font-size: 18px;
+    color:#fff;
+    text-align: center;
+}
+.main_l .contactus .contact_box {
+    width: 282px;
+    height: 167px;
+    border: 1px solid #CCC;
+    padding-left: 16px;
+    padding-top: 7px;
+    margin-top: -1px;
+}
+.contact_box p {
+    line-height: 32px;
+    font-size: 14px;
+}
+/*左侧内容结束*/
+.main .main_r {
+    width: 650px;
+    height: 700px;
+    margin-left: 50px;
+    padding-top: 21px;
+}
+.main .main_r .introduction {
+    height: 35px;
+    border-bottom: 1px solid #CCC;
+}
+.intro_txt_bd {
+    height: 178px;
+    margin-bottom: 29px;
+}
+.intro_txt_bd .pic {
+    width: 160px;
+    padding-top: 16px;
+}
+.intro_txt_bd .content {
+    width: 470px;
+    height: 168px;
+    margin-left: 19px;
+    padding-top: 10px;
+}
+.intro_txt_bd .content p {
+    line-height: 24px;
+    font-size: 14px;
+}
+.dynamic p {
+    line-height: 42px;
+    border-bottom: 1px dashed #CCC;
+}
+.picScroll {
+    height: 191px;
+    width: 650px;
+    position: relative;
+    overflow: hidden;
+}
+.picScroll ul {
+    margin-left: -14px;
+    width: 99999px;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.picScroll ul li {
+    float: left;
+    padding-top: 14px;
+    width: 150px;
+    height: 166px;
+    text-align: center;
+    margin-left: 14px;
+    border: 1px solid #ccc;
+}
+.picScroll ul li p {
+    line-height: 30px;
+    margin-top: 13px ;
+    padding:0 8px;
+    text-overflow:ellipsis;
+    overflow: hidden;
+    white-space:nowrap;
+}
+
+
+/*首页-供应商已登录页面css*/
+.login_box .top {
+    width: 280px;
+    height: 108px;
+    border-bottom: 1px solid #dedede;
+    margin:0 11px 0 7px;
+}
+.login_box .top .top-l {
+    width: 80px;
+    height: 89px;
+    padding:19px 0 0 2px;
+}
+.login_box .top .top_l_con {
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+    text-align: center;
+    border-radius: 50%;
+    background:#81c45d;
+    background:url(../images/loging-dealer-bj.png) no-repeat\9;
+}
+.login_box .top .top_r {
+    width: 198px;
+    height: 108px;
+}
+.login_box .top .top_r .conpany {
+    line-height: 66px;
+    padding-left: 15px;
+    width: 183px;
+    height: 66px;
+    text-overflow:ellipsis;
+    overflow: hidden;
+    white-space:nowrap;
+}
+.login_box .top .top_r p {
+    text-align: center;
+    line-height: 20px;
+}
+.login_box .top .top_r p.heart {
+    width: 103px;
+    height: 20px;
+    border-right: 1px solid #ccc;
+}
+.login_box .top .top_r p.logout {
+    width: 94px;
+}
+.login_box .supplier_con {
+    padding:13px 23px 14px 24px;
+}
+.login_box .supplier_con p {
+    line-height: 41px;
+}
+.login_box .bottom {
+    height: 50px;
+    border-top: 1px solid #ccc;
+}
+.login_box .bottom ul li:nth-of-type(1) {
+    width: 148px;
+    height: 50px;
+    border-right: 1px solid #ccc;
+}
+.login_box .bottom ul li:nth-of-type(2) {
+    width: 149px;
+}
+.login_box .bottom ul li {
+    line-height: 50px;
+    text-align: center;
+}
+.login_box .bottom ul li a {
+    display:block;
+    width: 109px;
+    height: 50px;
+    padding-left: 40px;
+    background:url(../images/publish-icon.png) no-repeat 30px center;
+}
+.login_box .bottom ul li a.second {
+    background-image:url(../images/loging-order.png);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

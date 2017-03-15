@@ -1,0 +1,73 @@
+<style>
+    .tl{text-align: right;}
+    .main-nody{padding:5px 20px 0 20px;}
+    .main-nody h5{float: left;}
+    .tp{margin-top: 30px;}
+    .bc-1{display: none;}
+    .fl{float: left;}
+    .pd5{
+        padding:5px;	
+    }
+</style>
+<div class="panel panel-default">
+   <div class="panel-heading">
+       <div calss="row">
+           <div class="col-sm-6">
+               <a href="<?php echo $this->url('admin-information' , array('action' => 'platformInformation'));?>">信息管理 </a>
+                / 
+                <a href="<?php echo $this->url('admin-information' , array('action' => 'inform'));?>">资讯管理</a> 
+                / 
+                <a href="<?php echo $this->url('admin-information' , array('action' => 'column'));?>">栏目管理</a>  
+
+           </div>
+       </div>
+   </div>
+    <div class="pannel-body main-nody">
+        <?php if(isset($id) && $id): ?>
+        <form class="form-horizontal" action="<?php echo $this->url('admin-information' , array('action' => 'editColumn'))?>" method="post" >
+        <?php else: ?>
+         <form class="form-horizontal" action="<?php echo $this->url('admin-information' , array('action' => 'addColumn' ))?>" method="post" >
+        <?php endif; ?>
+            <div class="row">
+                <div class="col-lg-12">
+                    <h5>
+                        <?php if(isset($id) && $id): ?>
+                        编辑栏目
+                        <?php else: ?>
+                        新增栏目
+                        <?php endif; ?>
+                    </h5>
+                </div>
+                <div class="col-lg-12">
+                
+                    <table class="table table-striped" id="example-4" >
+                        <tbody>
+                            <tr>
+                                <td>栏目名称</td>
+                                <td>
+                                    <input type="text" name="name" value="<?php echo isset($column_info->name)? $column_info->name : ''?>"  class="pd5"  required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>排序序号</td>
+                                <td>
+                                    <input type="number" min="0" name="sort" value="<?php echo isset($column_info->sort)? $column_info->sort : ''?>" class="pd5" >
+                                    <span>序号越小，在同等级分类中排序越前</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="row tp">
+                <div class="col-lg-12">
+                    <h5>
+                        <input type="hidden" name="id" value="<?php echo isset($id)? $id : ''; ?>">
+                        <button type="submit" name="submit" value="保存"  class="btn btn-info btn-large">保存</button>
+                     </h5>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

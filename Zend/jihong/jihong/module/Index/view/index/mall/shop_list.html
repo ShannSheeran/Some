@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="js/jquery-1.7.2.min.js"></script>
+    <script src="js/jquery.SuperSlide.js"></script>
+    <script src="js/base.js"></script>
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/content.css" />
+    <link rel="stylesheet" href="css/index.css" />
+    <script>
+  //   function del4margin(x) {
+  //     var ObjLi = document.getElementById("list").getElementsByTagName("li");
+  //     for (var i = 1; i < ObjLi.length; i++) {
+  //       if (i % x == 0 && i !== 0) {
+  //         ObjLi[i-1].style.background = "red";
+  //         ObjLi[i-1].style.marginRight = "0";
+  //       }
+  //     }
+  //   }
+  // window.onload = del4margin(5); //传入参数5，去掉第5个li的外边距
+  </script>
+    <script type="text/javascript">
+    $(function(){
+      $('.goods_bigclass .more,.goods_smallclass .more').click(function(){
+        $(this).prev().height(($(this).prev().height()==46)? "auto":"46");
+      })
+      $('.goods_bigclass ul li,.goods_smallclass ul li').click(function(){
+        $(this).addClass('selecton').siblings().removeClass('selecton');
+      })
+      $('.select_list ul li').click(function(){
+        $(this).addClass('on').siblings().removeClass('on');
+      })
+    })
+    </script>
+</head>
+<body>
+    <header class="">
+      <div class="wrap">
+        <div class="logo">
+          <a></a>
+        </div>
+        <div class="explain">全方位中国花卉交易平台</div>
+        <div class="header_phone">联系电话：400-0650-750</div>
+      </div>
+      <div class="clear"></div>
+      <div class="header_bottom">
+        <div class="wrap">
+          <div class="account">
+            <span>账户：7729<a href="" class="quit">[退出]</a></span>
+          </div>
+          <nav>
+            <a>首页</a>
+            <a class="">资材订购</a>
+            <a>市场反馈</a>
+            <a>对账单</a>
+            <a>会员中心</a>
+            <a>最新热销</a>
+          </nav>
+        </div>
+    </header>
+    <section>
+      <div class="order wrap">
+        <div class="material_search">
+          <div class="clearfix search_box pr">
+            <div class="fl">
+              <from><input type="text" class="search_input" placeholder="请输商品名称搜索" value="" onfocus=";"></from>
+            </div>
+            <div class="fl"><input type="button" class="material_search_btn " value="搜索" onclick="Search()"></div>
+          </div>
+        </div>
+        <div class="btn_cart"><a>购物车</a></div>
+      </div>
+      <div class="clear"></div>
+      <div class="wrap">
+        <p class="order_map map_nav">
+          <a>供应信息</a>
+          <i>&gt;</i>
+          <a>多肉</a>
+          <i>&gt;</i>
+          <a>芦荟</a>
+        </p>
+      </div>
+      <div class="wrap"> 
+        <div class="goods_bigclass">
+          <div class="select_label">商品大类：</div>
+          <ul>
+            <li><a>全部</a></li>
+            <li><a>发财树</a></li>
+            <li><a>小森林</a></li>
+            <li><a>吉宏特色</a></li>
+            <li><a>玲珑系列</a></li>
+            <li><a>白掌系列</a></li>
+            <li><a>绿萝系列</a></li>
+            <li><a>碧玉系列</a></li>
+            <li><a>发财树</a></li>
+            <li><a>小森林</a></li>
+            <li><a>吉宏特色</a></li>
+            <li><a>玲珑系列</a></li>
+            <li><a>白掌系列</a></li>
+            <li><a>绿萝系列</a></li>
+            <li><a>碧玉系列</a></li>
+          </ul>
+          <div class="more">更多</div>
+        </div>
+        <div class="goods_smallclass">
+          <div class="select_label">商品小类：</div>
+          <ul>
+            <li><a>全部</a></li>
+            <li><a>发财树</a></li>
+            <li><a>小森林</a></li>
+            <li><a>吉宏特色</a></li>
+            <li><a>玲珑系列</a></li>
+            <li><a>白掌系列</a></li>
+            <li><a>绿萝系列</a></li>
+            <li><a>碧玉系列</a></li>
+            <li><a>发财树</a></li>
+            <li><a>小森林</a></li>
+            <li><a>吉宏特色</a></li>
+            <li><a>玲珑系列</a></li>
+            <li><a>白掌系列</a></li>
+            <li><a>绿萝系列</a></li>
+            <li><a>碧玉系列</a></li>
+          </ul>
+          <div class="more">更多</div>
+        </div>
+      </div>
+      <div class="clear"></div>
+      <div class="material_content">
+        <div class="new_goods">
+          <h2>新品上市</h2>
+          <ul>
+            <li>
+              <div class="goods_img">
+                <img src="../images/goods_img2.png">
+              </div>
+              <div class="goods_text">
+                <div class="goods_name">
+                  多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉
+                </div>
+                <div class="price_num">
+                  <span class="goods_price">￥7.90-9.0</span>
+                  <span class="seller_num tr">15315</span>
+                </div>
+            </li>
+            <li>
+              <div class="goods_img">
+                <img src="../images/goods_img2.png">
+              </div>
+              <div class="goods_text">
+                <div class="goods_name">
+                  多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉
+                </div>
+                <div class="price_num">
+                  <span class="goods_price">￥7.90-9.0</span>
+                  <span class="seller_num tr">15315</span>
+                </div>
+            </li>
+            <li>
+              <div class="goods_img">
+                <img src="../images/goods_img2.png">
+              </div>
+              <div class="goods_text">
+                <div class="goods_name">
+                  多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉
+                </div>
+                <div class="price_num">
+                  <span class="goods_price">￥7.90-9.0</span>
+                  <span class="seller_num tr">15315</span>
+                </div>
+            </li>
+            <li>
+              <div class="goods_img">
+                <img src="../images/goods_img2.png">
+              </div>
+              <div class="goods_text">
+                <div class="goods_name">
+                  多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉
+                </div>
+                <div class="price_num">
+                  <span class="goods_price">￥7.90-9.0</span>
+                  <span class="seller_num tr">15315</span>
+                </div>
+            </li>
+          </ul>
+        </div>
+        <div class="goods_content">
+          <div class="select_list">
+            <ul>
+              <li class="on">综合排序</li>
+              <li>销量</li>
+              <li>价格</li>
+              <li>新品</li>
+            </ul>
+            <div class="pager">
+              <ul class="items">                              
+                <li class="item"><span class="current">1</span>/100</li>
+                <li class="item">
+                  <a class="link" href="#" title="上一页">
+                    <span class="icon icon_btn_prev_2"></span>
+                  </a>
+                </li>
+                <li class="item">
+                  <a class="link icon_tag" href="#" title="下一页">
+                    <span class="icon icon_btn_next_2"></span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="clear"></div>
+          <div class="goods_center">
+             <ul id="list">
+              <li>
+              <div class="goods_img">
+                <img src="../images/goods_img2.png">
+              </div>
+              <div class="goods_text">
+                <div class="goods_name">
+                  多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉
+                </div>
+                <div class="price_num">
+                  <span class="goods_price">￥7.90-9.0</span>
+                  <span class="seller_num tr">15315</span>
+                </div>
+              </li>
+              <li>
+              <div class="goods_img">
+                <img src="../images/goods_img2.png">
+              </div>
+              <div class="goods_text">
+                <div class="goods_name">
+                  多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉
+                </div>
+                <div class="price_num">
+                  <span class="goods_price">￥7.90-9.0</span>
+                  <span class="seller_num tr">15315</span>
+                </div>
+              </li>
+              <li>
+              <div class="goods_img">
+                <img src="../images/goods_img2.png">
+              </div>
+              <div class="goods_text">
+                <div class="goods_name">
+                  多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉
+                </div>
+                <div class="price_num">
+                  <span class="goods_price">￥7.90-9.0</span>
+                  <span class="seller_num tr">15315</span>
+                </div>
+              </li>
+              <li>
+              <div class="goods_img">
+                <img src="../images/goods_img2.png">
+              </div>
+              <div class="goods_text">
+                <div class="goods_name">
+                  多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉
+                </div>
+                <div class="price_num">
+                  <span class="goods_price">￥7.90-9.0</span>
+                  <span class="seller_num tr">15315</span>
+                </div>
+              </li>
+              <li>
+              <div class="goods_img">
+                <img src="../images/goods_img2.png">
+              </div>
+              <div class="goods_text">
+                <div class="goods_name">
+                  多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉
+                </div>
+                <div class="price_num">
+                  <span class="goods_price">￥7.90-9.0</span>
+                  <span class="seller_num tr">15315</span>
+                </div>
+              </li>
+              <li>
+              <div class="goods_img">
+                <img src="../images/goods_img2.png">
+              </div>
+              <div class="goods_text">
+                <div class="goods_name">
+                  多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉
+                </div>
+                <div class="price_num">
+                  <span class="goods_price">￥7.90-9.0</span>
+                  <span class="seller_num tr">15315</span>
+                </div>
+              </li>
+              <li>
+              <div class="goods_img">
+                <img src="../images/goods_img2.png">
+              </div>
+              <div class="goods_text">
+                <div class="goods_name">
+                  多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉
+                </div>
+                <div class="price_num">
+                  <span class="goods_price">￥7.90-9.0</span>
+                  <span class="seller_num tr">15315</span>
+                </div>
+              </li>
+              <li>
+              <div class="goods_img">
+                <img src="../images/goods_img2.png">
+              </div>
+              <div class="goods_text">
+                <div class="goods_name">
+                  多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉
+                </div>
+                <div class="price_num">
+                  <span class="goods_price">￥7.90-9.0</span>
+                  <span class="seller_num tr">15315</span>
+                </div>
+              </li>
+              <li>
+              <div class="goods_img">
+                <img src="../images/goods_img2.png">
+              </div>
+              <div class="goods_text">
+                <div class="goods_name">
+                  多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉
+                </div>
+                <div class="price_num">
+                  <span class="goods_price">￥7.90-9.0</span>
+                  <span class="seller_num tr">15315</span>
+                </div>
+              </li>
+              <li>
+              <div class="goods_img">
+                <img src="../images/goods_img2.png">
+              </div>
+              <div class="goods_text">
+                <div class="goods_name">
+                  多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉
+                </div>
+                <div class="price_num">
+                  <span class="goods_price">￥7.90-9.0</span>
+                  <span class="seller_num tr">15315</span>
+                </div>
+              </li>
+              <li>
+              <div class="goods_img">
+                <img src="../images/goods_img2.png">
+              </div>
+              <div class="goods_text">
+                <div class="goods_name">
+                  多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉
+                </div>
+                <div class="price_num">
+                  <span class="goods_price">￥7.90-9.0</span>
+                  <span class="seller_num tr">15315</span>
+                </div>
+              </li>
+              <li>
+              <div class="goods_img">
+                <img src="../images/goods_img2.png">
+              </div>
+              <div class="goods_text">
+                <div class="goods_name">
+                  多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉
+                </div>
+                <div class="price_num">
+                  <span class="goods_price">￥7.90-9.0</span>
+                  <span class="seller_num tr">15315</span>
+                </div>
+              </li>
+              </ul>
+          </div>
+        </div>
+    </section>
+  </body>
+</html>

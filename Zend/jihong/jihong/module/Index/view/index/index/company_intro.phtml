@@ -1,0 +1,46 @@
+    <div class="banner mb30">
+        <center>
+        <img style="width:100%; height:400px;" src="<?php echo $ads_info ? ROOT_PATH.UPLOAD_PATH.$ads_info->path.$ads_info->filename : ''?>" alt="" />
+        </center>
+    </div>
+
+    <div class="tab_column wrap">
+        <ul>
+            <li class="first current"><a class="choice_li"  href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'companyIntro'  ))?>">企业概况</a></li>
+            <li class="publicClass "><a class="choice_li"  href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'dynamic'  ))?>">企业动态</a></li>
+            <li class="publicClass"><a class="choice_li"  href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'teams'  ))?>">吉宏团队</a></li>
+            <li class="publicClass "><a class="choice_li"  href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'recruit'  ))?>">招聘信息</a></li>
+            <li class="publicClass"><a class="choice_li"  href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'questions'  ))?>">常见问题</a></li>
+        </ul>
+    </div>
+
+    <div class="introduction pub pub_current wrap">
+        <div class="main_title">
+            <h2 style="width:140px"><?php echo $company_intro->title  ?></h2>
+        </div>
+        <?php echo $company_intro->content  ?>
+    </div>
+     <!-- 企业概况部分完成 -->
+     
+<script type="text/javascript">
+    $(function(){
+        $('.tab_column li').click(function(event) {
+            if( $(this).index() >=1){
+                $(this).addClass('current').siblings('').removeClass('current').removeClass("current1");
+                $('.pub').eq($(this).index()).addClass('pub_current').siblings('').removeClass('pub_current');
+            }else{
+                $(this).addClass('current1').siblings('').removeClass('current');
+                $('.pub').eq($(this).index()).addClass('pub_current').siblings('').removeClass('pub_current');
+            }
+                
+        });
+        $('.team ul li').click(function(event) {
+            $(this).addClass('current').siblings('').removeClass('current');
+
+        });
+
+        $('.advertise-l ul li').click(function(event) {
+            $(this).addClass('current').siblings('').removeClass('current');
+        });
+    })
+</script>

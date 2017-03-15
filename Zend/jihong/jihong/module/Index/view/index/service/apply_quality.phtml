@@ -1,0 +1,115 @@
+                <?php echo $this->headLink()->appendStylesheet($this->basePath() . '/css/platform/uploadify.css');?>
+                <script src="<?php echo $this->basePath();?>/js/admin/jquery.uploadify-3.1.min.js"></script>
+                <script src="<?php echo $this->basePath();?>/js/admin/Uploads.js"></script>
+                <script type="text/javascript">
+                var swf ='<?php echo $this->basePath() . '/js/admin/uploadify.swf'?>';
+                var uploader = '<?php echo $this->url('admin-common',array('action'=>'getAdminFile')) ;?>';
+                </script>
+                <script type="text/javascript">
+                $(function(){
+                    $('.user_center ul li').click(function(){
+                        $(this).addClass('on').siblings().removeClass('on');
+                    })
+                    $('.quality_text ul li:first-child').addClass('selected');
+                    $('.quality_text ul li').click(function(){
+                      $(this).addClass('selected').siblings().removeClass('selected');
+                    })
+                })
+                </script>
+                <div class="user_content_right">
+                  <h2>申请售后</h2>
+                  <form method="post" id="form">
+                  <ul class="quality_message">
+                    <li>
+                      <div class="quality_label">售后类型：</div>
+                      <div class="quality_text">
+                        <ul>
+                        <?php foreach ($serviceType as $k=>$v){?>
+                          <?php echo "<li class='type' type_id='".$k."'>".$v."</li>"?>
+                        <?php }?>
+                        </ul>
+                        <input type="hidden" value="1" id="type" name="type"/>
+                        <input type="hidden" value="<?php echo $goods_ids?>" name="order_goods_id"/>
+                        <input type="hidden" value="<?php echo $user_id?>" name="user_id"/>
+                        <input type="hidden" value="<?php echo $order_id?>" name="order_id"/>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="quality_label">问题描述：</div>
+                      <div class="quality_text">
+                        <textarea name="reason" id="reason"></textarea>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="quality_label">图片信息：</div>
+                      <div class="quality_text">
+                        <!-- <a class="sed_img">上传图片</a> -->
+                       <div class="mot_tright" id="img_div">									           
+                                        <input id="index_img" type="text" name="image_ids[]"  />
+                                         <?php if(isset($images)&&$images){foreach ($images as $k){?>
+                                           <div id="img_div<?php echo $k['id']?>" class="outdiv">
+                                             <img src="<?php echo $k['image_path']?>" onmouseover='del1(this)'  height="100px" width = '100px'>
+                                            <div id='near_img<?php echo $k['id']?>' onmouseout='del3(this)' onclick='del2(<?php echo $k['id']?>,"img_div")' class='innerdiv'>删除</div>
+                                             <input value="<?php echo $k['id']?>" name='image_ids[]' type='hidden'>
+                                             </div>
+                                         <?php }}?>
+                        </div>
+                        <div class="clear"></div>
+                       <a class="btn_submit">提交</a>
+                      </div>
+                    </li>
+                    </ul>
+                    </form>
+                  </ul>
+                  <div class="clear"></div>
+                  <div class="goods_mess">
+                    <h2>商品信息</h2>
+                    <div class="my_goods_content fl">
+                      <ul class="goods_label">
+                        <li class="name">商品</li>
+                        <li class="price">单价</li>
+                        <li class="amount">数量</li>
+                        <li class="money">金额</li>
+                      </ul>
+                      <ul class="goods_details">
+                      <?php if (!empty($goods_info)):?>
+                      <?php foreach ($goods_info as $v){?>
+                        <li>
+                          <div class="name">
+                            <div class="img">
+                              <a><img src="<?php echo $v->image_path?>"></a>
+                            </div>
+                            <div class="goods_name">
+                              <h3><?php echo $v->name?></h3>
+                              <p>规格:<?php echo $v->size?></p>
+                              <p>型号:<?php echo $v->model?></p>
+                            </div>
+                          </div>
+                          <div class="price"><?php echo $v->price_cash?></div>
+                          <div class="amount"><?php echo $v->number?></div>
+                          <div class="money"><i>￥<?php echo number_format($v->price_cash*$v->number,1)?></i></div>
+                        </li>
+                        <?php }?>
+                        <?php endif;?>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+        $(function(){
+            $(".type").click(function(){
+                var type_id = $(this).attr('type_id'); 
+                $("#type").val(type_id);
+                });
+            })
+            $('.btn_submit').click(function(){
+                if($("#reason").val().length<=0)
+                {
+                    alert("请填写问题描述");
+                    return false;
+                }
+            	$("#form").submit();
+                });
+        </script>

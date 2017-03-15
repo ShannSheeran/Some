@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>吉宏园艺</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/index/base.css">
+<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/index/index.css">
+<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/index/aboutjh.css">
+<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/index/article.css">
+<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/index/information.css">
+<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/index/dream.css">
+<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/index/tradingPlatform.css">
+<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/index/tree.css">
+<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/admin/page.css">
+<script type="text/javascript" src="<?php echo $this->basePath();?>/js/jquery-1.7.2.min.js"></script>
+<script src="<?php echo $this->basePath();?>/js/jquery.SuperSlide.js"></script>
+<script src="<?php echo $this->basePath();?>/js/jquery.jqzoom.js"></script>
+<script src="<?php echo $this->basePath();?>/js/base.js"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="header_bd wrap">
+            <p class="contact">联系我们：<?php echo $setting[2]->text ?></p>
+            <div class="login">
+                <ul>
+                    <li><a href="<?php echo $this->url('index' , array('controller' => 'login' , 'action' => 'index'))?>">登录</a></li>
+                    <li class="fist_line">|</li>
+                    <li><a href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'indexEnglish'))?>">English</a></li>
+                    <li class="sec_line">|</li>
+                    <li><a href="">日本语</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <section style="min-height:720px">
+    <?php echo $this->content?>
+    </section>
+    <div class="footer bfcorosered">
+        <div class="footercon wrap">
+            <dl class="fl mr30" style="margin-right: 20px">
+               <dt><a href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'companyIntro'  ))?>">关于吉宏</a></dt>
+               <dd><a href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'companyIntro'  ))?>">企业概况</a></dd>
+               <dd><a href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'dynamic'  ))?>">企业动态</a></dd>
+               <dd><a href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'teams'  ))?>">吉宏团队</a></dd>
+               <dd><a href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'recruit'  ))?>">招聘信息</a></dd>
+               <dd><a href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'questions'  ))?>">常见问题</a></dd>
+            </dl>  
+            <dl class="fl mr29" style="margin-right: 20px">
+               <dt><a href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'articleDetail' , 'id' => 2 , 'cid' => 3  ))?>">吉宏梦</a></dt>
+            </dl> 
+            <dl class="fl mr29" style="margin-right: 20px">
+               <dt><a href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'articleDetail' , 'id' => 3 , 'cid' => 3  ))?>">盆栽交易平台</a></dt>
+            </dl>
+            <dl class="fl mr29" style="margin-right: 20px">
+               <dt><a href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'articleDetail' , 'id' => 4 , 'cid' => 3  ))?>">吉宏发财树</a></dt>
+            </dl>
+            <dl class="fl mr30" style="margin-right: 20px">
+               <dt><a href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'supplyList'  ))?>">行业信息</a></dt>
+               <dd><a href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'producerList'  ))?>">合作生产商</a></dd>
+               <dd><a href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'supplyList'  ))?>">供应信息</a></dd>
+            </dl>  
+            <dl class="fl mr30" style="margin-right: 20px">
+               <dt class="font16">联系我们</dt>
+               <dd class="corgrayf">客服热线：<?php echo $setting[2]->text ?></dd>
+               <dd class="corgrayf">传真：<?php echo $setting[3]->text ?></dd>
+               <dd class="corgrayf">E-mail：<?php echo $setting[4]->text ?></dd>
+               <dd class="corgrayf" style="width:238px;word-break:break-all">地址：<?php echo $setting[1]->text ?></dd>
+               <dd class="corgrayf"></dd>
+            </dl>
+            <dl class="fl mr38" style="margin-right: 21px">
+               <dt class="center font16">APP下载</dt>
+               <dd><img src="<?php echo ROOT_PATH ?>images/appxiazai.png" height="130" width="130" alt="" /></dd>
+            </dl>
+            <dl class="fr">
+               <dt class="center font16">联系我们</dt>
+               <dd><img src="<?php echo ROOT_PATH ?>images/appxiazai.png" height="130" width="130" alt="" /></dd>
+            </dl>
+        </div>  
+   </div>
+</body>
+</html>

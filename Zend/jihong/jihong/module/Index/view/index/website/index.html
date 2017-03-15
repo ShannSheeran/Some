@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>吉宏园艺</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="css/base.css">
+<link rel="stylesheet" type="text/css" href="css/index.css">
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="js/jquery.SuperSlide.2.1.1.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+       // 供应商、经销商登陆切换
+       $('.login_box .txt h2').click(function(event) {
+           $(this).addClass('current').siblings('').removeClass('current');
+           $('.login_box .account_bd').eq($(this).index()).addClass('current').siblings('').removeClass('current');
+            });
+
+       $('.nav li').click(function(event) {
+           $(this).find('a').addClass('current');
+           $(this).siblings('').find('a').removeClass("current");
+       });
+
+       $('.navlia').hover(function(event) {
+           $(this).children('.sub-about').stop().slideToggle();
+       });
+
+       $('.sub-about').mouseenter(function(event) {
+           $(this).parent('.navlia').addClass('current');
+       // }).mouseleave(function(event) {
+       //     $(this).parent('.navlia').removeClass('current');
+       // });
+       });
+</script>
+</head>
+<body>
+    <div class="header">
+        <div class="header_bd wrap">
+            <p class="contact">联系我们：400-650-750</p>
+            <div class="login">
+                <ul>
+                    <li><a href="">登录</a></li>
+                    <li class="fist_line">|</li>
+                    <li><a href="">English</a></li>
+                    <li class="sec_line">|</li>
+                    <li><a href="">日本语</a></li>
+                </ul>
+            </div>
+        
+        </div>
+    </div>
+    <div class="header_bot">
+        <div class="wrap">
+            <div class="header_bot_l"></div>
+            <div class="header_bot_r">
+                <ul class="nav clearfix">
+                    <li><a class="current" href="#">首页</a></li>
+                    <li class="navlia">
+                        <a href="#">关于吉宏</a>
+                        <ul class="sub-about">
+                            <li><a class="corgrayf" href="">企业概况</a></li>
+                            <li><a class="corgrayf" href="">企业动态</a></li>
+                            <li><a class="corgrayf" href="">吉宏团队</a></li>
+                            <li><a class="corgrayf" href="">招聘信息</a></li>
+                            <li><a class="corgrayf" href="">常见问题</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">吉宏梦</a></li>
+                    <li><a href="#">盆栽交易平台</a></li>
+                    <li><a href="#">吉宏发财树</a></li>
+                    <li class="navlia">
+                        <a href="#">行业信息</a>
+                        <ul class="sub-about" style="height:64px">
+                            <li><a class="corgrayf">合作生产商</a></li>
+                            <li><a class="corgrayf" href="">供应信息</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">联系我们</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="fullSlide">
+            <div class="bd">
+                <ul>
+                    <li class="li01"><a href=""></a></li>
+                    <li class="li02"><a href=""></a></li>
+                    <li class="li03"><a href=""></a></li>
+                    <li class="li04"><a href=""></a></li>
+                    <li class="li05"><a href=""></a></li>
+                </ul>
+            </div>
+            <div class="hd">
+                <ul>
+                    <li>1</li>
+                    <li>2</li>
+                    <li>3</li>
+                    <li>4</li>
+                    <li>5</li>
+                </ul>
+            </div>
+    </div>
+    <script type="text/javascript">jQuery(".fullSlide").slide({ titCell:".hd ul", mainCell:".bd ul", effect:"fold",  autoPlay:true, autoPage:true, trigger:"click" });</script>
+    <div class="main wrap clearfix">
+        <div class="main_l fl">
+            <div class="login_box mb4">
+                <div class="txt mb">
+                    <h2 class="fl supplier current">供应商</h2>
+                    <h2 class="fr agency">经销商</h2>
+                </div>
+                <div class="account_bd current">
+                    <div class="account clearfix mb">
+                        <div class="fl account_l"></div>
+                        <input class="fl account_r" type="text" placeholder="请输入账号" />
+                    </div>
+                    <div class="account clearfix mb">
+                        <div class="fl pass_word"></div>
+                        <input class="fl pass_word_r" type="text" placeholder="请输入密码" />
+                    </div>
+                    <div class="test clearfix mb">
+                        <input class="fl test_txt" type="text" placeholder="请输入验证码" />
+                        <div class="fl test_word"></div>
+                    </div>
+                    <div>
+                        <input class="loging bfcorosered" type="button" value="登录" />
+                    </div>
+                    <div class="version">
+                        <a href=""><span class="fl corgray6 font14">忘记密码</span></a>
+                        <a href=""><span class="fr corblue font14">注册账号>></span></a>
+                    </div>
+                </div>
+                <div class="account_bd">
+                    <div class="account clearfix mb">
+                        <div class="fl account_l"></div>
+                        <input class="fl account_r" type="text" placeholder="请输入账号" />
+                    </div>
+                    <div class="account clearfix mb">
+                        <div class="fl pass_word"></div>
+                        <input class="fl pass_word_r" type="text" placeholder="请输入密码" />
+                    </div>
+                    <div class="test clearfix mb">
+                        <input class="fl test_txt" type="text" placeholder="请输入验证码" />
+                        <div class="fl test_word"></div>
+                    </div>
+                    <div>
+                        <input class="loging bfcorosered" type="button" value="登录" />
+                    </div>
+                    <div class="version">
+                        <a href="" class=""><span class="fl corgray6 font14">忘记密码</span></a>
+                        <a href=""><span class="fr corblue font14">注册账号>></span></a>
+                    </div>
+                </div>
+            </div>
+            <div class="contactus">
+                <h3 class="title bfcorosered">联系我们</h3>
+                <div class="contact_box corgray6">
+                    <p>客服热线：020-81522108</p>
+                    <p>传真：020-81413138</p>
+                    <p>E-mail：info@ji-hong.cn</p>
+                    <p>地址：广州市荔湾区龙溪大道花卉科技</p>
+                    <p>园艺西街18号（510375）</p>
+                </div>
+            </div>
+        </div>
+        <div class="main_r fl">
+            <div class="introduction">
+                <div class="intro_txt clearfix">
+                    <p class="fl font18">企业概况</p>
+                    <a class="fr corosered" href="">更多>></a>
+                </div>         
+            </div>
+            <div class="intro_txt_bd clearfix">
+                    <div class="pic fl">
+                        <img src="images/qygk01.png" height="161" width="160" alt="" />
+                    </div>
+                    <div class="content corgray6 fl">
+                        <p>宏园艺自2008年成立以来，始终专注于绿植小盆栽市场，致力于建立中国的全方位花卉交易平台，成为：</p>
+                        <p>★为供求双方提供公平、公正的交易平台：</p>
+                        <p>★为供求双方提供销售服务、市场信息、技术支持、种子种苗采购、资材采购以及资金协助的服务平台；</p>
+                        <p>★为需求方提供一站式采购、物流配套、售后等的服务平台。</p>
+                        <p>★为需求方提供一站式采购、售后等的服务平台。</p>
+                    </div>
+            </div>
+
+            <div class="introduction">
+                <div class="intro_txt clearfix">
+                    <p class="fl font18">企业动态</p>
+                    <a class="fr corosered" href="">更多>></a>
+                </div>         
+            </div>
+            <div class="dynamic">
+                <a class="corgray6" href="">
+                    <p class="clearfix">
+                        <span class="fl font14">吉宏近期商品推荐，欢迎选购!</span>
+                        <span class="fr font14">2016-06-02</span>
+                    </p>
+                    <p class="clearfix">
+                        <span class="fl font14">吉宏近期商品推荐，欢迎选购!</span>
+                        <span class="fr font14">2016-06-02</span>
+                    </p>
+                </a>
+
+            </div>
+            <div class="introduction mt31">
+                <div class="intro_txt clearfix">
+                    <p class="fl font18">热销产品</p>
+                    <a class="fr corosered" href="">更多>></a>
+                </div>         
+            </div>
+            <div class="picScroll mt16">
+                <ul>
+                    <li>
+                        <a href="">
+                            <img src="images/product01.png" height="123" width="113" alt="" />
+                            <p class="corgray3">发财树</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <img src="images/product01.png" height="123" width="113" alt="" />
+                            <p class="corgray3">发财树</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <img src="images/product01.png" height="123" width="113" alt="" />
+                            <p class="corgray3">发财树</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <img src="images/product01.png" height="123" width="113" alt="" />
+                            <p class="corgray3">发财树</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <img src="images/product01.png" height="123" width="113" alt="" />
+                            <p class="corgray3">发财树</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <img src="images/product01.png" height="123" width="113" alt="" />
+                            <p class="corgray3">发财树</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <img src="images/product01.png" height="123" width="113" alt="" />
+                            <p class="corgray3">发财树</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <img src="images/product01.png" height="123" width="113" alt="" />
+                            <p class="corgray3">发财树</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <script type="text/javascript">jQuery(".picScroll").slide({ mainCell:"ul", effect:"leftMarquee", vis:4, autoPlay:true, interTime:50, switchLoad:"_src" });</script>
+            
+        </div> 
+    </div>
+   <div class="footer bfcorosered">
+        <div class="footercon wrap">
+            <dl class="fl mr30">
+               <dt><a href="">关于吉宏</a></dt>
+               <dd><a href="">企业概况</a></dd>
+               <dd><a href="">企业动态</a></dd>
+               <dd><a href="">吉宏团队</a></dd>
+               <dd><a href="">招聘信息</a></dd>
+               <dd><a href="">常见问题</a></dd>
+            </dl>  
+            <dl class="fl mr29">
+               <dt><a href="">吉宏梦</a></dt>
+            </dl> 
+            <dl class="fl mr29">
+               <dt><a href="">盆栽交易平台</a></dt>
+            </dl>
+            <dl class="fl mr29">
+               <dt><a href="">吉宏发财树</a></dt>
+            </dl>
+            <dl class="fl mr30">
+               <dt class="font16">联系我们</dt>
+               <dd class="corgrayf">客服热线：020-81522108</dd>
+               <dd class="corgrayf">传真：020-81413138</dd>
+               <dd class="corgrayf">E-mail：info@ji-hong.cn</dd>
+               <dd class="corgrayf">地址：广州市荔湾区龙溪大道花卉科技</dd>
+               <dd class="corgrayf">园艺西街18号（510375）</dd>
+            </dl>
+            <dl class="fl mr38">
+               <dt class="center font16">APP下载</dt>
+               <dd><img src="images/appxiazai.png" height="130" width="130" alt="" /></dd>
+            </dl>
+            <dl class="fr">
+               <dt class="center font16">联系我们</dt>
+               <dd><img src="images/appxiazai.png" height="130" width="130" alt="" /></dd>
+            </dl>
+        </div>  
+   </div>
+</body>
+</html>

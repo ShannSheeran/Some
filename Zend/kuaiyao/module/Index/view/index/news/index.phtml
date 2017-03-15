@@ -1,0 +1,85 @@
+<?php echo $this->headTitle('资讯热点'. $this->translate(''))->setSeparator(' - ')->setAutoEscape(false);?>
+<?php echo $this->headMeta()->setName('description','猫王联盟——以“吃喝玩乐购”生活服务类打造实体店的免费O2O平台。为实体店搭建线上线下一体化平台；为消费者提供全国通积通用通兑积分平台，积分可线上兑换商品，线下抵现消费。服务热线4008-333-133')->setName('keywords','通用积分联盟,通用积分平台,通用积分商城,o2o积分联盟,o2o积分联盟网站,积分联盟商,生活服务'); ?>
+<script>showmenu();</script>
+<div class="content pt20" style="background-color: white;">
+	<div class="con border w bc">
+		<div class="information">
+
+			<div class="first-items clearfix">
+				<ul class="clearfix fl">
+						 <?php var_dump($list); foreach($list as $v){?>
+							<li class="<?php echo isset($id) && $id==$v['id']?'on':''; ?>"><a
+						href="<?php echo $this->url('index',array('action' =>'index','id' =>$v['id'])); ?>">
+							<?php echo $v['cate_name']?></a></li>
+							<?php }?>
+						</ul>
+
+			</div>
+			<div class="second-items">
+				<ul class="clearfix">
+						<?php if(isset($name_tow)){?>
+                        <?php foreach($name_tow as $val){?>
+							<li class="<?php echo isset($id) && $id==$val['id']?'on':''; ?>"><a
+						href="<?php echo $this->url('index',array('action' =>'index','id' =>$val['id'],'cid'=>$val['parent_id'])); ?>"><?php echo $val['cate_name']?></a></li>
+							<?php } } ?>
+						</ul>
+			</div>
+			<div class="information-con">
+					<?php foreach ($article as $val_ar){?>
+						<h2><?php echo $val_ar['cate_name'];?><i></i>
+				</h2>
+				<ul>
+					<li>
+						<p class="title" onselectstart="return false" >
+						<strong>
+							<?php echo isset($val_ar['cate_name']) ? '【' . $val_ar['cate_name'] . '】' : ''; ?>
+							</strong>
+							<a href="javascript:void(0);"  onclick="getContent('<?php echo  $val_ar['id'];?>')">
+								<?php echo $val_ar['title']?>
+								</a>
+						</p>
+						<p class="text" id="content<?php echo $val_ar['id'];?>"></p> <i	class="triangle"></i>
+					</li>
+				</ul>
+						<?php }?>
+					</div>
+		</div>	
+				<?php echo $this->paginationControl($paginator,'Sliding','layout_index/page',array('route' =>'index','condition'=>$condition));?>
+			</div>
+</div>
+
+<script type="text/javascript">
+$(function(){
+	$('.title').click(function()
+	{
+		var el=$(this).next(),
+			trg=$(this).next().next(),
+			parent=$(this).parent().parent();
+		if(el.is(':visible'))
+		{
+			parent.find('.text').hide();
+			parent.find('.on').removeClass('on');
+		}
+		else
+		{
+			parent.find('.text').hide();
+			el.show();
+			trg.addClass('on');
+		}
+	})
+});
+function getContent(id)
+{
+	if(id)
+	{
+		$.post("<?php echo $this->url("index",array('action'=>'content','comtroller'=>'news'));?>", {id:id},
+				function(data){
+			$("#content" + id).html(data);
+			})
+	}
+	
+	
+}
+</script>
+</body>
+</html>

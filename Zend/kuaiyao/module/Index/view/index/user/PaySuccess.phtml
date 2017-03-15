@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+
+    <!-- 购买产品相关页面样式 -->
+    <link rel="stylesheet" type="text/css" href="<?php echo ROOT_PATH;?>css/kuaiyao/commodity.css">
+    <title>支付成功</title>
+    <style>
+        .jump{text-align: center;}
+    </style>
+</head>
+<div class="PaySuccess">
+    <div>恭喜你支付成功！</div>
+    <p class="jump">3秒后将自动跳转到订单列表...</p>
+</div>
+<script>
+   setTimeout(function(){
+        window.location.href='<?php echo $this->url('index',array('controller'=>'user','action'=>'order'));?>';
+    },3000)
+</script>

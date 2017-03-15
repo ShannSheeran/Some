@@ -1,0 +1,154 @@
+<?php echo $this->headTitle($merchant['company_name']. $this->translate(''))->setSeparator(' - ')->setAutoEscape(false);?>
+<?php echo $this->headMeta()->setName('description', str_replace("\r\n"," ",$merchant['description']))->setName('keywords',$merchant['company_name'].'-猫王联盟'); ?>
+<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=d4e906f2d3b338bc0fa31cba41b4c5ca"></script>
+<script>showmenu();</script>
+<div class="content w bc">
+    <!--web address -->
+    <p class="lh25px f14 mt20 ml20">
+        <a href="<?php echo $this->url('index',array('controller'=>'index','action'=>'index'))?>" class="f_color_gray">首页&nbsp;&gt;&nbsp;</a>
+        <a href="<?php echo $this->url('index',array('controller'=>'seller','action'=>'index'))?>" class="f_color_gray">联盟商家&nbsp;&gt;&nbsp;</a>
+        <a href="#" class="f_color_gray"><?php echo $merchant['company_name']?></a>
+    </p>
+    <!-- web address end -->
+    <div class="con clearfix bg_white pt20 pb20 pl20 pr20 pr">
+        <div class="detail_img fl">
+            <div class="img_box" id="spec-n1" >
+                <?php if(isset($merchant['image'])){ $imgs = explode(',',$merchant['image']); ?>
+                <img src="<?php echo isset($imgs)?$images[$imgs[0]]['path1']:'';?>" jqimg="<?php echo isset($imgs)?$images[$imgs[0]]['path1']:'';?>" />
+                <?php }else{?>
+                <img src="/images/no_pic.png" alt=""/>
+                <?php }?>
+            </div>
+        </div>
+        <div class="detail_text ml20   fl">
+            <div class="mt10">
+                <h2 class="seller_title"><?php echo $merchant['company_name']?></h2>
+            </div>
+            <div class="clear"></div>
+            <div class="clearfix star">
+                <ul class="star_list clearfix fl mr10">
+                    <?php for($i = 1;$i <= $merchant['stars'];$i++){ ?>
+                        <li class="fl mr5 on"></li>
+                    <?php } for($i = 1;$i <=(5-$merchant['stars']);$i++){ ?>
+                        <li class="fl mr5"></li>
+                    <?php } ?>
+                </ul>
+                <p class="fl f14"><?php echo $merchant['stars'].'.0'?></p>
+            </div>
+             <div class="seller_contact">
+            <div class="tel lh30 f15"><?php echo $merchant['phone']?></div>
+            <div class="address lh30 f15"><?php echo $merchant['street']?></div>
+            <div class="sel lh30 f15"><?php echo $merchant['marketing_lingo']?></div>
+        </div>
+            <div class="f_color_gray mt10 seller_button">
+                <?php if($status !== '0'){?>
+                <input type="button" value="收藏商家" class="collect_btn  f_color_white fl" id="collect" status="1"/>
+                <?php }else{?>
+                <input type="button" value="已收藏" class="collect_btn  f_color_white fl" id="collect" status="2" />
+                <?php }?>
+                <a href="<?php echo $this->url('index',array('controller'=>'seller','action' =>'sellerList','id' =>$merchant['id']) )?>" class="f_color_blue db mt10 ml10 fl" style="font-size:14px;">已有 <?php echo $merchant['evaluation_number']; ?> 人评价</a>
+                
+            </div>
+            <div class="bdsharebuttonbox mt10 fl"><a href="#" class="bds_more" data-cmd="more">分享到：</a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"6","bdMiniList":["mshare","qzone","tsina","weixin","renren","tqq","kaixin001","tqf","tieba","douban","tsohu","bdhome","sqq","thx","ibaidu","meilishuo","mogujie","diandian","huaban","duitang","hx","fx","youdao","sdo","qingbiji","people","mail","isohu","yaolan","copy","print"],"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16},"image":{"viewList":["weixin","qzone","tsina","tqq"],"viewText":"分享到：","viewSize":"16"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+			
+        </div>
+    </div>
+    <div class="pt10 clearfix bg_white">
+        <div class="clearfix" style="display:block;height:100%; overflow:hidden">
+            
+            <div class="map fl  ml20">
+				<h3 class="f16 seller_p_title" style="border-bottom:1px solid #ededed;">商家位置</h3>
+                <div id="mapDiv" style="width:320px; height:200px"></div>
+                <script type="text/javascript">
+                    var map = new AMap.Map("mapDiv",{
+                        resizeEnable: true,
+                        //二维地图显示视口
+                        view: new AMap.View2D({
+                            center:new AMap.LngLat(<?php echo implode(',',array($merchant->longitude,$merchant->latitude)) ?>),//地图中心点
+                            zoom:30 //地图显示的缩放级别
+                        })
+                    });
+                    //添加点标记，并使用自己的icon
+
+
+                    var marker = new AMap.Marker({
+                        //复杂图标
+                        icon: new AMap.Icon({
+                            //图标大小
+                            size:new AMap.Size(28,37),
+                            //大图地址
+                            image:"http://webapi.amap.com/images/custom_a_j.png",
+                            imageOffset:new AMap.Pixel(-28,0)
+                        }),
+                        //在地图上添加点
+                        position:new AMap.LngLat(<?php echo implode(',',array($merchant->longitude,$merchant->latitude)) ?>)
+                    });
+
+                    marker.setTitle('<?php echo $merchant->street; ?>');
+                    marker.setMap(map);
+
+                </script>
+            </div>
+            <div class="fl edit-seller ml20"><h3 class="f16 seller_p_title">商家简介</h3><div class="seller_conter"><?php echo $merchant['description']?></div></div>
+        </div>
+        <?php if(!empty($goods)){?>
+        <h3 class="ml20 f16 seller_p_title mt20">商家产品</h3>
+        <ul class="product_list clearfix pl10">
+            <?php foreach($goods as $v){  ?>
+            <li class="fl pr border" style="height:220px">
+                <div class="top4">
+                    <a target="_blank" href="<?php echo $this->url('index',array('controller'=>'seller','action' =>'sellerGoodsDetail','id' =>$v['id'])); ?>">
+                        <?php if(isset($v['image'])){ $imgs = explode(',',$v['image']);?>
+                        <img src="<?php echo $images[$imgs[0]]['path1']; ?>" style="position:relative;z-index:3;" />
+                        <?php }else{?>
+                        <img src="images/no-pic.png" style="position:relative;z-index:3;" />
+                        <?php }?>
+                    </a>
+                </div>
+                <div class="text pl5 pr5">
+                    <p class="f14 lh150 pro_tit">
+                        <a href="<?php echo $this->url('index',array('controller'=>'shop','action' =>'detail','id' =>$v['id'])); ?>">
+                            <?php echo $v['name'];?>
+                        </a>
+                    </p>
+                    
+                    <p>已兑换：<?php echo $v['sale_number']?></p>
+                </div>
+            </li>
+            <?php }?>
+        </ul>
+        <?php }?>
+    </div>
+</div>
+<script type="text/javascript">
+
+    $('#collect').click(function setJson()
+    {
+        var json = new Object();
+        json.n = 'FavoritesSwitch';
+        json.q = new Object();
+        json.q.a = 2;
+        json.q.id = <?php echo $merchant['id']; ?>;
+        json.q.open = $(this).attr('status');
+
+        $.post("<?php echo $this->url('index-lottery',array('action'=>'getJson'));?>", {request: json},
+            function(data)
+            {
+                //console.log(data);
+                data = $.parseJSON(data);
+                if(data.error == 1000){
+                    alert('请在登录后操作！');
+                    window.location.href = "<?php echo $this->url("index",array('controller'=>'user','action'=>'login'));?>";
+                }
+                alert(data.q.d);
+                if(data.q.s == 0)
+                {
+                    window.location.href = "<?php echo $this->url("index",array('controller'=>'seller','action'=>'sellerDetail','id'=>$merchant['id']));?>";
+                }
+
+            });
+        return false;
+    });
+
+</script>

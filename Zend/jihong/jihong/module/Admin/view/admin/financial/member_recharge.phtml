@@ -1,0 +1,111 @@
+<style>
+    .tl{text-align: right;}
+    .main-nody{padding:5px 20px 0 20px;}
+    .main-nody h5{float: left;}
+    .tp{margin-top: 30px;}
+    .bc-1{display: none;}
+    .fl{float: left;}
+</style>
+<div class="panel panel-default">
+   <div class="panel-heading">
+       <div calss="row">
+           <div class="col-sm-6">
+           <a href="<?php echo $this->url('admin-financial' , array('action' => 'index')) ?>">财务管理 / <a href="<?php echo $this->url('admin-financial' , array('action' => 'member')) ?>">会员充值</a> / <a href="">会员充值</a>
+           </div>
+       </div>
+   </div>
+    <div class="pannel-body main-nody">
+        <div class="row">
+            <div class="col-lg-12">
+                <h5>企业信息</h5>
+            </div>
+            <div class="col-lg-12">
+                <table class="table table-striped" id="example-4" >
+                    <tbody>
+                        <tr>
+                            <td width="20%">企业名称</td>
+                            <td><?php echo isset($user_info->company_name) ? $user_info->company_name :''?></td>
+                        </tr>
+                        <tr>
+                            <td width="20%">登录账号</td>
+                            <td><?php echo isset($user_info->name) ? $user_info->name :'' ?></td>
+                        </tr>
+                        <tr>
+                            <td width="20%">企业类型</td>
+                            <td><?php echo isset($user_info->type) ? $enterpris_type[$user_info->type] :''; ?></td>
+                        </tr>
+                        <tr>
+                            <td width="20%">会员等级</td>
+                            <td><?php echo isset($user_info->user_level) ? $user_level[$user_info->user_level] :''; ?></td>
+                        </tr>
+                        <tr>
+                            <td width="20%">账户余额</td>
+                            <td><?php echo isset($user_info->cash) ? $user_info->cash :'' ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <form class="form-horizontal" action="<?php echo $this->url('admin-financial' , array('action' => 'actRecharge')) ?>" method="post" >
+        <div class="row tp">
+            <div class="col-lg-12">
+                <h5>操作信息</h5>
+            </div>
+            <div class="col-lg-12">
+                <table class="table table-striped" id="example-4" >
+                    <tbody>
+                        <tr>
+                            <td> 操作类型</td>
+                            <td>
+                                <input type="radio" name="type" value="1" checked>充值
+                                <input type="radio" name="type" value="2">优惠
+                                <input type="radio" name="type" value="3"><span style="color:red">账户扣款</span>
+                                <input type="radio" name="type" value="4"><span style="color:red">账户红冲</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>操作金额</td>
+                            <td>
+                                <input type="number" min="0.0"  step="0.1" name="cash" placeholder="请输入操作金额（元）" value="" style="padding:5px" required>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>操作备注</td>
+                            <td>
+                                <textarea name="description" style="width:500px;height:200px;"></textarea>
+                            </td>
+                        </tr>
+                        <!-- <tr>
+                            <td>会员等级</td>
+                            <td>普通会员</td>
+                        </tr>
+                        <tr>
+                            <td> 账户余额</td>
+                            <td>2560.0</td>
+                        </tr> -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-12">
+                <h5></h5>
+            </div>
+            <div class="col-lg-12">
+                <table class="table table-striped" id="example-4">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input type="hidden" value="<?php echo $id?>" name="user_id">
+                                <button type="submit" value="提交审核"  name="submit" class="btn btn-info" >提交审核</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>

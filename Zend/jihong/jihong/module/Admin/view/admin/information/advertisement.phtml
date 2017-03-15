@@ -1,0 +1,69 @@
+<style>
+	.dataTables_info{
+		display:none;
+	}
+	.dataTables_paginate{
+		display: none;
+	}
+	.bc-1{display: none;}
+	.col-sm-5{display: none;}
+	.col-sm-7{display:none;}
+	.fl{
+		float:left;
+	}
+</style>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+        <a href="<?php echo $this->url('admin-information' , array('action' => 'platformInformation'));?>">信息管理 / <a href="<?php echo $this->url('admin-information' , array('action' => 'advertisementPosition'));?>">广告管理 </a>/ <a href="<?php echo $this->url('admin-information' , array('action' => 'advertisementPosition'));?>">广告消息</a>
+		</h3>
+	</div>
+	
+	<div class="panel-body">
+	    <div class="fl" >
+		    <a class="btn btn-info fl " href="<?php echo $this->url('admin-information' , array('action' => 'advertisementOperate' , 'cid' => $id)) ?>" >添加广告</a>
+		    <!-- <a class="btn btn-info fl " href="<?php // echo $this->url('admin-information' , array('action' => 'advertisementPosition')) ?>" >广告位管理</a> -->
+		</div>
+    	<div style="clear:both;"></div>
+		<table class="table table-bordered table-striped" id="example-4">
+			<thead>
+				<tr>
+					<th>广告编号</th>
+					<th>广告位</th>
+					<th>广告封面</th>
+					<th>开始时间</th>
+					<th>结束时间</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			    <?php foreach ($ads_list as $value): ?>
+                <tr class="tr_list" valign="middle">
+					<td style="padding-top:18px;"><?php echo $value->id; ?></td>
+					<td style="padding-top:18px;"><?php echo $value->position_name; ?></td>
+					<td style="padding-top:18px;"><img src="<?php echo ROOT_PATH.'uploadfiles/'.$value->path . $value->filename; ?>"></td>
+					<td style="padding-top:18px;"><?php echo $value->start_time; ?></td>
+					<td style="padding-top:18px;"><?php echo $value->end_time; ?></td>
+					<td>
+					   <a href="<?php echo $this->url('admin-information' , array('action' => 'advertisementOperate' , 'id' => $value->id)) ?>" class="btn btn-info">编辑</a>
+					   <a href="#" class="btn btn-info" onclick="show_confirm('<?php echo $this->url('admin-information' , array('action' => 'deleteAdvertisement' ,'id' => $value->id )) ?>')">删除</a>
+					 </td>
+				</tr>
+				<?php endforeach;?>
+            </tbody>
+		</table>
+        <?php echo $this->paginationControl($paginator, 'Sliding', 'page',array('route' =>'admin-information','condition'=>$condition));?>       </div>
+</div>
+<script>
+function show_confirm(url)
+{
+	if(confirm('确认删除广告？'))
+	{
+		location.href = url;
+	}
+	else
+	{
+		return false;
+	}
+}
+</script>

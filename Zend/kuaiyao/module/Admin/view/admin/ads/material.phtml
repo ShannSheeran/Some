@@ -1,0 +1,151 @@
+<script type="text/javascript" src="<?php echo ROOT_PATH."adminStyle/js/utils.js"?>"></script>
+<!-- Responsive Table -->
+<!-- Table exporting -->
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">		
+		</h3>
+
+		<div class="panel-options">
+
+			<a href="#" data-toggle="panel">
+				<span class="collapse-icon">&ndash;</span>
+				<span class="expand-icon">+</span>
+			</a>
+			<a href="#" data-toggle="remove"> &times; </a>
+		</div>
+	</div>
+	<div class="panel-body">
+		<table class="table table-bordered table-striped">
+			<tr>
+				<th width="16">id</th>
+				<th width="318">图片描述</th>
+				<th width="472">图片链接地址</th>
+				<th width="362">图片</th>
+				<th width="152">操作</th>
+			</tr>
+		</table>  
+        <form action="<?php echo $this->url('admin-ads',array('action'=>'addMaterial'));?>"
+			method="post" enctype="multipart/form-data">
+			<table class="table table-bordered table-striped">
+				<tbody>
+
+					<tr>
+						<td class="center">新增</td>
+						<td class="center" width="272">
+							<input class="input disabled" name="name" type="text"
+								placeholder="输入图片描述">
+						</td>
+
+						<td>
+							<input class="input-xlarge disabled" name="url" type="text"
+								placeholder="输入完整网站路径">
+						</td>
+						<td>
+
+							<span style="width: 180px;">
+
+								<input type="file" name="Filedata" id="filea"
+									onchange="setUpload('#imga',this)" multiple="multiple" />
+							</span>
+
+							<br />
+							<span style="clear: both;">
+
+								<img align="top"
+									src="<?php echo ROOT_PATH.'adminStyle/img/no_pic.gif'?>"
+									id="imga" width="250" height="120">
+							</span>
+						</td>
+						<td class="center">
+							<input type="submit" name="submit" value="提交"
+								class="btn btn-success">
+						</td>
+					</tr>
+				
+				
+				<tbody>
+			
+			</table>
+		</form>    						  
+	  <?php if(isset($list)){ $i=1;?>
+	  <?php foreach ($list as $v){ ?>
+	  <form action="<?php echo $this->url('admin-ads',array('action'=>'addMaterial'));?>"
+			method="post" enctype="multipart/form-data">
+			<table class="table table-bordered table-striped">
+				<tr>
+
+					<td class="center" width="16"><?php echo $v['id']?></td>
+					<td class="center" width="316">
+						<input class="input disabled" name="name" type="text"
+							value="<?php echo $v['name']?>">
+					</td>
+					<td width="472">
+						<input class="input-xlarge disabled" name="url" type="text"
+							value="<?php echo $v['url']?>">
+						<a href="<?php echo $v['url']?>" target="_blank">点击查看</a>
+					</td>
+					<td width="358">
+						<span style="width: 180px;">
+							<input type="file" name="Filedata" id="file<?php echo $i;?>"
+								multiple="multiple"
+								onchange="setUpload('#img<?php echo $i;?>',this)" />
+						</span>
+
+
+						<br />
+						<span style="clear: both;">
+
+							<img align="top"
+								src="<?php echo isset($v->image_id) ? IMAGE_SERVER.UPLOAD_PATH.$v->path.$v->filename : ROOT_PATH.'adminStyle/img/no_pic.gif'?>"
+								id="img<?php echo $i;?>" style="max-width: 364px" height="120">
+						</span>
+					</td>
+					<td class="center" width="152">
+						<input type="submit" name="submit" value="修改"
+							class="btn btn-success">
+						<input type="hidden" name="id" value="<?php echo $v['id']?>">
+						<a class="btn btn-danger" href="#"
+							onclick="show_confirm('<?php echo $this->url('admin-ads',array('action'=>'delMaterial','id' => $v['id'])); ?>')">删除</a>
+					</td>
+
+				</tr>
+			</table>
+		</form>
+    	 <?php $i++;};?>
+    	 <?php }?>
+        <?php echo $this->paginationControl($paginator, 'Sliding', 'page',array('route' =>'new-admin-ads','condition'=>$condition));?> 
+</div>
+</div>
+<script type="text/javascript">			
+//单文件上传	
+ $("#filea").change(function(){
+ 	var objUrl = getObjectURL(this.files[0]) ;
+ 	console.log("objUrl = "+objUrl) ;
+ 	if (objUrl) {
+ 		$("#imga").attr("src", objUrl) ;
+ 	}
+ }) ;
+
+function setUpload(id,obj)
+{
+	var objUrl = getObjectURL(obj.files[0]) ;
+ 	//console.log(id) ;
+ 	if (objUrl) {
+ 		$(id).attr("src", objUrl) ;
+ 	}
+}
+ 
+ //建立一個可存取到該file的url
+ function getObjectURL(file) {
+ 	var url = null ; 
+ 	if (window.createObjectURL!=undefined) { // basic
+ 		url = window.createObjectURL(file) ;
+ 	} else if (window.URL!=undefined) { // mozilla(firefox)
+ 		url = window.URL.createObjectURL(file) ;
+ 	} else if (window.webkitURL!=undefined) { // webkit or chrome
+ 		url = window.webkitURL.createObjectURL(file) ;
+ 	}
+ 	return url ;
+ }
+</script>

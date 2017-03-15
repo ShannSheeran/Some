@@ -1,0 +1,146 @@
+<div class="row">
+	<div class="col-sm-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>新增页面</h3>
+				<div class="panel-options">
+					<a href="#" data-toggle="panel">
+						<span class="collapse-icon">&ndash;</span>
+						<span class="expand-icon">+</span>
+					</a>
+					<a href="#" data-toggle="remove"> &times; </a>
+				</div>
+			</div>
+		   <form role="form" class="form-horizontal" action="<?php echo $this->url("admin-page",array('action'=>'page'));?>" method="post"
+				onsubmit="return check();">
+			<div class="panel-body">
+			
+			    <div class="form-group">
+                    <label class="col-sm-2 control-label" for="field-1">*主标题(不超过6个字)：</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control"  name="title" value="<?php echo isset($edit_page->title)?$edit_page->title:'';?>" />
+                    </div>
+                </div>
+                <div class="form-group-separator"></div>
+				
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="field-1">*副标题(不超过7个字)：</label>
+
+					<div class="col-sm-10">
+						<input type="text" class="form-control"  name="description" value="<?php echo isset($edit_page->description)?$edit_page->description:'';?>" >
+					</div> 
+				</div>
+				<div class="form-group-separator"></div>
+				
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="field-1">备注(不超过15个字)：</label>
+
+					<div class="col-sm-10">
+					<input type="text" class="form-control"  name="comment"  value="<?php echo isset($edit_page->comment)?$edit_page->comment:'';?>" />
+						
+					</div>
+				</div>
+				<div class="form-group-separator"></div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="field-1">用户：</label>
+
+					<div class="col-sm-10">
+						<input type="text" value="<?php echo isset($userInfo->mobile) ? $userInfo->mobile : '';?>">
+                     
+					</div> 
+				</div>
+				<div class="form-group-separator"></div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="field-1">头像素材路径：</label>
+
+                    <div class="col-sm-10">
+                        <input class="form-control" type="text" name="icon_url" value="<?php echo isset($edit_page->icon_url)?$edit_page->icon_url:'';?>" />
+                    </div>
+                </div>
+                <div class="form-group-separator"></div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="field-1">跳转页面路径：</label>
+
+                    <div class="col-sm-10">
+                        <input class="form-control" type="text" name="page_url" value="<?php echo isset($edit_page->page_url)?$edit_page->page_url:'';?>" />
+                    </div>
+                </div>
+                <div class="form-group-separator"></div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="field-1"></label>
+                    <div class="col-sm-10">
+                        <input type="hidden" name="id" value="<?php echo isset($edit_page->id)?$edit_page->id:''; ?>"/>
+                 
+                    </div>
+                </div>
+			</div>
+			</form>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+function check()
+{
+	var title  = $("input[name='title']").val();
+	var description = $("input[name='description']").val();
+	var comment = $("input[name='comment']").val();
+	if(getlength(title) > 12 || title == '')
+	{
+		alert('主标题不能为空或超过6个字');
+		return false;
+	}
+
+	if(getlength(description) > 14 || description == '')
+	{
+		alert('副标题不能为空或超过7个字');
+		return false;
+	}
+
+	if(getlength(comment) > 30)
+	{
+		alert('备注不能超过15个中文字或30英文!');
+		return false;
+	}
+	
+}
+//请求个体用户头像素材与静态页面路径
+function userChange(obj)
+{
+    var json = new Object();
+    json.id = obj;
+    $.post("<?php echo $this->url('admin-page',array('action'=>'page')); ?>",{request:json},function(data){
+        data = $.parseJSON(data);
+        if(data)
+        {
+            $("input[name='icon_url']").val(data.wx_img_url);
+            $("input[name='page_url']").val("<?php echo HTTP.ROOT_PATH.'static_html/'; ?>"+data.html+".html");
+        }
+        else
+        {
+            alert('请求参数出错！');
+            return false;
+        }
+    });
+
+}
+
+//字段长度判断
+function getlength (str) {
+    //<summary>获得字符串实际长度，中文2，英文1</summary>
+    //<param name="str">要获得长度的字符串</param>
+    var realLength = 0, len = str.length, charCode = -1;
+    for (var i = 0; i < len; i++) {
+        charCode = str.charCodeAt(i);
+        if (charCode >= 0 && charCode <= 128) realLength += 1;
+        else realLength += 2;
+    }
+
+    return realLength;
+} 
+
+</script>

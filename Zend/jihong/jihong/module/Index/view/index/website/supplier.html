@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>吉宏园艺</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="css/base.css">
+<link rel="stylesheet" type="text/css" href="css/information.css">
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+       /* var checked = false;
+      $('#classfiy_big .more').click(function(){
+        if(checked == false){
+          $('#classfiy_big ul').css("height","auto");
+          checked = true;
+        }
+        else{
+          $('#classfiy_big ul').css("height","46px");
+          checked = false;
+        } 
+      });
+
+      $('#classfiy_small .more').click(function(){
+        if(checked == false){
+          $('#classfiy_small ul').css("height","auto");
+          checked = true;
+        }
+        else{
+          $('#classfiy_small ul').css("height","46px");
+          checked = false;
+        } 
+      });
+
+      $('#classfiy_place .more').click(function(){
+        if(checked == false){
+          $('#classfiy_place ul').css("height","auto");
+          checked = true;
+        }
+        else{
+          $('#classfiy_place ul').css("height","46px");
+          checked = false;
+        } 
+      });*/
+	  
+	  $(".more").click(function(){
+			$(this).prev().height(($(this).prev().height()==46)? "auto":"46");
+	  })
+	  
+    })
+</script>
+</head>
+<body>
+    <div class="header">
+        <div class="header_bd wrap">
+            <p class="contact">联系我们：400-650-750</p>
+            <div class="login">
+                <ul>
+                    <li><a href="">登陆</a></li>
+                    <li class="fist_line">|</li>
+                    <li><a href="">English</a></li>
+                    <li class="sec_line">|</li>
+                    <li><a href="">日本语</a></li>
+                </ul>
+            </div>
+        
+        </div>
+    </div>
+    <div class="header_bot">
+        <div class="wrap">
+            <div class="header_bot_l"></div>
+            <div class="header_bot_r">
+                <ul class="nav">
+                    <li><a href="">首页</a></li>
+                    <li><a href="">关于吉宏</a></li>
+                    <li><a href="">吉宏梦</a></li>
+                    <li><a href="">盆栽交易平台</a></li>
+                    <li><a href="">吉宏发财树</a></li>
+                    <li><a class="current" href="">行业信息</a></li>
+                    <li><a href="">联系我们</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="supp_banner"></div>
+    <div class="supp_main wrap">
+        <div class="producer_main_tittle">
+            <h2 class="font22">供应信息</h2>
+        </div>
+        <div class="supp_main_nav">
+            <a class="font16 corgray6">供应信息</a>
+            <i class="font16 corgray6">&gt;</i>
+            <a class="font16 corgray6">发财树</a>
+            <div class="search clearfix">
+                <input class="search_box fl font14 corgray6" type="text" placeholder="请输商品名称搜索" />
+                <div class="search_txt fl font16 corgrayf">搜索</div>
+            </div>
+        </div>
+        <div class="goos_list">
+            <div class="classfiy font14 corgray3 clearfix" id="classfiy_big">
+                <p class="font14 corgray3 fl">商品大类：</p>
+                    <ul class="fl">
+                        <li><a>全部</a></li>
+                        <li><a class="corosered">发财树</a></li>
+                        <li><a>小森林</a></li>
+                        <li><a>吉宏特色</a></li>
+                        <li><a>玲珑系列</a></li>
+                        <li><a>白掌系列</a></li>
+                        <li><a>绿萝系列</a></li>
+                        <li><a>碧玉系列</a></li>
+                        <li><a>发财树</a></li>
+                        <li><a>小森林</a></li>
+                        <li><a>吉宏特色</a></li>
+                        <li><a>玲珑系列</a></li>
+                        <li><a>白掌系列</a></li>
+                        <li><a>绿萝系列</a></li>
+                        <li><a>碧玉系列</a></li>
+                    </ul>
+                <div class="more font14 corgray3 fl">更多</div>
+            </div>
+            <div class="classfiy font14 corgray3 clearfix" id="classfiy_small">
+                <p class="font14 corgray3 fl">商品小类：</p>
+                <ul class="fl small">
+                    <li><a class="corosered">全部</a></li>
+                    <li><a>绿色家园</a></li>
+                    <li><a>绿森林</a></li>
+                    <li><a>小树林</a></li>
+                    <li><a>小花园</a></li>
+                    <li><a>玲珑系列</a></li>
+                    <li><a>一片心</a></li>
+                    <li><a>开心农场</a></li>
+                    <li><a>小树林</a></li>
+                    <li><a>小花园</a></li>
+                    <li><a>玲珑系列</a></li>
+                    <li><a>一片心</a></li>
+                    <li><a>开心农场</a></li>
+                </ul>
+                <div class="more font14 corgray3 fl">更多</div>
+            </div>
+            <div class="classfiy font14 corgray3 clearfix" id="classfiy_place">
+                <p class="font14 corgray3 fl">商品产地：</p>
+                <ul class="fl">
+                    <li><a class="corosered">不限</a></li>
+                    <li><a>北京</a></li>
+                    <li><a>上海</a></li>
+                    <li><a>广东</a></li>
+                    <li><a>浙江</a></li>
+                    <li><a>广西</a></li>
+                    <li><a>山东</a></li>
+                    <li><a>湖南</a></li>
+                    <li><a>北京</a></li>
+                    <li><a>上海</a></li>
+                    <li><a>广东</a></li>
+                    <li><a>浙江</a></li>
+                    <li><a>广西</a></li>
+                    <li><a>山东</a></li>
+                    <li><a>湖南</a></li>
+                </ul>
+                <div class="more font14 corgray3 fl">更多</div>
+            </div>
+            <div class="goos_list_pic clearfix">
+                <div class="goos_list_picl fl">
+                    <p class="tittle font16 corgrayf">新货上市</p>
+                    <ul>
+                        <li>
+                            <img src="images/goods_img2.png" alt="" />
+                            <p class="font16 corgray6 docration">吉宏发财树</p>
+                        </li>
+                        <li>
+                            <img src="images/goods_img2.png" alt="" />
+                            <p class="font16 corgray6 docration">吉宏发财树</p>
+                        </li>
+                        <li>
+                            <img src="images/goods_img2.png" alt="" />
+                            <p class="font16 corgray6 docration">吉宏发财树</p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="goos_list_picr fr">
+                    <ul class="clearfix piclist">
+                        <li>
+                            <img src="images/goods_img2.png" alt="" />
+                            <p class="font16 corgray6 docration">吉宏发财树</p>
+                        </li>
+                        <li>
+                            <img src="images/goods_img2.png" alt="" />
+                            <p class="font16 corgray6 docration">吉宏发财树</p>
+                        </li>
+                        <li>
+                            <img src="images/goods_img2.png" alt="" />
+                            <p class="font16 corgray6 docration">吉宏发财树</p>
+                        </li>
+                        <li>
+                            <img src="images/goods_img2.png" alt="" />
+                            <p class="font16 corgray6 docration">吉宏发财树</p>
+                        </li>
+                        <li>
+                            <img src="images/goods_img2.png" alt="" />
+                            <p class="font16 corgray6 docration">吉宏发财树</p>
+                        </li>
+                        <li>
+                            <img src="images/goods_img2.png" alt="" />
+                            <p class="font16 corgray6 docration">吉宏发财树</p>
+                        </li>
+                        <li>
+                            <img src="images/goods_img2.png" alt="" />
+                            <p class="font16 corgray6 docration">吉宏发财树</p>
+                        </li>
+                        <li>
+                            <img src="images/goods_img2.png" alt="" />
+                            <p class="font16 corgray6 docration">吉宏发财树</p>
+                        </li>
+                        <li>
+                            <img src="images/goods_img2.png" alt="" />
+                            <p class="font16 corgray6 docration">吉宏发财树</p>
+                        </li>
+                        <li>
+                            <img src="images/goods_img2.png" alt="" />
+                            <p class="font16 corgray6 docration">吉宏发财树</p>
+                        </li>
+                        <li>
+                            <img src="images/goods_img2.png" alt="" />
+                            <p class="font16 corgray6 docration">吉宏发财树</p>
+                        </li>
+                        <li>
+                            <img src="images/goods_img2.png" alt="" />
+                            <p class="font16 corgray6 docration">吉宏发财树</p>
+                        </li>
+                    </ul>
+                    <div class="page">
+                        <div class="fl pre">上一页</div>
+                        <ul class="fl">
+                            <li class="current">1</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li class="more">...</li>
+                            <li>200</li>
+                        </ul>
+                        <div class="fl next">下一页</div>
+                    </div>
+                </div>
+            </div>
+        </div>   
+    </div>
+    <div class="footer bfcorosered">
+        <div class="footercon wrap">
+            <dl class="fl mr30">
+               <dt><a href="">关于吉宏</a></dt>
+               <dd><a href="">企业概况</a></dd>
+               <dd><a href="">企业动态</a></dd>
+               <dd><a href="">吉宏团队</a></dd>
+               <dd><a href="">招聘信息</a></dd>
+               <dd><a href="">常见问题</a></dd>
+            </dl>  
+            <dl class="fl mr29">
+               <dt><a href="">吉宏梦</a></dt>
+            </dl> 
+            <dl class="fl mr29">
+               <dt><a href="">盆栽交易平台</a></dt>
+            </dl>
+            <dl class="fl mr29">
+               <dt><a href="">吉宏发财树</a></dt>
+            </dl>
+            <dl class="fl mr30">
+               <dt class="font16">联系我们</dt>
+               <dd class="corgrayf">客服热线：020-81522108</dd>
+               <dd class="corgrayf">传真：020-81413138</dd>
+               <dd class="corgrayf">E-mail：info@ji-hong.cn</dd>
+               <dd class="corgrayf">地址：广州市荔湾区龙溪大道花卉科技</dd>
+               <dd class="corgrayf">园艺西街18号（510375）</dd>
+            </dl>
+            <dl class="fl mr38">
+               <dt class="center font16">APP下载</dt>
+               <dd><img src="images/appxiazai.png" height="130" width="130" alt="" /></dd>
+            </dl>
+            <dl class="fr">
+               <dt class="center font16">联系我们</dt>
+               <dd><img src="images/appxiazai.png" height="130" width="130" alt="" /></dd>
+            </dl>
+        </div>  
+    </div>
+</body>
+</html>

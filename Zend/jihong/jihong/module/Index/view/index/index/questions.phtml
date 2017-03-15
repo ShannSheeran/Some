@@ -1,0 +1,64 @@
+    <div class="banner mb30">
+        <center>
+        <img style="width:100%; height:400px;" src="<?php echo $ads_info ? ROOT_PATH.UPLOAD_PATH.$ads_info->path.$ads_info->filename : ''?>" alt="" />
+        </center>
+    </div>
+
+    <div class="tab_column wrap">
+        <ul>
+        <li class="first"><a class="choice_li"  href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'companyIntro'  ))?>">企业概况</a></li>
+            <li class="publicClass"><a class="choice_li" href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'dynamic'  ))?>">企业动态</a></li>
+            <li class="publicClass"><a class="choice_li"  href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'teams'  ))?>">吉宏团队</a></li>
+            <li class="publicClass "><a class="choice_li"  href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'recruit'  ))?>">招聘信息</a></li>
+            <li class="publicClass  current"><a class="choice_li"  href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'questions'  ))?>">常见问题</a></li>
+        </ul>
+    </div>
+
+    <div class="main question pub pub_current wrap">
+        <div class="main_title">
+            <h2 class="on">常见问题</h2>
+        </div>
+        <div class="main_con">
+            <?php 
+                foreach ($questions_list as $value): 
+                    $img_id = $value->image_id ? explode(',', trim($value->image_id,",")) : array();
+             ?>
+            <div class="main_con_bd mb30 clearfix">
+              <a href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'articleDetail' , 'id' =>  $value->id ,'cid' => 1 ))?>">
+                 <div class="pic fl">
+                    <img src="<?php echo (isset($img_id[0]) && isset($images[$img_id[0]]['path'])) ? ROOT_PATH.UPLOAD_PATH.'thumb/200X150X2/'.$images[$img_id[0]]['path'].$images[$img_id[0]]['filename'] : '';?>" height="150" width="200" alt="" />
+                 </div>
+                <div class="txt fr">
+                     <h3><?php echo $value->title ?></h3>
+                    <div class="content"><?php echo $value->content ?></div>
+                    <p class="data"><?php echo substr($value->timestamp, 0 , 10) ?></p>
+                </div>
+              </a>
+            </div>
+            <?php endforeach; ?>
+            <?php echo $this->paginationControl($paginator, 'Sliding', 'layout_index/page',array('route' =>'index','condition'=>$condition));?>
+        </div>
+    </div>
+    <!-- 常见问题部分完成 -->
+
+<script type="text/javascript">
+    $(function(){
+        $('.tab_column li').click(function(event) {
+            if( $(this).index() >=1){
+                $(this).addClass('current').siblings('').removeClass('current').removeClass("current1");
+                $('.pub').eq($(this).index()).addClass('pub_current').siblings('').removeClass('pub_current');
+            }else{
+                $(this).addClass('current1').siblings('').removeClass('current');
+                $('.pub').eq($(this).index()).addClass('pub_current').siblings('').removeClass('pub_current');
+            }
+        });
+        $('.team ul li').click(function(event) {
+            $(this).addClass('current').siblings('').removeClass('current');
+        });
+
+        $('.advertise-l ul li').click(function(event) {
+            // alert('message')
+            $(this).addClass('current').siblings('').removeClass('current');
+        });
+    })
+</script>

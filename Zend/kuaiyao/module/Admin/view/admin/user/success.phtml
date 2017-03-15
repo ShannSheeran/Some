@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+<title>申请成功</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="<?php echo ROOT_PATH?>css/kuaiyao.css" type="text/css"/>
+</head>
+<body onLoad="getJssdk()">
+  	<div class="sqsuccess">
+  		<p class="true"><span><img src="<?php echo ROOT_PATH?>images/success.jpg"></span>资料已经提交成功，无须重复提交！</p>
+  		<p class="cont" id="inweixin" style="display:none;">点击右上角分享，炫耀一下！</p>
+        <p class="cont" style="text-align:left;padding:15px 10px 0; display:block;">电脑登录快摇名片官网(http://www.快摇名片.com)可完善公司、产品等内容，更能有机会免费获得快摇名片随身设备！</p>
+  	</div>
+</body>
+</html>
+<script type="text/javascript" src="<?php echo ROOT_PATH;?>lib/jquery-1.8.2.min.js"></script> 
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script> 
+<script type="text/javascript">
+	var user=(navigator.userAgent).toLocaleLowerCase(),isWeixin=false;
+	var ht="";
+	var hta="";
+	if(user.indexOf('micromessenger')!==-1)
+	{
+		isWeixin=true;
+		$("#inweixin").show();
+	}
+
+    function getJssdk()
+    {
+		
+        $.post("<?php echo $this->url('admin-user',array('action'=>'getJssdk')); ?>",'',function(data){
+            data = $.parseJSON(data);
+            if(data)
+            {
+				
+				hta=data.url;
+				ht=data.htt;
+                wx.config({
+                    debug: false,
+                    appId: data.appId,
+                    timestamp: data.timestamp,
+                    nonceStr: data.nonceStr,
+                    signature: data.signature,
+                    jsApiList: [
+                        'checkJsApi',
+                        'onMenuShareTimeline',
+                        'onMenuShareAppMessage',
+                        'onMenuShareQQ',
+                        'onMenuShareWeibo',
+                        'openLocation'
+                    ]
+                });
+				
+            }
+        });
+    };
+	wx.ready(function () {
+	
+	var shareData = {
+		title: '邀请您申请快摇名片',
+		desc: '快来加入最具价值的商务人脉平台',
+		link: 'http://www.kuaiyao.name/admin/usera/add',
+		imgUrl: 'http://www.kuaiyao.name/images/logo2.png'
+	};
+	wx.onMenuShareAppMessage(shareData);
+	wx.onMenuShareTimeline(shareData);
+	wx.onMenuShareQQ(shareData);
+	wx.onMenuShareWeibo(shareData);
+});
+	</script>

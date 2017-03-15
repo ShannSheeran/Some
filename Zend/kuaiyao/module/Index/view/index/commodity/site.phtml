@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,inital-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-status-bar-style" content="block" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>编辑收货地址</title>
+    <!-- 公用样式 -->
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/kuaiyao/common.css">
+    <!-- 购买产品相关页面样式 -->
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/kuaiyao/commodity.css">
+    <!--只兼容移动端，所以直接使用jQuery 2.1.4-->
+    <script type="text/javascript" src="<?php echo $this->basePath();?>/lib/jquery.2.1.4.min.js"></script>
+    <!--调用微信js-->
+    <script type="text/javascript" src="<?php echo $this->basePath();?>/lib/jweixin-1.0.0.js"></script>
+    <!-- 地址选择 -->
+    <?php echo $this->headScript()->prependFile($this->basePath() . '/js/jq_area.js') ?>
+	<?php echo $this->headScript()->prependFile($this->basePath() . '/js/region.js') ?>
+</head>
+<body>
+    <div class="compile_site">
+        <form action="<?php echo $this->url('index',array('controller'=>'commodity','action'=>'site'))?>" method="post">
+            <ul>
+                <li><label for="">收货人：</label><input type="text" name="address_name" value="<?php echo $carte['name']?>" required></li>
+                <li><label for="" required>联系电话：</label><input type="text" name="address_telephone" value="<?php echo $carte['telephone']?>"></li>
+                <li>
+                    <label for="">所在地区：</label>
+                    <span id="area">
+                        <select class="form-control" id="province"
+                        name="province_id">
+                        </select> 
+                        <select
+                        class="form-control" id="city" name="city_id"
+                       ></select> 
+                        <select class="form-control"
+                        id="county" name="county"></select>
+                    </span>
+                </li>
+                <li><label for="">详细地址：</label><input type="text" name="street" value="协晟大厦205" required></li>
+            </ul>
+			<input type="hidden" name="user_id" value="<?php echo $user?>"/>
+            <input type="submit" value="保存">
+        </form>
+    </div>
+    <script>
+        // 地址选择
+        $(function(){
+            $("#area").area({cache:region});        
+        });
+		
+			
+    </script>
+</body>

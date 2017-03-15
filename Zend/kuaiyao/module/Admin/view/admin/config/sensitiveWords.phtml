@@ -1,0 +1,44 @@
+<div class="row">
+	<div class="col-sm-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>敏感关键管理(<span style="color: red">关键字用|线隔开</span>)</h3>
+				<div class="panel-options">
+					<a href="#" data-toggle="panel">
+						<span class="collapse-icon">&ndash;</span>
+						<span class="expand-icon">+</span>
+					</a>
+					<a href="#" data-toggle="remove"> &times; </a>
+				</div>
+			</div>
+			<form role="form" class="form-horizontal" action="<?php echo $this->url('admin-config',array('action'=>'sensitiveWords'))?>"
+					method="post">
+				<div class="panel-body">
+						<div class="form-group">
+						<label class="col-sm-2 control-label" for="field-1"></label>
+
+						<div class="col-sm-10">
+								<textarea class="autogrow" style="width: 90%; height: 500px;"
+						name="content"><?php echo $info?></textarea>
+						</div>
+					</div>
+					<div class="form-group-separator"></div>
+					
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="field-1"></label>
+
+						<div class="col-sm-10">
+								<input type="submit" class="btn btn-info" name="submit"
+					style="margin-left: 30px" value="保存">
+						</div>
+					</div>
+					<div class="form-group-separator"></div>
+		
+				</div>
+		
+			</form>
+
+	</div>
+</div>
+</div>
+

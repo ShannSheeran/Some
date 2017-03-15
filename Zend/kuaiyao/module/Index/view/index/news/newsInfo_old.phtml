@@ -1,0 +1,48 @@
+<?php echo $this->headTitle('资讯热点'. $this->translate(''))->setSeparator(' - ')->setAutoEscape(false);?>
+<?php echo $this->headMeta()->setName('description','猫王联盟——以“吃喝玩乐购”生活服务类打造实体店的免费O2O平台。为实体店搭建线上线下一体化平台；为消费者提供全国通积通用通兑积分平台，积分可线上兑换商品，线下抵现消费。服务热线4008-333-133')->setName('keywords','通用积分联盟,通用积分平台,通用积分商城,o2o积分联盟,o2o积分联盟网站,积分联盟商,生活服务'); ?>
+<script>showmenu();</script>
+<!-- header end -->
+		<div class="content w bc">
+				<div class="con clearfix mt20">
+                    <!-- left menu -->
+                    <div class="left_menu2 fl">
+                        <ul class="slide-list bg_white pt10 pb10">
+                            <?php foreach($p_articleCategory as $v){?>
+                            <li class="<?php echo $this->Article->category_id==$v['id']?'on':''; ?>">
+                                <a href="<?php echo $this->url('index-news',array('action' =>'index','id' =>$v['id'])); ?>">
+                                    <?php echo $v['cate_name']?>
+                                </a>
+                                <ul>
+                                <?php if(isset($v['son'])){?>
+                                <?php foreach($v['son'] as $val){?>
+                                    <li class="<?php echo $this->Article->category_id==$val['id']?'on':''; ?>">
+                                        <a href="<?php echo $this->url('index-news',array('action' =>'index','id' =>$val['id'])); ?>">
+                                            <?php echo $val['cate_name']?>
+                                        </a>
+                                    </li>
+                                <?php } } ?>
+                                </ul>
+                            </li>
+                            <?php } ?>
+                        </ul>
+                    </div>
+                    <!-- left menu end -->
+					<!-- right con -->
+					<div class="right_con fr clearfix bg_white">
+						<div class="pl20 pr20">
+							<h3 class="f20 tc pt10 pb10 "><?php echo $this->Article->title;?></h3>
+							<p class="tl pb10 border_b pr20 f_color_gray mb10 tc">阅读量：(<?php echo $this->Article->click?>)&nbsp;&nbsp;&nbsp;&nbsp;发布时间：<?php echo $this->Article->createtime?></p>
+                            
+                           <div class="bdsharebuttonbox fr" style="margin-top:-44px;width:336px;"><a href="#" class="bds_more" data-cmd="more">分享到：</a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"4","bdMiniList":["mshare","qzone","tsina","weixin","renren","tqq","kaixin001","tqf","tieba","douban","tsohu","bdhome","sqq","thx","ibaidu","meilishuo","mogujie","diandian","huaban","duitang","hx","fx","youdao","sdo","qingbiji","people","mail","isohu","yaolan","copy","print"],"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16},"image":{"viewList":["weixin","qzone","tsina","tqq"],"viewText":"分享到：","viewSize":"16"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+                            <div class="clear"></div>
+						</div>
+						<div class="news_con pt10 pb30 pl20 pr20 of_hide ">
+							<p class="f14 lh150 pl10 pr10">
+								<?php echo $this->Article->content;?>
+							</p>
+						</div>
+					</div>
+					<!-- right con end -->
+				</div>
+		</div>

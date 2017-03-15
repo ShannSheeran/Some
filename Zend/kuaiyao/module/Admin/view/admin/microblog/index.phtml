@@ -1,0 +1,77 @@
+<!-- Responsive Table -->
+<!-- Table exporting -->
+<style>
+	.row{
+		display:none;
+	}
+</style>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			<form class="form-horizontal"
+				action="<?php echo $this->url('admin-microblog',array('action'=>'index'))?>" method="post"
+				style="float: right; margin-left: 20px;">
+				<span style="font-weight: bold; font-size: 16px;"> 搜索全表</span>
+				：
+				<input type="text" name="keyword" value="<?php echo $keyword?>"
+					placeholder="搜索ID">
+				<input type="submit" name="submit" value="搜索" class="btn btn-info"
+					style="height: 25px; width: 60px; line-height: 25px; padding: 0; margin-left: 10px; margin-top: 5px;" />
+			</form>
+		</h3>
+
+		<div class="panel-options">
+
+			<a href="#" data-toggle="panel">
+				<span class="collapse-icon">&ndash;</span>
+				<span class="expand-icon">+</span>
+			</a>
+			<a href="#" data-toggle="remove"> &times; </a>
+		</div>
+	</div>
+	<div class="panel-body">
+		<table class="table table-bordered table-striped" id="example-4">
+			<thead>
+				<tr>
+					<td>ID</td>
+					<th>发布人</th>
+					<th>内容</th>
+					<th>评论</th>
+					<th>赞</th>
+					<th>发布时间</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?php foreach ($list as $v){?>
+				<tr>
+					<td class="center"><?php echo $v->id?></td>
+					<td class="center">
+						<a
+							href="<?php echo $this->url("admin-user",array('action'=>'details','id'=>$v->user_id))?>"><?php echo $user[$v->user_id]['mobile'];?></a>
+					</td>
+					<td class="center"><?php echo mb_substr($v->content, 0, 25, 'UTF-8');?></td>
+					<td class="center">
+						<a
+							href="<?php echo $this->url('admin-microblog',array('action'=>'comment','cid'=>$v->id))?>"><?php echo $v->stat_comment?></a>
+					</td>
+					<td class="center"><?php echo $v->stat_praise?></td>
+					<td class="center"><?php echo $v['timestamp']  != "0000-00-00 00:00:00" ? date("Y-m-d H:i",strtotime($v['timestamp'])) : '';?></td>
+					<td class="center">
+						<a class="btn btn-success"
+							href="<?php echo $this->url("admin-microblog",array("action"=>"details","id"=>$v->id))?>">查看</a>
+						<a class="btn btn-danger" <?php if($v->delete==0){?>
+							onclick="show_confirm('<?php echo $this->url('admin-microblog',array('action'=>'delete','id'=>$v->id));?>')"
+							href="#" <?php }else{?> disabled <?php }?>>删除</a>
+						</a>
+					</td>
+				</tr>
+
+							<?PHP }?>
+							
+						  </tbody>
+		</table>
+						<?php    echo $this->paginationControl($paginator, 'Sliding', 'page',array('route' =>'admin-microblog','condition'=>$condition));?> 
+						</div>
+
+</div>

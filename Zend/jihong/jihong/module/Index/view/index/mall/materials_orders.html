@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="../js/jquery-1.7.2.min.js"></script>
+    <script src="../js/jquery.SuperSlide.js"></script>
+    <script src="../js/base.js"></script>
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/content.css" />
+    <link rel="stylesheet" href="../css/user.css" />
+    <script type="text/javascript">
+    $(function(){
+        $('.user_center ul li').click(function(){
+            $(this).addClass('on').siblings().removeClass('on');
+        })
+        $('.my_goods_list li:first-child').addClass('on');
+        $('.my_goods_list li').click(function(){
+            $(this).addClass('on').siblings().removeClass('on');
+        })
+    })
+    </script>
+</head>
+<body>
+    <header class="">
+      <div class="wrap">
+        <div class="logo">
+          <a></a>
+        </div>
+        <div class="explain">全方位中国花卉交易平台</div>
+        <div class="header_phone">联系电话：400-0650-750</div>
+      </div>
+      <div class="clear"></div>
+      <div class="header_bottom">
+        <div class="wrap">
+          <div class="account">
+            <span>账户：7729<a href="" class="quit">[退出]</a></span>
+          </div>
+          <nav>
+            <a>首页</a>
+            <a class="">资材订购</a>
+            <a>市场反馈</a>
+            <a>对账单</a>
+            <a>会员中心</a>
+            <a>最新热销</a>
+          </nav>
+        </div>
+    </header>
+    <section>
+        <div class="wrap">
+            <div class="user_content">
+                <div class="user_content_left">
+                    <div class="user_center">
+                        <h2>会员中心</h2>
+                        <ul>
+                            <li class="on">我的商品</li>
+                            <li>发布商品</li>
+                            <li>资材订单</li>
+                            <li>我的售后</li>
+                            <li>市场反馈</li>
+                            <li>对账单查询</li>
+                            <li>会员信息</li>
+                            <li>修改密码</li>
+                        </ul>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="contact_us">
+                        <h2>会员中心</h2>
+                        <p>客服：4000-650-750</p>
+                        <p>传真：020-81413138</p>
+                        <p>E-mail : xiejing@ji-hong.cn</p>
+                        <p>http://gd.ji-hong.com.cn</p>
+                    </div>
+                </div>
+                <div class="user_content_right">
+                    <h2 class="goods_h2">我的订单</h2>
+                    <ul class="my_goods_list">
+                        <li>全部订单
+                            <i>22</i>
+                        </li>                        
+                        <li>待审核
+                            <i>22</i>
+                        </li>
+                        <li>待付款
+                            <i>22</i>
+                        </li>
+                        <li>待收货
+                            <i>22</i>
+                        </li>                       
+                    </ul>
+                    <div class="clear"></div>
+                    <div class="my_goods_time">
+                        <div class="release_time">
+                          <span class="fl">下单时间：</span>
+                          <div class="start_time">
+                            <input type="text" class="time_input" value="">
+                            </div>
+                            <div class="to">至</div>
+                            <div class="over_time">
+                            <input type="text" class="time_input" value="">
+                            </div>
+                            <div class="btn_sure">确定</div>
+                        </div>
+                            <div class="clearfix search_box pr">
+                              <div class="fl">
+                                <input type="text" class="search_input" placeholder="请输商品名称/订单号搜索" value="" onfocus=";">
+                            </div>
+                            <div class="fr"><input type="button" class="search_btn" value="搜索" onclick="Search()"></div>
+                        </div>
+                    </div>
+                    <div class="order_center">
+                      <ul class="order_list">
+                        <li class="order_number">发布编号</li>
+                        <li class="order_placetime">下单时间</li>
+                        <li class="order_univalent">订单金额</li>
+                        <li class="order_supplynum">商品数量</li>
+                        <li class="order_logisticsdetails">物流详情</li>
+                        <li class="order_state">订单状态</li>
+                        <li class="order_operation">操作</li>
+                    </ul>
+                    <ul class="order_content">
+                        <li>
+                          <div class="order_number">68761431564
+                          </div>
+                          <div class="order_placetime">2010-12-09 12：30：30
+                          </div>
+                          <div class="order_univalent">￥720.0
+                          </div>
+                          <div class="order_supplynum">30
+                          </div>
+                          <div class="order_logisticsdetails">
+                            <p>申通快递</p>
+                            <p>352565458565</p>
+                            </div>
+                          <div class="order_state">待审核
+                          </div>
+                          <div class="order_operation">
+                                <p><a>查看</a></p>
+                                <p><a>确认收货</a></p>
+                            </div>
+                        </li>
+                        <li>
+                          <div class="order_number">68761431564
+                          </div>
+                          <div class="order_placetime">2010-12-09 12：30：30
+                          </div>
+                          <div class="order_univalent">￥720.0
+                          </div>
+                          <div class="order_supplynum">30
+                          </div>
+                          <div class="order_logisticsdetails">
+                            <p>申通快递</p>
+                            <p>352565458565</p>
+                            </div>
+                          <div class="order_state">待审核
+                          </div>
+                          <div class="order_operation">
+                                <a>确认收货</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

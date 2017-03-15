@@ -1,0 +1,176 @@
+﻿<!-- Responsive Table -->
+<!-- Table exporting -->
+<script type="text/javascript">
+	
+ 
+    function SlyarErrors() {
+ 
+    return true;
+ 
+    }
+ 
+    window.onerror = SlyarErrors;
+ 
+    </script>
+</script>
+<script type="text/javascript" src="<?php echo $this->basePath();?>/lib/jquery.2.1.4.min.js"></script>
+<style type="text/css">
+	.choice{
+		display:block;
+		width:90px;
+		height:30px;
+		float:left;
+		font-size:16px;
+		text-align:center;
+		font-family:Microsoft Yahei;
+	}
+	.choice:hover{
+		under-line:1px solid red;
+	}
+</style>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+		</h3>
+		<div class="">
+			<a class="choice all" href="<?php echo $this->url('admin-order',array('action'=>'index','cid'=>0))?>">全部</a>
+			<a class="choice wait" href="<?php echo $this->url('admin-order',array('action'=>'index','cid'=>2))?>">待发货</a>
+			<a class="choice delivery" href="<?php echo $this->url('admin-order',array('action'=>'index','cid'=>3))?>">已发货</a>
+			<a class="choice finished" href="<?php echo $this->url('admin-order',array('action'=>'index','cid'=>6))?>">已完成</a>
+			<a class="choice doing" href="<?php echo $this->url('admin-order',array('action'=>'index','cid'=>4))?>">退款中</a>
+			<a class="choice refund" href="<?php echo $this->url('admin-order',array('action'=>'index','cid'=>5))?>">完成退款</a>
+			
+		</div>
+		<form class="form-horizontal"
+				action="<?php echo $this->url('admin-order',array('action'=>'index','cid'=>$cid,'page'=>1))?>"
+				method="post" style="float: right; margin-left: 20px;">
+				<span style="font-weight: bold; font-size: 14px;"> 搜索全表</span>
+				：
+				<input type="text" name="keyword" value="<?php echo $keyword?>"
+					placeholder="订单号，用户">
+				<input type="submit" name="submit" value="搜索" class="btn btn-info"
+					style="height: 25px; width: 60px; line-height: 25px; padding: 0; margin-left: 10px; margin-top: 5px;" />
+		</form>
+		<div class="panel-options">
+
+			<a href="#" data-toggle="panel">
+				<span class="collapse-icon">&ndash;</span>
+				<span class="expand-icon">+</span>
+			</a>
+			<a href="#" data-toggle="remove"> &times; </a>
+		</div>
+	</div>
+	<div class="panel-body">
+		<table class="table table-bordered table-striped" id="example-4">
+			<thead>
+				<tr>
+					<th style="width:150px;">订单号</th>
+					<th style="width:250px;">用户</th>
+					<th style="width:70px;">单价</th>
+					<th style="width:70px;">件数</th>
+					<th style="width:200px;">发票</th>
+					<th style="width:100px;">支付方式</th>
+                    <th style="width:150px;">下单时间</th>
+					<th style="width:100px;">订单状态</th>
+					<th style="width:100px;">总额</th>
+					<th style="width:100px;">操作</th>
+				</tr>
+			</thead>
+			<?php foreach($list as $k=>$v):?>
+
+			<tbody>
+                <tr>
+					<td><?php echo $v['order_sn']?></td>
+					 <td>
+						<?php echo isset($v['address_name']) ? $v['address_name'] : '';?><br>
+						<?php echo isset($v['address_telephone']) ? $v['address_telephone'] : '';?><br>
+					</td>
+                    <td>￥<?php echo $v['price']?></td>
+                   <td><?php echo $v['number']?></td>
+                    <td>
+						<?php if(isset($v['invoice_status'])){?>
+						<?php 
+						if($v['invoice_status']==2)
+						{
+							echo "无需发票";
+						}
+						else
+						{
+							echo $v['invoice_name'];
+						}
+						?>
+						<?php }?>
+					</td>
+					<td>
+					<?php if(isset($v['payment'])){?>
+					<?php 
+						if($v['payment']==1){
+							echo "支付宝";
+						}else if($v['payment']==2){
+							echo "微信支付";
+						}else if($v['payment']==3){
+							echo "银联";
+						}
+					?>
+					<?php }?>
+					</td>
+                    <td><?php echo $v['timestamp']?></td>
+                    <td>
+						<?php 
+							if($v['status']==1){
+								echo "待付款";
+							}
+							else if($v['status']==2){
+								echo "待处理";
+							}else if($v['status']==3){
+								echo "已发货";
+							}else if($v['status']==4){
+								echo "退款中";
+							}else if($v['status']==5){
+								echo "已退款";
+							}else if($v['status']==6){
+								echo "已完成";
+							}
+						?>
+					</td>
+					<td>
+						￥<?php if($v['code_id']!==0){echo $v['total'];}else{echo $v['price'];}?>
+					</td>
+					<td>
+						<?php if($v['status']==2){?>
+						<a href="<?php echo $this->url('admin-order',array('action'=>'details','id'=>$v['id']))?>">订单处理</a>
+						<?php }else{?>
+						<a href="<?php echo $this->url('admin-order',array('action'=>'details','id'=>$v['id']))?>">订单详情</a>
+						<?php }?>
+					</td>
+                    
+                </tr>
+            <input type="hidden" id="color" value="<?php echo $_SESSION['status'];?>"/>
+            </tbody>
+		<?php endforeach?>
+        </table>
+        <?php echo $this->paginationControl($paginator, 'Sliding', 'page',array('route' =>'admin-order','action'=>'index
+		','condition'=>$condition));?>
+    </div>
+</div>
+<script type="text/javascript">
+var status=$('#color').val();
+if(!status || status==0 || status==''){
+		$('.all').css({color:"#dc7107"})
+}
+if(status==2){
+		$('.wait').css({color:"#dc7107"})
+}
+if(status==3){
+		$('.delivery').css({color:"#dc7107"})
+}
+if(status==6){
+		$('.finished').css({color:"#dc7107"})
+}
+if(status==4){
+		$('.doing').css({color:"#dc7107"})
+}
+if(status==5){
+		$('.refund').css({color:"#dc7107"})
+}
+</script>   

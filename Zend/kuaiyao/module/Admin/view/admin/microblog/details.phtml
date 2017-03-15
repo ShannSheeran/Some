@@ -1,0 +1,56 @@
+<div class="row">
+	<div class="col-sm-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>信息详细</h3>
+				<div class="panel-options">
+					<a href="#" data-toggle="panel">
+						<span class="collapse-icon">&ndash;</span>
+						<span class="expand-icon">+</span>
+					</a>
+					<a href="#" data-toggle="remove"> &times; </a>
+				</div>
+			</div>
+			 <form role="form" class="form-horizontal">
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="field-1">内容：</label>
+
+					<div class="col-sm-10">
+						<textarea id="emoji-content" class="autogrow"
+							disabled><?php echo $info->content;?></textarea>
+					</div>
+				</div>
+				<div class="form-group-separator"></div>				
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="field-1">发布人：</label>
+
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="field-1"
+							placeholder="<?php echo isset($user->name) && $user->name ? $user->name : '' ;?>" disabled>
+					</div>
+				</div>
+				<div class="form-group-separator"></div>
+
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="field-1">图片：</label>
+
+					<div class="col-sm-10">
+							  <?php foreach($images as $v){?> 
+    				
+							<a href='<?php echo  $v['path'] ? $v['path'] : ROOT_PATH.'adminStyle/img/no_pic.gif';?>' target="_blank" >
+								<img src="<?php echo  $v['path'] ?  $v['path'] : ROOT_PATH.'adminStyle/img/no_pic.gif';?>" width="280" height="210" style="padding-top:5px; " />
+							</a>
+					
+                    		<?php }?>	
+    					
+						</div>
+				</div>
+				<div class="form-group-separator"></div>
+
+			</div>
+			</form>
+		</div>
+	</div>
+</div>

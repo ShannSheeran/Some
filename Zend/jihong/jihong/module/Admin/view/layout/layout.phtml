@@ -1,0 +1,85 @@
+<?php echo $this->doctype();?>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <?php echo $this->headMeta()
+    ->appendName('description', 'RemoteSystemsTempFiles')
+    ->appendName('author', 'aiitec'); ?>
+	
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>吉宏园艺后台管理</title>
+    <?php 
+		echo $this->headTitle('吉宏园艺后台管理'. $this->translate('后台'))->setSeparator(' - ')->setAutoEscape(false);
+	?>
+	
+	 <?php 
+		echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'images/vnd.microsoft.icon', 'href' => $this->basePath()."/images/favicon.ico"))
+                    ->appendStylesheet($this->basePath() . '/css/admin/fonts/linecons/css/linecons.css')
+                    ->appendStylesheet($this->basePath() . '/css/admin/fonts/fontawesome/css/font-awesome.min.css')
+                    ->appendStylesheet($this->basePath() . '/css/admin/bootstrap.css')
+                    ->appendStylesheet($this->basePath() . '/css/admin/xenon-core.css')
+                    ->appendStylesheet($this->basePath() . '/css/admin/xenon-forms.css')
+                    ->appendStylesheet($this->basePath() . '/css/admin/xenon-components.css')
+                    ->appendStylesheet($this->basePath() . '/css/admin/xenon-skins.css')
+					->appendStylesheet($this->basePath() . '/css/admin/page.css')
+                    ->appendStylesheet($this->basePath() . '/css/admin/custom.css')
+                    ->appendStylesheet($this->basePath() . '/css/admin/jedate.css')
+     ?>
+	 
+	 <?php 
+		echo $this->headScript()->offsetSetFile(1,$this->basePath() . '/js/admin/html5shiv.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
+								   ->offsetSetFile(2,$this->basePath().'/js/admin/respond.min.js','text/javascript',array('conditional'=>'lt IE 9'))
+                                   ->offsetSetFile(3,$this->basePath() .'/js/admin/jquery-1.11.1.min.js')
+								   ->offsetSetFile(4,$this->basePath() .'/js/admin/public.js');
+	?>
+<script type="text/javascript">
+// jQuery(document).ready(function($)
+// 		{
+// 			$("#example-4").dataTable({
+// 				dom: "<'row'<'col-sm-5'l><'col-sm-7'Tf>r>"+
+// 					 "t"+
+// 					 "<'row'<'col-xs-6'i><'col-xs-6'p>>",
+// 				tableTools: {
+					sSwfPath: "<?php echo ROOT_PATH?>js/admin/datatables/tabletools/copy_csv_xls_pdf.swf"
+// 				}
+// 			});
+// 		});
+
+var Sys = {};
+var ua = navigator.userAgent.toLowerCase();
+if (window.ActiveXObject)
+{
+    Sys.ie = ua.match(/msie ([\d.]+)/)[1];
+}
+if (Sys.ie)
+{
+	var IE = navigator.userAgent.indexOf("MSIE 9.0")>0 ? 1 : 0;
+	  if(IE==0)
+	  {
+		  alert('系统检测到您正在使用IE内核浏览器，为了更好的体验，请升级至IE9及以上版本的浏览器！');
+	  }
+}
+
+</script>
+<style type="text/css">
+.DTTT_container{display:none;}	
+</style>
+</head>
+<body>
+	<?php echo $this->content;?>
+	<!-- Bottom Scripts -->
+	<!-- JavaScripts initializations and stuff -->
+<script type="text/javascript" src="<?php echo $this->basePath() . '/js/admin/bootstrap.min.js';?>"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() . '/js/admin/TweenMax.min.js';?>"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() .  '/js/admin/resizeable.js';?>"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() . '/js/admin/joinable.js';?>"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() .  '/js/admin/xenon-api.js';?>"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() .  '/js/admin/xenon-toggles.js';?>"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() .  '/js/admin/xenon-custom.js';?>"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() . '/js/admin/inputmask/jquery.inputmask.bundle.js';?>"></script>
+<!-- Imported styles on this page -->
+
+</body>
+</html>

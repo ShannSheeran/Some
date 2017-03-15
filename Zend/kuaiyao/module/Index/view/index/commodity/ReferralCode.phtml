@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,inital-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-status-bar-style" content="block" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>我的推荐码</title>
+    <!-- 公用样式 -->
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/kuaiyao/common.css">
+    <!-- 购买产品相关页面样式 -->
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/kuaiyao/commodity.css">
+    <!--只兼容移动端，所以直接使用jQuery 2.1.4-->
+    <script type="text/javascript" src="<?php echo $this->basePath();?>/lib/jquery.2.1.4.min.js"></script>
+    <!--调用微信js-->
+    <script type="text/javascript" src="<?php echo $this->basePath();?>/lib/jweixin-1.0.0.js"></script>
+</head>
+<body>
+    <div class="ReferralCode">
+        <div class="Rcompile fr">编辑</div>
+        <div class="clear"></div>
+        <ul>
+		<?php if($code['total']==0){?>
+			<li class="bg_white p15 mt10">
+					<a href="<?php echo $this->url('index',array('controller'=>'commodity','action'=>'coupon','id'=>$user_id))?>" class="db"> 
+						<span>推荐码:</span><span></span>
+						<span class="icon_arrowR pl20 pt20 fr"></span>
+					</a>
+			</li>
+		<?php }else{?>
+		
+			<?php foreach($code['list'] as $v):?>
+				<li class="bg_white p15 mt10">
+					<a href="<?php echo $this->url('index',array('controller'=>'commodity','action'=>'coupon','id'=>$user_id))?>" class="db"> 
+						<span>推荐码:</span><span><?php echo $v['code'];?></span>
+						<span class="icon_arrowR pl20 pt20 fr"></span>
+					</a>
+					<a href="<?php echo $this->url('index',array('controller'=>'commodity','action'=>'delete','alert'=>$v['user_id'],'id'=>$v['id']))?>">删除</a>
+				</li>
+			<?php endforeach?>
+		<?php }?>
+        </ul>
+
+    </div>
+    <script type="text/javascript">
+       /*  $(".Rcompile").click(function(){
+        if($(this).html()=="编辑"){
+            $(this).html("完成");
+            $(".delete").show();
+        }else{
+            $(this).html("编辑");
+            $(".delete").hide();
+        }
+         }) */
+
+        // $(".delete").click(function(){
+            // $(this).parent("li").remove();
+        // })
+        
+
+    </script>
+</body>

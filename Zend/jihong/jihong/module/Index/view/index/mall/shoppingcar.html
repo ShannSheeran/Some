@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/content.css" />
+    <link rel="stylesheet" href="../css/index.css" />
+    <script src="../js/jquery-1.7.2.min.js"></script>
+    <script src="../js/jquery.SuperSlide.js"></script>
+    <script src="../js/base.js"></script>
+    <script type="text/javascript">
+        $(function(){
+
+            // 商品选中点击事件
+            // $('.choose').click(function(event) {
+            //     $(this).toggleClass('onchoose');
+            // });
+
+            $('#list01 .add').click(function(event) {//点击增加数量
+                var num = $('.numbers').val();
+                num++;
+                $('#list01 .numbers').val(num);
+            });
+
+            $('#list01 .minus').click(function(event) { //点击删减数量
+                var num = $('.numbers').val();
+                if(num>1){
+                    num--;
+                    $('#list01 .numbers').val(num);
+                }
+            });
+
+            $('#list02 .add').click(function(event) {//点击增加数量
+                var num02 = $('#list02 .numbers').val();
+                num02++;
+                $('#list02 .numbers').val(num02);
+            });
+
+            $('#list02 .minus').click(function(event) { //点击删减数量
+                var num02 = $('#list02 .numbers').val();
+                if(num02>1){
+                    num02--;
+                    $('#list02 .numbers').val(num02);
+                }
+            });
+
+            $('#list03 .add').click(function(event) {//点击增加数量
+                var num03 = $('#list03 .numbers').val();
+                num03++;
+                $('#list03 .numbers').val(num03);
+            });
+
+            $('#list03 .minus').click(function(event) { //点击删减数量
+                var num03 = $('#list03 .numbers').val();
+                if(num03>1){
+                    num03--;
+                    $('#list03 .numbers').val(num03);
+                }
+            });
+            //弹窗中按钮的切换
+            $('.pop_shopc_btns a').click(function(event) {
+                $(this).addClass('current').siblings('').removeClass('current');
+            });
+
+            // 弹窗
+           $('.bill .delete').click(function(event) {
+             $('.pop_shoppingcar').show();
+             $('.pop_shoppingcar_bj').show();
+         });
+         // 弹窗内容关闭
+          $('.pop_shopc_btns a').click(function(event) {
+             $('.pop_shoppingcar').hide();
+             $('.pop_shoppingcar_bj').hide();
+         });
+		 
+          $('.sc_main_tittle .choose,.bill .choose').click(function(event) {
+				//1.点击全选，所有选中；再次点击，所有取消;
+				if($(".sc_main_tittle .choose").hasClass("onchoose") ){
+					$(this).parents(".sc_main").find(".choose").each(function(){
+						$(this).removeClass("onchoose");
+					})
+				}else{
+					$(this).parents(".sc_main").find(".choose").each(function(){
+						$(this).addClass("onchoose");
+					})
+				}
+				
+              
+          });
+		  
+		  
+          $('.order_infor .choose').click(function(event) {
+					//4.点击本公司下面的项，如果本公司下面的项都被点击选中，公司本身被选中；再点击导致本公司下面的选没有都选中，公司本身被取消。
+                  $(this).toggleClass('onchoose');
+				  var isAllChecked=true;
+				  var order_infor=$(this).parents(".order_infor");
+				  var companyCheck=order_infor.prev(".companName").find(".choose");
+				  var item=order_infor.find(".choose");
+				  item.each(function(){
+						if(!$(this).hasClass("onchoose") ){
+							isAllChecked=false;
+						}
+				  });
+				  if(isAllChecked){
+					companyCheck.addClass("onchoose");
+					item.each(function(){
+						$(this).addClass("onchoose");
+					})
+				  }else{
+					companyCheck.removeClass("onchoose");
+				  }
+				  
+				  //5.本购物车所有公司所有下面的项都被选中，全选处自动被选中；本购物车中所有项没有都选中，全选处不选中
+				  allCheck();
+           });
+		   
+		   
+		   function allCheck(){
+				//5.本购物车所有公司所有下面的项都被选中，全选处自动被选中；本购物车中所有项没有都选中，全选处不选中
+				  var allCheck=true;
+				  $(".all_order .companName").find(".choose").each(function(){
+						if(!$(this).hasClass("onchoose")){
+							allCheck=false;
+						}
+				  });
+				  if(allCheck){
+						$('.sc_main_tittle .choose').trigger("click");
+				  }else{
+						$('.sc_main_tittle .choose,.bill .choose').removeClass("onchoose");
+				  }
+		   }
+		   
+		   
+		   
+		   $(".all_order>div").find(".checkbox").click(function(){
+				//3.点击公司，选中公司下面所有的项包括公司本身；再次点击，本公司下面的全部取消，不影响其他公司；
+				$(this).find(".choose").toggleClass("onchoose");
+				var item=$(this).parents(".companName").siblings(".order_infor").find(".choose");
+				
+				if($(this).find(".choose").hasClass("onchoose")){
+					item.addClass("onchoose");
+				}else{
+					item.removeClass("onchoose");
+				}
+				//5.本购物车所有公司所有下面的项都被选中，全选处自动被选中；本购物车中所有项没有都选中，全选处不选中
+				allCheck();
+				
+		   });
+		   
+		   
+        })
+    </script>
+</head>
+<body>
+    <header class="">
+          <div class="wrap">
+            <div class="logo">
+              <a></a>
+            </div>
+            <div class="explain">全方位中国花卉交易平台</div>
+            <div class="header_phone">联系电话：400-0650-750</div>
+          </div>
+          <div class="clear"></div>
+          <div class="header_bottom">
+            <div class="wrap">
+              <div class="account">
+                <span>账户：7729<a href="" class="quit">[退出]</a></span>
+              </div>
+              <nav>
+                <a>首页</a>
+                <a class="">资材订购</a>
+                <a>市场反馈</a>
+                <a>对账单</a>
+                <a>会员中心</a>
+                <a>最新热销</a>
+              </nav>
+            </div>
+            </div>
+    </header>
+    <div class="sc_main wrap">
+        <div class="sc_main_tittle">
+            <div class="fl check">
+                <div class="choose"></div>
+            </div>
+            <ul class="tittle_list">
+                <li>全选</li>
+                <li>商品</li>
+                <li>数量</li>
+                <li>单价</li>
+                <li>金额</li>
+            </ul>
+        </div>
+        <div class="all_order">
+            <div class="fisrt_order">
+                <div class="companName clearfix">
+                    <div class="checkbox fl">
+                        <div class="choose"></div>
+                    </div>
+                    <p>爱特安为网络技术有限公司</p>
+                </div>
+                <div class="order_infor">
+                    <ul class="order_list clearfix" id="list01">
+                        <li>
+                            <div class="check">
+                                <div class="choose"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="pic fl">
+                                <img src="../images/shopcar-pic.jpg" alt="" />
+                            </div>
+                            <div class="pic_infor">
+                                <p class="font16">吉宏发财树</p>
+                                <p class="fl">规格：<span>90#/A级</span></p>
+                                <p>型号：hsjh</p>
+                            </div>
+                        </li>
+                        <li class="clearfix">
+                            <div class="minus fl"></div>
+                            <input class="numbers fl" type="text" value="0" />
+                            <div class="add fl"></div>
+                        </li>
+                        <li>7.5</li>
+                        <li class="colorrose">75</li>
+                    </ul>
+                    <ul class="order_list clearfix" id="list02">
+                        <li>
+                            <div class="check">
+                                <div class="choose"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="pic fl">
+                                <img src="../images/shopcar-pic.jpg" alt="" />
+                            </div>
+                            <div class="pic_infor">
+                                <p class="font16">吉宏发财树</p>
+                                <p class="fl">规格：<span>90#/A级</span></p>
+                                <p>型号：hsjh</p>
+                            </div>
+                        </li>
+                        <li class="clearfix">
+                            <div class="minus fl"></div>
+                            <input class="numbers fl" type="text" value="0" />
+                            <div class="add fl"></div>
+                        </li>
+                        <li>7.5</li>
+                        <li class="colorrose">75</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="second_order">
+                <div class="companName clearfix">
+                    <div class="checkbox fl">
+                        <div class="choose"></div>
+                    </div>
+                    <p>爱特安为网络技术有限公司</p>
+                </div>
+                <div class="order_infor">
+                    <ul class="order_list clearfix" id="list03">
+                        <li>
+                            <div class="check">
+                                <div class="choose"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="pic fl">
+                                <img src="../images/shopcar-pic.jpg" alt="" />
+                            </div>
+                            <div class="pic_infor">
+                                <p class="font16">吉宏发财树</p>
+                                <p class="fl">规格：<span>90#/A级</span></p>
+                                <p>型号：hsjh</p>
+                            </div>
+                        </li>
+                        <li class="clearfix">
+                            <div class="minus fl"></div>
+                            <input class="numbers fl" type="text" value="0" />
+                            <div class="add fl"></div>
+                        </li>
+                        <li>7.5</li>
+                        <li class="colorrose">75</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="bill">
+            <div class="check fl">
+                <div class="choose fl"></div>
+                <p>全选</p>
+            </div>
+            <p class="fl delete">删除选中的商品</p>
+            <p class="fl choosed">已选<span>2</span>件商品</p>
+            <p class="fl amount">总金额: <span>￥520.0</span></p>
+            <div class="balance fr">去结算</div>
+        </div>
+    </div>
+
+    <div class="pop_shoppingcar_bj"></div>
+    <div class="pop_shoppingcar">
+        <h3>删除商品</h3>
+        <p>确定要删除选定的商品？</p>
+        <div class="pop_shopc_btns">
+            <a class="fl no">取消</a>
+            <a class="fl yeah current">确定</a>
+        </div>
+    </div>
+
+</body>
+</html>

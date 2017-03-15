@@ -1,0 +1,273 @@
+<?php echo $this->headTitle($GoodsDetail['name']. $this->translate(''))->setSeparator(' - ')->setAutoEscape(false);?>
+<?php echo $this->headMeta()->setName('description', mb_substr($GoodsDetail['description'],0,300)); ?>
+<script>$(function(){showmenu();});</script>
+<script type="text/javascript">
+$(function(){
+	$('.small_img_box li').click(function(){
+		$('.small_img_box li').removeClass('on');
+		$(this).addClass('on');
+		$('.img_box img').attr('src',$(this).find('img').attr('src')).attr('jqimg',$(this).find('img').attr('src'));
+	});
+	jQuery('#spec-n5').slide({mainCell:'.small_img_box ul',effect:'left',autoPlay:false,vis:4,pnLoop:false});
+	
+});
+</script>
+		<div class="content w bc">
+				<!--web address -->
+				<p class="lh25px f14 mt20 ml20">
+					<a href="<?php echo $this->url('index',array('controller'=>'index','action'=>'index'))?>" class="f_color_gray">首页&nbsp;&gt;&nbsp;</a>
+					<a href="<?php echo $this->url('index',array('controller'=>'shop','action'=>'index'))?>" class="f_color_gray">精品广场&nbsp;&gt;&nbsp;</a>
+					<?php if($GoodsDetail['category_id']==0){?>
+					<a href="<?php echo $this->url('index',array('controller'=>'shop','action'=>'index'))?>" class="f_color_gray">全部&nbsp;&gt;&nbsp;</a>
+					<?php }else{foreach($GoodsCategory as $v){if($v['id']==$GoodsDetail['category_id']){?>
+					<a href="<?php echo $this->url('index',array('controller'=>'shop','action'=>'index','id'=>$v['id']))?>" class="f_color_gray"><?php echo $v['name']?>&nbsp;&gt;&nbsp;</a>
+					<?php break;}}}?>
+					<a class="f_color_gray"><?php echo $GoodsDetail['name']?></a>
+				</p>
+				<!-- web address end -->
+				<div class="con clearfix bg_white pt20 pb20 pl20 pr20 pr">
+					<div class="detail_img fl">
+						<div class="img_box" id="spec-n1" >
+						<?php foreach($GoodsDetail['gallery'] as $k=>$v){
+							echo '<img src="'.$v[1].'" jqimg="'.$v[0].'" />';
+							break;
+						}?>
+						</div>
+						<div id="spec-n5">
+							<div class="control prev" id="spec-left">
+								<img src="<?php echo ROOT_PATH?>images/left.png">
+							</div>
+							<div class="small_img_box">
+								<ul class="clearfix">
+								<?php foreach($GoodsDetail['gallery'] as $k=>$v){
+									echo '<li class="fl mr5 '.($k==0 ? 'on' : '').'"><img src="'.$v[0].'"></li>';
+								}?>
+								</ul>
+							</div>
+							<div class="control next" id="spec-right">
+								<img src="<?php echo ROOT_PATH?>images/right.png">
+							</div>
+						</div>
+					</div>
+					<script type=text/javascript>
+						$(function(){			
+						   $(".img_box").jqueryzoom({
+								xzoom:360,
+								yzoom:270,
+								offset:10,
+								position:"right",
+								preload:1,
+								lens:1
+							});
+//							$(".small_img_box").jdMarquee({
+//								deriction:"left",
+//								width:350,
+//								height:62,
+//								step:2,
+//								speed:4,
+//								delay:10,
+//								control:true
+//							});
+						})
+						</script>
+					
+					<div class="detail_text fl ml20">
+						<div class="border_b" style="width:100%">
+							<h2 class=""><?php echo $GoodsDetail['name']?></h2>
+						</div>
+						<div class="clear"></div> 
+						<div class="fl">
+							<p class="f14 mt10 lh20px"><?php echo $GoodsDetail['description']?></p>
+						</div>
+						<div class="clear"></div>
+						
+						<?php if(($GoodsDetail['golden_cat']>0 || $GoodsDetail['cash_group']>0 || $GoodsDetail['cash']>0) && $GoodsDetail['silver_cat']==0 &&$GoodsDetail['silver_cat_group']==0){?>
+						<div class="fl price bold">￥&nbsp;<span><?php echo floatval($GoodsDetail['cash_group'])?></span></div>
+						<?php }?>
+						<?php if($GoodsDetail['golden_cat']>0 && $GoodsDetail['cash_group']>=0){?>
+						<div class="fl price bold">&nbsp;+&nbsp;</div>
+						<?php }?>
+						<?php if($GoodsDetail['golden_cat']>0){?>
+						<div class="fl price bold">金猫&nbsp;<span><?php echo floatval($GoodsDetail['golden_cat'])?></span></div>
+						<?php }
+						else {?>
+						
+						<div class="fl price bold">￥&nbsp;<span class="f_color_red f14 bold"><?php echo floatval($GoodsDetail['cash'])?></span></div>
+						<?php if($GoodsDetail['cash']>=0 && $GoodsDetail['silver_cat_group']>=0 ){?>
+						<div class="fl price bold">&nbsp;+&nbsp;</div>
+						<?php }?>
+						<?php if($GoodsDetail['silver_cat_group']>=0){?>
+						<div class="fl price bold">银猫&nbsp;<span class="f_color_red f14 bold"><?php echo floatval($GoodsDetail['silver_cat_group'])?></span></div>
+						<?php }?>
+						<?php }?>
+						
+							<?php if($GoodsDetail['silver_cat']==0 && $GoodsDetail['silver_cat_group']==0){?>
+						<div class="fl price bold">&nbsp;&nbsp;&nbsp;￥&nbsp;<span class="f_color_red f14 bold"><?php echo floatval($GoodsDetail['cash'])?></span></div>
+						<?php }?>
+						<?php if($GoodsDetail['golden_cat']==0 && $GoodsDetail['cash_group']==0 &&($GoodsDetail['silver_cat']>0||$GoodsDetail['silver_cat_group']>0)){?>
+						<div class="fl price bold">&nbsp;&nbsp;&nbsp;银猫&nbsp;<span class="f_color_red f14 bold"><?php echo floatval($GoodsDetail['silver_cat'])?></span></div>
+						<?php }?>
+					
+						<div class="clear"></div>
+						
+						
+						<div class="f18 ">
+						<form action="<?php echo $this->url('index',array('controller'=>'shop','action'=>'exchange','id'=>$id))?>" method="post">
+						    <span style="font-size: 18px;font-weight:bold;">兑换数量：<input type="button"  value="-" id="redu" /><input type="number" style="font-size: 16px;height:23px;line-height:23px;" class="numb tc" name="number" min="1" max="<?php echo $GoodsDetail['number'];?>" step="1" value="1" id="goods_count" /><input id="add" type="button"  value="+" /></span><br /><br />
+						    <input type="button" value="立即兑换" class="detail_btn  f_color_white" id="getIn" />&nbsp;库存<span><?php echo $GoodsDetail['number']?></span>件
+						</form>
+						<script type="text/javascript"> 
+						$('#redu').click(function()
+						{
+							if($('.numb').val()>0)
+							{
+								$('.numb').val(parseInt($('.numb').val())-1);
+							}
+						});
+						$('#add').click(function()
+						{
+								$('.numb').val(parseInt($('.numb').val())+1);
+						});
+						
+						</script>
+						</div>
+						<p class="mt10 f_color_gray">服务承诺：正品行货&nbsp;按时发货&nbsp;全场包邮</p>
+                        <div class="bdsharebuttonbox mt10"><a href="#" class="bds_more" data-cmd="more">分享到：</a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"6","bdMiniList":["mshare","qzone","tsina","weixin","renren","tqq","kaixin001","tqf","tieba","douban","tsohu","bdhome","sqq","thx","ibaidu","meilishuo","mogujie","diandian","huaban","duitang","hx","fx","youdao","sdo","qingbiji","people","mail","isohu","yaolan","copy","print"],"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16},"image":{"viewList":["weixin","qzone","tsina","tqq"],"viewText":"分享到：","viewSize":"16"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+					</div>
+				</div>
+				<div class="mt20 clearfix">
+					<div class="fl w195">
+						<div class="border_b">
+							<div class="detail_info f_color_red f14">精品热销</div>
+						</div>
+                        <ul class="border_top">
+                            <?php foreach($this->topSix as $v){?>
+                            <li class="pl10 pr10 pb10 mb10 bg_white">
+                                <div class="p_img tc pt5 pb5">
+                                    <a href="<?php echo $this->url('index',array('controller'=>'shop','action' =>'detail','id'=>$v['id'])); ?>">
+                                        <img src="<?php echo $v['image_url']; ?>">
+                                    </a>
+                                </div>
+                                <a class="f14" href="<?php echo $this->url('index',array('controller'=>'shop','action' =>'detail','id'=>$v['id'])); ?>" class="lh150">
+                                    <?php echo $v['name']?>
+                                </a>
+                                <p class="mt5">
+                                    
+                                    <a href="<?php echo $this->url('index',array('controller'=>'shop','action' =>'detail','id'=>$v['id'])); ?>">
+                                        <?php if($v['golden_cat'] > 0 ){?>
+                                        <span class="f_color_red">
+                                        <?php echo $v['golden_cat']; ?>
+                                        </span>金猫
+                                        <?php echo $v['golden_cat']>0 && $v['silver_cat']>0 ? '+' : ''; ?>
+                                        <?php } if($v['silver_cat'] > 0 ){?>
+                                        <span class="f_color_red">
+                                        <?php echo $v['silver_cat']; ?>
+                                        </span>银猫
+                                        <?php } ?>
+                                    </a>
+                                </p>
+                            </li>
+                            <?php } ?>
+                        </ul>
+
+                    </div>
+					<div class="fr w960 bg_white pb30 border_l border_r border_b">
+						<div class="border_b">
+							<div class="detail_info f_color_red f14">商品详情</div>
+						</div>
+						<div class="pt20 pb20 pl20 pr20">
+						<?php if(''!=stripslashes($GoodsDetail['content'])){?>
+							<?php echo stripslashes($GoodsDetail['content'])?>
+						<?php }else{?>
+							<p class="tc f_color_gray" style="font-size:30px;">该商品暂无详情</p>
+						<?php }?>
+						</div>
+					</div>
+				</div>
+		</div>
+
+        <div class="alert cat">
+            <div class="alert_bg"></div>
+            <div class="alert_atricle">
+                <h2>您的金猫和银猫的余额不够本次消费！<br/>
+                    可以通过以下方法快速获取金猫和银猫：</h2>
+                <ul>
+                    <li>1、到猫王联盟的商家进行充值金猫；</li>
+                    <li>2、下载猫王联盟APP，参与签到、摇钱树等活动中获取银猫；</li>
+                    <li>3、到猫王联盟商家消费获得金猫和银猫；</li>
+                    <li>4、推荐朋友注册会员获得银猫；</li>
+                    <li>5、通过兑换把银猫转换成金猫；</li>
+                </ul>
+                <div class="btn_alert">我知道了</div>
+            </div>
+        </div>
+
+        <div class="alert other">
+            <div class="alert_bg"></div>
+            <div class="alert_atricle">
+                <h3></h3>
+                <div class="btn_alert">我知道了</div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            $('.btn_alert').click(function()
+            {
+                $('.alert').hide();
+            })
+        </script>
+        <script type="text/javascript">
+            $('#getIn').click(function setJson()
+            {
+                var payType= 2;//1微信  2支付宝
+                var json = new Object();
+                json.n = 'OrderSubmit';
+                json.q = new Object();
+                json.q.a = 4;
+                json.q.id = "<?php echo $id; ?>";
+                json.q.number = $('#goods_count').val();
+                json.q.contactsId = "1";
+                json.q.payType = payType;
+                json.q.priceMode = 1;
+                $.post("<?php echo $this->url('index-lottery',array('action'=>'getJson'));?>", {request: json},
+                    function(data)
+                    {
+                        data = $.parseJSON(data);
+                        if(data.error == 1000){
+                            $('.other').find('h3').text('请在登录后操作！');
+                            $('.other').show();
+                            window.location.href = "<?php echo $this->url("index",array('controller'=>'user','action'=>'login'));?>";
+                        }
+                        if(data.q.s == 0)
+                        {
+                            $('.other').find('h3').text(data.q.d);
+                            $('.other').show();
+                            transferNo = data.q.transferNo;
+                            cash = data.q.cash;
+                            if(payType == 1) 
+                            {
+                            	
+                            }
+                            else if(payType == 2)
+                            {
+                            	window.location.href = "<?php echo $this->url("index",array('controller'=>'user','action'=>'submitPay'));?>"+'?payType='+payType+'&transferNo='+transferNo;
+                            }
+                            
+                            
+                           /// window.location.href = "<?php echo $this->url("index",array('controller'=>'user','action'=>'record'));?>";
+                        }
+                        else if(data.q.s == 1302 || data.q.s == 1303)
+                        {
+                            $('.cat').show();
+                        }
+                        else if(data.q.s == 1401)
+                        {
+                            $('.other').find('h3').text(data.q.d);
+                            $('.other').show();
+                        }
+
+                    });
+                return false;
+            });
+        </script>

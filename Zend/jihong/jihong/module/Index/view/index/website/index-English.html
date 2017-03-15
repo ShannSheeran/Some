@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>吉宏园艺</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="css/base.css">
+<link rel="stylesheet" type="text/css" href="css/index-Englisha.css">
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript">
+    $(function(){
+        // 发送成功弹窗
+         $('.main .main_l .form .btn').click(function(event) {
+             $('.send_success').show();
+             $('.popbj').show();
+         });
+         // 发送成功弹窗关闭
+         $('.send_success .success').click(function(event) {
+             $('.send_success').hide();
+             $('.popbj').hide();
+         });
+    })
+</script>
+</head>
+<body>
+    <div class="header">
+        <div class="header_bd wrap">
+            <p class="contact">联系我们：400-650-750</p>
+            <div class="login">
+                <ul>
+                    <li><a href="">登陆</a></li>
+                    <li class="fist_line">|</li>
+                    <li><a href="">English</a></li>
+                    <li class="sec_line">|</li>
+                    <li><a href="">日本语</a></li>
+                </ul>
+            </div>
+        
+        </div>
+    </div>
+
+    <div class="header_bot">
+        <div class="wrap">
+            <div class="header_bot_l"></div>
+            <div class="header_bot_r">
+                <ul class="nav">
+                    <li><a class="current" href="">首页</a></li>
+                    <li><a href="">关于吉宏</a></li>
+                    <li><a href="">吉宏梦</a></li>
+                    <li><a href="">盆栽交易平台</a></li>
+                    <li><a href="">吉宏发财树</a></li>
+                    <li><a href="">行业信息</a></li>
+                    <li><a href="">联系我们</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="banner"></div>
+    <div class="main wrap clearfix">
+        <div class="main_l fl">
+            <h2 class="tittle">Message boards</h2>
+            <div class="form">
+                <input class="corgray6" type="text" placeholder="Name" />
+                <input class="corgray6 mt20" type="text" placeholder="E-mail" />
+                <textarea class="corgray6 mt20" name="" id="" cols="30" rows="10" placeholder="Message"></textarea>
+                <input class="btn font18 corgrayf" type="button" value="Send Message" />
+            </div> 
+        </div>
+        <div class="main-r fr">
+            <div class="contact">
+                <h3 class="font18 corgrayf">Contact Us</h3>
+                <div class="contact_tixbox">
+                    <p class="corgray6">address：Guangzhou , Liwan District Longxi Road</p>
+                    <p class="corgray6">Flower Technology Park Yilin Street No. 18</p>
+                    <p class="corgray6">Postcodes：510375</p>
+                    <p class="corgray6">Tel：020-81522108</p>
+                    <p class="corgray6">Fax：020-81413138</p>
+                    <p class="corgray6">E-mail：info@ji-hong.cn</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="popbj"></div>
+    <div class="send_success">
+        <p>Thank you for your enquiry and it isquite easy to get access to our service </p>
+        <p class="success">close</p>
+    </div>
+</body>
+</html>

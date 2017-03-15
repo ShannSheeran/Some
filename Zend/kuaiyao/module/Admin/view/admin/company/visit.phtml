@@ -1,0 +1,106 @@
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="tex/html; charset=gb2312">
+	<script type="text/javascript" src="<?php echo ROOT_PATH.'js/line/jquery.min.js'?>"></script>
+	<script type="text/javascript" src="<?php echo ROOT_PATH.'js/line/highcharts.js'?>"></script>
+	<script type="text/javascript" src="<?php echo ROOT_PATH.'js/line/exporting.js'?>"></script>
+	<script type="text/javascript" src="<?php echo ROOT_PATH.'js/line/date.js'?>"></script>
+	<form action="<?php echo $this->url('admin-company',array('action'=>'visit'))?>" method="post" name="form1">
+		<select name="YYYY">
+			<?php foreach($year as $v){?>
+			<option <?php if($v==$se_year){echo "selected";}?>><?php echo $v;?></option>
+			<?php }?>
+		</select>
+		<select name="MM">
+			<?php foreach($month as $v){?>
+				<option <?php if($v==$se_month){echo "selected";}?> ><?php echo $v;?></option>
+			<?php }?>
+		</select>
+		<input type="submit" value="搜索">
+	</form>
+	<script>
+
+	$(function () {
+		$('#container').highcharts({
+			title: {
+				text: '公司访问量',
+				x: -20 //center
+			},
+			subtitle: {
+				text: '',
+				x: -20
+			},
+			xAxis: {
+				categories: <?php echo $date;?>
+			},
+			yAxis: {
+				title: {
+					text: ''
+				},
+				plotLines: [{
+					value: 0,
+					width: 1,
+					color: '#808080'
+				}]
+			},
+			tooltip: {
+				valueSuffix: ''
+			},
+			legend: {
+				layout: 'vertical',
+				align: 'right',
+				verticalAlign: 'middle',
+				borderWidth: 0
+			},
+			series: [{
+				name: '公司访问量',
+				data: <?php echo $data;?>
+			}]
+		});
+	});
+
+  </script>
+  <style type="text/css">
+	#container{
+		width:70%;
+		margin-left:300px;
+	}
+	.table{
+		width:70%;
+		margin-left:300px;
+		margin-top:20px;
+	}
+	.hide{
+		display: none;
+	}
+	.data{
+		text-align: center;
+	}
+  </style>
+</head>
+<body>
+<?php if($total!==0){?>
+  <div id="container" style="min-width:700px;height:400px"></div>
+
+  <table class="table table-bordered table-striped" id="example-4">
+	  <thead>
+	  <tr>
+		  <th>时间</th>
+		  <th>公司访问量</th>
+	  </tr>
+	  </thead>
+	  <tbody>
+	  <?php foreach($info['list'] as $v){?>
+		  <tr>
+			  <td><?php echo$v['date']?></td>
+			  <td><?php echo$v['value']?></td>
+		  </tr>
+	  <?php }?>
+	  </tbody>
+  </table>
+<?php }else{?>
+	<h3 class="data">暂无数据</h3>
+<?php }?>
+</body>
+</html>

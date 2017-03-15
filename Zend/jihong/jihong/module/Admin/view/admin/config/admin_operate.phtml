@@ -1,0 +1,159 @@
+<style>
+    .tl{text-align: right;}
+    .main-nody{padding:5px 20px 0 20px;}
+    .main-nody h5{float: left;}
+    .tp{margin-top: 30px;}
+    .bc-1{display: none;}
+    .fl{float: left;}
+    .pd5{
+        padding:5px;	
+    }
+    .cr{
+    	color:red;
+    }
+</style>
+<div class="panel panel-default">
+   <div class="panel-heading">
+       <div calss="row">
+           <div class="col-sm-6">
+              <a href="<?php echo $this->url('admin-config' , array('action' => 'adminList')); ?>">管理员管理 
+              / 
+              <a href="<?php echo $this->url('admin-config' , array('action' => 'adminList')); ?>">管理员列表</a>
+              / 
+              <a href=""><?php echo isset($id) && $id ? '编辑管理员' : '新增管理员'; ?></a>
+           </div>
+       </div>
+   </div>
+    <div class="pannel-body main-nody">
+    <?php if($id){ ?>
+    <form class="form-horizontal" action="<?php echo $this->url('admin-config' , array('action' =>'editAdmin')); ?>" method="post" >
+    <?php }else{ ?>
+    <form class="form-horizontal" action="<?php echo $this->url('admin-config' , array('action' =>'addAdmin')); ?>" method="post" >
+    <?php } ?>
+        <div class="row">
+            <div class="col-lg-12">
+                <h5>新增管理员</h5>
+            </div>
+            <div class="col-lg-12">
+                <table class="table table-striped" id="example-4" >
+                    <tbody>
+                        <tr>
+                            <td>管理员类型</td>
+                            <td>
+                                <select class="pd5" id="category" name="admin_category_id" required>
+                                    <?php foreach ($category_list as $key =>  $item): ?>
+                                    <option value="<?php echo $key; ?>" <?php if( isset($admin_info->admin_category_id) && $key == $admin_info->admin_category_id){ echo 'selected'; } ?> ><?php echo $item->name; ?></option>
+                                    <?php endforeach;?>
+                                </select>
+                                <span class="cr"> * </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>管理员姓名</td>
+                            <td>
+                                <input type="text" name="real_name" value="<?php echo isset($admin_info->real_name) ? $admin_info->real_name : '';?>" class="pd5" placeholder="请输入管理员姓名" required>
+                                 <span class="cr"> * </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>手机号码</td>
+                            <td>
+                                <input type="mobile" pattern="[0-9]{11}" data_type="mobile" name="mobile"  value="<?php echo isset($admin_info->mobile) ? $admin_info->mobile : '';?>" class="pd5" placeholder="请输入管理员手机号码" maxlength="11" minlength="11">
+                             </td>
+                        </tr>
+                        <tr>
+                            <td>QQ</td>
+                            <td>
+                                <input type="number" name="qq" min="0" value="<?php echo isset($admin_info->qq) ? $admin_info->qq : '';?>" class="pd5" placeholder="请输入管理员QQ" required>
+                                 <span class="cr"> * </span>
+                             </td>
+                        </tr>
+                        <tr>
+                            <td> 登录账号</td>
+                            <td>
+                                <input type="text" name="name" value="<?php echo isset($admin_info->name) ? $admin_info->name : '';?>" class="pd5" placeholder="请输入管理员登录账号" required>
+                                <span class="cr"> * </span>
+                             </td>
+                        </tr>
+                        <tr>
+                            <td> 登录密码</td>
+                            <td>
+                                <input type="password" name="password" value="" class="pd5" placeholder="请输入管理员登录密码" maxLength="15" minLength="3" <?php echo isset($id) && $id ? '': 'required' ?>>
+                                <span class="cr"> * <?php echo isset($admin_info->password) ? '不修改密码，则保留原密码' : '';?> </span>
+                             </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row tp">
+            <div class="col-lg-12">
+                <h5>管理员权限</h5>
+            </div>
+            <div class="col-lg-12">
+                <table class="table table-striped privList" id="example-4">
+                    <tbody>
+                        <tr>
+                            <td width="10%;">首页</td>
+                            <td>首页</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        
+        <div class="row">
+            <div class="col-lg-12">
+                <h5></h5>
+            </div>
+            <div class="col-lg-12">
+                <table class="table table-striped" id="example-4">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input type="hidden" name="id" value="<?php echo isset($admin_info->id) ? $admin_info->id : '';?>">
+                                <input type="submit" name="submit" value="保存" class="btn btn-info"  id="addAdminType" >
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function getPermission()
+{
+	 var id = $("#category").val();
+	 console.log(id);
+	 if(id)
+    {
+        $.post("<?php echo $this->url('admin-config' , array('action' => 'getPermissionList'))?>" ,{'id':id} , function(data){
+            console.log(data);
+            var htmlText= '<tbody>';
+            for(i in data)
+            {
+            	htmlText += '<tr><td width="20%;">'+ data[i].name +'</td><td>';
+            	for(k in data[i].priv)
+            	{
+                	if(data[i].priv[k].cando == 1)
+                	{
+                		htmlText +=  data[i].priv[k].name + '，&nbsp;&nbsp;'
+                	}
+            	}
+            	htmlText += '</td></tr>';
+            }
+            $('.privList').html(htmlText);
+        },"json");
+    }
+}
+getPermission();
+
+$("#category").change(function(){
+	getPermission();
+});
+</script>

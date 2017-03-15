@@ -1,0 +1,142 @@
+<!--         <link rel="stylesheet" href="<?php echo $this->basePath();?>/css/platform/base.css" />
+        <link rel="stylesheet" href="<?php echo $this->basePath();?>/css/platform/content.css" />
+        <link rel="stylesheet" href="<?php echo $this->basePath();?>/css/platform/user.css" />
+        <link rel="stylesheet" href="<?php echo $this->basePath();?>/css/platform/page.css" /> -->
+        <link rel="stylesheet" href="<?php echo $this->basePath();?>/css/admin/jedate.css" />
+        <script src="<?php echo $this->basePath();?>/js/admin/jedate.min.js"></script>
+        <script type="text/javascript">
+        $(function(){
+            $('.user_center ul li').click(function(){
+                $(this).addClass('on').siblings().removeClass('on');
+            })
+            //$('.my_goods_list li:first-child').addClass('on');
+            $('.my_goods_list li').click(function(){
+                $(this).addClass('on').siblings().removeClass('on');
+            })
+        })
+        </script>
+                <div class="user_content_right">
+                    <h2 class="goods_h2">我的商品</h2>
+                    <ul class="my_goods_list">
+                        <li class="<?php echo (!in_array($status, array(1,2,3))) ? 'on' : ''; ?>">
+                            <a href="<?php echo $this->url('index',array('controller'=>'user','action'=>'myGoods'))?>">全部商品</a>
+                            <?php if($goods_all_count){echo "<i>".$goods_all_count."</i>";}?>
+                        </li>                        
+                        <li class="<?php echo ($status == 1) ? 'on' : ''; ?>">
+                            <a href="<?php echo $this->url('index',array('controller'=>'user','action'=>'myGoods','status'=>1))?>">待审核</a>
+                            <?php if($goods_wait_count){echo "<i>".$goods_wait_count."</i>";}?>
+                        </li>
+                        <li class="<?php echo ($status == 2) ? 'on' : ''; ?>">
+                            <a href="<?php echo $this->url('index',array('controller'=>'user','action'=>'myGoods','status'=>2))?>">已审核</a>
+                            <?php if($goods_through_count){echo "<i>".$goods_through_count."</i>";}?>
+                        </li>
+                        <li class="<?php echo ($status == 3) ? 'on' : ''; ?>">
+                            <a href="<?php echo $this->url('index',array('controller'=>'user','action'=>'myGoods','status'=>3))?>">已上架</a>
+                            <?php if($goods_up_count){echo "<i>".$goods_up_count."</i>";}?>
+                        </li>                       
+                    </ul>
+                    <div class="clear"></div>
+                    <div class="my_good_time clearfix" style="height: 62px;">
+                        <div class="release_time">
+                        <form action="<?php $this->url('index' , array('controller'=>'service','action' => 'index')) ?>" method="get" id="byTime">
+                          <span class="fl">发布时间：</span>
+                          <div class="start_time">
+                            <input type="text"  name="start_time" readonly id="start_time" class="datainp time_input" placeholder="请选择" value="<?php echo isset($start_time) ? $start_time :''?>"/>
+                            </div>
+                            <div class="to">至</div>
+                            <div class="over_time">
+                            <input type="text"  name="end_time"  readonly id="end_time"  class="datainp time_input" placeholder="请选择" value="<?php echo isset($end_time) ? $end_time :''?>"/>
+                            </div>
+                            <div class="btn_sure" onclick="Search('sure')">确定</div>
+                        </form>
+                        </div>
+                        <form action="<?php $this->url('index' , array('controller'=>'service','action' => 'index')) ?>" method="get" class="my_goods_search" id="byKeyword">
+                            <div class="clearfix search_box pr">
+                              <div class="fl">
+                                <input type="text" class="search_input" placeholder="请输商品名称" value="<?php echo isset($keyword) ? $keyword :''?>" name="keyword" onfocus=";">
+                                </div>
+                                <div class="fr"><input type="button" class="search_btn" value="搜索" onclick="Search('search')"></div>
+                            </div>
+                        </form> 
+                    </div>
+                    <div class="my_good_center">
+                      <ul class="my_good_list">
+                        <li class="my_good_number">商品名称</li>
+                        <li class="my_good_placetime">发布时间</li>
+                        <li class="my_good_univalent">商品单价</li>
+                        <li class="my_good_supplynum">供应数量</li>
+                        <li class="my_good_state">商品状态</li>
+                        <li class="my_good_operation">操作</li>
+                    </ul>
+                    <ul class="my_good_content">
+                    <?php if(!empty($goods)):?>
+                    <?php foreach ($goods as $v):?>
+                        <li>
+                          <div class="my_good_number"><?php echo $v->name?>
+                          </div>
+                          <div class="my_good_placetime"><?php echo $v->timestamp?>
+                          </div>
+                          <div class="my_good_univalent">￥<?php echo number_format($v->min_cash,1)?>
+                          </div>
+                          <div class="my_good_supplynum"><?php echo $v->number?>
+                          </div>
+                          <?php foreach ($goodsStatus as $n=>$m):?>
+                          <?php if($n == $v->status):?>
+                          <div class="my_good_state"><?php echo $m?>
+                          </div>
+                          <?php endif;?>
+                          <?php endforeach;?>
+                          <div class="my_good_operation">
+                            <a href="<?php echo $this->url('index' , array('controller'=>'user','action' => 'myGoodsDetail','id'=>$v->id)) ?>">查看</a>
+                        </div>
+                    </li>
+                    <?php endforeach;?>
+                    <?php endif;?>
+                </ul>
+            </div>
+            <div class="clear"></div>
+            <?php echo $this->paginationControl($paginator, 'Sliding', 'layout_index/page',array('route' =>'index','condition'=>$condition));?>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+        var start ={
+        		dateCell:"#start_time",
+        		format:"YYYY-MM-DD",
+        		isinitVal:false,
+        		isTime:true, 
+        		maxDate: jeDate.now(0),
+        		minDate:"1970-01-01",
+        		choosefun: function(datas){
+        			end.minDate = datas;
+        	    }
+        	};
+        var end ={
+        	dateCell:"#end_time",
+        	format:"YYYY-MM-DD",
+        	isinitVal:false,
+        	isTime:true,
+        	minDate:"1970-01-01",
+        	maxDate: jeDate.now(0),
+        	choosefun: function(datas){
+                start.maxDate = datas;
+            }
+        }
+        jeDate(start);
+        jeDate(end);
+        </script>
+        <script type="text/javascript">
+        function Search(str)
+        {
+            if(str == 'sure')
+            {
+                $("#byTime").submit();
+                }else if(str == 'search')
+                {
+                    $("#byKeyword").submit();
+                    }else
+                    {
+                        return false;
+                        }
+            }
+        </script>

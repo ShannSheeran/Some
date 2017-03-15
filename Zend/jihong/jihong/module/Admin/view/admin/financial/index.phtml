@@ -1,0 +1,93 @@
+<script src="<?php echo $this->basePath();?>/js/admin/jedate.min.js"></script>
+<style>
+	.dataTables_info{
+		display:none;
+	}
+	.dataTables_paginate{
+		display: none;
+	}
+	.bc-1{display: none;}
+	.col-sm-5{display: none;}
+	.col-sm-7{display:none;}
+</style>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+        <a href="">财务管理 / <a href="">财务记录</a>
+		</h3>
+	</div>
+	
+	<div class="panel-body">
+    	<div class="" style="float:right;">
+            <form class="form-horizontal" action="<?php $this->url('admin-order' , array('action' => 'index')) ?>" method="get" style="float: left; margin-left: 20px;">
+            <span style="font-weight: bold; font-size: 14px;">申请日期：</span>
+			<input class="datainp" id="start_time" type="text" placeholder="请选择"  readonly value="<?php echo isset($start_time) ? $start_time :''?>" name="start_time"  style="line-height:22px;width:160px">
+            <span style="font-weight: bold; font-size: 14px;">到：</span>
+			<input class="datainp" id="end_time" type="text" placeholder="请选择"  readonly value="<?php echo isset($end_time) ? $end_time :''?>" name="end_time"  style="line-height:22px;width:160px">
+			<span style="font-weight: bold; font-size: 14px;"> 关键词 :</span>
+			<input type="text" name="keyword" value="<?php echo isset($keyword) ? $keyword :''?>" placeholder="请输入订单号/企业名称搜索" style="line-height: 26px" >
+			<select style="padding: 5px" name="type">
+			     <option value="0">全部类型</option>
+			     <?php foreach ($financial_type as $key => $value): ?>
+			     <option value="<?php echo $key?>" <?php if(isset($type) && $type ) echo 'selected';?>><?php echo $value?></option>
+			     <?php endforeach; ?>
+			</select>
+			<input type="submit"  value="搜索" class="btn btn-info" style="height: 26px; width: 60px; line-height: 26px; padding: 0; margin-left: 10px; margin-top: 5px;" />
+		    </form>
+    	</div>
+    	<div style="clear:both;"></div>
+		<table class="table table-bordered table-striped" id="example-4">
+			<thead>
+				<tr>
+					<th>企业名称</th>
+					<th>企业类型</th>
+					<th>操作类型</th>
+					<th>操作金额</th>
+					<th>操作后账户余额</th>
+					<th>备注</th>
+					<th>操作时间</th>
+				</tr>
+			</thead>
+			<tbody>
+			    <?php foreach ($financial_list as $value): ?>
+                <tr class="tr_list" valign="middle">
+					<td><?php echo $value->company_name; ?></td>
+					<td><?php echo $enterpris_type[$value->user_type]; ?></td>
+					<td><?php echo $financial_type[$value->type]; ?></td>
+					<td><?php echo $value->cash; ?></td>
+					<td><?php echo $value->cash_after; ?></td>
+					<td><?php echo $value->description; ?></td>
+					<td><?php echo $value->timestamp; ?></td>
+				</tr>
+				<?php endforeach;?>
+            </tbody>
+		</table>
+        <?php echo $this->paginationControl($paginator, 'Sliding', 'page',array('route' =>'admin-financial','condition'=>$condition));?>       </div>
+</div>
+
+<script type="text/javascript">
+var start ={
+		dateCell:"#start_time",
+		format:"YYYY-MM-DD hh:mm:ss",
+		isinitVal:false,
+		isTime:true, 
+		maxDate: jeDate.now(0),
+		minDate:"1970-01-01 00:00:00",
+		choosefun: function(datas){
+			end.minDate = datas;
+	    }
+	};
+var end ={
+	dateCell:"#end_time",
+	format:"YYYY-MM-DD hh:mm:ss",
+	isinitVal:false,
+	isTime:true,
+	minDate:"1970-01-01 00:00:00",
+	maxDate: jeDate.now(0),
+	choosefun: function(datas){
+        start.maxDate = datas;
+    }
+}
+jeDate(start);
+jeDate(end);
+</script>

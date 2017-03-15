@@ -1,0 +1,357 @@
+<!-- 地址选择 -->
+<style type="text/css">
+*{
+	color:#666;
+}
+body{
+	background: #ededed;
+}
+input{
+	font-size: 14px;
+	border:none;
+	background: none;
+}
+.payTop{
+	width:1100px;
+	margin:0 auto;
+	height: 50px;
+	line-height: 50px;
+}
+.payTop h2{
+	float: left;
+	margin-left: 45px;
+}
+.payTop a{
+	float: right;
+	margin-right: 45px;
+	color:#ff7143;
+}
+form .main{
+	width:1010px;
+	margin:0 auto;
+	background: #fff;
+	padding:0 45px;
+}
+form  .main h3{
+	line-height: 40px;
+	margin-bottom: 15px;
+}
+.main .information,.main .coupon,.main .invoice,.main .payment{
+	border-bottom: 1px solid #eee;
+	padding:15px 0;
+}
+.main .information input{
+	margin-right: 10px;
+	padding:5px;
+	border-radius: 5px;
+	margin-bottom: 10px;
+}
+.main .information .name{
+	width:100px;
+}
+.main .information .mobile{
+	width:150px;
+}
+.main .information .site{
+	width:530px;
+}
+.main .merchandise{
+	padding:20px 0 15px 0;
+	border-bottom: 1px solid #eee;
+	overflow: hidden;
+}
+.main .merchandise img{
+	float: left;
+	width:120px;
+	height: 120px;
+	border:1px solid #e2e2e2;
+	margin-right: 40px;
+}
+.main .merchandise div{
+	float: left;
+}
+.main .merchandise div p{
+	font-size: 24px;
+	color:#333;
+	margin-bottom: 10px;
+}
+.main .merchandise div i{
+	color: #fe0000;
+	font-size: 36px;
+	font-weight: bold;
+	font-style: normal;
+}
+.main .merchandise div ul{
+	width:120px;
+	border:1px solid #ff7143;
+	overflow: hidden;
+	margin-top:9px;
+}
+.main .merchandise div ul li{
+	float: left;
+	text-align: center;
+
+}
+.main .merchandise div ul li a{
+	display: inline-block;
+	width: 28px;
+	color: #ff7143;
+	font-size: 32px;
+	line-height: 30px;
+}
+.main .merchandise div ul li input{
+	width: 60px;
+	border:none;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	color: #ff7143;
+	font-size: 20px;
+}
+.main .coupon h3{
+	background: url(<?php echo $this->basePath();?>/images/small/tuijian.png) no-repeat 90px center;
+}
+.main .coupon div{
+	margin-left: 25px;
+	margin-bottom: 5px;
+}
+.main .coupon div input{
+	padding:5px;
+	border-radius: 5px;
+	text-align: center;
+	margin:0 10px;
+	margin-right: 45px;
+}
+.main .coupon div .add{
+	color:#0000fe;
+	display: none;
+}
+.main .coupon div .delete{
+	color:#fc0000;
+	display: none;
+}
+.main .coupon .yes{
+	background: url(<?php echo $this->basePath();?>/images/small/gou.png) no-repeat 270px center;)
+}
+.no{
+	background: url(<?php echo $this->basePath();?>/images/small/cha.png) no-repeat 270px center;)
+}
+.main .invoice .bill{
+	background: url(<?php echo $this->basePath();?>/images/small/dui.png) no-repeat center left;
+}
+.main .invoice div{
+	margin-left: 15px;
+}
+.main .invoice div .checked{
+	border:1px solid #ff7143;
+	color: #ff7143;
+}
+.main .invoice div input{
+	width: 270px;
+	padding:10px;
+	border-radius: 5px;
+	text-align: center;
+	display: block;
+	margin-top:15px;
+}
+.main .payment{
+	overflow: hidden;
+}
+.main .payment ul{
+	margin-left: 25px;
+}
+.main .payment ul li{
+	float: left;
+	margin-right: 40px;
+	cursor: pointer;
+}
+.main .payment ul li img{
+	opacity: 0.5;
+}
+.payoff{
+	width:1100px;
+	margin:25px auto 30px auto;
+	overflow: hidden;
+}
+.payoff div{
+	float: right;
+}
+.payoff div span{
+	font-size: 20px;
+	vertical-align: bottom;
+	margin-right: 30px;
+}
+.payoff div span strong{
+	font-size: 36px;
+	color:#fe0000;
+	vertical-align: bottom;
+}
+.payoff div input{
+	width:200px;
+	height: 55px;
+	background: #ff7143;
+	color: #fff;
+	border:none;
+	font-size: 22px;
+}
+.form-control{
+	margin-right: 10px;
+	padding: 5px;
+	border-radius: 5px;
+	border: 1px solid #ddd;
+	margin-bottom: 10px;
+}
+.weixin{
+	position:fixed;
+	width:360px;
+	border:1px solid #ddd;
+	top:50%;
+	left: 50%;
+	margin-left: -180px;
+	margin-top: -180px;
+	background: #fff;
+	text-align: center;
+	display: none;
+}
+.weixin img{
+	width: 250px;
+	margin:10px 0;
+}
+.weixin p{
+	line-height: 30px;
+}
+.weixin .close{
+	position: absolute;
+	top:-5px;
+	right: 5px;
+	font-size: 30px;
+}
+</style>
+	<?php /*echo "<pre>";print_r($region_info);*/?>
+	<div class="payTop">
+		<h2>订单信息</h2>
+		<a href="<?php echo $this->url('index',array('controller'=>'user','action'=>'buyDetails'));?>" target="_blank">查看产品详情</a>
+	</div>
+	<div class="clear"></div>
+	<form action="" method="post" style="height: 775px">
+		<div class="main">
+			<div class="information">
+				<!--<h3>收货人信息</h3>-->
+				<ul>
+					<li>
+						<label for="">收货人姓名：</label>
+						<input  disabled="disabled" class="name" name="name" type="text" required="required"  value="<?php echo isset($order['address_name']) ? $order['address_name'] : '';?>" />
+					</li>
+					<li>
+						<label for="">地址：</label>
+						<input style="width:350px;" disabled="disabled" type="text" name="street" value="<?php echo isset($address) ? $address : '';?><?php echo isset($order['address_street']) ? $order['address_street'] : '';?>" required>
+					</li>
+					<li>
+						<label for="">联系电话：</label>
+						<input disabled="disabled" type="text" name="mobile" value="<?php echo isset($order['address_telephone']) ? $order['address_telephone'] : '';?>" required>
+					</li>
+				</ul>
+			</div>
+			<div class="merchandise">
+				<img src="<?php echo $this->basePath();?>/images/small/tupian.png" alt="" />
+				<div>
+					<p>快摇名片-蓝牙4.0设备支持微信摇一摇物联网名片</p>
+					<i>￥198</i>
+				</div>
+			</div>
+			<div class="coupon">
+				<?php if($code){?>
+				<div class="tuijian">
+					<span>推荐码</span>
+					<?php foreach($code as $v){?>
+					<input  disabled="disabled" type="text" value="<?php echo $v;?>" maxlength="6" name="code[]"/>
+					<?php }?>
+				</div>
+				<?php }?>
+			</div>
+			<?php if($order['invoice_status']==1 && $order['invoice_type']!=='' && $order['invoice_name']!==''){?>
+			<div class="invoice">
+				<h3>发票信息</h3>
+				<div>
+					<div>类型：<span><?php if($order['invoice_status']==1){echo "个人";}else{echo '公司';}?></span></div>
+					<div>抬头：<span><?php echo $order['invoice_name'];?></span></div>
+				</div>
+			</div>
+			<?php }?>
+
+			<div class="payment">
+				<h3>支付方式</h3>
+				<ul>
+					<li><img onclick="paymentType(1)" src="<?php echo $this->basePath();?>/images/small/zhifubao.png" alt="" /></li>
+					<li class="weixin_pay"><img onclick="paymentType(2)" src="<?php echo $this->basePath();?>/images/small/weixinzhifu.png" alt="" /></li>
+					<li><img onclick="paymentType(3)" src="<?php echo $this->basePath();?>/images/small/yinlianzhifu.png" alt="" /></li>
+				</ul>
+				<input type="hidden" value="" name="payment_type" class="payment_type">
+			</div>
+		</div>	
+		<div class="payoff">
+			<div>
+				<span>应付金额：<strong>￥<?php echo $order['total']?></strong>免邮费</span>
+				<input type="button" id="ToPay" value="确定支付" />
+			</div>
+		</div>
+	</form>
+<div id="myForm" ></div>
+<div  ><img id="code" src=""/></div>
+	<div class="weixin">
+		<div class="close"><a href="">×</a></div>
+		<p>扫一扫付款</p>
+		<img src="" alt="">
+		<p>打开手机微信</p>
+		<p>扫一扫继续支付</p>
+	</div>
+<script>
+	var transNo = '';
+	// 选择支付方式
+	    $(".payment ul li img").click(function(){
+	    	$(".payment ul li img").css("opacity","0.5")
+	    	$(this).css("opacity","1");
+	    })
+		function paymentType(obj){
+			$('.payment_type').val(obj);
+		}
+		$('#ToPay').click(function(){
+			var type = $('.payment_type').val();
+			var order_sn = <?php echo $order['id'];?>;
+			if(type==''){
+				alert('请选择支付方式');
+				return false;
+			}
+			$.post('<?php echo $this->url("index",array('action'=>'payOff','controller'=>'user'));?>',{order_sn:order_sn ,type:type},function(data){
+				if(data.type==1){
+					//console.log(data);
+					$('#myForm').html(data.content);
+					$('#alipaysubmit').submit();
+				}else if(data.type==2){
+					console.log(data);
+					$('.weixin img').attr("src",data.code);
+					$('.weixin').css("display","block");
+					transNo = data.order_sn;
+					//window.reload();
+					var timer = setInterval(getOrderStatus , 5000);//定时请求支付状态
+				}else if(data.type==3){
+					console.log(data);
+					$('#myForm').html(data.content);
+					$('#pay_form').submit();
+				}
+			},"json");
+		});
+	$('.close').click(function(){
+		$('.weixin').css("display","none");
+	});
+	function getOrderStatus(){
+		$.post("<?php echo $this->url('index',array('controller'=>'user','action'=>'getWxStatus'));?>",{out_trade_no:transNo},function(data){
+			if(data.status==1){
+				clearInterval(timer);
+				window.location.href="<?php echo $this->url('index',array('controller'=>'user','action'=>'PaySuccess'));?>";
+			}
+
+		},"json");
+	}
+
+</script>

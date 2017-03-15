@@ -1,0 +1,162 @@
+<style>
+    .tl{text-align: right;}
+    .main-nody{padding:5px 20px 0 20px;}
+    .main-nody h5{float: left;}
+    .tp{margin-top: 30px;}
+    .bc-1{display: none;}
+    .fl{float: left;}
+    .w120{width:120px;}
+</style>
+<div class="panel panel-default">
+   <div class="panel-heading">
+       <div calss="row">
+           <div class="col-sm-6">
+              <a href="<?php echo $this->url('admin-goods' , array('action' => 'index')); ?>">商品管理 / <a href="<?php echo $this->url('admin-goods' , array('action' => 'shelvesManage')); ?>"> 可上架商品管理 </a> / <a href="">商品详情</a>
+           </div>
+       </div>
+   </div>
+   <form action="<?php echo $this->url('admin-goods',array('action'=>'changeGoodsStatus'))?>" method="post">
+    <div class="pannel-body main-nody">
+        <div class="row">
+            <div class="col-lg-12">
+                <h5>基本信息</h5>
+            </div>
+            <div class="col-lg-12">
+                <table class="table table-striped" id="example-4" >
+                    <tbody>
+                        <tr>
+                            <td class="w120">商品编号：</td>
+                            <td><?php echo isset($good->goods_sn) ? $good->goods_sn : ''?></td>
+                        </tr>
+                        <tr>
+                            <td> 供应商：</td>
+                            <td><?php echo isset($user_name->company_name) ? $user_name->company_name : '平台'?></td>
+                        </tr>
+                        <tr>
+                            <td>商品名称：</td>
+                            <td><?php echo isset($good->name) ? $good->name : ''?> </td>
+                        </tr>
+                        <tr>
+                            <td> 盆径规格：</td>
+                            <td><?php echo isset($spec->size) ? $spec->size.'mm' : '0mm'?> </td>
+                        </tr>
+                        <tr>
+                            <td> 商品分类：</td>
+                            <td><?php echo isset($category_name->name) ? $category_name->name : ''?></td>
+                        </tr>
+                        <tr>
+                            <td>质量等级：</td>
+                            <td><?php echo isset($spec->model) ? $spec->model : ''?> </td>
+                        </tr>
+                        <tr>
+                            <td> 植株高度：</td>
+                            <td><?php echo isset($spec->height) ? $spec->height.'mm' : '0mm'?></td>
+                        </tr>
+                        <tr>
+                            <td>植株冠幅：</td>
+                            <td><?php echo isset($spec->canopy) ? $spec->canopy.'mm' : '0mm'?></td>
+                        </tr>
+                        <tr>
+                            <td>花苞数量：</td>
+                            <td><?php echo isset($spec->bud_number) ? $spec->bud_number : 0?></td>
+                        </tr>
+                        <tr>
+                            <td>供应数量：</td>
+                            <td><?php echo isset($spec->number) ? $spec->number : 0?></td>
+                        </tr>
+                        <tr>
+                            <td>上架方式：</td>
+                            <td><?php echo isset($good->salse_type) ? $salse_type[$good->salse_type] : ''?></td>
+                        </tr>
+                        <?php if(isset($good->salse_type) && $good->salse_type ==1): ?>
+                        <tr>
+                            <td>可出货时间：</td> <!-- 上架方式是预售才有 -->
+                            <td><?php echo isset($good->delivery_date) ? $good->delivery_date : ''?></td>
+                        </tr>
+                        <?php endif;?>
+                        <tr>
+                            <td>商品单价：</td>
+                            <td>￥<?php echo isset($spec->cash) ? $spec->cash : 0?></td>
+                        </tr>
+                        <tr>
+                            <td>装箱数：</td>
+                            <td><?php echo isset($spec->pack_number) ? $spec->pack_number.'盆/箱' : '0盆/箱'?></td>
+                        </tr>
+                        <tr>
+                            <td>商品图片：</td>
+                            <td> 
+                            <?php 
+                               if($images){
+                                    foreach ($images as $v){?>
+                                <img width="200px" height="200px" src="<?php echo isset($v['image_path']) && $v['image_path'] ? $v['image_path'] : ROOT_PATH . UPLOAD_PATH.'images/no_pic.gif'; ?>">
+                             <?php 
+                                    }
+                                }
+                             ?>
+                             </td>
+                        </tr>
+                        <tr>
+                            <td>商品介绍：</td>
+                            <td><?php echo isset($good->description) ? $good->description : ''?></td>
+                        </tr>
+                        <tr>
+                            <td>商品留言：</td>
+                            <td><?php echo isset($good->message) ? $good->message : ''?></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-12">
+                <h5></h5>
+            </div>
+            <div class="col-lg-12">
+                <table class="table table-striped" id="example-4">
+                <input type="hidden" name="id" value="<?php echo isset($id) ? $id : ''?>"/>
+                    <tbody>
+                        <tr>
+                            <td>
+                            <?php if($good->status == '1'){?>
+                                <input type="button" data-toggle="modal" data-target="#myModal" value="审核不通过" class="btn btn-info" >
+                                <input type="submit" name="pass" value="审核通过" class="btn btn-info" >
+                                <input type="submit" name="passAndUp" value="审核通过并上架" class="btn btn-info" >
+                            <?php }elseif($good->status == '2' || $good->status == '4'){?>
+                            <input type="submit" name="up" value="商品上架" class="btn btn-info" >
+                            <?php }elseif($good->status == '3'){?>
+                            <input type="button"  data-toggle="modal" data-target="#myModal" value="商品下架" class="btn btn-info" >
+                            <?php }?>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style='z-index:8888;'>
+        	<div class="modal-dialog" >
+        		<div class="modal-content" >
+        			<div class="modal-header">
+        				<button type="button" class="close" data-dismiss="modal">×</button>
+        				<h3><?php echo ($good->status == '1') ?  "审核不通过原因" : "商品下架原因"?></h3>
+        			</div>
+        			<div class="modal-body">
+        			    <div class="row">
+        			        <div class="col-lg-12">
+                               <textarea rows="5" cols="72" name="reason"></textarea>
+                            </div>
+                        </div>
+                        <?php if($good->status == '1'){?>
+                        <input type="submit" name="nopass" value="确定" class="btn btn-info" style="margin-top:30px;">
+                        <?php }else{?>
+                        <input type="submit" name="down" value="确定" class="btn btn-info" style="margin-top:30px;">
+                        <?php }?>
+        			</div>
+        			<div style="clear: both"></div>
+        		</div>
+        	</div>
+        </div>
+    </div>
+    </form>
+</div>

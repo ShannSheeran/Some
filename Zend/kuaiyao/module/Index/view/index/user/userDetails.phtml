@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no" />
+<link href="<?php echo $this->basePath();?>/pc/css/css.css?v=62" rel="stylesheet" type="text/css">
+<title>好友资料</title>
+</head>
+<body >
+<div class="con">
+
+  <div class="c_m bb">
+    <div class="info-header--img of_hide fl"><img style="width:70px;height:70px;" src="<?php echo ((isset($card['imagePath']) && $card['imagePath']) ? ($this->basePath() . '/uploadfiles/' . $card['imagePath']) : "");?>" class="db img_all" /></div>
+    <div class="fl i_m_d">
+      <p class="i_m mb6"><?php echo isset($card['name']) ? $card['name'] : "";?></p>
+      <p class="i_m_m"><?php echo isset($card['english']) ? $card['english'] : "";?></p>
+    </div>
+  </div>
+  <div class="xx">
+<?php $show = explode(',', isset($card['show']) ? $card['show'] : "");?>
+    <p class="phone db xx bb"><span class="xx_s"><?php echo (in_array('mobile', $show)) ? implode(",", $card['mobile']) : "";?></span></p>
+    <p class="i db xx bb"><span class="xx_s"><?php echo (in_array('address', $show)) ? implode(",", $card['address']) : "";?></span></p>
+    <p class="a db xx bb"><span class="xx_s"><?php echo (in_array('email', $show)) ? implode(",", $card['email']) : "";?></span></p>
+    <p class="q db xx"><span class="xx_s"><?php echo (in_array('qq', $show)) ? implode(",", $card['qq']) : "";?></span></p>
+  </div>
+  <div class="bg_f db bb"></div>
+  <?php $card = isset($card['profile']) ? $card['profile'] :""; if ($card){?>
+  <div class="bb1 mr5">
+    <h3 class="i_m_m mt8 mb11 pl5">个人资料</h3>
+    <p class=" pr16 pb5 fc_hui lh26"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><?php echo isset($card['profile']) ? $card['profile'] :"";?></p>
+  </div>
+  <?php }?>
+  <?php $description = isset($card['description']) ? $card['description'] :""; if ($description){?>
+  <div class="bb mr5 mt-6">
+    <h3 class="i_m_m mt13 mb11 pl5">公司信息</h3>
+    <p class="pl5 pr5 pb8 fc_hui"><?php echo isset($card['description']) ? $card['description'] :"";?></p>
+  </div>
+  <?php }?>
+  <div class="f_t db"></div>
+
+</div>
+</body>
+</html>

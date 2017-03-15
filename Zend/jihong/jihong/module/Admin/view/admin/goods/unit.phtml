@@ -1,0 +1,69 @@
+<style>
+    .fl{
+    	float: left;
+    }
+	.dataTables_info{
+		display:none;
+	}
+	.dataTables_paginate{
+		display: none;
+	}
+	.bc-1{display: none;}
+	.col-sm-5{display: none;}
+	.col-sm-7{display:none;}
+	.pl10{
+		padding-left:10px;
+	}
+	.lh60{
+		line-height:60px;
+	}
+</style>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+		<a href="<?php echo $this->url('admin-goods' , array('action' => 'index'));?>">商品管理 </a> / <a href="">商品单位</a>        
+		</h3>
+	</div>
+
+	<div class="panel-body">
+	   <div class="fl" >
+		    <a class="btn btn-info fl " href="<?php echo $this->url('admin-goods' , array('action' => 'addUnit'))?>">新增单元</a>
+		</div>
+    	<div style="clear:both;"></div>
+		<table class="table table-bordered table-striped" id="example-4">
+			<thead>
+				<tr>
+				    <th>单位名称</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?php if(!empty($list)):?>
+			<?php foreach ($list as $v):?>
+                <tr class="tr_list">
+					<td style="padding-top:31px;"><?php echo $v->name?></td>
+					<td style="padding-top:24px;">
+					   <a href="<?php echo $this->url('admin-goods' , array('action' => 'addUnit','id'=>$v->id)); ?>" class="btn btn-info">编辑</a>
+					   <a onclick="show_confirm('<?php echo $this->url('admin-goods' , array('action' => 'delUnit','id'=>$v->id)); ?>')"  href="#" class="btn btn-info">删除</a>
+					 </td>
+				</tr>
+			<?php endforeach;?>
+			<?php endif;?>
+            </tbody>
+		</table>
+        <?php echo $this->paginationControl($paginator, 'Sliding', 'page',array('route' =>'admin-goods','condition'=>$condition));?>       </div>
+</div>
+
+<script>
+function show_confirm(url)
+{
+	if(confirm('确认删除该单位？'))
+	{
+		location.href = url;
+	}
+	else
+	{
+		return false;
+	}
+}
+</script>

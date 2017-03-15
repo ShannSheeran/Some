@@ -1,0 +1,142 @@
+<?php echo $this->headTitle('联盟商家'. $this->translate(''))->setSeparator(' - ')->setAutoEscape(false);?>
+<?php echo $this->headMeta()->setName('description','猫王联盟——以“吃喝玩乐购”生活服务类打造实体店的免费O2O平台。为实体店搭建线上线下一体化平台；为消费者提供全国通积通用通兑积分平台，积分可线上兑换商品，线下抵现消费。服务热线4008-333-133')->setName('keywords','通用积分联盟,通用积分平台,通用积分商城,o2o积分联盟,o2o积分联盟网站,积分联盟商,生活服务'); ?>
+<script>showmenu();</script>
+<div class="content w bc clearfix">
+    <!--web address -->
+    <div class="fl w230 mt10">
+        <h3 class="bg_f7f7f7 f14 tc recommend_tit">为您推荐</h3>
+        <ul class="clearfix Recommend_list">
+            <?php $m=1; foreach($List_shuffle as $v){?>
+            <li class="bc br_a_1_c seller_list">
+                <div class="mb10 top4">
+                    <?php if($v['image']){ $img = explode(',',$v['image']); ?>
+                        <a href="<?php echo $this->url('index',array('controller'=>'seller','action'=>'sellerDetail','id'=>$v['id'])); ?>">
+                            <img src="<?php echo $images[$img[0]]['path1'];?>" style="position:relative;z-index:3;" />
+                        </a>
+                    <?php }else{?>
+                        <a href="<?php echo $this->url('index',array('controller'=>'seller','action'=>'sellerDetail','id'=>$v['id'])); ?>">
+                            <img src="<?php echo ROOT_PATH;?>images/no_pic.png" style="position:relative;z-index:3;" />
+                        </a>
+                    <?php }?>
+                </div>
+                <div class="text pl10">
+                    <p class="f14 lh150 pro_tit">
+                        <a href="<?php echo $this->url('index',array('controller'=>'seller','action' =>'sellerDetail','id' =>$v['id'])); ?>">
+                            <?php echo $v['company_name']; ?>
+                        </a>
+                    </p>
+           
+                    <div class="clearfix star">
+                        <ul class="star_list clearfix fl mr10">
+                            <?php for($i = 1;$i <= $v['stars'];$i++){ ?>
+                                <li class="fl mr5 on"></li>
+                            <?php } for($i = 1;$i <=(5-$v['stars']);$i++){ ?>
+                                <li class="fl mr5"></li>
+                            <?php } ?>
+                        </ul>
+                        <p class="fl f_color_red f14"><?php echo $v['stars'].'.0'?></p>
+                    </div>
+                    <p>已有 <?php echo $v['evaluation_number']; ?> 评价</p>
+                </div>
+              
+            </li>
+            <?php $m++;if($m>=4)break;} ?>
+        </ul>
+    </div>
+    <div class="fr w970">
+        <!-- web address end -->
+        <!-- screen -->
+        <div class="screen mt10">
+            <h3 class="bg_f7f7f7 f14">所有分类</h3>
+            <ul class="screen_type">
+                <li class="clearfix border_b pr">
+                    <div class="screen_label fl lh25px mr20">服务分类:</div>
+                    <div class="screen_item">
+                        <ul class="clearfix">
+                            <li class="fl mr10"><a href="<?php echo $this->url('index',array('controller'=>'seller','action'=>'index','id'=>0,'alert'=>$a,'between'=>$b,'type'=>$t,'search'=>''))?>" class="db lh25px pl5 pr5 <?php echo $id==0?'on':'';?>">全部</a></li>
+                            <?php foreach($GoodsCategory as $v){ ?>
+                            <li class="fl mr10"><a href="<?php echo $this->url('index',array('controller'=>'seller','action'=>'index','id'=>$v['id'],'alert'=>$a,'between'=>$b,'type'=>$t,'search'=>$s))?>" class="db lh25px pl5 pr5 <?php echo $id==$v['id']?'on':'';?> "><?php echo $v['name'];?></a></li>
+                            <?php } ?>
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="clearfix pr">
+                    <div class="screen_label fl lh25px mr20">地理位置:</div>
+                    <div class="screen_item">
+                        <ul class="clearfix">
+                            <li class="fl mr10"><a href="<?php echo $this->url('index',array('controller'=>'seller','action'=>'index','id'=>$id,'alert'=>0,'search'=>''))?>" class="db lh25px pl5 pr5 <?php echo $a==0?'on':'';?> ">全部</a></li>
+                            <?php if($city_id != ''){?>
+                            <?php foreach($Region[$city_id] as $v){ ?>
+                            <li class="fl mr10"><a href="<?php echo $this->url('index',array('controller'=>'seller','action'=>'index','id'=>$id,'alert'=>$v['id'],'search'=>$s))?>" class="db lh25px pl5 pr5 <?php echo $a==$v['id']?'on':'';?> "><?php echo $v['name']?></a></li>
+                            <?php } }?>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!-- screen end -->
+        <!-- product list -->
+        <ul class="clearfix sort_type bg_f7f7f7 mt30 mt20 border_b border_t border_l border_r">
+            <li class="fl mr10">排序:</li>
+            <li class="fl mr10"><a href="<?php echo $this->url('index', array('controller'=>'seller','action'=>'index','id'=>$id,'alert'=>$a,'between'=>0,'type'=>0,'search'=>$s)); ?>" class="db  pl5 pr5 <?php echo $b==0 && $t==0?'on':'';?> ">默认</a></li>
+            <li class="fl mr10"><a href="<?php echo $this->url('index', array('controller'=>'seller','action'=>'index','id'=>$id,'alert'=>$a,'between'=>1,'type'=>0,'search'=>$s)); ?>" class="db  pl5 pr5 <?php echo $b==1?'on':'';?> ">销量最高</a></li>
+            <li class="fl mr10"><a href="<?php echo $this->url('index', array('controller'=>'seller','action'=>'index','id'=>$id,'alert'=>$a,'between'=>0,'type'=>1,'search'=>$s)); ?>" class="db  pl5 pr5 <?php echo $t==1?'on':'';?> ">评价最高</a></li>
+        </ul>
+        <ul class="clearfix product_list">
+            <?php if($List){?>
+            <?php foreach($List as $k => $v){?>
+            <li class="fl br_a_1_c seller_list fl pr">
+                <div class="mb10 top4">
+                    <?php if($v['image']){ $imgs = explode(',',$v['image']); ?>
+                    <a href="<?php echo $this->url('index', array('controller'=>'seller','action' =>'sellerDetail','id' =>$v['id'])); ?>">
+                        <img src="<?php echo $images[$imgs[0]]['path1'];?>" style="position:relative;z-index:3;" />
+                    </a>
+                    <?php }else{?>
+                    <a href="<?php echo $this->url('index', array('controller'=>'seller','action' =>'sellerDetail','id' =>$v['id'])); ?>">
+                        <img src="<?php echo ROOT_PATH;?>images/no_pic.png" style="position:relative;z-index:3;" />
+                    </a>
+                    <?php }?>
+                </div>
+                <div class="text pl10">
+                    <p class="f14 lh150 pro_tit"><a href="<?php echo $this->url('index', array('controller'=>'seller','action' =>'sellerDetail','id' =>$v['id'])); ?>""><?php echo $v['company_name']; ?></a></p>
+                    <div class="clearfix star">
+                        <ul class="star_list clearfix fl mr10">
+                            <?php for($i = 1;$i <= $v['stars'];$i++){ ?>
+                            <li class="fl mr5 on"></li>
+                            <?php } for($i = 1;$i <=(5-$v['stars']);$i++){ ?>
+                            <li class="fl mr5"></li>
+                            <?php } ?>
+                        </ul>
+                        <p class="fl f_color_red f14"><?php echo $v['stars'].'.0'?></p>
+                    </div>
+                    <p>已有<?php echo $v['evaluation_number']; ?>评价</p>
+                </div>
+                <?php if($v->is_alliance==1){?>
+			   <div class="type_1"></div>
+			<?php }else {?>
+			<div class="type seller"></div>
+			<?php }?>
+            </li>
+            <?php } } ?>
+        </ul>
+        <!-- product list end -->
+
+        <?php echo $this->paginationControl($paginator,'Sliding','layout_index/page',array('route' =>'index','condition'=>$condition));?>
+
+        <script type="text/javascript">
+            // 页码居中
+            function pageCenter(parentclass,array)
+            {//parentclass为页码盒子的class，array为页码盒子里面内容的所有class数组
+                var pl=0;
+                for(var i=0;i<array.length;i++)
+                {
+                    pl+=$('.'+array[i]).width();
+                }
+                $('.'+parentclass).css('paddingLeft',($('.'+parentclass).parent().width()-pl)/2+'px');
+            }
+
+            pageCenter('page',['next','prev','page ul']);
+        </script>
+    </div>
+</div>

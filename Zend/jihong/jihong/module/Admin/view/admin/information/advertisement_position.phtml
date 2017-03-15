@@ -1,0 +1,62 @@
+<style>
+	.dataTables_info{
+		display:none;
+	}
+	.dataTables_paginate{
+		display: none;
+	}
+	.bc-1{display: none;}
+	.col-sm-5{display: none;}
+	.col-sm-7{display:none;}
+	.fl{
+		float:left;
+	}
+</style>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+        <a href="<?php echo $this->url('admin-information' , array('action' => 'platformInformation')) ?>">信息管理 / <a href="<?php echo $this->url('admin-information' , array('action' => 'advertisementPosition'));?>">广告管理</a> / <a href="">广告位管理</a>
+		</h3>
+	</div>
+	
+	<div class="panel-body">
+	    <div class="fl" >
+		    <!-- <a class="btn btn-info fl " href="<?php //echo $this->url('admin-information' , array('action' => 'advertisementPositionOperate')) ?>" >新增广告位</a> -->
+		</div>
+    	<div style="clear:both;"></div>
+		<table class="table table-bordered table-striped" id="example-4">
+			<thead>
+				<tr>
+					<th>广告位名称</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			    <?php foreach ($ads_position_list as $value): ?>
+                <tr class="tr_list" valign="middle">
+					<td style="padding-top:18px;"><?php echo $value->name?></td>
+					<td>
+					   <!-- <a href="#"  class="btn btn-info" onclick="show_confirm('<?php //echo $this->url('admin-information' , array('action' => 'deleteAdvertisementPosition' ,'id' => $value->id )) ?>')" >删除</a> -->
+					   <a href="<?php echo $this->url('admin-information' , array('action' => 'advertisement' ,'id' => $value->id )) ?>"  class="btn btn-info"  >查看广告</a>
+					 </td>
+				</tr>
+				<?php endforeach; ?>
+            </tbody>
+		</table>
+        <?php echo $this->paginationControl($paginator, 'Sliding', 'page',array('route' =>'admin-information','condition'=>$condition));?>       
+        </div>
+</div>
+
+<script>
+function show_confirm(url)
+{
+	if(confirm('确认删除该广告位？'))
+	{
+		location.href = url;
+	}
+	else
+	{
+		return false;
+	}
+}
+</script>

@@ -1,0 +1,74 @@
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,user-scalable=ture">
+<script src="<?php echo $this->basePath();?>/pc/js/javascript.fullPage.min.js"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/pc/css/indexb.css" />
+<!--  main -->
+<style>
+	.header_box{
+		height: 0px;
+	}
+</style>
+<!-- 页面内容 -->
+	<div class="main">
+		<!-- 第一个模块 -->
+		<div class="section main_one">
+			<div><img src="<?php echo $this->basePath();?>/pc/images/shake.gif" alt=""></div>
+			<a href="<?php echo $this->url('index',array('controller'=>'index','action'=>'indexa'))?>" class="indexa">了解快摇名片APP >></a>
+		</div>
+		<!-- 第二个模块 -->
+		<div class="section main_two">
+			<div class="two_text"><img src="<?php echo $this->basePath();?>/pc/images/b_img2.png" alt=""></div>
+			<div class="move"><img src="<?php echo $this->basePath();?>/pc/images/b_img1.png" alt=""></div>
+		</div>
+		<!-- 第三个模块 -->
+		<div class="section main_three">
+			<div class="move2"><img src="<?php echo $this->basePath();?>/pc/images/b_img3.png" alt=""></div>
+		</div>
+		<!-- 第四个模块 -->
+		<div class="section main_four">
+			<p class="footer_text">Copyright © kuaiyao.name. All rights reserved. 广东近场网络科技有限公司. 粤ICP备15066271号-3</p>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+			// 滚动切换
+			fullpage.initialize('.main', {
+				anchors: ['page1', 'page2', 'page3', 'page4'],
+				slidesColor: ['#009999', '#CC6600', '#CCCC00', '#CC3366'],
+				afterLoad: function(anchorLink, index){
+					console.log(index);
+					if(anchorLink == "page2"){ //第二个模块动画
+						//console.log(2);
+						$(".move").show();
+						var _width = $(window).width()
+						if(_width < 1400){ 
+					        $(".move").animate({top:'190px',right:'10%'},1500);    
+					     }else if(_width < 1600){
+					     	$(".move").animate({top:'190px',right:'15%'},1500);
+					     }else{
+					     	$(".move").animate({top:'190px',right:'18%'},1500);
+					     }
+					}
+					if(anchorLink == "page3"){//第三个模块动画
+						$(".move2").animate({right:'0px'},1500);
+						
+					}
+
+				},
+				menu: '#menu',
+				
+			});
+		
+//读取cookies
+function getCookie(name)
+{
+	var arr;
+	var reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+	
+	if(arr=document.cookie.match(reg)){
+		return unescape(arr[2]);
+	}else{
+		
+		return null;
+	} 
+}
+</script>

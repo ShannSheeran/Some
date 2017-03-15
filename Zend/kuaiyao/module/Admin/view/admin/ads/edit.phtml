@@ -1,0 +1,164 @@
+<?php echo $this->headScript()->offsetSetFile(10, $this->basePath() . '/js/ajaxfileupload.js') ?>
+<script type="text/javascript">
+    var url = '<?php echo $this->url('admin-common',array('action'=>'getAdminFile'));?>';//图片上传地址
+    var url_two = '<?php echo $this->url('admin-common',array('action'=>'getAdminFileTwo'));?>';//图片上传地址
+</script>
+<style type="text/css">
+.form-control{width: 500px;margin-bottom: 5px;margin-right: 5px;}
+
+.search {
+    width: 300px;
+    height: 40px;
+    position: relative;
+}
+
+.edit {
+    overflow: hidden;
+}
+
+.search_input {
+    width: 290px;
+    height: 34px;
+    font-size: 16px;
+}
+
+.search_input:focus {
+    outline: none;
+}
+
+.match_text {
+    display: none;
+    position: absolute;
+    top: 6px;
+    width: 290px;
+    z-index: 99;
+    background-color: white;
+    border: 1px solid #ccc;
+}
+
+.match_text div:hover {
+    background: #f0f0f0;
+}
+
+.match_text ul {
+    list-style-type: none;
+    border: 1px solid #cccccc;
+    margin-bottom: 0px;
+}
+
+.match_text ul li {
+    font-size: 12px;
+    color: #333333;
+    display: block;
+    line-height: 25px;
+    padding-left: 10px;
+    cursor: pointer;
+}
+</style>
+<div class="row">
+	<div class="col-sm-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>编辑广告</h3>
+				<div class="panel-options">
+					<a href="#" data-toggle="panel">
+						<span class="collapse-icon">&ndash;</span>
+						<span class="expand-icon">+</span>
+					</a>
+					<a href="#" data-toggle="remove"> &times; </a>
+				</div>
+			</div>
+			<?php //print_r($ads);?>
+			<div class="panel-body">
+                <form role="form" class="form-horizontal" action="<?php echo $this->url("admin-ads",array('action'=>'editads'));?>" method="post">
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="field-1"><i class="red_star">*&nbsp;</i>广告名称：</label>
+					<div class="col-sm-10">
+						<input class="form-control"  maxlength="25" name="adName" id="device_id" value="<?php echo $ads['name']; ?>" required />
+					</div>
+				</div>
+				
+				<div class="form-group-separator"></div>
+					
+				<div class="form-group">
+					<label class="col-sm-2 control-label"><i class="red_star">*&nbsp;</i>广告类型:</label>
+					<div class="col-sm-10">
+						<select id="type-input" class="form-control input-sm" name="type" onchange="changeType(this.value)"><option value="0">没链接/跳转</option><option value="1">网页</option><option value="2">内部跳转</option></select>
+					</div>
+				</div>
+				
+				<div class="form-group" id="target-div">
+					<label class="col-sm-2 control-label" id="link">目标类型:</label>
+					<div class="col-sm-10">
+						<input id="target-input" name="target" class="form-control" type="text" value="" placeholder="目标类型如web、activity"/>
+					</div>
+				</div>
+				
+				<div class="form-group" id="link-div">
+					<label class="col-sm-2 control-label" id="link">广告链接/目标id:</label>
+					<div class="col-sm-10">
+						<input id="link-input" class="form-control" type="text" name="link" value="" placeholder="广告链接/目标id"/>
+					</div>
+				</div>
+				
+				<div class="form-group-separator"></div>
+				
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="field-1"><i class="red_star">*&nbsp;</i>广告图片上传：</label>
+					<div class="col-sm-10">
+                        <div class="col-sm-10">
+                            <input type="file" id="img0" name="Filedata" onchange="return ajaxFileUpload('0');"/>
+                            <input type="hidden" name="image" value="<?php echo isset($ads['image']) ? $ads['image'] : ''; ?>" id="img_id_0" /> <br />
+                            <img src="<?php echo isset($ads['image'])? $this->basepath() . '/' . UPLOAD_PATH . $image : ROOT_PATH . 'adminStyle/img/no_pic.gif'; ?>"
+                                width="200" height="200" id="img_0" />
+
+                        </div>
+					</div>
+				</div>
+				<div class="form-group-separator"></div>
+				
+				<div class="form-group">
+					<div class="col-sm-10">
+					    <input type='hidden' name='id' value="<?php echo isset($ads['id'])?$ads['id']:''; ?>" />
+                        <input type='submit' value='保存' class='btn btn-info' style='margin-left:300px;'/>
+					</div>
+				</div>
+				<div class="form-group-separator"></div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+var inputType,inputTarget,inputLink;
+inputType = '<?php echo $ads['type'];?>';
+inputTarget = '<?php echo $ads['target'];?>';
+inputLink = '<?php echo $ads['link'];?>';
+function changeType(type)
+{
+	if (0 == type) {
+		$("#target-div").hide();
+		$("#link-div").hide();
+		$("#target-input").val("");
+		$("#link-input").val("");
+	}
+	else if (1 == type) {
+		$("#target-div").show();
+		$("#link-div").show();
+		$("#target-input").val("web");
+		$("#target-input").attr("readonly","readonly");
+		$("#link-input").val(inputType == 1 ? inputLink : "");
+	}
+	else if (2 == type) {
+		$("#target-div").show();
+		$("#link-div").show();
+		$("#target-input").val(inputType == 2 ? inputTarget : "");
+		$("#target-input").removeAttr("readonly");
+		$("#link-input").val(inputType == 2 ? inputLink : "");
+	}
+}
+$(document).ready(function() {
+	$("#type-input").val(inputType);
+	changeType(inputType);
+});
+</script>

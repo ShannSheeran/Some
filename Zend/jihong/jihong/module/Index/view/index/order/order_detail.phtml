@@ -1,0 +1,331 @@
+        <div class="user_content_right">
+            <div class="orders_state">
+                <h2>订单状态</h2>
+                <?php if ($order_info->status != 6 && $order_info->status != 7): ?>
+                <div class="stata_progressbar">
+                    <ul>
+                        <li class="one <?php if($order_info->status >= 1) echo 'on'; ?>">
+                            <p class="<?php if($order_info->status >= 1) echo 'on'; ?>">提交订单</p>
+                            <p class="time"><?php echo isset($order_tracking[1]->timestamp) ? $order_tracking[1]->timestamp : ''?></p>
+                        </li>
+                        <li class="two <?php if($order_info->status >=2) echo 'on'; ?>" >
+                            <p class="<?php if($order_info->status >= 2) echo 'on'; ?>">订单支付</p>
+                            <p class="time"><?php echo isset($order_tracking[2]->timestamp) ? $order_tracking[2]->timestamp : ''?></p>
+                        </li>
+                        <li class="three <?php if($order_info->status >= 4) echo 'on'; ?>">
+                            <p class="<?php if($order_info->status >= 4) echo 'on'; ?>">商家配送</p>
+                            <p class="time"><?php echo isset($order_tracking[4]->timestamp) ? $order_tracking[4]->timestamp : ''?></p>
+                        </li>
+                        <li class="four <?php if($order_info->status == 5) echo 'on'; ?>">
+                            <p class="<?php if($order_info->status == 5) echo 'on'; ?>">确认收货</p>
+                            <p class="time"><?php echo isset($order_tracking[5]->timestamp) ? $order_tracking[5]->timestamp : ''?></p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <?php endif; ?>
+            <div class="clear"></div>
+            <?php if($order_info->status == 1): ?>                   
+            <!--待付款-->
+            <div class="wait_review order_show">
+                <p>当前订单状态：<i>待付款</i>  ，请及时支付订单，以便我们为您发货。</p>
+                <a class="pay_order" href="<?php echo $this->url('index' , array('controller' => 'order' , 'action' => 'payment')) ?>?orderId=<?php echo $order_info->id?>">支付订单</a>
+                <a class="cancel_order" onClick="showDialog();">取消订单</a>
+                <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=<?php echo $qq ?>&site=qq&menu=yes" class="qq">联系业务员</a>
+            </div>
+            <!--待付款-->
+            <?php elseif ($order_info->status == 2): ?>
+            <!--待审核-->
+            <div class="wait_review">
+                <p>当前订单状态：<i>待审核</i>  ，我们将尽快为您审核发货。</p>
+                <a class="cancel_order">取消订单</a>
+                <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=<?php echo $qq ?>&site=qq&menu=yes" class="qq">联系业务员</a>
+            </div>
+            <!--待审核-->
+            <?php elseif ($order_info->status == 7): ?>
+            <!--审核失败-->
+            <div class="wait_review">
+                <p>当前订单状态：<i>审核失败</i></p>
+                <p>失败原因：<?php echo $order_info->reason; ?></p>
+                <a href="<?php echo $this->url('index' , array('controller' => 'order' , 'action' => 'confirmOrder'))?>?order_id=<?php echo $order_info->id ?>" class="angin_order">重新下单</a>
+                <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=<?php echo $qq ?>&site=qq&menu=yes" class="qq">联系业务员</a>
+            </div>
+            <!--审核失败-->
+            <?php elseif ($order_info->status == 4): ?>
+            <!--待收货-->
+            <div class="wait_review order_show">
+                <p>当前订单状态：<i>待收货</i>  ，<?php echo floor($auto_receive_timestamp / 86400) ?>天<?php echo floor(( $auto_receive_timestamp / 86400 - floor($auto_receive_timestamp / 86400))*24) ?>小时后将自动确认收货。</p>
+                <a class="confirm_receipt">确认收货</a>
+                <?php if($order_info->delay == 0): ?>
+                <a class="extend_receipt">延长收货</a>
+                <?php endif; ?>
+                <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=<?php echo $qq ?>&site=qq&menu=yes" class="qq">联系业务员</a>
+            </div>
+            <!--待收货-->
+            <?php elseif ($order_info->status == 6): ?>
+            <!--已取消-->
+            <div class="wait_review">
+                <p>当前订单状态：<i>已取消</i></p>
+                <a href="<?php echo $this->url('index' , array('controller' => 'order' , 'action' => 'confirmOrder'))?>?order_id=<?php echo $order_info->id ?>" class="angin_order">重新下单</a>
+                <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=<?php echo $qq ?>&site=qq&menu=yes" class="qq">联系业务员</a>
+            </div>
+            <!--已取消-->
+            <?php elseif ($order_info->status == 5): ?>
+            <!--已完成-->
+            <div class="wait_review">
+                <p>当前订单状态：<i>已完成</i></p>
+                <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=<?php echo $qq ?>&site=qq&menu=yes" class="qq" style="margin-top:0;margin-bottom:30px;">联系业务员</a>
+            </div>
+            <!--已完成-->
+            <?php elseif ($order_info->status == 3): ?>
+            <!--已完成-->
+            <div class="wait_review">
+                <p>当前订单状态：<i>已审核</i>，我们将尽快为您发货</p>
+                <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=<?php echo $qq ?>&site=qq&menu=yes" class="qq" style="margin-top:0;margin-bottom:30px;">联系业务员</a>
+            </div>
+            <!--已完成-->
+            <?php endif;?>
+            <div class="clear"></div>
+            <!-- 遮罩层 -->
+            <div class="page_strong top2"></div>
+            <!-- 弹窗 -->
+            <div class="prompt dialog">
+                <?php if(in_array($order_info->status , array(1,2))): ?>
+                <!-- 取消订单和确认收货 -->
+                <h3>取消订单</h3>
+                <p class="tc">确认要取消订单？</p>
+                <!-- 取消订单和确认收货 -->
+                <span class="cancel" onclick="hideDialog()">取消</span>
+                <span class="sure" onclick="hideDialog();cancelOrder()">确定</span>
+                <?php elseif( $order_info->status == 4 ):?>
+                <!-- 取消订单和确认收货 -->
+                <h3>确认收货</h3>
+                <p class="receiveTip">是否确认已收到货品？</p>
+                <!-- 取消订单和确认收货 -->
+                <!-- 延长收货 -->
+                <p class="extend none">备注：<input type="text" placeholder="请输入延长收货原因" id="delayReason"/></p>
+                <!-- 延长收货 -->
+                <span class="cancel" onclick="hideDialog()">取消</span>
+                <span class="sure confirmSure" onclick="hideDialog();confirmReceive(1)">确定</span>
+                <span class="sure extendSure" onclick="hideDialog();confirmReceive(4)">确定</span>
+                <?php endif;?>
+            </div>
+            <div class="order_message">
+                <h2>订单信息</h2>
+                <ul>
+                    <li>
+                        <div class="message_label">订单编号</div>
+                        <div class="message_text"><?php echo $order_info->order_sn ?><?php if(isset($order_info->pay_img) && !empty($order_info->pay_img)): ?><a class="see_pay_voucher" onclick="showDialog()">查看支付凭证</a><?php endif;?>
+                            <div class="page_strong top2"></div>
+                            <div class="pay_voucher_popup">
+                                <h2>添加成功</h2>
+                                <span class="close" onclick="hideDialog();"></span>
+                                <div class="voucher_img">
+                                    <img style="width:320px" src="<?php if (!empty($pay_img)) echo ROOT_PATH.UPLOAD_PATH.$pay_img->path.$pay_img->filename; ?>">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="message_label">供应商</div>
+                        <div class="message_text"><?php echo $order_info->merchant_name ? $order_info->merchant_name : '吉宏平台自营'; ?></div>
+                    </li>
+                    <li>
+                        <div class="message_label">下单时间</div>
+                        <div class="message_text"><?php echo $order_info->timestamp ?></div>
+                    </li>
+                    <li>
+                        <div class="message_label">收货人</div>
+                        <div class="message_text"><?php echo $order_info->name ?></div>
+                    </li>
+                    <li>
+                        <div class="message_label">联系电话</div>
+                        <div class="message_text"><?php echo $order_info->mobile ?></div>
+                    </li>
+                    <li class="address">
+                        <div class="message_label">送货地址</div>
+                        <div class="message_text"><?php echo $order_info->address ?></div>
+                    </li>
+                    <li class="leave_message">
+                        <div class="message_label">订单留言</div>
+                        <div class="message_text"><?php echo $order_info->description ?></div>
+                    </li>
+                    <li class="logistics_message">
+                        <div class="message_label">物流详情</div>
+                        <div class="message_text">
+                            <p><?php echo $order_info->express_name?>  运单号：<?php echo $order_info->shipping_sn?></p>
+                            <p>最新状态：<?php echo isset($order_tracking[$order_info->status]->timestamp) ? $order_tracking[$order_info->status]->timestamp : ''?>  <?php echo isset($order_tracking[$order_info->status]->description) ? $order_tracking[$order_info->status]->description .'！' : ''?></p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+            <div class="goods_mess mt40">
+            <h2>商品信息</h2>
+            <div class="my_goods_content fl">
+              <ul class="goods_label">
+                <li class="name">商品</li>
+                <li class="price">单价</li>
+                <li class="amount">数量</li>
+                <li class="money">金额</li>
+                <!-- 在订单不是已完成的状态下不出现操作栏，并改变前四栏的宽度 -->
+                <script type="text/javascript">
+                $(function(){
+                    $('.goods_mess .my_goods_content .goods_label .name, .goods_mess .my_goods_content .goods_details .name').css('width','347px');
+                    $('.goods_mess .my_goods_content .goods_label .price, .goods_mess .my_goods_content .goods_details .price').css('width','100px');
+                    $('.goods_mess .my_goods_content .goods_label .amount, .goods_mess .my_goods_content .goods_details .amount').css('width','116px');
+                    $('.goods_mess .my_goods_content .goods_label .money, .goods_mess .my_goods_content .goods_details .money').css('width','145px');
+                })
+                </script>
+                <!-- 在订单不是已完成的状态下不出现操作栏，并改变前四栏的宽度 -->
+                <?php if($order_info->status == 5): ?>
+                <li class="operation">操作</li>
+                <!-- 在订单是已完成的状态下出现操作栏，恢复原来设定的宽度 -->
+                <script type="text/javascript">
+                $(function(){
+                    $('.goods_mess .my_goods_content .goods_label .name, .goods_mess .my_goods_content .goods_details .name').css('width','303px');
+                    $('.goods_mess .my_goods_content .goods_label .price, .goods_mess .my_goods_content .goods_details .price').css('width','90px');
+                    $('.goods_mess .my_goods_content .goods_label .amount, .goods_mess .my_goods_content .goods_details .amount').css('width','72px');
+                    $('.goods_mess .my_goods_content .goods_label .money, .goods_mess .my_goods_content .goods_details .money').css('width','91px');
+                })
+                </script>
+                <!-- 在订单是已完成的状态下出现操作栏，恢复原来设定的宽度 -->
+                <?php endif;?>
+              </ul>
+              <ul class="goods_details">
+                <?php 
+                    foreach ($order_goods_list as $value): 
+                        $image_ids = array();
+                        if(isset($value->image))
+                        {
+                            $image_ids = explode(',', trim($value->image , ','));
+                        }    
+                ?>
+                <li>
+                  <div class="name">
+                    <div class="img">
+                      <a><img src="<?php echo !empty($image) && !empty($image_ids) ? ROOT_PATH.UPLOAD_PATH.'thumb/120X120X3/'.$image[$image_ids[0]]['path'].$image[$image_ids[0]]['filename'] : ROOT_PATH.'images/no_pic.gif' ?>"></a>
+                    </div>
+                    <div class="goods_name">
+                      <h3><?php echo $value->name; ?></h3>
+                      <p>规格:<?php echo $value->size; ?></p>
+                      <p>型号:<?php echo $value->model; ?></p>
+                    </div>
+                  </div>
+                  <div class="price"><?php echo $value->price_cash; ?></div>
+                  <div class="amount"><?php echo $value->number; ?></div>
+                  <div class="money"><i>￥<?php echo $value->price_cash * $value->number; ?></i></div>
+                  <?php if($order_info->status == 5): ?>
+                  <div class="operation">
+                      <?php if(!$value->customer_service_id):?>
+                      <a class=""  href="<?php echo $this->url('index' , array('controller' => 'service' , 'action' => 'applyQuality' )) ?>?order_goods_id=<?php echo  $value->id ?>&order_id=<?php echo $order_info->id ?>">申请售后</a>
+                      <?php elseif ($value->customer_service_id): ?>
+                      <a class=""  href="<?php echo $this->url('index' , array('controller' => 'service' , 'action' => 'qualityDetail' , 'id' => $value->customer_service_id )) ?>">查看售后</a>
+                      <?php endif; ?>
+                  </div>
+                  <?php endif;?>
+                </li>
+                <?php endforeach;?>
+              </ul>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+<div class="clear"></div>
+<div class="wrap">
+  <div class="order_all_money">
+    <p class="goods_all_num">商品总数：<?php echo $order_number?></p>
+    <p>订单总额：<i><?php echo $order_cash ?></i>元</p>
+  </div>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        $('.user_center ul li').click(function(){
+            $(this).addClass('on').siblings().removeClass('on');
+        })
+        $('.cancel_order').click(function(){
+            $('.page_strong').show();
+            $('.prompt').show();
+        })
+        $('.cancel').click(function(){
+            $('.prompt').hide();
+            $('#delayReason').css('border' , "1px solid #d5d5d5");
+        	$('#delayReason').css('borderRadius' , "5px");
+        })
+        $('.see_pay_voucher').click(function(){
+            $('.pay_voucher_popup').show();
+        })
+        $('..pay_voucher_popup .close').click(function(){
+            $('.pay_voucher_popup').hide();
+        })
+
+        //延长收货
+        $('.extend_receipt').click(function(){
+            $('.dialog h3').html('延长收货');
+            $('.page_strong').show();
+        	$('.prompt').show();
+        	$('.extend').show();
+        	$('.receiveTip').hide();
+        	$('.confirmSure').hide();
+        	$('.extendSure').show();
+        })
+        
+        //确认收货
+        $('.confirm_receipt').click(function(){
+        	$('.dialog h3').html('确认收货');
+            $('.page_strong').show();
+        	$('.prompt').show();
+        	$('.extend').hide();
+        	$('.receiveTip').show();
+        	$('.extendSure').hide();
+        	$('.confirmSure').show();
+        })
+    })
+    
+    function cancelOrder()
+    {
+        var json = GetJson('StatusUpdate');
+        json.q.type =1;
+        json.q.a = 3;
+        json.q.id = '<?php echo $order_info->id?>';
+        json.json = JSON.stringify(json);
+        $.post('<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'getJson'))?>' , json , function(data){
+            if(data.q.s == 0)
+            {
+                window.location.reload();
+            }
+        },"json");
+    }
+
+    function confirmReceive(type)
+    {
+        if(type == 4)
+        {
+            var delayReason = $('#delayReason').val();
+            if(!delayReason)
+            {
+            	$('.page_strong').show();
+            	$('#delayReason').css('border' , "1px solid red");
+            	$('#delayReason').css('borderRadius' , "5px");
+                return false;
+            }
+        }
+    	var json = GetJson('StatusUpdate');
+        json.q.type =1;
+        json.q.a = type;
+        json.q.id = '<?php echo $order_info->id?>';
+        if(type == 4)
+        {
+            json.q.delayReason = delayReason;
+        }
+        json.json = JSON.stringify(json);
+        $.post('<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'getJson'))?>' , json , function(data){
+            if(data.q.s == 0)
+            {
+                window.location.reload();
+            }
+        },"json");
+    }
+    </script>

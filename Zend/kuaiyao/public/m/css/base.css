@@ -1,0 +1,680 @@
+@charset "utf-8";
+/*手机端基础样式表*/
+*
+{
+	margin: 0px;
+	padding: 0px;
+	text-decoration: none;
+	list-style-type: none;
+	font-family: "\5FAE\8F6F\96C5\9ED1";/*Unicode格式的微软雅黑字体*/
+	/*禁止IOS横屏的时候字体变大*/
+	-webkit-text-size-adjust: none;
+}
+li
+{
+	overflow: hidden;
+}
+img
+{
+	width: 100%;
+}
+html
+{
+	font-size: 62.5%; /*字体12px*/
+}
+body
+{
+	padding-bottom: 100px;
+}
+/*去掉苹果手机端web按钮默认样式，解决按钮默认圆角问题*/
+input {
+	-webkit-appearance: none; /*去除input默认样式*/
+	border-radius: 0px;
+}
+/*去掉浏览器焦点时候的边框*/
+input:focus, textarea:focus {
+	outline: none;
+}
+
+a:link, a:visited, a:hover, a:active {
+	color: black;
+}
+/*浮动闭合*/
+.clearfix:after
+{
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+*html .clearfix
+{
+	height:1%;
+}
+*:first-child+html .clearfix { zoom: 1; }
+/*{
+	height: 1%;
+	zoom:1;
+}*/
+.clearfix
+{
+	display:inline-block;
+}
+/*Hide from IE Mac*/
+.clearfix
+{
+	display: block;
+}
+/*End hide from IE Mac*/
+
+/*float 万能闭合钥匙结束*/ 
+
+/*清除浮动*/
+.clear
+{
+	clear: both;
+}
+/*屏蔽点击元素出现底色*/
+a
+{
+	-webkit-tap-highlight-color:rgba(255,255,255,0);
+}
+/*禁止选中*/
+p,span,a,li,div,input[type="button"]
+{
+	-webkit-user-select:none;
+}
+.fl
+{
+	float: left;
+}
+.fr
+{
+	float: right;
+}
+.bc
+{
+	margin: 0px auto;
+}
+.db
+{
+	display: block;
+}
+.d_ib
+{
+	display: inline-block;
+}
+.pr
+{
+	position: relative;
+}
+.pa
+{
+	position: absolute;
+}
+.pf
+{
+	position: fixed;
+}
+.tr
+{
+	text-align: right;
+}
+.tl
+{
+	text-align: left;
+}
+.tc
+{
+	text-align: center;
+}
+.none
+{
+	display: none;
+}
+/*行高*/
+.lh20
+{
+	line-height: 20px;
+}
+.lh30
+{
+	line-height: 30px;
+}
+.lh40
+{
+	line-height: 40px;
+}
+.lh50
+{
+	line-height: 50px;
+}
+.lh180
+{
+	line-height: 180%;
+}.lh200
+{
+	line-height: 200%;
+}.lh250
+{
+	line-height: 250%;
+}.lh300
+{
+	line-height: 300%;
+}
+/*内边距*/
+/*pct==%百分比*/
+.p5pct
+{
+	padding:5%;
+}
+.pr5pct
+{
+	padding-right:5%;
+}
+.pl5pct
+{
+	padding-left:5%;
+}
+
+.plpr5pct
+{
+	padding-left:5%;
+	padding-right:5%; 
+}
+.ptpb10pct
+{
+	padding-top: 10%;
+	padding-bottom: 10%;
+}
+.pt5
+{
+	padding-top: 5px;
+}
+.pt10
+{
+	padding-top: 10px;
+}
+.pt20
+{
+	padding-top: 20px;
+}
+.pt30
+{
+	padding-top: 30px;
+}
+.pt50
+{
+	padding-top: 50px;
+}
+.pb5
+{
+	padding-bottom: 5px;
+}
+.pb10
+{
+	padding-bottom: 10px;
+}
+.pb20
+{
+	padding-bottom:20px;
+}
+.pb30
+{
+	padding-bottom:30px;
+}
+.pb50
+{
+	padding-bottom:50px;
+}
+.pb100
+{
+	padding-bottom:100px;
+}
+.pl5
+{
+	padding-left: 5px;
+}
+.pl10
+{
+	padding-left: 10px;
+}
+.pl20
+{
+	padding-left:20px;
+}
+.pl30
+{
+	padding-left:30px;
+}.pr5
+{
+	padding-right: 5px;
+}
+.pr10
+{
+	padding-right: 10px;
+}
+.pr20
+{
+	padding-right:20px;
+}
+.pr30
+{
+	padding-right:30px;
+}
+.pr50
+{
+	padding-right: 50px;
+}
+/*外边距*/
+.mlmr2pct
+{
+	margin-left:2%;
+	margin-right:2%;
+}
+.mlmr5pct
+{
+	margin-left:5%;
+	margin-right:5%; 
+}
+.mt5
+{
+	margin-top: 5px;
+}
+.mt10
+{
+	margin-top: 10px;
+}
+.mt15
+{
+	margin-top:15px;
+}
+.mt20
+{
+	margin-top: 20px;
+}
+.mt30
+{
+	margin-top: 30px;
+}
+.mt50
+{
+	margin-top:50px;
+}
+.mb5
+{
+	margin-bottom: 5px;
+}
+.mb10
+{
+	margin-bottom: 10px;
+}
+.mb20
+{
+	margin-bottom:20px;
+}
+.mb30
+{
+	margin-bottom:30px;
+}.ml5
+{
+	margin-left: 5px;
+}
+.ml10
+{
+	margin-left: 10px;
+}
+.ml20
+{
+	margin-left:20px;
+}
+.ml30
+{
+	margin-left:30px;
+}.mr5
+{
+	margin-right: 5px;
+}
+.mr10
+{
+	margin-right: 10px;
+}
+.mr20
+{
+	margin-right:20px;
+}
+.mr30
+{
+	margin-right:30px;
+}
+/*宽度*/
+html .w
+{
+	width: 100%;
+}
+html .w49
+{
+	width: 49%;
+}
+html .w65
+{
+	width: 65%;
+}
+html .w30
+{
+	width: 32%;
+}
+/*高度*/
+.h
+{
+	height:100%;
+}
+.h20
+{
+	height:20px;
+}
+.h30
+{
+	height:30px;
+}
+.h40
+{
+	height:40px;
+}
+/*边框*/
+.border
+{
+	border-left: 1px solid #ebebeb;
+}
+
+/*z-index的级别*/
+.top0
+{
+	z-index: 100;
+}
+.top1
+{
+	z-index:200;
+}
+.top2
+{
+	z-index:300;
+}
+.top3
+{
+	z-index:400;
+}
+.top4
+{
+	z-index:500;
+}
+.top5
+{
+	z-index:600;
+}
+/*字体*/
+.bold
+{
+	font-weight: bold;
+}
+.none_bold
+{
+	font-weight: normal;
+}
+.f10
+{
+	font-size: 10px;
+}
+.f120pct
+{
+	font-size: 120%;
+}
+.f140pct
+{
+	font-size:140%;
+}
+.f160pct
+{
+	font-size:160%;
+}
+.f180pct
+{
+	font-size:180%;
+}
+/*字体颜色*/
+.f_color_white
+{
+	color:white;
+}
+/*字段截取*/
+.txt_overflow
+{
+	text-overflow:ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+/*背景图片重复显示*/
+.y-line
+{
+	background-image: url(../images/img_gray_1px.png);
+	background-position: center center;
+	background-repeat: repeat-y;
+	background-size:1px 50%;
+}
+/*页面图标背景对应的位置*/
+.icon_arrowR
+{
+	background-image:url(../images/icon_right_arrow.png);
+	background-repeat: no-repeat;
+	background-position: 95% center;
+	background-size:auto 20px;
+}
+/*按钮class*/
+.btn
+{
+	width: 90%;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	-ms-border-radius:5px;
+	-o-border-radius:5px;
+	border-radius:5px;
+	/*line-height: 200%;*/
+	border:none;
+	margin-left: 5%;
+	font-weight: bold;
+	background-color: #b5b4b4;
+}
+/*圆头像处理*/
+.round
+{
+	-webkit-border-radius:50%;
+	-moz-border-radius:50%;
+	-ms-border-radius:50%;
+	-o-border-radius:50%;
+	border-radius:50%;
+	overflow: hidden;
+	border:1px solid #636867;
+}
+/*动画代码*/
+@-webkit-keyframes zhuan{
+	0%{
+	transform:rotate(0deg);
+	-ms-transform:rotate(0deg);
+	-moz-transform:rotate(0deg);
+	-webkit-transform:rotate(0deg);
+	-o-transform:rotate(0deg)
+}
+
+50%{
+	transform:rotate(-90deg);
+	-ms-transform:rotate(-90deg);
+	-moz-transform:rotate(-90deg);
+	-webkit-transform:rotate(-90deg);
+	-o-transform:rotate(-90deg)
+}
+
+100%{
+	transform:rotate(0deg);
+	-ms-transform:rotate(0deg);
+	-moz-transform:rotate(0deg);
+	-webkit-transform:rotate(0deg);
+	-o-transform:rotate(0deg)
+}
+
+}@-moz-keyframes zhuan{
+	0%{
+	transform:rotate(0deg);
+	-ms-transform:rotate(0deg);
+	-moz-transform:rotate(0deg);
+	-webkit-transform:rotate(0deg);
+	-o-transform:rotate(0deg)
+}
+
+50%{
+	transform:rotate(-90deg);
+	-ms-transform:rotate(-90deg);
+	-moz-transform:rotate(-90deg);
+	-webkit-transform:rotate(-90deg);
+	-o-transform:rotate(-90deg)
+}
+
+100%{
+	transform:rotate(0deg);
+	-ms-transform:rotate(0deg);
+	-moz-transform:rotate(0deg);
+	-webkit-transform:rotate(0deg);
+	-o-transform:rotate(0deg)
+}
+
+}@-ms-keyframes zhuan{
+	0%{
+	transform:rotate(0deg);
+	-ms-transform:rotate(0deg);
+	-moz-transform:rotate(0deg);
+	-webkit-transform:rotate(0deg);
+	-o-transform:rotate(0deg)
+}
+
+50%{
+	transform:rotate(-90deg);
+	-ms-transform:rotate(-90deg);
+	-moz-transform:rotate(-90deg);
+	-webkit-transform:rotate(-90deg);
+	-o-transform:rotate(-90deg)
+}
+
+100%{
+	transform:rotate(0deg);
+	-ms-transform:rotate(0deg);
+	-moz-transform:rotate(0deg);
+	-webkit-transform:rotate(0deg);
+	-o-transform:rotate(0deg)
+}
+
+}@keyframes zhuan{
+	0%{
+	transform:rotate(0deg);
+	-ms-transform:rotate(0deg);
+	-moz-transform:rotate(0deg);
+	-webkit-transform:rotate(0deg);
+	-o-transform:rotate(0deg)
+}
+
+50%{
+	transform:rotate(-90deg);
+	-ms-transform:rotate(-90deg);
+	-moz-transform:rotate(-90deg);
+	-webkit-transform:rotate(-90deg);
+	-o-transform:rotate(-90deg)
+}
+
+100%{
+	transform:rotate(0deg);
+	-ms-transform:rotate(0deg);
+	-moz-transform:rotate(0deg);
+	-webkit-transform:rotate(0deg);
+	-o-transform:rotate(0deg)
+}
+
+}
+.orientation-phone
+{
+	position: fixed;
+	z-index: 9999;
+	width: 100%;
+	height: 100%;
+	background-color: #a30101;
+	/*display: none;*/
+}
+.prompt-img
+{
+	width: 120px;
+	height: 120px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -60px;
+	margin-top: -60px;
+	background: url(../images/phone.png) no-repeat center center;
+	background-size: 100% auto;
+	animation: zhuan 1.5s;
+	-moz-animation: zhuan 1.5s;
+	-webkit-animation: zhuan 1.5s;
+	-o-animation: zhuan 1.5s;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-delay: 0.3s;
+}
+.prompt-txt
+{
+	width: 200px;
+	height: 29px;
+	text-align: center;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -100px;
+	margin-top: 60px;
+	color:white;
+	font-size: 140%;
+
+}
+@media screen and (orientation:landscape)
+{
+	.orientation-phone
+	{
+		display: block;
+	}
+}
+/*页面遮盖层*/
+.page_strong
+{
+	background: rgba(0,0,0,0.5);
+	width: 100%;
+	height: 100%;
+	left: 0px;
+	top: 0px;
+	position: fixed;
+	display: none;
+}
+/*页面loading层*/
+.page_loading
+{
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	left: 0px;
+	top:0px;
+	background-color: rgba(255,255,255,1);
+	background-image: url(../images/page_loading.jpg);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 80% auto;
+	display: none;
+}
+/*背景颜色*/
+.bg_white
+{
+	background-color:white;
+}

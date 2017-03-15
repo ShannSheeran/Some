@@ -1,0 +1,134 @@
+@charset 'utf-8';
+.logo {
+	float: left;
+	width: 204px;
+	height: 80px;
+	/*background: url(../images/logo.png) no-repeat left center;*/
+}
+.logo a {
+	cursor: pointer;
+}
+.explain {
+	float: left;
+	margin-left: 45px;
+	height: 80px;
+	line-height: 80px;
+	font-size: 20px;
+	color: #333;
+}
+.header_phone {
+	float: right;
+	width: 241px;
+	height: 80px;
+	line-height: 80px;
+	font-size: 20px;
+	color: #333;
+}
+.header_bottom {
+	/*float: left;*/
+	background: #c4234c;
+	color: #fff;
+	height: 40px;
+}
+.account {
+	display: inline-block;
+	float: left;
+	width: 204px;
+	height: 40px;
+	line-height: 40px;
+}
+.quit {
+	padding-left: 5px;
+	color: #fff;
+}
+a.quit:hover,
+a.quit:link,
+a.quit:visited,
+a.quit:active
+{
+	color: #fff;
+}
+nav {
+	float: left;
+	width: 796px;
+	height: 40px;
+	line-height: 40px;
+}
+nav ul {
+	height: 40px;
+	line-height: 40px;
+}
+nav ul li {
+	float: left;
+	margin: 0 20px;
+    position: relative;
+}
+nav ul li a {
+	padding-bottom: 3px;
+	color: #fff;
+	cursor: pointer;
+	height: 30px;
+}
+nav ul li a:link,nav ul li a:visited,nav ul li a:active {
+	color: #fff;
+}
+nav ul li a:hover {
+	border-bottom: 3px solid #fff;
+}
+/*nav ul li a.on {
+    height: 30px;
+    border-bottom: 3px solid #fff;
+    color: #fff;
+}*/
+nav ul li.on a {
+	color: #fff;
+	height: 30px;
+	border-bottom: 3px solid #fff;
+}
+.map_nav {
+    display: block;
+    padding-left: 5px;
+    width: 995px;
+    height: 42px;
+    line-height: 42px;
+    background: #eee;
+    color: #666;
+    font-size: 16px;
+}
+footer {
+	margin-top: 20px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	height: 76px;
+	background: #c4234c;
+	color: #fff;
+    width: 100%;
+    z-index:999; 
+}
+footer .external_links {
+	text-align: center;
+}
+footer div,
+footer p,
+footer span
+{
+	line-height: 30px;
+	color: #fff;
+}
+footer p .support {
+	padding-left: 45px;
+}
+footer p .phone {
+	padding-left: 20px;
+	padding-right: 20px;
+}
+footer p .email {
+	float: right;
+	padding-left: 20px;
+}
+.external_links a {
+	padding-left: 10px;
+	padding-right: 10px;
+	color: #fff;
+	cursor: pointer;
+}

@@ -1,0 +1,81 @@
+<!-- Responsive Table -->
+<!-- Table exporting -->
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			<a
+				href="<?php echo $this->url('admin-ads',array('action'=>'addRelation'));?>">
+				<button class="btn btn-large btn-info">
+					<i class="icon-edit icon-white"></i>
+					新增广告投放策略
+				</button>
+			</a>
+			<form class="form-horizontal"
+				action="<?php echo $this->url('admin-ads',array('action'=>'relation'))?>"
+				method="post" style="float: right; margin-left: 20px;">
+				<span style="font-weight: bold; font-size: 16px;"> 搜索全表：</span>
+				<input type="text" name="keyword" value="<?php echo $keyword?>"
+					placeholder="搜索 ID、广告位">
+				<input type="submit" name="submit" value="搜索"
+					class="btn btn-large btn-info"
+					style="height: 25px; width: 60px; line-height: 25px; padding: 0; margin-left: 10px; margin-top: 5px;" />
+			</form>
+		</h3>
+
+		<div class="panel-options">
+
+			<a href="#" data-toggle="panel">
+				<span class="collapse-icon">&ndash;</span>
+				<span class="expand-icon">+</span>
+			</a>
+			<a href="#" data-toggle="remove"> &times; </a>
+		</div>
+	</div>
+	<div class="panel-body">
+		<table class="table table-bordered table-striped" id="example-4">
+					<thead>
+						<tr>
+						    <th>ID</th>
+							<th>所属广告位</th>
+							<th>图片名+链接地址</th>
+							<th>精准投放</th>
+							<th>广告图</th>							
+							<th>开始时间</th>
+							<th>结束时间</th>
+							<th>状态</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						  <?php if($list){?>
+						 <?php foreach($list as $v):?>						 			   
+							<tr>
+							<td><?php echo $v->id;?></td>
+							<td><?php echo $v->name;?></td>
+							<td><a href="<?php echo $v->url; ?>"><?php echo $v->m_name;?></a><br/><?php echo $v->url;?></td>
+							<td><?php echo $ads_type[$v->limit];?></td>
+							<td><img src="<?php echo isset($v->image_id) ? IMAGE_SERVER.UPLOAD_PATH.$v->path.$v->filename : ROOT_PATH.'adminStyle/img/no_pic.gif'?>" style="max-width: 364px" height="120"></td>							
+							<td><?php echo date("Y-m-d H:i",strtotime($v->start_time));?></td>
+							<td><?php echo date("Y-m-d H:i",strtotime($v->end_time));?></td>
+							<td><?php $status = $v->status; if($status==1){echo '开启';}elseif($status==2){echo '关闭';}else{echo '未开启';} ?></td>
+							
+							<td>
+								<a class="btn btn-info" <?php if($v->delete==0){?>
+									href="<?php echo $this->url('admin-ads',array('action'=>'addRelation','id'=>$v->id))?>"
+									<?php }else{?> disabled <?php }?>> 查看 </a>
+									<a class="btn btn-danger" <?php if($v->delete==0){?>
+									onclick="show_confirm('<?php echo $this->url('admin-ads',array('action'=>'delRelation','id'=>$v->id));?>')"
+									href="#" <?php }else{?> disabled <?php }?>>删除</a>
+								
+							</td>
+						</tr>
+							<?php endforeach;?>
+							<?php }?>						
+						  </tbody>
+				</table>				   
+						 <?php echo $this->paginationControl($paginator, 'Sliding', 'page',array('route' =>'new-admin-ads','condition'=>$condition));?> 
+			</div>
+		</div>
+
+
+

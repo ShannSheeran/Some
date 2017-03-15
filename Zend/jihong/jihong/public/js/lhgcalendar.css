@@ -1,0 +1,92 @@
+﻿/* *@Generator -> Panel Plugins - Build 2009-4-27 *@Copyright (c) 2009 LiHuiGang - lhgpanel.css */
+.cal_panel{
+	cursor: default;
+	background: #fff;
+}
+.cal_panel #pm,
+.cal_panel #nm {
+	cursor:pointer;
+	position:absolute;
+	width:8px;
+	height:16px;
+	top:12px;
+	line-height:16px;
+	background-image:url(../images/d_a_bg.png);
+	background-repeat:no-repeat;
+}
+.cal_panel #date{
+	cursor:default;
+	position:absolute;
+	left:187px;
+	width:80px;
+	top:13px!important;
+	top:12px;
+	text-align:center;
+	height:16px;
+	line-height:16px;
+}
+.cal_panel #pm{
+	left:107px;
+	background-position:0 0;
+}
+.cal_panel #nm{
+	right:104px;
+	+left:144px;
+	background-position:0 -16px;
+}
+.cal_panel table thead{
+	font-size: 16px;
+	color:#c4234c;
+	text-align:center;
+	height:15px;
+	vertical-align:top;
+}
+.cal_panel table thead td {
+	padding-top: 16px; 
+	padding-bottom: 15px;
+}
+.cal_panel tbody td{
+	padding-top: 9px;
+	padding-bottom: 9px;
+	text-align:center;
+	vertical-align:middle;
+	width:15px;
+	height:15px;
+	color: #333;
+}
+.cal_panel .tdday{
+	/*background: #c4234c;*/
+	/*background-repeat:no-repeat;
+	background-position:0 0;*/
+}
+.cal_panel .tday,
+.cal_panel .over{
+	cursor: pointer;
+	color: #fff;
+	background:url(../images/d_t_bg.png) no-repeat center;
+}
+.cal_panel #iy,
+.cal_panel #im{
+	border:1px solid #7f9db9;
+	height:16px;
+	font:11px Verdana, Arial, sans-serif;
+}
+.cal_panel #foot{
+	height:20px;
+	margin-top:1px;
+}
+.cal_panel #t1{
+	position:relative;
+	top:3px;
+	background-color:#f7f7f7;
+	border:1px solid #e3e3e3;
+	padding:2px 5px 1px 5px;
+	_padding:4px 5px 0px 5px;
+}
+.cal_panel #t2{
+	position:relative;
+	font:11px Verdana, Arial, sans-serif;
+	top:3px;
+	left:15px;
+	color:#039;
+}

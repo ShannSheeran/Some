@@ -1,0 +1,130 @@
+/*了解快摇名片设备*/
+@charset "utf-8";
+/*第一个模块*/
+.main .main_one{
+	background: url(../images/b_bg1.jpg);
+	background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+.main .main_one div{
+	position: absolute;
+	top:50%;
+	left: 50%;
+	margin-left: -100px;
+}
+/*第二个模块*/
+.main .main_two{
+	background: url(../images/b_img1.png) no-repeat 85% 150px;
+}
+.main .main_two .two_text{
+	position: absolute;
+	top:30%;
+	left: 13%;
+}
+.main .main_two .move{
+	position: absolute;
+	top:220px;
+	right: 20%;
+}
+/*第三个模块*/
+.main .main_three{
+	background: #b0e0f1  url(../images/b_bg2.png) no-repeat center center;
+}
+.main .main_three div{
+	position: absolute;
+	bottom:7%;
+	right: -790px;
+}
+/*第四个模块*/
+.main .main_four{
+	background: url(../images/b_bg3.jpg) no-repeat center center;
+}
+.main .main_four .footer_text{
+	position: absolute;
+	bottom:15px;
+	left: 50%;
+	margin-left: -264px;
+	font-size: 12px;
+}
+.main .indexa{
+	position: absolute;
+	bottom:30px;
+	left: 50%;
+	margin-left: -91px;
+	color:#05a3d9;
+	font-size: 20px;
+}
+/*当屏幕小于1600*/
+@media (max-width: 1600px){
+	
+	.main .main_two{
+		background-position: 90% 150px; 
+	}
+	.main .main_two .two_text{
+		left:10%;
+	}
+	.main .main_two .two_text img{
+		width:650px;
+	}
+	.main .main_three{
+		background-size:600px;
+	}
+	.main .main_three div img{
+		width:600px;
+	}
+	.main .main_four{
+		background-size:500px;
+		background-position: center 78px;
+	}
+}
+/*当屏幕小于1450*/
+@media (max-width: 1450px){
+	.main .main_one div img{
+		margin-top:-40px;
+	}
+	.main .main_two{
+		background-size:300px;
+		background-position: 95% 150px; 
+	}
+	.main .main_two .move img{
+		width: 300px;
+	}
+	.main .main_two .two_text{
+		left:5%;
+	}
+	.main .main_two .two_text img{
+		width:700px;
+	}
+	.main .main_three{
+		background-size:600px;
+	}
+	.main .main_three div{
+		bottom:10%;
+	}
+	.main .main_four{
+		background-size:500px;
+	}
+}
+/*当屏幕小于1200*/
+@media (max-width: 1200px){
+	.main .main_one div img{
+		width:180px;
+		margin-top:-40px;
+	}
+	.main .main_two{
+		background-size:250px;
+	}
+	.main .main_two .move img{
+		width: 250px;
+	}
+	.main .main_two .two_text img{
+		width:550px;
+	}
+	.main .main_three div img{
+		width:500px;
+	}
+	.main .main_four{
+		background-size:420px;
+	}
+}

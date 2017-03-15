@@ -1,0 +1,73 @@
+﻿<!-- Responsive Table -->
+<!-- Table exporting -->
+ <script type="text/javascript">
+// $(function(){
+// 	$("#addCard").appendTo("#example-4_length");
+// 	$(".all").appendTo(".dataTables_filter");
+// 	$("#example-4_filter").addClass("fl");
+// 	$(".col-sm-5").addClass("col-sm-3");
+// 	$(".col-sm-7").removeClass("col-sm-7");
+// 	$(".dataTables_filter").css("float","left");
+// 	// $(".dataTables_filter label").css("float","left");
+// })
+
+</script>
+<style type="text/css">
+	.form-control{width:110px;}
+	#form{float:left;margin-right:5px;}
+	#sure{width:55px;float:left;margin-right:3px;background:#ccc;}
+	.panel-heading{margin-left:100px;}
+	.condition{margin-left:1170px;}
+	.is_top{text-align: center;}
+	.panel{overflow: hidden;}
+	.update{margin:10px 0 0 16px;}
+</style>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			用户体验群
+		</h3>
+
+		<div class="condition">
+			
+		</div>
+	</div>
+	<form action="<?php echo $this->url('admin-notification',array('action'=>'experience'))?>" method="post" enctype="multipart/form-data">
+		<div class="logo f222">
+			<label class="col-sm-1 control-label mb10"><i id="red_star" class="red_star">*&nbsp;</i>二维码：</label>
+
+			<div class="col-sm-11 mb10">
+				<input type="file" class="up_logo" id="file0" multiple name="up_logo"><span>(请上传4:3的二维码)</span>
+				<img class="c_logo" src="<?php if($path){echo ROOT_PATH.UPLOAD_PATH.$path;}else{echo ROOT_PATH . 'adminStyle/img/no_pic.gif';}?>" id="preview" alt="" style="width:200px;height:200px;" />
+				<input type="hidden" name="up_logo" value="<?php echo $id;?>">
+			</div>
+			<label class="col-sm-1 control-label">更换时间:</label>
+			<span  class="col-sm-11"><input type="text" name="time" value="<?php echo $time;?>"></span>
+		</div>
+		<input class="update" type="submit" name="submit" value="更新">
+	</form>
+</div>	
+<script>
+	/*logo*/
+	$(".up_logo").change(function(){
+		var objUrl = getObjectURL(this.files[0]) ;
+		console.log("objUrl = "+objUrl) ;
+		if (objUrl) {
+			$(".c_logo").attr("src", objUrl) ;
+		}
+	}) ;
+
+	//建立一個可存取到該file的url
+	function getObjectURL(file) {
+		var url = null ;
+		if (window.createObjectURL!=undefined) { // basic
+			url = window.createObjectURL(file) ;
+		} else if (window.URL!=undefined) { // mozilla(firefox)
+			url = window.URL.createObjectURL(file) ;
+		} else if (window.webkitURL!=undefined) { // webkit or chrome
+			url = window.webkitURL.createObjectURL(file) ;
+		}
+		return url ;
+	}
+
+</script>

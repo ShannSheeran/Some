@@ -1,0 +1,158 @@
+<style>
+    .tl{text-align: right;}
+    .main-nody{padding:5px 20px 0 20px;}
+    .main-nody h5{float: left;}
+    .tp{margin-top: 30px;}
+    .bc-1{display: none;}
+    .fl{float: left;}
+    .pd5{
+        padding:5px;	
+    }
+</style>
+<script src="<?php echo $this->basePath();?>/js/admin/ajaxfileupload.js"></script>
+<script type="text/javascript">
+var url = '<?php echo $this->url('admin-common',array('action'=>'getAdminFile')) ;?>';
+</script>
+<div class="panel panel-default">
+   <div class="panel-heading">
+       <div calss="row">
+           <div class="col-sm-6">
+               <a href="<?php echo $this->url('admin-goods' , array('action' => 'index'));?>">商品管理 </a> / <a href="<?php echo $this->url('admin-goods' , array('action' => 'category'));?>">商品类型管理</a> / 
+               <?php if($id){ ?>
+               <a href="">修改分类</a>
+               <?php }else{ ?>
+               <a href="">添加分类</a>
+               <?php }?>    
+           </div>
+       </div>
+   </div>
+    <div class="pannel-body main-nody">
+        <form class="form-horizontal" action="<?php echo $this->url('admin-goods',array('action'=>'categoryOperate'))?>" method="post" onsubmit="return check()">
+            <div class="row">
+                <div class="col-lg-12">
+                    <?php if($id){ ?>
+                    <h5>编辑分类</h5>
+                   <?php }else{ ?>
+                    <h5>添加分类</h5>
+                   <?php }?>    
+                </div>
+                <div class="col-lg-12">
+                
+                    <table class="table table-striped" id="example-4" >
+                        <tbody>
+                            <tr>
+                                <td>分类名称</td>
+                                <td>
+                                    <input type="text" name="name" value="<?php echo isset($goods_category->name) ? $goods_category->name : ''?>" class="pd5" required>
+                                    <input type="hidden" name="id" value="<?php echo isset($goods_category->id) ? $goods_category->id : ''?>"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>分类类型</td>
+                                <td>
+                                <?php foreach ($categoryType as $k=>$v){?>
+                                    <input type="radio" name="type" value="<?php echo $k?>" class="pd5" <?php if(isset($parent_category->type) && $k==$parent_category->type) {echo "checked";}elseif(!$parent_category && isset($goods_category->type) && $k==$goods_category->type){echo "checked";}elseif(!$parent_category && $k==1){echo "checked";}?> <?php if( (isset($parent_category->type) && $k==$parent_category->type) ||  (!$parent_category && isset($goods_category->type) && $k==$goods_category->type) || (!$parent_category && !$goods_category) ){echo '';}else{echo 'disabled';} ?> onchange="selectSameTypeCategory(this)"><?php echo $v?>
+                                <?php }?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>所属分类</td>
+                                <td>
+                                    <?php if(isset($goods_category->parent_id) && $goods_category->parent_id != 0): ?>
+                                    <select name="parent_id" class="pd5" id="parent_id">
+                                        <?php if(!empty($categorys)):?>
+                                        <?php foreach ($categorys as $v){?>
+                                            <option value="<?php echo (isset($goods_category->id) && ($goods_category->id == $v['id'])) ? $goods_category->id : $v->id?>" <?php if((isset($goods_category->parent_id) && ($goods_category->parent_id == $v['id'])) || (isset($pid) && $pid == $v['id'])) echo "selected"?>><?php echo $v->name?></option>
+                                        <?php }?>
+                                        <?php endif;?>
+                                    </select>
+                                    <?php elseif(isset($goods_category->parent_id) && $goods_category->parent_id == 0): ?>
+                                    顶级分类
+                                    <?php else: ?>
+                                    <select name="parent_id" class="pd5" id="parent_id">
+                                        <option value="0">顶级分类</option>
+                                        <?php if(!empty($categorys)):?>
+                                        <?php foreach ($categorys as $v){?>
+                                            <option value="<?php echo (isset($goods_category->id) && ($goods_category->id == $v['id'])) ? $goods_category->id : $v->id?>" <?php if((isset($goods_category->parent_id) && ($goods_category->parent_id == $v['id'])) || (isset($pid) && $pid == $v['id'])) echo "selected"?>><?php echo $v->name?></option>
+                                        <?php }?>
+                                        <?php endif;?>
+                                    </select>
+                                    <span> 若不选择则添加为一级分类 </span>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>排序序号</td>
+                                <td>
+                                    <input type="number" min="0" name="sort" value="<?php echo isset($goods_category->sort) ? $goods_category->sort : ''?>" class="pd5" required>
+                                    <span> 序号越小，在同等级分类中排序越前</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>分类图片</td>
+                                <td>
+                                <!-- 
+                                    <input type="button" value="选择图片" class="btn btn-info">
+                                    <input type="file" style="display: none">
+                                    <span> 请上传500*500以上的图片；长宽比为：1：1；页面显示清晰</span>
+                                     -->
+                                    <input type="file" id="img0" name="Filedata" onchange="return ajaxFileUpload('0');" />
+                                    <input type="hidden" name="image" value="<?php echo isset($image) ? $image['id'] : ''?>" id="img_id_0" /> <br />
+                                    <span style="clear: both;">
+        							     <img src="<?php if($image){echo ROOT_PATH.UPLOAD_PATH.$image['path'].$image['filename'];}else{echo ROOT_PATH . 'images/no_pic.gif';}?>" width="200" height="200" id="img_0" />
+        							</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="row tp">
+                <div class="col-lg-12">
+                    <h5>
+                        <button type="submit" name="submit" value="保存分类" class="btn btn-info btn-large">保存分类</button>
+                     </h5>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    function selectSameTypeCategory(obj)
+    {
+        var type = $(obj).val();
+    	$.ajax({
+		    url:'<?php echo $this->url('admin-goods',array('action'=>'sameTypeCategory'))?>',
+		    type:'post',
+		    data:{'type':type},
+		    dataType:'json',
+		    success:function(data){
+		    	if(data.code=='1'){
+			    	var html = "<option value='0'>请选择</option>";
+			    	$.each(data.categorys,function(i,v){
+			    	    html += "<option value='"+v.id+"'>"+v.name+"</option>"
+				    	});
+		    		$("#parent_id").empty();
+		    		$("#parent_id").append(html);
+		    	}
+		    	else
+			    {
+		    		var html = "<option value='0'>请选择</option>";
+		    		$("#parent_id").empty();
+		    		$("#parent_id").append(html);
+				}
+			},
+		});
+    }
+    
+    function check()
+    {
+        if($.trim($("input[name='name']").val()).length <= 0)
+        {
+            alert("请输入分类名称");
+            return false;
+        }
+        return true;
+    }
+</script>

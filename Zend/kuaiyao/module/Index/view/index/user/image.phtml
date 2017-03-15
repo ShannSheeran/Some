@@ -1,0 +1,41 @@
+<script src="<?php echo $this->basePath();?>/pc/ckeditor/ckeditor.js"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/pc/css/login.css" />
+<!--  main -->
+<div class="main">
+  <div class="wrap">
+    <div class="container clearfix">
+      <dl class="tab1">
+        <dd class="" style ="display:block; width: 100%;
+  text-align: center;
+  line-height: 45px;
+  font-size: 18px;
+  margin:0 auto; text-align: center;">恭喜您！资料保存成功！如需购买快摇名片，请扫描二维码关注微信公众号。</dd>
+      </dl>
+      <form method="post" action="<?php echo $this->url('index',array('controller'=>'user','action'=>'DetailsSub'))?>" enctype="multipart/form-data">
+      <table class="nr_1">
+        <tr>
+          <td rowspan="4" width="214" class="up">
+            <dl>
+              <dt><img src="<?php echo ROOT_PATH?>pc/images/erweima.jpg"  id="img0" style="width:300px;height:300px;"/></dt>
+           
+            </dl>
+          </td>
+       
+        </tr>
+      </table>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!--  contact -->
+
+<div class="contact">
+  <div class="wrap">
+    <dl>
+      <dd><img src="<?php echo $this->basePath();?>/pc/images/contact_tel.jpg" />4008383765</dd>
+      <dd><img src="<?php echo $this->basePath();?>/pc/images/contact_email.jpg"  /><a href="mailto:kefu@kuaiyao.name">kefu@kuaiyao.name</a></dd>
+      <dd><img src="<?php echo $this->basePath();?>/pc/images/contact_qq.jpg"  /><a target="blank" href="http://wpa.qq.com/msgrd?V=3&uin=2334131157&Site=QQ交谈&Menu=yes"><img border="0" SRC="http://wpa.qq.com/pa?p=1:2334131157:7" alt="点击这里给我发消息"></a></dd>
+    </dl>
+  </div>
+</div>

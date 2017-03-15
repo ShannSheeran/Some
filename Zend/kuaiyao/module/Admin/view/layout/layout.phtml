@@ -1,0 +1,91 @@
+<?php echo $this->doctype();?>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <?php echo $this->headMeta()
+    ->appendName('description', 'RemoteSystemsTempFiles')
+    ->appendName('author', 'aiitec'); ?>
+	
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <?php 
+		echo $this->headTitle('快摇后台管理'. $this->translate('后台'))->setSeparator(' - ')->setAutoEscape(false);
+	?>
+	
+	 <?php 
+		echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/images/favicon.ico'))
+                    ->appendStylesheet($this->basePath() . '/css/fonts/linecons/css/linecons.css')
+                    ->appendStylesheet($this->basePath() . '/css/fonts/fontawesome/css/font-awesome.min.css')
+                    ->appendStylesheet($this->basePath() . '/css/bootstrap.css')
+                    ->appendStylesheet($this->basePath() . '/css/xenon-core.css')
+                    ->appendStylesheet($this->basePath() . '/css/xenon-forms.css')
+                    ->appendStylesheet($this->basePath() . '/css/xenon-components.css')
+                    ->appendStylesheet($this->basePath() . '/css/xenon-skins.css')
+					->appendStylesheet($this->basePath() . '/css/page.css')
+                    ->appendStylesheet($this->basePath() . '/css/custom.css')
+                    ->appendStylesheet($this->basePath() . '/css/main.css')
+                    ->appendStylesheet($this->basePath() . '/css/base2.css');
+     ?>
+	 
+	 <?php 
+		echo $this->headScript()->offsetSetFile(1,$this->basePath() . '/js/html5shiv.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
+								   ->offsetSetFile(2,$this->basePath().'/js/respond.min.js','text/javascript',array('conditional'=>'lt IE 9'))
+                                   ->offsetSetFile(3,$this->basePath() .'/js/jquery-1.11.1.min.js')
+								   ->offsetSetFile(4,$this->basePath() .'/js/public.js');
+	?>
+<script type="text/javascript">
+jQuery(document).ready(function($)
+		{
+			$("#example-4").dataTable({
+				dom: "<'row'<'col-sm-5'l><'col-sm-7'Tf>r>"+
+					 "t"+
+					 "<'row'<'col-xs-6'i><'col-xs-6'p>>",
+				tableTools: {
+					sSwfPath: "<?php echo ROOT_PATH?>js/datatables/tabletools/copy_csv_xls_pdf.swf"
+				}
+			});
+		});
+
+var Sys = {};
+var ua = navigator.userAgent.toLowerCase();
+if (window.ActiveXObject)
+{
+    Sys.ie = ua.match(/msie ([\d.]+)/)[1];
+}
+if (Sys.ie)
+{
+	var IE = navigator.userAgent.indexOf("MSIE 9.0")>0 ? 1 : 0;
+	  if(IE==0)
+	  {
+		  alert('系统检测到您正在使用IE内核浏览器，为了更好的体验，请升级至IE9及以上版本的浏览器！');
+	  }
+}
+
+</script>
+<style type="text/css">
+.DTTT_container{display:none;}	
+</style>
+</head>
+<body>
+	<?php echo $this->content;?>
+	<!-- Bottom Scripts -->
+	<!-- JavaScripts initializations and stuff -->
+<script type="text/javascript" src="<?php echo $this->basePath() . '/js/bootstrap.min.js';?>"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() . '/js/TweenMax.min.js';?>"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() .  '/js/resizeable.js';?>"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() . '/js/joinable.js';?>"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() .  '/js/xenon-api.js';?>"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() .  '/js/xenon-toggles.js';?>"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() .  '/js/xenon-custom.js';?>"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() . '/js/inputmask/jquery.inputmask.bundle.js';?>"></script>
+<!-- Imported styles on this page -->
+<link rel="stylesheet" href="<?php echo $this->basePath() . '/js/datatables/dataTables.bootstrap.css';?>">
+<script src="<?php echo $this->basePath() . '/js/datatables/js/jquery.dataTables.min.js';?>"></script>
+<!-- Imported scripts on this page -->
+<script src="<?php echo $this->basePath() . '/js/datatables/dataTables.bootstrap.js';?>"></script>
+<script src="<?php echo $this->basePath() . '/js/datatables/yadcf/jquery.dataTables.yadcf.js';?>"></script>
+<script src="<?php echo $this->basePath() . '/js/datatables/tabletools/dataTables.tableTools.min.js';?>"></script>
+
+</body>
+</html>

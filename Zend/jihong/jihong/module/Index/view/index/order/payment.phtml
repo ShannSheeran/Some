@@ -1,0 +1,166 @@
+<script src="<?php echo $this->basePath();?>/js/admin/ajaxfileupload.js"></script><!-- //上传JS -->
+<script type="text/javascript">
+var url = '<?php echo $this->url('admin-common',array('action'=>'getAdminFile')) ;?>';
+</script>
+    
+<div class="pay_money wrap">
+    <div class="pay_message wrap clearfix">
+        <h2>订单支付</h2>
+        <span class="due_money d_ib fl">应付金额：<i><?php echo $order_info->total_cash?></i>元</span>
+        <span class="order_num">订单号：<?php echo $order_info->order_sn ?></span>
+    </div>
+    <div class="clear"></div>
+    <!-- <div class="pay_way clearfix">
+        <a class="btn_giro on" pay_type="2" >转账支付</a>
+        <a class="btn_balance" pay_type="1" >余额支付</a>
+    </div> -->
+    <div class="clear"></div>
+    <div class="big">
+        <ul class="giro">
+            <div class="pay_detail">
+                <?php if(!empty($alipay_count) && !empty($bank_count)): ?>
+                <p>请选择以下任意一种方式转账给我们，以便我们给您尽快发货</p>
+                <?php endif; ?>
+                <?php if(!empty($bank_count)): ?>
+                <div class="bank_card">
+                    <span>银行卡转账</span>
+                    <p>银行：<?php echo $bank_list[$bank_count->bank_id]->name?></p>
+                    <p>开户行：广州市珠江支行&nbsp;&nbsp;&nbsp;&nbsp;卡号：<?php echo $bank_count->number?></p>
+                    <p>户名：<?php echo $bank_count->name?></p>
+                </div>
+                <?php endif; ?>
+                <?php if(!empty($alipay_count)): ?>
+                <div class="alipay">
+                    <span>支付宝转账</span>
+                    <p>支付宝账户：<?php echo $bank_count->number?></p>
+                    <p>户名：<?php echo $bank_count->name?></p>
+                </div>
+                <?php endif; ?>
+            </div>
+            <div class="separation_line"></div>
+            <div class="clear"></div>
+            <div class="pay_voucher wrap">
+                <h2>付款凭证</h2>
+                <p>请将转账汇款界面截图后上传给我们</p>
+                <div class="clear"></div>
+                <div class="sed_img_show">
+                    <div>
+                        <input type="hidden" name="image" value="<?php echo isset($image) ? $image['id'] : ''?>" id="img_id_0" /> <br />
+    					<img src="<?php echo ROOT_PATH ?>images/no_pic.gif" width="200" height="200" id="img_0" />
+    					 <a class="delete">删除</a>
+    			    </div>
+                    <div class="clear"></div>
+                    <a class="sed_img">上传图片</a>
+                    <input  style="visibility:hidden" type="file" id="img0" name="Filedata" onchange="return ajaxFileUpload('0');" />             
+                 </div>
+            </div>
+            <div class="clear"></div>
+            <div class="ps">
+            <p>注：</p>
+            <p>1、交易时间：每天<span style="color:red"><?php echo $time_node->node; ?></span>分前所下订单为当天受理的订单，<span style="color:red"><?php echo $time_node->node; ?></span>后所下订单为第二天受理的订单</p>
+            <p>2、本公司产品价格均不包括运费，我公司负责将商品打包装箱，并帮助客户联系适合的物流公司，运输费用均由买方承担。</p>
+            </div>
+        </ul> 
+<!--         <ul class="balance_pay none clearfix">
+            <p>您选择的是余款支付，将使用您预存至我们平台的余款进行支付订单。若余款不足，我们将修改您的订单为转账支付，届时需要您支付剩余部分的金额。</p>
+            <div class="ps">
+                <p>注：</p>
+                <p>1、交易时间：每天<i>1:00~16:30</i>所下订单为当天受理的订单，<i>17:00~23:00</i>所下订单为第二天受理的订单。</p>
+                <p>2、本公司产品价格均不包括运费，我公司负责将商品打包装箱，并帮助客户联系适合的物流公司，运输费用均由买方承担。</p>
+            </div>
+        </ul>  -->
+    </div>       
+    <div class="clear"></div>
+    <div class="btn_submit wrap clearfix">
+    <a onclick="statusUpdate()">提交</a>
+    </div>
+</div>
+  
+<!-- 删除地址弹窗 -->
+<!-- <div class="del_addr">
+    <h3>删除地址</h3>
+    <p>是否确认要删除选择的地址？</p>
+    <div class="pop_shopc_btns">
+        <a class="fl no">取消</a>
+        <a class="fl yeah current" contact_id="" >确定</a>
+    </div>
+</div> -->
+
+<script>
+$(function(){
+    $('.sed_img').click(function(){
+        $('#img0').click();
+    })
+
+    $('.delete').click(function(){
+        $('#img_0').attr('src' , '<?php echo ROOT_PATH ?>images/no_pic.gif');
+        $('#img_id_0').val('');
+     })
+})
+
+var order_id = '<?php echo isset($_GET['orderId'])? (int)$_GET['orderId'] : ''; ?>';
+actStatusUpdate = true;
+function statusUpdate()
+{
+	if(!order_id || !actStatusUpdate)
+	{
+		return false;
+	}
+
+	var img_id = $('#img_id_0').val();
+	if(!img_id)
+	{
+    	return false;
+	}
+
+	actStatusUpdate = false;
+	var json = GetJson('StatusUpdate');
+	json.q.type = 1;
+	json.q.a = 2;
+	json.q.id = order_id;
+	json.q.payType = '<?php echo $order_info->pay_type ? $order_info->pay_type : 2 ?>';
+	json.q.image = new Object;
+	json.q.image.id = img_id;
+	json.json = JSON.stringify(json);
+	$.post('<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'getJson')); ?>' , json , function(data){
+		console.log(data);
+		if(data.q.s == 0)
+	    {
+	    	location.href="<?php echo $this->url('index' , array('controller' => 'order' , 'action' => 'payResult'  ));?>?id=" + order_id ;
+	    }
+	    else
+	    {
+	    	location.href="<?php echo $this->url('index' , array('controller' => 'order' , 'action' => 'payResult'  ));?>?res=failed";
+	    }
+	},"json");
+}
+
+function ajaxFileUpload(id) {
+    $.ajaxFileUpload({
+        url : url,
+        secureuri : false,
+        fileElementId : 'img' + id,
+        dataType : 'json',
+        success : function(data, status) {
+            console.log(status);
+            if (status == 'success') {
+                    $("#img_0" ).attr('src', data.path);
+                    $("#img_path_0").val(data.path1);
+                    $("#img_id_0").val(data.imgid);
+            }
+            else
+            {
+                alert(status);
+            }
+        },
+        error : function(data, status, e) {
+            alert(e);
+        }
+    })
+
+    return false;
+}
+
+
+
+</script>

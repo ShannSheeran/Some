@@ -1,0 +1,51 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,inital-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-status-bar-style" content="block" />
+    <meta name="format-detection" content="telephone=no" />
+    <title></title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            color:#666;
+        }
+        .activity{
+            width: 100%;
+            display: inline-block;
+            padding:10px 0;
+            border-bottom: 1px solid #dedede;
+        }
+        .activity img{
+            width: 80px;
+            height: 60px;
+            border:1px solid #dedede;
+            float: left;
+            margin-right: -100px; 
+            margin-left: 15px;
+        }
+        .activity .activityRight{
+            float: left;
+            padding-left: 105px;
+        }
+        .activity .activityRight div{
+            line-height: 20px;
+        }
+    </style>
+</head>
+<body>
+<?php foreach($info['list'] as $v){?>
+    <a href="<?php echo $this->url('index',array('controller'=>'activity','id'=>$v['id']))?>">
+    <div class="activity">
+      <img src="<?php echo $companyLogo ? $this->basePath() . '/' . UPLOAD_PATH .$companyLogo : $this->basePath() . '/images/img_logo@3x.png' ?>" alt="">
+      <div class="activityRight">
+        <div><?php echo $v['name'];?></div>
+        <time><?php echo $v['timestamp'];?></time>
+      </div>
+    </div>
+   </a>
+<?php }?>	
+</body>
+</html>

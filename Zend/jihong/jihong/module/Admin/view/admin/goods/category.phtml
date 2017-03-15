@@ -1,0 +1,153 @@
+<style>
+    .fl{
+    	float: left;
+    }
+	.dataTables_info{
+		display:none;
+	}
+	.dataTables_paginate{
+		display: none;
+	}
+	.bc-1{display: none;}
+	.col-sm-5{display: none;}
+	.col-sm-7{display:none;}
+	.pl10{
+		padding-left:10px;
+	}
+	.lh60{
+		line-height:60px;
+	}
+</style>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+		<a href="<?php echo $this->url('admin-goods' , array('action' => 'index'))?>">商品管理 </a> / 
+		<?php if($type == 1): ?>
+		<a href="">盆栽类型管理</a>
+		<?php elseif($type == 2): ?>
+		<a href="">资材类型管理</a>
+		<?php else: ?>  
+		<a href="">商品类型管理</a>
+		<?php endif;?>
+		</h3>
+	</div>
+
+    <div class="panel-body">
+        <?php if(!$id): ?>
+        <div class="fl" >
+        <?php foreach ($categoryType as $k=>$v){?>
+            <a class="btn <?php echo ($type == $k) ? 'btn-warning' : 'btn-info'; ?> fl "  href="<?php echo $this->url('admin-goods',array('action'=>'category','type'=>$k))?>"><?php echo $v?></a>
+        <?php }?>
+            <a class="btn btn-info fl " href="<?php echo $this->url('admin-goods' , array('action' => 'addCategory'))?>">添加分类</a>
+        </div>
+        <?php endif;?>
+        <div class="" style="float:right;">
+            <form class="form-horizontal" action="<?php $this->url('admin-goods' , array('action' => 'category')) ?>" method="get" style="float: left; margin-left: 20px;">
+                <span style="font-weight: bold; font-size: 14px;"> 关键词 :</span>
+                <input type="text" name="keyword" value="<?php echo isset($keyword) ? $keyword : '' ?>" placeholder="请输入分类名称搜索" style="line-height: 26px" >
+                <select name="status" style="padding:4px">
+                    <option value="">全部状态</option>
+                    <option value="0" <?php if(isset($status) && $status == '1') echo 'selected'?>>启用</option>
+                    <option value="1" <?php if(isset($status) && $status == '2') echo 'selected'?>>停用</option>
+                </select>
+                <input type="submit"  value="搜索" class="btn btn-info" style="height: 26px; width: 60px; line-height: 26px; padding: 0; margin-left: 10px; margin-top: 5px;" />
+            </form>
+        </div>
+        <div style="clear:both;"></div>
+		<table class="table table-bordered table-striped" id="example-4"  >
+			<thead>
+				<tr>
+					<th>分类名称</th>
+					<th>分类图片</th>
+					<th>排序</th>
+					<th>状态</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<?php if(!empty($goods_category)):?>
+			<?php foreach ($goods_category as $v){?>
+			<tbody>
+                <tr class="tr_list" >
+					<td style="padding-top:31px;"><?php echo $v->name?></td>
+					<?php if($v->icon):?>
+					<td><img class="fl" src="<?php echo ROOT_PATH.UPLOAD_PATH.$v->icon_path?>"></td>
+					<?php else:?>
+					<td><img class="fl" src="<?php echo ROOT_PATH . 'images/no_pic.gif';?>"></td>
+					<?php endif;?>
+					<td style="padding-top:31px;"><?php echo $v->sort?></td>
+					<?php if($v->status == '1'):?>
+					<td style="padding-top:31px;" class="status<?php echo $v->id?>">正常</td>
+					<?php else:?>
+					<td style="padding-top:31px;" class="status<?php echo $v->id?>">停用</td>
+					<?php endif;?>
+					<td style="padding-top:24px;">
+					<?php if($v->parent_id == '0'):?>
+					   <a href="<?php echo $this->url('admin-goods' , array('action' => 'addCategory','pid'=>$v->id)); ?>" class="btn btn-info">加子类</a>
+					   <a href="<?php echo $this->url('admin-goods' , array('action' => 'category','id'=>$v->id)); ?>" class="btn btn-info">查看子类</a>
+					<?php endif;?>
+					   <a href="<?php echo $this->url('admin-goods' , array('action' => 'addCategory','id'=>$v->id)); ?>" class="btn btn-info">编辑</a>
+					<?php if($v->status == '1'):?>
+					   <a href="#" onclick="stopOrStart(<?php echo $v->id?>,'stop',this)" class="btn btn-info">停用</a>
+					<?php else:?>
+					   <a href="#" onclick="stopOrStart(<?php echo $v->id?>,'start',this)" class="btn btn-info">启用</a>
+					<?php endif;?>
+					   <a onclick="show_confirm('<?php echo $this->url('admin-goods' , array('action' => 'delCategory','id'=>$v->id)); ?>')" href="#" class="btn btn-info">删除</a>
+					 </td>
+				</tr>
+			</tbody>
+			<?php }?>
+			<?php endif;?>
+		</table>
+		<?php echo $this->paginationControl($paginator, 'Sliding', 'page',array('route' =>'admin-goods','condition'=>$condition));?>
+</div>
+</div>
+<script type="text/javascript">
+function stopOrStart(id,op,obj){
+	if(op == 'stop'){
+    	if(confirm("确定要停用吗？")){
+    		$.ajax({
+    		    url:'<?php echo $this->url('admin-goods',array('action'=>'stopOrStartCategory'))?>',
+    		    type:'post',
+    		    data:{'op':'stop','id':id},
+    		    dataType:'json',
+    		    success:function(data){
+        		    if(data.code=='1'){
+     		    	   $(".status"+id).html("停用");
+     		    	   $(obj).attr("onclick","stopOrStart("+id+",'start',this)");
+      		    	   $(obj).html("启用");
+            		}
+    			},
+    		});
+    	}
+	}else if(op == 'start'){
+		if(confirm("确定要启用吗？")){
+    		$.ajax({
+    		    url:'<?php echo $this->url('admin-goods',array('action'=>'stopOrStartCategory'))?>',
+    		    type:'post',
+    		    data:{'op':'start','id':id},
+    		    dataType:'json',
+    		    success:function(data){
+    		    	if(data.code=='1'){
+    		    		$(".status"+id).html("正常");
+    	  		    	$(obj).attr("onclick","stopOrStart("+id+",'stop',this)");
+    		    		$(obj).html("停用");
+    		    	}
+    			},
+    		});
+		}
+	}
+}
+
+function show_confirm(url)
+{
+	if(confirm('确认删除该分类？'))
+	{
+		location.href = url;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+</script>

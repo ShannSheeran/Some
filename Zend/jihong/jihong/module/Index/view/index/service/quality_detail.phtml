@@ -1,0 +1,81 @@
+                <div class="user_content_right">
+                  <div class="quality_title">
+                    <h2>售后详情</h2>
+                    <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=<?php echo $qq ?>&site=qq&menu=yes" class="qq">联系业务员</a>
+                  </div>
+                  <div class="clear"></div>
+                  <ul class="quality_message">
+                    <li>
+                      <div class="quality_label">售后类型：</div>
+                      <div class="quality_text">
+                      <?php foreach ($serviceType as $k=>$v){?>
+                      <?php if($service->type == $k){?>
+                       <?php echo $v?>
+                        <?php }?>
+                        <?php }?>
+                        <div class="state">处理状态：<i>
+                        <?php foreach ($serviceStatus as $k=>$v){?>
+                        <?php if($service->status == $k){?>
+                       <?php echo $v?>
+                        <?php }?>
+                        <?php }?>
+                        </i></div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="quality_label">问题描述：</div>
+                        <div class="quality_text">
+                          <div class="question_describe"><?php echo $service->reason?>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="quality_label">图片信息：</div>
+                        <div class="quality_text">
+                        <?php if(isset($images_info) && !empty($images_info)): ?>
+                        <?php foreach ($images_info as $v){?>
+                          <img src="<?php echo $v['image_path']?>">
+                        <?php }?>
+                        </div>
+                        <?php endif;?>
+                      </li>
+                      <li>
+                        <div class="quality_label">申请时间：</div>
+                        <div class="quality_text">2016-09-23 12：24：35</div>
+                      </li>
+                    </ul>
+                  </ul>
+                  <div class="clear"></div>
+                  <div class="goods_mess mt35">
+                    <h2>商品信息</h2>
+                    <div class="my_goods_content fl">
+                      <ul class="goods_label">
+                        <li class="name">商品</li>
+                        <li class="price">单价</li>
+                        <li class="amount">数量</li>
+                        <li class="money">金额</li>
+                      </ul>
+                      <ul class="goods_details">
+                      <?php foreach ($order_goods_info as $v){?>
+                        <li>
+                          <div class="name">
+                            <div class="img">
+                              <a><img src="<?php echo $v->image_path?>"></a>
+                            </div>
+                            <div class="goods_name">
+                              <h3><?php echo $v->name?></h3>
+                              <p>规格:<?php echo $v->size?></p>
+                              <p>型号:<?php echo $v->model?></p>
+                            </div>
+                          </div>
+                          <div class="price"><?php echo $v->price_cash?></div>
+                          <div class="amount"><?php echo $v->number?></div>
+                          <div class="money"><i>￥<?php echo number_format($v->number*$v->price_cash,1)?></i></div>
+                        </li>
+                        <?php }?>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>

@@ -1,0 +1,120 @@
+/*快摇名片模板
+模板编号：0001
+撰写日期：2015-08-15 15:48:42
+完成日期：2015-08-17 18:00:00
+撰写者：Kevin Lee
+注意：命名方式请使用驼峰命名法
+*/
+
+/*基础样式，不要随意删改*/
+*{margin: 0px;padding: 0px;font-family: "Microsoft YaHei",微软雅黑,"SimSun","Microsoft JhengHei",华文细黑,STHeiti,MingLiu,tahoma,verdana,arial,sans-serif;-webkit-text-size-adjust: none;text-decoration: none;list-style-type: none;color:#010101;}
+html{font-size:80%;line-height:160%;}
+body{-webkit-overflow-scrolling:touch;}
+.clearfix:after{content:".";display: block;height: 0;clear: both;visibility:hidden;}
+*html .clearfix{height:1%;}
+*:first-child+html .clearfix {zoom:1;}
+.clearfix{display:inline-block;}
+/*Hide from IE Mac*/
+.clearfix{display:block;}
+/*End hide from IE Mac*/
+.clear{clear:both;}
+a{-webkit-tap-highlight-color:rgba(255,255,255,0);}
+html,body,p,span,a,li,div,input[type="button"]{-webkit-user-select:none;user-select:none;}
+a,img{-webkit-touch-callout:none;}
+input[type="button"]{-webkit-appearance:none;border-radius:0px;}
+input:focus, textarea:focus {outline: none;}
+/*布局样式*/
+.fl,.fr{float:left;display:inline-block}
+.fr{float:right}
+.dp_none{display:none}
+/*z-index的级别*/
+.top0{z-index:9999;}
+.top1{z-index:8888;}
+.top2{z-index:7777;}
+/*字段截取*/
+.txtOverflow{text-overflow:ellipsis;overflow: hidden;white-space: nowrap;}
+
+/*---------------------------------------模块分割线---------------------------------------*/
+
+/*模板样式*/
+body{background:#efeff4;padding-bottom:92px;}
+
+/*头像、姓名、英文名、个性签名*/
+header{margin-top:20px;width:100%;background:url(../images/card/templet_1/header_bg.png) top left repeat;}
+header ul{padding:20px 0 20px 30px;display:block; overflow:hidden}
+header ul li{float:left; display:inline-block;}
+.headerImg{border:3px solid #ddd;border-radius:50px;overflow:hidden;width:100px;height:100px;text-align:center;}
+.headerImg img{width:100%;height:auto;}
+.headerName{padding:20px 0 0 20px;}
+.headerName b{font-size:160%;line-height:160%;}
+.headerName p{font-size:120%;line-height:120%;padding-top:10px;color:#666;}
+.signature{border-top:1px solid #efeff4; background:#fff;padding:20px;}
+.signature p{color:#999; text-align:justify; text-indent:2em;}
+
+/*收藏名片、微信关注*/
+.cardOperation{padding:20px;overflow:hidden;}
+.cardOperation a,.cardOperation i{color:#fff;}
+.cardOperation a{width:48%;border-radius:10px; text-align:center;padding:8px 0;font-size:120%;}
+.cardOperation i{margin-right:5px;}
+.cardOperation .fl{background:#ff5f2d;}
+.cardOperation .fr{background:#366afe;}
+
+/*联系方式*/
+.cardContact{}
+.cardContact h3{padding:0 20px 10px; display:block;}
+.cardContact ul{background:#fff;border-top:1px solid #dedede;border-bottom:1px solid #dedede;padding-left:20px;overflow:hidden;height:100%;}
+.cardContact ul li{border-bottom:1px solid #dedede;padding-left:10px;overflow:hidden;}
+.cardContact ul li:last-child{border-bottom:0px;}
+.cardContact dt,.cardContact a{font-size:100%;overflow:hidden;width:100%;}
+.cardContact i{margin-right:5px;width:40px;}
+.cardContact p{line-height:140%;}
+.cardContact dt.fl,.cardContact a.fl{width:75%;padding:15px 0;}
+.cardContact dt.fr{width:25%;padding:5px 0;}
+.cardContact dt.fr a{background:#366afe;color:#fff;text-align:center;margin:0 auto;width:85%; display:block; border-radius:5px;padding:10px 0;}
+.contactAddress{}
+.contactAddress dl{width:45px;}
+.contactAddress dl.addressName{width:70%;padding-left:3px;}
+.contactAddress dt.fr a{margin:10% auto 0;}
+
+/*公司信息*/
+.cardCompany{}
+.cardCompany h3{padding:20px 20px 10px; display:block;}
+.cardCompany ul{background:#fff;border-top:1px solid #dedede;border-bottom:1px solid #dedede;overflow:hidden;height:100%}
+.cardCompany ul li{border-bottom:1px solid #dedede;padding-left:20px;overflow:hidden;}
+.cardCompany ul li:last-child{border-bottom:0px;}
+.cardCompany dt{display:block; overflow:hidden;}
+.companyBase{padding:10px 20px;}
+.companyBase .logoName{ }
+.logoName .logoImg{width:50px;height:50px;border:1px solid #ddd; border-radius:10px; overflow:hidden;}
+.logoName .companyName{font-size:100%;line-height:160%;width:76%;padding:2% 0 0 10px;}
+.logoName img{width:100%;height:auto;}
+.companyBase .companyOther{padding-top:10px;}
+.companyOther a,.companyOther i{color:#fff;}
+.companyOther a{width:48%;border-radius:10px; text-align:center;padding:8px 0;font-size:100%;}
+.companyOther i{margin-right:5px;}
+.companyOther .fl{background:#ff5f2d;}
+.companyOther .fr{background:#366afe;}
+.companyData{padding:15px 0;}
+.companyData .fl,.companyData .fr{font-size:120%;}
+.companyData i{width:45px; font-style:normal;}
+.companyData p{}
+
+
+/*遮罩层*/
+.qrcBg{position:fixed; top:0; left:0;width:100%;height:100%; background:#101010; opacity:0.5; z-index:888;display:none;}
+.qrcBox{ z-index:999; display:none; position:fixed;left:50%;top:10%;margin-left:-140px;width:280px;}
+.qrcBox div{width:260px; margin:10% auto;padding:10px;background-color: #fff;
+	border-radius:10px;
+	z-index: 1111;
+	display:block;
+	text-align:center; position:relative;}
+.qrcBox div b{ display:block; text-align:center;padding:30px 0 15px; font-size:160%; width:100%;}
+.qrcBox div img{width:100%;}
+.qrcBox div i{ position:absolute;top:15px;right:15px;}
+.qrcBox div p{ text-align:justify;}
+
+
+
+/*底部下载按钮*/
+footer{position:fixed;left:0;bottom:0;width:100%; border-top:1px solid #d6d6d6;height:52px;padding:10px 0; background:#fff; z-index:666;}
+footer a{background:#366afe;color:#fff; border-radius:10px; text-align:center; margin:0 auto; width:90%;line-height:52px; display:block;font-size:120%;}

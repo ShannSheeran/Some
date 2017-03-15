@@ -1,0 +1,155 @@
+<!-- Responsive Table -->
+<!-- Table exporting -->
+ <script type="text/javascript">
+// $(function(){
+// 	$("#addCard").appendTo("#example-4_length");
+// 	$(".all").appendTo(".dataTables_filter");
+// 	$("#example-4_filter").addClass("fl");
+// 	$(".col-sm-5").addClass("col-sm-3");
+// 	$(".col-sm-7").removeClass("col-sm-7");
+// 	$(".dataTables_filter").css("float","left");
+// 	// $(".dataTables_filter label").css("float","left");
+// })
+
+</script>
+<style type="text/css">
+	.form-control{width:110px;}
+	#form{float:left;margin-right:5px;}
+	#sure{width:55px;float:left;margin-right:3px;background:#ccc;}
+	.panel-heading{margin-left:100px;}
+	.is_top{text-align: center;float: left;}
+	.cop{float:right;}
+	.check{float:left;margin:0;}
+	.condition{width:100%;height:50px;margin-left: 68%;margin-right:0;}
+	.line{display:inline;}
+	#fds{margin-right:0;}
+
+	.p30 img{
+		margin:20px 0 0 -10px;
+		text-align: center;
+	}
+	.p30 p{
+		margin:20px 0 0 35px;
+		text-align: center;
+	}
+	.dd{
+		margin-top:12px;
+	}
+</style>
+<div class="panel panel-default"><!--<pre><?php /*print_r($company);*/?></pre>-->
+	<div class="panel-heading">
+		<div class="d_ib fl" id="addCard"><a class="btn btn-info" href="<?php echo $this->url('admin-company',array('action' =>'companydetails'))?>">新增公司名片</a></div>
+		<div class="condition" id="fds" style="margin-right:0px;">
+			<form action="" method="post" class="line">
+				<!--公司-->
+				<select name="recommend" id="form" class="form-control" title="请选择公司">
+					<option value="0" <?php if($is_top == 0){ echo 'selected';}?>>全部公司</option>
+					<option value="1" <?php if($is_top == 1){ echo 'selected';}?>> 推荐公司</option>
+					<option value="2" <?php if($is_top == 2){ echo 'selected';}?>>未推荐公司</option>
+				</select>
+				<!--城市-->
+
+				<select name="city" id="form" class="form-control">
+					<option value="0">所有城市</option>
+					<?php foreach($city_info as $k=>$v):?>
+						<option value="<?php echo $k?>" <?php if($k==$c_id){echo 'selected';}?>><?php echo $v?></option>
+					<?php endforeach?>
+				</select>
+				<!--所属行业-->
+				<select name="category" id="form" class="form-control">
+					<?php foreach($category as $k=>$v):?>
+						<option value="<?php echo $k?>" <?php if($k==$cate){echo 'selected';}?>><?php echo $v?></option>
+					<?php endforeach?>
+				</select>
+				<!--规模-->
+				<select name="scale" id="form" class="form-control">
+					<?php foreach($scale as $k=>$v):?>
+						<option value="<?php echo $k?>" <?php if($k == $c_scale){ echo 'selected';}?> ><?php echo $v?></option>
+					<?php endforeach?>
+				</select>
+				<input type="submit" value="确定" name="choose"  class="form-control" id="sure"/>
+				<button onclick="cancel()" class="form-control" id="sure" style="display:none;">重置</button>
+			</form>
+		</div>
+
+		<!--<div class="panel-options">
+
+            
+			<a href="#" data-toggle="panel"> <span class="collapse-icon">&ndash;</span>
+				<span class="expand-icon">+</span>
+			</a> <a href="#" data-toggle="remove"> &times; </a>
+		</div>-->
+	</div>
+	
+	<div class="panel-body">
+	<div style="clear:both;"></div>
+		<table class="table table-bordered table-striped" id="example-4">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>公司名称</th>
+					<th>推荐公司</th>
+					<th>所属行业</th>
+					<th>所在城市</th>
+					<th>规模</th>
+					<th>入驻时间</th>
+					<th>更新时间</th>
+					<th>状态</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+            <?php if(isset($company)){?>
+            <?php foreach($company['list'] as $v){?>
+            
+                <tr class="tr_list">
+					<td><?php echo $v['id']?></td>
+					<td><img class="fl" src="<?php echo isset($image[$v['image']]) ? $this->basepath() . '/' . UPLOAD_PATH . $image[$v['image']] :$this->basepath().'/images/img_logo@3x.png';?>"/>  <span class="pl10 lh60"><?php echo $v['name']?></span></td>
+					<td class="p30">
+						<?php if($v['is_top']==1){?>
+							<img src="<?php echo ROOT_PATH."images/icon_vip2.png";?>" style="width:20px;height:20px;">
+						<?php }else{?>
+							<p class="is_top">---</p>
+						<?php }?>
+					</td>
+					<td><span class="lh60"><?php foreach($category as $key => $val){
+					    if($v['category_id']==$key){
+					    echo $val;
+					}}?></span></td>
+					<td><span class="lh60"><?php echo isset($v['city']) ? $v['city'] : '未填写';?></td>
+					<td><span class="lh60"><?php foreach($scale as $key => $val){
+					    if($v['scale']==$key){
+					    echo $val;
+					}}?></span></td>
+					<td><span class="lh60"><?php echo $v['timestamp']?></span></td>
+					<td><span class="lh60"><?php echo $v['timestamp_update'];?></span></td>
+
+
+					<td class="pt25" style="width:30px;">
+						<?php if($v['audit_status']==1 || $v['audit_status']==0){?>
+							<a class="btn btn-info" href="<?php echo $this->url('admin-company',array('action'=>'audit','id'=>$v['id']))?>">待审核</a>
+						<?php }else if($v['audit_status']==2){?>
+							<a href="<?php echo $this->url('admin-company',array('action'=>'audit','id'=>$v['id']))?>">已通过</a>
+						<?php }else if($v['audit_status']==3){?>
+							<a class="btn btn-info" href="<?php echo $this->url('admin-company',array('action'=>'audit','id'=>$v['id']))?>">已拒绝</a>
+						<?php }?>
+
+
+					</td>
+					<td>
+						<a class="btn btn-danger dd" href="<?php echo $this->url('admin-company',array('action'=>'delcompany','id'=>$v['id']))?>">删除</a>
+					</td>
+
+				</tr>
+            <?php }}?>
+            </tbody>
+		</table>
+        <?php //echo $this->paginationControl($paginator, 'Sliding', 'page',array('route' =>'admin-company','condition'=>$condition));?>       </div>
+</div>
+<script>
+       $('.btn-danger').click(function(){
+   	       if(!window.confirm('确定删除公司名片？')){
+      	        return false;
+    	   }
+       });
+</script>

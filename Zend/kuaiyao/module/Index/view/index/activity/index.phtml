@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width,inital-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-status-bar-style" content="block" />
+	<meta name="format-detection" content="telephone=no" />
+	<title><?php echo isset($company['name']) ? $company['name'] : "";?>-<?php echo isset($activity['name'])?$activity['name']:'';?></title>
+	<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/templet_zero_two.css?v=<?php echo time() ?>" />
+	<!--样式图标库-->
+	<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/fonts/fontawesome/css/font-awesome.min.css?v=<?php echo time() ?>" />
+	<!--只兼容移动端，所以直接使用jQuery 2.1.4-->
+	<script type="text/javascript" src="<?php echo $this->basePath();?>/lib/jquery.2.1.4.min.js"></script>
+	<script type="text/javascript" src="<?php echo $this->basePath();?>/lib/TouchSlide.1.1.js"></script>
+	<!--调用微信js-->
+	<script src="<?php echo $this->basePath();?>/lib/jweixin-1.0.0.js"></script>
+	<style type="text/css">
+	#activityContent img{width:100%;}
+	</style>
+</head>
+<body>
+	<div class="pb10">
+		<div id="banner">
+			<div class="bd sl" style="width:100%;height:100%;">
+				<!--图片轮播-->
+				<ul style="width:100%;height:100%;">
+				<?php if(isset($path) && $path){?>
+				<?php foreach($path as $k=>$v):?>
+					<li style="width:80%;height:60%;"><a class="db" href="javascript:(0)"><img id="image" class="db" style="width:100%;height:200px;" src="<?php if($v['path']){echo $this->basepath() . '/'  . UPLOAD_PATH .$this->escapeHtml($v['path']);}else{echo ROOT_PATH.'images/loading_6@2x.png';}?>"></a></li>
+				<?php endforeach?>
+				<?php }?>
+				</ul>
+			</div>
+			<div class="hd">
+				<ul>
+					<li></li>
+					<li></li>
+					<li></li>
+				</ul>
+			</div> 
+		</div>
+	</div>
+	
+	<section>
+		<div class="bg_white clearfix pl10 pr10 pt10 pb10 mb10 f120pct">
+			<p class="mb5 f120pct" id="companyName"><?php echo $company['name']?></p>
+			<p class="f_color_gray" id="activityName"><?php echo $this->escapeHtml($activity['name']);?></p>
+		</div>
+		<div class="bg_white f_color_gray f14 mb10 pl10 pr10 pt10 pb10" id="activityContent" ><?php echo htmlspecialchars_decode($this->escapeHtml($activity->content));?>
+		</div>
+
+		<ul class=" nob pb5">
+		<!--母公司-->
+		<!--android-->
+			<a  class="nd" style="width:100%" onclick="window.Interactive.switchToCompany(<?php echo $company['id']?>);">
+				<li class="wrap bg_white mb10">
+					<div class="clearfix pt10 pb10 pl10 pr10">
+						<img class="w" id="companyLogo"style="width:75px; height:60px;" src="<?php if($logo){echo $this->basepath() . '/' .UPLOAD_PATH.$logo['path'].$logo['filename'];}else{echo ROOT_PATH.'/images/img_logo@2x.png';} ;?>">
+					</div>
+					<div class="flex1 company_text ">
+						<p id="companyName" class="f14 none_bold">
+						<span><?php echo $company['name']?></span>
+						<span>
+							<?php if($company['is_top']==1){?>
+							<img style="width:18px;" src="<?php echo ROOT_PATH.'images/app/icon_vip2.png'?>">
+							<?php }?>
+						</span>
+						</p>
+						<p class="line2_overflow">
+							<span class="f_color_gray border_right" id="companyRegion"><?php echo $region['name']?></span>
+							<span class="f_color_gray pl5 border_right" id="companyCategory">
+								<?php foreach($category as $k=>$v):?>
+									<?php if($k==$company['category_id']){?>
+										<?php echo $v;?>
+									<?php }?>
+								<?php endforeach?>
+							</span>
+							<span class="f_color_gray pl5" id="companyScale">
+								<?php foreach($scale as $k=>$v):?>
+									<?php if($k==$company['scale']){?>
+									<?php echo $v;?>
+								<?php }?>
+								<?php endforeach?>
+							</span>
+						</p>
+						<?php if($company['home'] && $company['home']!=='(null)'){?>
+						<p id="companyHome" class="f_color_gray"><?php echo $company['home']?></p>
+						<?php }?>
+					</div>
+				</li>
+			</a>
+			<!--ios-->
+			<a  class="os" onclick="fn_osid(<?php echo $company['id']?>)">
+				<li class="wrap bg_white mb10">
+					<div class="clearfix pt10 pb10 pl10 pr10">
+						<img class="w" id="companyLogo" style="width:75px;height:60px;" src="<?php if($logo){echo $this->basepath() . '/' .UPLOAD_PATH.$logo['path'].$logo['filename'];}else{echo ROOT_PATH.'/images/img_logo@2x.png';} ;?>">
+					</div>
+					<div class="flex1 company_text ">
+						<p id="companyName" class="f14 none_bold">
+							<span><?php echo $company['name']?></span>
+							<span>
+								<?php if($company['is_top']==1){?>
+								<img style="width:18px;" src="<?php echo ROOT_PATH.'images/app/icon_vip2.png'?>">
+								<?php }?>
+							</span>
+						</p>
+						<p class="line2_overflow">
+							<span class="f_color_gray border_right" id="companyRegion"><?php echo $region['name']?></span>
+							<span class="f_color_gray pl5 border_right" id="companyCategory">
+								<?php foreach($category as $k=>$v):?>
+									<?php if($k==$company['category_id']){?>
+										<?php echo $v;?>
+									<?php }?>
+								<?php endforeach?>
+							</span>
+							<span class="f_color_gray pl5" id="companyScale">
+								<?php foreach($scale as $k=>$v):?>
+									<?php if($k==$company['scale']){?>
+									<?php echo $v;?>
+								<?php }?>
+								<?php endforeach?>
+							</span>
+						</p>
+						<?php if($company['home'] && $company['home']!=='(null)'){?>
+						<p id="companyHome" class="f_color_gray"><?php echo $company['home']?></p>
+						<?php }?>
+					</div>
+				</li>
+			</a>
+
+			
+			<!--子公司---->
+			<?php foreach($son as $key=>$val){?>
+			<!--android-->
+			<a class="nd" onclick="window.Interactive.switchToCompany(<?php echo (int)$val['id'];?>)" style="width:100%">
+				<li class="wrap bg_white mb10" >
+					<div class="clearfix pt10 pb10 pl10 pr10">
+						<img style="width:75px; height:60px;" class="" src="<?php if($val['images']['path']){echo $this->basepath() . '/' .UPLOAD_PATH.$val['images']['path'].$val['images']['filename'];}else{echo ROOT_PATH.'/images/img_logo@2x.png';}?>">
+					</div>
+					<div class="flex1 company_text ">
+						<p class="none_bold f14">
+							<span><?php echo $val['name'];?></span>
+							<span>
+								<?php if($val['is_top']==1){?>
+								<img style="width:18px;" src="<?php echo ROOT_PATH.'images/app/icon_vip2.png'?>">
+								<?php }?>
+							</span>
+						</p>
+						<p class="line2_overflow">
+							<span class="f_color_gray border_right"><?php echo $val['region']['name']?></span>
+							<span class="f_color_gray pl5 border_right">
+								<?php foreach($category as $k=>$v):?>
+									<?php if($k==$val['category_id']){?>
+										<?php echo $v;?>
+									<?php }?>
+								<?php endforeach?>
+							</span>
+							<span class="f_color_gray pl5">
+								<?php foreach($scale as $k=>$v):?>
+									<?php if($k==$val['scale']){?>
+									<?php echo $v;?>
+								<?php }?>
+								<?php endforeach?>
+							</span>
+						</p>
+						<?php if($val['home'] && $val['home']!=='(null)'){?>
+						<p class="f_color_gray"><?php echo $val['home']?></p>
+						<?php }?>
+					</div>
+				</li>
+			</a>
+			<?php }?>
+			<!--ios-->
+			<?php foreach($son as $key=>$val):?>
+			<a class="os" onclick="fn_id(<?php echo $val['id']?>)">
+				<li class="wrap bg_white mb10" >
+					<div class="clearfix pt10 pb10 pl10 pr10">
+						<img style="width:75px; height:60px;" class="" src="<?php if($val['images']['path']){echo $this->basepath() . '/'.UPLOAD_PATH.$val['images']['path'].$val['images']['filename'];}else{echo ROOT_PATH.'/images/img_logo@2x.png';}?>">
+					</div>
+					<div class="flex1 company_text ">
+						<p class="none_bold f14">
+							<span><?php echo $val['name'];?></span>
+							<span>
+								<?php if($val['is_top']==1){?>
+								<img style="width:18px;" src="<?php echo ROOT_PATH.'images/app/icon_vip2.png'?>">
+								<?php }?>
+							</span>
+						</p>
+						<p class="line2_overflow">
+							<span class="f_color_gray border_right"><?php echo $val['region']['name']?></span>
+							<span class="f_color_gray pl5 border_right">
+								<?php foreach($category as $k=>$v):?>
+									<?php if($k==$val['category_id']){?>
+										<?php echo $v;?>
+									<?php }?>
+								<?php endforeach?>
+							</span>
+							<span class="f_color_gray pl5">
+								<?php foreach($scale as $k=>$v):?>
+									<?php if($k==$val['scale']){?>
+									<?php echo $v;?>
+								<?php }?>
+								<?php endforeach?>
+							
+							</span>
+						</p>
+						<?php if($val['home'] && $val['home']!=='(null)'){?>
+						<p class="f_color_gray"><?php echo $val['home']?></p>
+						<?php }?>
+					</div>
+				</li>
+			</a>
+			<?php endforeach?>
+		</ul>
+	</section>
+<!--底部浮动的下载APP提醒--><!-- <footer>
+<a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.aiitec.shakecard" title="下载快摇名片APP,快速获取您的个性名片">点击这里，下载快摇名片APP！</a>
+</footer> -->
+<!--
+<footer>
+    <a onclick="sAlert();" title="点击这里，下载快摇名片APP！" id="phoneclass">点击这里，下载快摇名片APP！</a>
+</footer>
+-->
+</body>
+
+<script type="text/javascript">
+// 图片轮播
+function adList(){
+            TouchSlide({slideCell:"#banner",
+                        titCell:".hd ul",
+                        mainCell:'.bd ul',
+                        effect:'left',
+                        autoPlay:true,
+                        autoPage:true
+                 });           
+            $('.hd ul').css('margin-left',($('.hd').width()-$('.hd ul').width())/2+'px');
+        }
+adList();
+
+//图片轮播高度16:9;
+var dbHeight = $(window).width()/16*9;
+$(".db img").css("height",dbHeight);
+
+function touchTel(telnum){window.location.href="tel:"+telnum;}
+//母公司
+function fn_osid(osid){
+	//alert(osid);
+    window.location.href = 'test://switchToSubCompany?'+osid;
+}
+//子公司
+function fn_id(id){
+	//alert(id);
+    window.location.href = 'test://switchToSubCompany?'+id;
+}
+var browser = { versions: function() { 
+    var u = navigator.userAgent, app = navigator.appVersion; return {
+//移动终端浏览器版本信息  
+trident: u.indexOf('Trident') > -1, 
+    //IE内核 
+    presto: u.indexOf('Presto') > -1,
+     //opera内核
+     webKit: u.indexOf('AppleWebKit') > -1, 
+      //苹果、谷歌内核 
+      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, 
+      //火狐内核 
+      mobile: !!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/), 
+      //是否为移动终端 
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), 
+        //ios终端 
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, 
+        //android终端或者uc浏览器 
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, 
+        //是否为iPhone或者QQHD浏览器 
+        iPad: u.indexOf('iPad') > -1, 
+        //是否iPad 
+        webApp: u.indexOf('Safari') == -1 
+        //是否web应该程序，没有头部与底部 
+    }; }(), 
+    language: (navigator.browserLanguage || navigator.language).toLowerCase() 
+} 
+if (browser.versions.ios || browser.versions.iPhone || browser.versions.iPad) { 
+	
+    $(".nd").css("display","none");
+    
+} 
+else{ 
+   
+   $(".os").css("display","none");
+   
+} 
+
+
+</script>
+
+</html>

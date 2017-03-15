@@ -1,0 +1,60 @@
+<?php echo $this->headTitle('资讯热点'. $this->translate(''))->setSeparator(' - ')->setAutoEscape(false);?>
+<?php echo $this->headMeta()->setName('description','猫王联盟——以“吃喝玩乐购”生活服务类打造实体店的免费O2O平台。为实体店搭建线上线下一体化平台；为消费者提供全国通积通用通兑积分平台，积分可线上兑换商品，线下抵现消费。服务热线4008-333-133')->setName('keywords','通用积分联盟,通用积分平台,通用积分商城,o2o积分联盟,o2o积分联盟网站,积分联盟商,生活服务'); ?>
+<script>showmenu();</script>
+<div class="content w bc">
+    <div class="con clearfix mt20">
+        <!-- left menu -->
+        <div class="left_menu2 fl">
+            <ul class="slide-list bg_white pt10 pb10">
+                <?php foreach($p_articleCategory as $v){?>
+                <li class="<?php echo isset($id) && $id==$v['id']?'on':''; ?>">
+                    <a href="<?php echo $this->url('index-news',array('action' =>'index','id' =>$v['id'])); ?>">
+                        <?php echo $v['cate_name']?>
+                    </a>
+                    <ul>
+                        <?php if(isset($v['son'])){?>
+                        <?php foreach($v['son'] as $val){?>
+                        <li class="<?php echo isset($id) && $id==$val['id']?'on':''; ?>">
+                            <a href="<?php echo $this->url('index-news',array('action' =>'index','id' =>$val['id'])); ?>">
+                                <?php echo $val['cate_name']?>
+                            </a>
+                        </li>
+                        <?php } } ?>
+                    </ul>
+                </li>
+                <?php } ?>
+            </ul>
+        </div>
+        <!-- left menu end -->
+        <!-- right con -->
+        <div class="right_con fr clearfix bg_white">
+            <ul class="news_list">
+                <?php foreach($article as $v){?>
+                <li class="pr border_b">
+                    <div class="news_list-article pt20 pb20">
+                        <h4 class="lh30 pb10">
+                            <a href="<?php echo $this->url('index-news',array('action' =>'newsInfo','id'=>$v['id'])); ?>" class="f16">
+                                <span class="f_color_red f16">
+                                    <?php echo isset($v['cate_name']) ? '【' . $v['cate_name'] . '】' : ''; ?>
+                                </span><?php echo $v['title']?>
+                            </a>
+                        </h4>
+                        <span class="pl10 f_color_gray lh20">
+                            <?php echo strlen(mb_substr(trim(strip_tags($v['content'])),0,100,'utf-8')) > 100 ? mb_substr(trim(strip_tags($v['content'])),0,100,'utf-8').'...' : mb_substr(trim(strip_tags($v['content'])),0,100,'utf-8');?>
+                        </span>
+                    </div>
+                    <div class="news_list-aside lh30">
+                        <p>阅读（<?php echo $v['click'];?>）</p>
+                        <p style="color:gray">
+                            <?php echo date('Y-m-d',strtotime($v['createtime'])); ?>
+                        </p>
+                    </div>
+                </li>
+                <?php } ?>
+            </ul>
+        </div>
+        <div class="clear"></div>
+        <?php echo $this->paginationControl($paginator,'Sliding','layout_index/page',array('route' =>'index-news','condition'=>$condition));?>
+        <!-- right con end -->
+    </div>
+</div>

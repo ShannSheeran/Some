@@ -1,0 +1,1081 @@
+<?php echo $this->headlink()->appendStylesheet($this->basePath() . '/css/public_image.css');?>
+<style>
+legend span {
+	font-size: 18px;
+	font-family: "微软雅黑";
+	color: #555555;
+	margin-right: 20px;
+}
+
+legend span strong {
+	color: #999999;
+	font-size: 16px;
+	font-weight: inherit
+}
+
+.control-group ul li {
+	float: left;
+	height: 100%;
+	overflow: hidden;
+	list-style: none;
+	text-align: center;
+	display: inline-block;
+}
+
+.control-group ul li div {
+	float: left;
+	width: 100px;
+	list-style: none;
+	text-align: center
+}
+
+.control-group ul li p {
+	width: 100px;
+	text-align: center;
+	line-height: 25px;
+}
+
+.control-group table {
+	margin-bottom: 20px;
+	margin-left: 25px;
+}
+
+.control-group tr {
+	border: 1px solid #CCCCCC;
+}
+
+.control-group tr td {
+	border: 1px solid #CCCCCC;
+	border-left: none;
+	height: 24px;
+}
+
+.control-group tr td b {
+	color: #FF0099
+}
+
+.order {
+	margin-top: 0px;
+	width: auth;
+}
+
+.order td {
+	padding: 2px 5px;
+}
+
+.goods_img ul {
+	display: block;
+	overflow: hidden;;
+	clear: both;
+}
+
+.goods_img ul li {
+	padding: 0 5px 5px 0;
+	display: inline-block;
+	float: left;
+}
+
+.goods_img ul li img {
+	max-width: none
+}
+
+.track ul li {
+	clear: both;
+	width: 100%;
+	line-height: 20px;
+	text-align: left;
+	height: 20px;
+}
+
+.track ul li span {
+	margin-right: 30px;
+}
+
+.popup {
+	background: url("<?php echo ROOT_PATH?>images/popop-bg.png") repeat
+		scroll 0 0 rgba(0, 0, 0, 0);
+	font-family: "微软雅黑";
+	height: 100%;
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	z-index: 80;
+}
+
+.show_bigpic {
+	position: fixed;
+	text-align: center;
+	top: 20%;
+	width: 100%;
+}
+
+.pd15 {
+	padding: 5px 10px;
+}
+
+.lg_title {
+	background-color: #D9D9D9;
+	border: 1px solid #CCCCCC;
+	line-height: 24px;
+}
+
+.lg_title span {
+	padding-left: 15px;
+}
+
+.mytable td {
+	max-width: 170px;
+	width: 165px;
+}
+.women{color:red;}
+.comment select{width:205px;}
+</style>
+<div class="row">
+	<div class="col-sm-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>
+				<legend style="margin-bottom: 0px;">
+							<span>
+								编号：
+								<strong><?php echo $info->id;?></strong>
+							</span>
+							<span>
+								人均悬赏金额：
+								<strong><?php echo $info->reward;?></strong>
+							</span>
+							<span>
+								人均悬赏追加金额：
+								<strong><?php echo $info->reward_plus;?></strong>
+							</span>
+							<span>
+								状态：
+								<strong><?php echo $task_status[$info->status]?></strong>
+							</span>
+							<span>
+								发布人：
+								<strong>
+									<a
+										href="<?php echo $this->url("admin-user",array('action'=>'details','id'=>$info->user_id))?>"><?php echo $info->nickname ? $info->nickname : $info->id_name;?></a>
+								</strong>
+							</span>
+
+						</legend>
+			</h3>
+				<div class="panel-options">
+					
+					<a href="#" data-toggle="panel">
+						<span class="collapse-icon">&ndash;</span>
+						<span class="expand-icon">+</span>
+					</a>
+					<a href="#" data-toggle="remove"> &times; </a>
+				</div>
+			</div>
+						<form role="form" class="form-horizontal">
+						<div class="panel-body">
+						<div class="control-group">
+							<table class="order">
+								<tbody>
+
+									<tr>
+										<td align="right" width="15%">发布人：</td>
+										<td>
+											<a
+												href="<?php echo $this->url("admin-user",array('action'=>'details','id'=>$info->user_id))?>"><?php echo $info->nickname ? $info->nickname : $info->id_name;?></a>
+										</td>
+										<td align="right" width="15%">电话：</td>
+										<td colspan="3"><?php echo $info->mobile ?  $info->mobile : '无';?></td>
+									</tr>
+									<tr>
+										<td align="right" width="15%"><?php if($info->type==1){?>执行总人数<?php }else{?>活动规模<?php }?>：</td>
+										<td><?php echo $info->limit;?></td>
+										<td align="right" width="16%"><?php if($info->type==1){?>任务截止时间<?php }else{?>活动开始时间<?php }?>：</td>
+										<td><?php echo $info->deadline;?></td>
+										<td align="right" width="15%">任务地址：</td>
+										<td>
+											<a href="#"
+												onclick="Get_Position(<?php echo $info->latitude;?>,<?php echo $info->longitude;?>);"><?php echo $info->address ? $info->address : '无'?></a>
+										</td>
+
+									</tr>
+									<tr>
+										<td align="right" width="15%">悬赏金额：</td>
+										<td><?php echo $info->reward ? $info->reward.'元' : '无'?></td>
+										<td align="right" width="16%">追加悬赏金额：</td>
+										<td><?php echo $info->reward_plus ? $info->reward_plus.'元' : '无'?></td>
+										<td align="right" width="15%">悬赏总额：</td>
+										<td><?php echo ($info->reward + $info->reward_plus).'元' ;?></td>
+									</tr>
+									<tr>
+										<td align="right" width="15%">任务说明：</td>
+										<td colspan="5"><?php echo emoji_unified_to_html($info->content);?></td>
+									</tr>
+
+									<tr>
+										<td align="right" width="15%">任务图片：</td>
+										<td colspan="5">
+											<div class="goods_img">
+												<ul>
+                        									<?php if($image){?>
+                                        					<?php foreach ($image as $v){?>
+                                        					<li>
+														<a href="<?php echo $v['path']?>" target="_blank">
+															<img width="330" src="<?php echo $v['path']?>" />
+														</a>
+													</li>
+                                        					<?php }?>
+                                        					<?php }else{?>
+                                        					 <li>无相关图片</li>
+                                        					<?php }?>
+                        									</ul>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<legend class="lg_title">
+							<span>参与情况：</span><?php if($info->status == 1){?>
+							    <span class="btn btn-setting btn-warning">报名</span>
+							    <?php }elseif($info->status == 2){?>
+							    <span class="btn btn-setting btn-warning">报名</span>
+    							    <?php if($info->type==1){?>
+    							    <span class="btn btn-setting1 btn-info">选定</span>
+    							    <?php }?>
+								<?php }elseif($info->status == 3){?>
+								<span class="btn btn-setting btn-warning">报名</span>
+								<?php }?>
+						</legend>
+
+						<div class="control-group">
+							<table class="table-striped bootstrap-datatable">
+								<thead id="thead" style="display: block;">
+									<tr>
+										<th
+											style="text-align: center; padding: 0px 5px; border-right: 1px solid #cccccc;">ID</th>
+										<th
+											style="text-align: center; padding: 0px 5px; border-right: 1px solid #cccccc;">报名人</th>
+										<th
+											style="text-align: center; border-right: 1px solid #cccccc;"><?php if($info->type==1){?>选定<?php }else{?>签到<?php }?>状态</th>
+										<th
+											style="text-align: center; border-right: 1px solid #cccccc;">完成状态</th>
+										<th
+											style="text-align: center; border-right: 1px solid #cccccc;">悬赏金支付状态</th>
+										<th
+											style="text-align: center; border-right: 1px solid #cccccc;">报名时间</th>
+										<th style="text-align: center;">操作</th>
+									</tr>
+								</thead>
+								<tbody
+									style="max-height: 400px; overflow: auto; display: block;">
+						  <?php if($sign_up){?>
+						 <?php $i=1; foreach($sign_up as $v):?>		   
+							<tr <?php if($i==1){?> id="trid" <?php }?>>
+										<td style="text-align: center; padding: 0px 5px;"><?php echo $v->id;?></td>
+										<td style="text-align: center; padding: 0px 5px;">
+											<a
+												href="<?php echo $this->url("admin-user",array('action'=>'details','id'=>$v->user_id))?>"><?php echo $v->nickname ? $v->nickname : $v->mobile;?>(<?php $sex = array(0=>'保密',1=>'男',2=>'<span style="color:red;">女</span>'); echo $sex[$v->sex];?>)</a>
+										</td>
+										<td style="text-align: center; width: 70px;"><?php $text = $info->type == 1 ? '未选定' : '未签到';$text1 = $info->type == 1 ? '已选定' : '已签到'; echo $v->selected== 0 ? $text : $text1;?></td>
+										<td style="text-align: center; width: 70px;"><?php $mark_status = $v->mark_status; if($mark_status==1){ echo '已完成（发布者）';}elseif($mark_status==2){echo '已完成（参与者）';}elseif($mark_status==3){echo '双方确认完成';}else{echo '未完成';};?></td>
+										<td style="text-align: center; width: 108px;"><?php echo $v->pay_status == 0 ? '未支付' : '已支付';?></td>
+										<td style="text-align: center; width: 110px;" class="center"><?php echo $v->timestamp == '0000-00-00 00:00:00' ? '' :date("Y-m-d H:i",strtotime($v->timestamp));?></td>
+										<td style="text-align: center; width: 110px;" class="center">
+							<?php if($info->status == 3 && $v->selected == 1 && $info->type == 1 && $v->mark_status != 2){?>
+							   <a class="btn btn-info"
+												href="javascript:complete(<?php echo $v->user_id?>)">完成 </a>
+							<?php }?>
+							<?php if($info->status < 4 && $info->type == 2 && $v->selected == 0){?>
+							   <a class="btn btn-info"
+												href="javascript:taskSign(<?php echo $v->user_id?>)">签到 </a>
+							<?php }?>
+							<?php if($info->status == 4 && !isset($evaluate_check[$v->user_id]) && (($info->type == 2 && $v->selected == 1) || ($info->type == 1 && $v->mark_status==2))){?>
+							 <a class="btn btn-info btn-setting2" href="#"
+												onclick="setUserId(<?php echo $v->user_id?>)">评价发布者 </a>
+							<?php }?>
+							
+							<span class="btn btn-setting3 btn-info"
+												onclick="setUser(<?php echo $v->user_id?>,'','');">评论</span>
+							</td>
+
+									</tr>
+							<?php $i++;endforeach;?>
+							<?php }?>						
+						  </tbody>
+							</table>
+						</div>
+                        <legend class="lg_title">
+							<span>评论情况：</span><span class="btn btn-setting5 btn-success">评论该任务</span>
+						</legend>
+
+						<div class="control-group">
+							<table class="table-striped bootstrap-datatable">
+								<thead>
+									<tr>
+										<th
+											style="text-align: center; padding: 0px 5px; border-right: 1px solid #cccccc;">ID</th>
+										<th
+											style="text-align: center; padding: 0px 5px; border-right: 1px solid #cccccc;">评论内容</th>
+										<th
+											style="text-align: center; border-right: 1px solid #cccccc;">评论对像</th>
+										<th
+											style="text-align: center; border-right: 1px solid #cccccc;">评论人</th>
+										<th style="text-align: center;">评论时间</th>
+										<th style="text-align: center;">操作</th>
+									</tr>
+								</thead>
+								<tbody>
+						 <?php
+    if ($comment)
+    {
+        ?>
+						 <?php foreach($comment as $v):?>		   
+							<tr>
+										<td style="text-align: center; padding: 0px 5px;"><?php echo $v->id;?></td>
+										<td
+											style="text-align: center; padding: 0px 5px; max-width: 300px;"><?php echo emoji_unified_to_html($v->content);?></td>
+
+										<td style="text-align: center; width: 70px;">
+										<?php if($v->user_id_to){?>
+											<a
+												href="<?php echo $this->url("admin-user",array('action'=>'details','id'=>$v->user_id_to))?>"><?php echo $v->to_nickname;?></a><?php }else{?>评论任务<?php }?>
+										</td>
+										<td style="text-align: center; width: 108px;">
+											<a
+												href="<?php echo $this->url("admin-user",array('action'=>'details','id'=>$v->user_id))?>"><?php echo $v->nickname;?></a>
+										</td>
+										<td style="text-align: center; width: 110px;" class="center"><?php echo $v->timestamp == '0000-00-00 00:00:00' ? '' :date("Y-m-d H:i",strtotime($v->timestamp));?></td>
+										<td style="text-align: center; width: 110px;" class="center">
+											<span class="btn btn-setting3 btn-info"
+												onclick="setUser(<?php echo $v->user_id?>,'<?php echo $v->nickname;?>','<?php echo isset($v->user_id_to) ? $v->user_id_to : '';?>');">评论Ta</span>
+										</td>
+
+									</tr>
+							<?php endforeach;?>
+							<?php }?>						
+						  </tbody>
+							</table>
+							
+						</div>
+						
+						<legend class="lg_title">
+							<span>赞情况：</span><span class="btn btn-setting4 btn-warning">赞任务</span>
+						</legend>
+
+						<div class="control-group">
+							<table class="table-striped bootstrap-datatable">
+								<thead>
+									<tr>
+										<th
+											style="text-align: center; padding: 0px 5px; border-right: 1px solid #cccccc;">ID</th>
+										<th
+											style="text-align: center; border-right: 1px solid #cccccc;">点赞人</th>
+										<th style="text-align: center;">赞时间</th>
+									</tr>
+								</thead>
+								<tbody>
+						 <?php
+                        if ($praise)
+                        {
+                            ?>
+						 <?php foreach($praise as $v):?>		   
+							<tr>
+										<td style="text-align: center; padding: 0px 5px;"><?php echo $v->id;?></td>
+
+										<td style="text-align: center; width: 108px;">
+											<a
+												href="<?php echo $this->url("admin-user",array('action'=>'details','id'=>$v->user_id))?>"><?php echo $v->nickname;?></a>
+										</td>
+										<td style="text-align: center; width: 110px;" class="center"><?php echo $v->timestamp == '0000-00-00 00:00:00' ? '' :date("Y-m-d H:i",strtotime($v->timestamp));?></td>
+
+									</tr>
+							<?php endforeach;?>
+							<?php }?>						
+						  </tbody>
+							</table>
+							
+						</div>
+						<legend class="lg_title">
+							<span>评价情况：</span><?php if($info->status == 4){?>
+								<a class="btn btn-info btn-setting2"
+								href="javascript:setUserId(0)">评价所有参与人</a>
+								<?php }?>
+						</legend>
+
+						<div class="control-group">
+							<table class="table-striped bootstrap-datatable">
+								<thead>
+									<tr>
+										<th
+											style="text-align: center; padding: 0px 5px; border-right: 1px solid #cccccc;">ID</th>
+										<th
+											style="text-align: center; padding: 0px 5px; border-right: 1px solid #cccccc;">评价内容</th>
+										<th
+											style="text-align: center; border-right: 1px solid #cccccc;">评价星级</th>
+										<th
+											style="text-align: center; border-right: 1px solid #cccccc;">受评价人</th>
+										<th
+											style="text-align: center; border-right: 1px solid #cccccc;">评价人</th>
+										<th style="text-align: center;">评价时间</th>
+									</tr>
+								</thead>
+								<tbody>
+						  <?php
+                            $stars = array(
+                                        1 => '★☆☆☆☆',
+                                        2 => '★★☆☆☆',
+                                        3 => '★★★☆☆',
+                                        4 => '★★★★☆',
+                                        5 => '★★★★★'
+                                    ); 
+						    if($evaluate)
+						    {
+						  ?>
+						 <?php foreach($evaluate as $v):?>		   
+							<tr>
+										<td style="text-align: center; padding: 0px 5px;"><?php echo $v->id;?></td>
+										<td
+											style="text-align: center; padding: 0px 5px; max-width: 300px;"><?php echo emoji_unified_to_html($v->content);?></td>
+										<td style="text-align: center; width: 70px;"><?php echo $stars[($v->stars ? $v->stars : 1)];?></td>
+										<td style="text-align: center; width: 70px;">
+											<a
+												href="<?php echo $this->url("admin-user",array('action'=>'details','id'=>$v->user_id_to))?>"><?php echo $v->tu_nickname;?></a>
+										</td>
+										<td style="text-align: center; width: 108px;">
+											<a
+												href="<?php echo $this->url("admin-user",array('action'=>'details','id'=>$v->user_id))?>"><?php echo $v->nickname;?></a>
+										</td>
+										<td style="text-align: center; width: 110px;" class="center"><?php echo $v->timestamp == '0000-00-00 00:00:00' ? '' :date("Y-m-d H:i",strtotime($v->timestamp));?></td>
+
+									</tr>
+							<?php endforeach;?>
+							<?php }?>						
+						  </tbody>
+							</table>
+						</div>
+
+						
+
+						
+
+						<legend class="lg_title">
+							<span>跟踪历史：</span>
+						</legend>
+						<div class="control-group"
+							style="padding-top: 0px; margin-top: 0px;">
+							<div class="controls"
+								style="margin-left: 10px; padding-top: 0px; margin-top: 0px;">
+								<div class="track">
+									<ul
+										style="display: block; max-height: 400px; overflow: auto; width: 400px;">
+								  	<?php if($order_tracking){?>
+								  	<?php foreach ($order_tracking as $v){?>
+										<li>
+											<span><?php echo $v->timestamp;?></span>  <?php echo $v->description;}?></li>
+									<?php }?>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="form-actions">
+							    
+								<?php if($info->status == 3){?>
+								<a class="btn btn-info" href="javascript:complete(0);">确认完成</a>
+								<?php }?>
+								
+						</div>
+					</div>
+					
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+<div class="modal hide fade" id="myModal">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal"
+			onclick="refresh()">×</button>
+		<h3>
+			请选择
+			<span id="set_name">报名</span>
+			人员(
+			<span id="joinMessage" style="color: red"></span>
+			)
+		</h3>
+	</div>
+	<div class="modal-body">
+		<table class="mytable">
+			<tr>
+	<?php $sex = array(0=>'保密',1=>'男',2=>'女');  $j =1;foreach($user_list as $v){?>
+	<td>
+					<input type="checkbox" value="<?php echo $v->id;?>"
+						onclick="taskJoinSubmit(<?php echo $v->id;?>,this)" <?php if(isset($check_join[$v->id])){?>checked<?php }?>/><?php echo $v->nickname ? $v->nickname : $v->mobile;?>(<span <?php if($v->sex == 2){?>style="color: red;"<?php }?>><?php echo $sex[$v->sex];?>---<?php echo $v->school_id ? $school_list[$v->school_id] : '';?></span>)
+		</td>
+		<?php if($j%3==0){?>
+    	    </tr>
+    	<?php }?>	
+	<?php $j++; }?>	
+	</table>
+	</div>
+</div>
+<div class="modal hide fade" id="myModal4">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal"
+			onclick="refresh()">×</button>
+		<h3>
+			请选择赞的人员(
+			<span id="praiseMessage" style="color: red"></span>
+			)
+		</h3>
+	</div>
+	<div class="modal-body">
+		<table class="mytable">
+			<tr>
+	<?php $sex = array(0=>'保密',1=>'男',2=>'女');  $j =1;foreach($user_list as $v){?>
+	<td style="max-width: 288px;width: 255px;
+">
+					<input type="checkbox" value="<?php echo $v->id;?>"
+						onclick="submitPraise(<?php echo $v->id;?>,this)" /><?php echo $v->nickname ? $v->nickname : $v->mobile;?>(<span <?php if($v->sex==2){?> style="color: red;"<?php }?>><?php echo $sex[$v->sex];?></span>)---<?php echo $v->school_id ? $school_list[$v->school_id] : '';?>
+		</td>
+		<?php if($j%2==0){?>
+    	    </tr>
+    	<?php }?>	
+	<?php $j++; }?>	
+	</table>
+	</div>
+</div>
+
+<div class="modal hide fade" id="myModal3">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">×</button>
+		<h3>填写评论内容</h3>
+	</div>
+	<div class="modal-body">
+		<p>请选择评论用户:</p>
+		<select name="user_id" id="comment_user_id">
+		  <?php foreach($user_list as $v){?>
+		      <option value="<?php echo $v->id;?>" <?php if($info->user_id == $v->id){?>selected<?php }?> 
+				images="<?php echo isset($images[$v->image]['path']) ? $images[$v->image]['path'] : ROOT_PATH.'adminStyle/img/no_pic.gif';?>" <?php if($v->sex==2){?> class="women"<?php }?>><?php echo $v->nickname ? $v->nickname : $v->mobile;?>(<?php echo $sex[$v->sex];?>)评(<?php echo isset($comment_count[$v->id]) ? $comment_count[$v->id] : 0;?>)---<?php echo $v->school_id ? $school_list[$v->school_id] : '';?></option>
+		  <?php }?>
+		</select>
+		<img src="<?php echo ROOT_PATH.'adminStyle/img/no_pic.gif';?>"
+			width="50" height="50" id="user_img" />
+	</div>
+	<div class="modal-body">
+		<p>请输入评论内容:</p>
+		<textarea class="autogrow" style="height: 80px; width: 400px;"
+			id="content"></textarea>
+	</div>
+	<div class="modal-footer">
+		<input type="hidden" name="user_id_to" id="user_id_to" />
+		<a href="#" class="btn" data-dismiss="modal">取消</a>
+		<a href="javascript:submitComment()" class="btn btn-info">确定</a>
+	</div>
+</div>
+
+<div class="modal hide fade" id="myModal5" style="width:610px;">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">×</button>
+		<h3>填写评论内容</h3>
+	</div>
+	<div class="modal-body">
+		<p>选择评论用户:</p>
+		<span class="comment">
+    		<select onchange="img_src(this);">
+    		  <?php foreach($user_list as $v){?>
+    		      <option value="<?php echo $v->id;?>" 
+    				images="<?php echo isset($images[$v->image]['path']) ? $images[$v->image]['path'] : ROOT_PATH.'adminStyle/img/no_pic.gif';?>" <?php if($v->sex==2){?> class="women"<?php }?>><?php echo $v->nickname ? $v->nickname : $v->mobile;?>(<?php echo $sex[$v->sex];?>)评(<?php echo isset($comment_count[$v->id]) ? $comment_count[$v->id] : 0;?>)---<?php echo $v->school_id ? $school_list[$v->school_id] : '';?></option>
+    		  <?php }?>
+    		</select>
+    		<img src="<?php echo ROOT_PATH.'adminStyle/img/no_pic.gif';?>"
+    			width="50" height="50" />
+    		<span style="folat:left;">评论内容:</span>
+    		<input type="text" name="content">
+            <span class="comment-close" style="color:red;cursor:pointer;display:none;" onclick="removeUser(this);">X</span>
+		</span>
+	</div>
+	<div class="modal-footer">
+	    <input type="button" class="btn" onclick="addUser(this)" value="+新增一位用户" style="color: red; margin-right: 130px;"/>
+		<a href="#" class="btn" data-dismiss="modal">取消</a>
+		<a href="javascript:void(0);" class="btn btn-info" onclick="updataComment(this)">确定</a>
+	</div>
+</div>
+
+<div class="modal hide fade" id="myModal1">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">×</button>
+		<h3>请选定参与者</h3>
+	</div>
+	<div class="modal-body">
+		<table class="mytable">
+			<tr>
+	<?php $i = 1;foreach($sign_up as $v){ ?>	
+    	<td>
+					<input type="checkbox" name="join"
+						value="<?php echo $v->user_id;?>" /><?php echo $v->nickname ? $v->nickname : $v->mobile;?>
+    	
+				
+				
+				<td>
+    	<?php if($i%4==0){?>
+    	    
+			
+			</tr>
+    	<?php }?>	
+	<?php $i++;}?>
+	</table>
+	</div>
+	<div class="modal-footer">
+		<a href="#" class="btn" data-dismiss="modal">取消</a>
+		<a href="javascript:taskJoinCheckedSubmit()" class="btn btn-info">确定</a>
+	</div>
+</div>
+
+<div class="modal hide fade" id="myModal2">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">×</button>
+		<h3>评价</h3>
+	</div>
+	<div class="modal-body" id="stars">
+		<p>评价星级:</p>
+		<input type="radio" value="1" name="stars" />
+		★☆☆☆☆
+		<input type="radio" value="2" name="stars" />
+		★★☆☆☆
+		<input type="radio" value="3" name="stars" />
+		★★★☆☆
+		<input type="radio" value="4" name="stars" />
+		★★★★☆
+		<input type="radio" value="5" name="stars" />
+		★★★★★
+		<p>评价内容:</p>
+		<textarea class="autogrow" style="height: 80px; width: 400px;"
+			id="evaluationContent"></textarea>
+	</div>
+	<div class="modal-footer">
+		<a href="#" class="btn" data-dismiss="modal">取消</a>
+		<a href="javascript:evaluation()" class="btn btn-info">确定</a>
+	</div>
+</div>
+
+<div class="popup .popop_hide">
+	<div class="show_bigpic">
+		<img src="" alt="" />
+	</div>
+</div>
+<?php echo $this->headLink()->appendStylesheet($this->basePath() . '/css/demo.Default.css')?>
+<script language="javascript"
+	src="http://webapi.amap.com/maps?v=1.3&key=d4e906f2d3b338bc0fa31cba41b4c5ca"></script>
+<script language="javascript">
+var userId = 0;
+//评价设置用户ID,为0发布者评价所有参与者
+function setUserId(user_id)
+{
+    userId = user_id;	
+}
+
+function addUser(element)
+{
+   var box=$(element).parent().prev();
+   var source = box.find('.comment:last'); 
+   var span = source.clone();
+   var comment_next = source.find("select option:selected").next();
+   if (comment_next.length == 0)
+   {
+	   comment_next = source.find("select option").eq(0);
+   }
+   span.find("select").eq(0).val(comment_next.val());
+   span.find('img').attr('src',comment_next.attr("images"));
+   // console.log(span);
+   span.find('.comment-close').show();
+   
+   box.append(span);
+}
+function updataComment(element)
+{
+	var elmenet=element;
+
+	$('.modal-body>span,element').each(function(index)
+	{
+		var json = new Object();
+		json.n = 'TaskCommentSubmit'; 
+		json.s = $(this).find('select option:selected').val();
+		json.q = new Object();
+		json.q.id = <?php echo $info->id;?>;
+		json.q.operate = 1;
+		json.q.comment = new Object();
+		json.q.comment.content = $(this).find('input').val();
+		
+		if($(this).find('input').val() == '')
+		{
+			
+		    
+		}else{
+	    	$.post("<?php echo $this->url('admin-task',array('action'=>'getJson'));?>", {request: json},
+	    	function(data)
+	    	{
+	    		//console.log(data);
+	    		data = $.parseJSON(data);
+	    		/* if(data.q.s == 0)
+	    		{
+	    		   refresh(); 
+	    		} 
+	    		else
+	        	{
+	    			alert(data.q.d);
+	        	}   */
+	    		  
+	    	});
+		}
+	    //console.log(arr[index]);
+	    
+    });
+	 refresh();
+    
+}
+function removeUser(element)
+{
+	$(element).parent().remove();
+}
+
+/**
+ * 提交评价
+ */
+function evaluation()
+{
+	var stars = $("#stars input:checked").val();
+	var evaluationConent = $("#evaluationContent").val();
+	var json = new Object();
+	json.n = 'TaskEvaluateCollectionSubmit'; 
+	json.s = userId ? userId : <?php echo $info->user_id;?>;
+	json.q = new Object();
+	json.q.a = userId ? 3 : 1;
+	json.q.id = <?php echo $info->id?>;	
+	json.q.evaluates = [];
+	var evaluate = new Object();
+	evaluate.evaluate = new Object();
+    evaluate.evaluate.stars = stars;
+    evaluate.evaluate.content = evaluationConent;
+	json.q.evaluates.push(evaluate);
+	$.post("<?php echo $this->url('admin-task',array('action'=>'getJson'));?>", {request: json},
+			function(data)
+			{
+				//console.log(data);
+				data = $.parseJSON(data);
+				if(data.q.s == 0)
+	    		{
+	    		   refresh(); 
+	    		} 
+	    		else
+	        	{
+	    			alert(data.q.d);
+	        	}	     
+			});
+}
+
+//报名提交取消
+function taskJoinSubmit(userId,a)
+{
+	
+	if(userId)
+	{
+		var type = a.checked
+		var json = new Object();
+		json.n = 'TaskJoinSwitch'; 
+		json.s = userId;
+		json.q = new Object();
+		json.q.id = <?php echo $info->id;?>;
+ 		json.q.open = type ? 1 : 2;
+ 		json.q.operate = 1;
+		$.post("<?php echo $this->url('admin-task',array('action'=>'getJson'));?>", {request: json},
+		function(data)
+		{
+			//console.log(data);
+			data = $.parseJSON(data);
+			$("#joinMessage").text(data.q.d);		     
+		});
+	}
+}
+
+//任务选定取消
+function taskJoinCheckedSubmit()
+{
+	var json = new Object();
+	json.n = 'TaskStatusUpdate'; 
+	json.s = <?php echo $info->user_id;?>;
+	json.q = new Object();
+	json.q.a = 3;
+	json.q.id = <?php echo $info->id;?>;
+	json.q.users = [];
+	$("#myModal1 input:checked").each(function(i){
+ 		var user = new Object();
+ 		user.user = new Object();
+ 		user.user.id = $(this).val();
+ 		json.q.users.push(user);
+	});
+	
+	$.post("<?php echo $this->url('admin-task',array('action'=>'getJson'));?>", {request: json},
+	function(data)
+	{
+		//console.log(data);
+		data = $.parseJSON(data);
+		
+		if(data.q.s == 0)
+		{
+		   refresh(); 
+		} 
+		else
+    	{
+			alert(data.q.d);
+    	} 
+	});
+}
+
+//活动签到
+function taskSign(user_id)
+{
+	var json = new Object();
+	json.n = 'TaskStatusUpdate'; 
+	json.s = <?php echo $info->user_id;?>;
+	json.q = new Object();
+	json.q.a = 5;
+	json.q.id = <?php echo $info->id;?>;
+	json.q.userId = user_id;
+	json.q.operate = 1;
+	$.post("<?php echo $this->url('admin-task',array('action'=>'getJson'));?>", {request: json},
+		function(data)
+		{
+    		//console.log(data);
+    		data = $.parseJSON(data);
+    		if(data.q.s == 0)
+    		{
+    		   refresh(); 
+    		} 
+    		else
+        	{
+    			alert(data.q.d);
+        	}    
+	});
+}
+
+
+//完成任务
+function complete(user_id)
+{
+	var json = new Object();
+	json.n = 'TaskStatusUpdate'; 
+	json.s = user_id > 0 ? user_id : <?php echo $info->user_id?>;
+	json.q = new Object();
+	json.q.a = user_id > 0 ? 6 : 4;
+	json.q.id = <?php echo $info->id;?>;	
+	$.post("<?php echo $this->url('admin-task',array('action'=>'getJson'));?>", {request: json},
+	function(data)
+	{
+		//console.log(data);
+		data = $.parseJSON(data);
+		if(data.q.s == 0)
+		{
+		   refresh(); 
+		} 
+		else
+    	{
+			alert(data.q.d);
+    	}  
+	});
+}
+
+function setUser(user_id_to,user_name,user_id)
+{
+	if(user_id_to && user_name)
+	{
+		$("#content").val("回复"+user_name+'：');
+		$("#user_id_to").val(user_id_to);
+		if(user_id > 0)
+		{
+		   $("#comment_user_id").val(user_id); 
+		}else{
+		   $("#comment_user_id").val('<?php echo $info->user_id?>');
+		}
+	}
+	else
+	{
+		$("#content").val('');
+		$("#comment_user_id").val(user_id_to);
+		$("#user_img").attr("src",$("#comment_user_id option:selected").attr('images'));
+	}
+	
+}
+$("#comment_user_id").change(function(){
+    $("#user_img").attr("src",$("#comment_user_id option:selected").attr('images'));
+});
+
+
+function img_src(element)
+{
+    //console.log($(element).find('option:selected').attr('images'));
+    $(element).parent().find('img').attr('src',$(element).find('option:selected').attr('images'));
+}
+//评论提交
+function submitComment()
+{
+    var user_id = $("#comment_user_id").val();
+    var content = $("#content").val();
+    var user_id_to = $("#user_id_to").val();
+	var json = new Object();
+	json.n = 'TaskCommentSubmit'; 
+	json.s = user_id;
+	json.q = new Object();
+	json.q.id = <?php echo $info->id;?>;
+	json.q.operate = 1;
+	json.q.comment = new Object();
+	json.q.comment.content = content;
+	if(user_id_to)
+	{
+	    json.q.comment.userIdTo = user_id_to;
+	}
+	if(content == '')
+	{
+	    alert('评论内容不能为空！');
+	    
+	}else{
+    	$.post("<?php echo $this->url('admin-task',array('action'=>'getJson'));?>", {request: json},
+    	function(data)
+    	{
+    		//console.log(data);
+    		data = $.parseJSON(data);
+    		if(data.q.s == 0)
+    		{
+    		   refresh(); 
+    		} 
+    		else
+        	{
+    			alert(data.q.d);
+        	}  
+    		  
+    	});
+	}
+}
+
+//赞提交
+function submitPraise(userId,a)
+{
+	if(userId)
+	{
+		var type = a.checked
+		var json = new Object();
+		json.n = 'TaskOperateSwitch'; 
+		json.s = userId;
+		json.q = new Object();
+		json.q.id = <?php echo $info->id;?>;
+ 		json.q.open = type ? 1 : 2;
+ 		json.q.operate = 1;
+ 		json.q.a = 1;
+ 		
+		$.post("<?php echo $this->url('admin-task',array('action'=>'getJson'));?>", {request: json},
+		function(data)
+		{
+			//console.log(data);
+			data = $.parseJSON(data);
+			$("#praiseMessage").text(data.q.d);		     
+		});
+	}
+}
+
+//刷新页面
+function refresh()
+{
+	location.reload(true);	
+}
+
+var wid=[];
+
+$(function(){
+	var $bodyheight=$('body').height();
+	$('.popup').height($bodyheight);
+	$('.popup').hide();
+	$('.show_pic').click(function(event){
+		var $pic_index=$(this).parent().find('img').attr('src');
+		$('.popup').show();
+		$('.show_bigpic img').attr('src',$pic_index);
+	})
+	$('.popup').click(function(){
+		$(this).hide();
+	});
+	$('#trid>td').each(function(){
+		wid.push($(this).width());
+	});
+	$('#thead th').each(function(index){
+		$(this).width(wid[index]);
+	});		
+})
+$(document).ready(function (){
+	mapInit();						
+	});
+        var mapObj;
+        function mapInit() {
+            var opt = {
+                level: 15, //设置地图缩放级别  
+                center: new AMap.LngLat(116.397428, 39.90923) //设置地图中心点 
+            }
+            mapObj = new AMap.Map("iCenter", opt);
+        }
+        function Get_Position(w,j,e){                               
+        	var w = w;
+        	var j = j;
+        	if(w==0 || j==0){
+      		        alert('无任务位置信息！');
+      		        return false;
+            	}
+        	if(w && j){
+        		var lnglatXY = new AMap.LngLat(j,w);
+        		geocoder(lnglatXY);
+        		$('#showMap').show();
+        	}
+        }
+        function geocoder(lnglatXY) {
+            var MGeocoder;
+            //加载地理编码插件
+            mapObj.plugin(["AMap.Geocoder"], function() {        
+                MGeocoder = new AMap.Geocoder({ 
+                    radius: 1000,
+                    extensions: "all"
+                });                                  
+                //逆地理编码
+                MGeocoder.getAddress(lnglatXY); 
+            });
+            mapObj.clearMap();
+          //加点
+            var marker = new AMap.Marker({
+                map:mapObj,
+                icon: new AMap.Icon({
+                    image: "http://api.amap.com/Public/images/js/mark.png",
+                    size:new AMap.Size(58,30),
+                    imageOffset: new AMap.Pixel(-32, -0)
+                }),
+                position: lnglatXY,
+                offset: new AMap.Pixel(-5,-30)
+            });
+            mapObj.setFitView();
+        }
+                            
+function closeMap()
+{
+	$("#showMap").hide();
+}                        
+
+
+</script>
+
+<div class="popup" id="showMap" style="display: none">
+	<div style="margin-top: 30px;">
+		<div
+			style="background-color: #FFFFFF; margin: 0 auto -10px; text-align: right; width: 702px;">
+			<b>当前任务位置</b>
+			<button type="button" onclick="closeMap()">×</button>
+		</div>
+		<div id="iCenter"></div>
+	</div>
+</div>

@@ -1,0 +1,971 @@
+<?php echo $this->headLink()->appendStylesheet($this->basePath() . '/css/demo.Default.css')?>
+<?php echo $this->headScript()->offsetSetFile(10, $this->basePath() . '/js/ajaxfileupload.js') ?>
+<?php echo $this->headScript()->prependFile($this->basePath() . '/js/jq_area.js') ?>
+<?php echo $this->headScript()->prependFile($this->basePath() . '/js/region.js') ?>
+<?php $tem = array("zero"=>'一',"first"=>'二',"second"=>'三',"third"=>'四',"fourth"=>'五',"fifth"=>'六',"sixth"=>'七',"seventh"=>'八'); ?>
+<script language="javascript" src="http://webapi.amap.com/maps?v=1.3&key=d4e906f2d3b338bc0fa31cba41b4c5ca"></script>
+<!-- //上传JS -->
+<script type="text/javascript">
+    var url = '<?php echo $this->url('admin-common',array('action'=>'getAdminFile'));?>';//图片上传地址
+</script>
+<script language="javascript">
+    $(document).ready(function (){
+        mapInit();
+    });
+    var marker = new Array();
+    var windowsArr = new Array();
+    var mapObj;
+    function mapInit() {
+        var opt = {
+            level: 10, //设置地图缩放级别
+            center: new AMap.LngLat(113.246671, 23.125097) //设置地图中心点
+        }
+        mapObj = new AMap.Map("iCenter", opt);
+
+        //加载输入提示插件
+        mapObj.plugin(["AMap.Autocomplete"], function() {
+            //判断是否IE浏览器
+            if (navigator.userAgent.indexOf("MSIE") > 0) {
+                document.getElementById("street").onpropertychange = autoSearch;
+            }
+            else {
+                document.getElementById("street").oninput = autoSearch;
+            }
+        });
+
+        //为地图注册click事件获取鼠标点击出的经纬度坐标
+        var clickEventListener=AMap.event.addListener(mapObj,'click',function(e){
+
+            var Longitude = e.lnglat.getLng();
+            var Latitude = e.lnglat.getLat();
+            mapObj.clearMap();
+            mapObj.panTo(new AMap.LngLat(Longitude,Latitude));
+            marker = new AMap.Marker({
+                //icon:"http://api.amap.com/Public/images/js/mark.png",
+                icon:new AMap.Icon({
+                    image: "http://api.amap.com/Public/images/js/mark.png",
+                    size:new AMap.Size(58,30),
+                    imageOffset: new AMap.Pixel(-32, -0)
+                }),
+                position:new AMap.LngLat(Longitude,Latitude)
+            });
+            $("#jd").val(Longitude);
+            $("#wd").val(Latitude);
+            var lnglatXY = new AMap.LngLat(Longitude,Latitude);
+            geocoder(lnglatXY,'');
+            marker.setMap(mapObj);  //在地图上添加点
+            mapObj.setFitView(); //调整到合理视野
+        });
+    }
+    function geocoder(lnglatXY,address) {
+        var MGeocoder;
+        //加载地理编码插件
+        AMap.service(["AMap.Geocoder"], function() {
+            MGeocoder = new AMap.Geocoder({
+                radius: 1000,
+                extensions: "all"
+            });
+            //逆地理编码
+            if(lnglatXY && address == '')
+            {
+                MGeocoder.getAddress(lnglatXY, function(status, result){
+
+                    var address= result.regeocode.formattedAddress;
+                    var address_more=address.split("县");
+                    if(address_more[1]==undefined){
+                        address_more=address.split("区");
+                        if(address_more[1]==undefined){
+                            address_more=address.split("市");
+                        }
+                    }
+                    address_more=address.split(address_more[0]);
+                    address_more=address_more[1].substr(1);
+                    if(address_more==undefined || address_more==""){
+                        address_more=address;
+                    }
+
+                    $("#street").val(address_more);
+
+                });
+            }
+
+            if(address && address!= 1)
+            {
+                MGeocoder.getLocation(address, function(status, result){
+                    if(status === 'complete' && result.info === 'OK'){
+                        geocoder_CallBack(result);
+                    }
+                });
+
+
+            }
+        });
+
+
+    }
+
+    //地理编码返回结果展示
+    function geocoder_CallBack(data){
+        console.log(data);
+        var resultStr="";
+        //地理编码结果数组
+        var geocode = new Array();
+        geocode = data.geocodes;
+        mapObj.clearMap();
+
+        if(geocode[0]){
+            var lngX = geocode[0].location.getLng();
+            var latY = geocode[0].location.getLat();
+            $("#jd").val(lngX);
+            $("#wd").val(latY);
+            mapObj.clearMap();
+            mapObj.panTo(new AMap.LngLat(lngX,latY));
+            marker = new AMap.Marker({
+                //icon:"http://api.amap.com/Public/images/js/mark.png",
+                icon:new AMap.Icon({
+                    image: "http://api.amap.com/Public/images/js/mark.png",
+                    size:new AMap.Size(58,30),
+                    imageOffset: new AMap.Pixel(-32, -0)
+                }),
+                position:new AMap.LngLat(lngX,latY)
+            });
+            var lnglatXY = new AMap.LngLat(lngX,latY);
+            geocoder(lnglatXY,1);
+            marker.setMap(mapObj);  //在地图上添加点
+            mapObj.setFitView(); //调整到合理视野
+        }
+        else
+        {
+            alert('未搜索到此地址信息!');
+        }
+
+    }
+
+    //输入提示
+    function autoSearch() {
+        var keywords = document.getElementById("street").value;
+        var auto;
+        var autoOptions = {
+            pageIndex:1,
+            pageSize:10,
+            city: "周门北路" //城市，默认全国
+        };
+        auto = new AMap.Autocomplete(autoOptions);
+        //查询成功时返回查询结果
+        AMap.event.addListener(auto, "complete", autocomplete_CallBack);
+        auto.search(keywords);
+    }
+
+    //输出输入提示结果的回调函数
+    function autocomplete_CallBack(data) {
+
+        var resultStr = "";
+        var tipArr = [];
+        tipArr = data.tips;
+        if (tipArr.length>0) {
+            for (var i = 0; i < tipArr.length; i++) {
+                resultStr += "<div id='divid" + (i+1) + "' onmouseover='openMarkerTipById(" + (i+1)
+                + ",this)' onclick='selectResult(" + i + ")' onmouseout='onmouseout_MarkerStyle(" + (i+1)
+                + ",this)' style=\"font-size: 13px;cursor:pointer;padding:5px 5px 5px 5px;\">" + tipArr[i].name + "<span style='color:#C1C1C1;'>"+ tipArr[i].district + "</span></div>";
+            }
+
+        }
+        else  {
+            resultStr = " π__π 亲,人家找不到结果!<br />要不试试：<br />1.请确保所有字词拼写正确<br />2.尝试不同的关键字<br />3.尝试更宽泛的关键字";
+        }
+
+        document.getElementById("result1").innerHTML = resultStr;
+        document.getElementById("result1").style.display = "block";
+    }
+
+
+
+    //输入提示框鼠标滑过时的样式
+    function openMarkerTipById(pointid, thiss) {  //根据id打开搜索结果点tip
+        thiss.style.background = '#CAE1FF';
+    }
+
+    //输入提示框鼠标移出时的样式
+    function onmouseout_MarkerStyle(pointid, thiss) {  //鼠标移开后点样式恢复
+        thiss.style.background = "";
+    }
+
+    //从输入提示框中选择关键字并查询
+    function selectResult(index) {
+        if (navigator.userAgent.indexOf("MSIE") > 0) {
+            document.getElementById("street").onpropertychange = null;
+            document.getElementById("street").onfocus = focus_callback;
+        }
+        //截取输入提示的关键字部分
+        var text = document.getElementById("divid" + (index + 1)).innerHTML.replace(/<[^>].*?>.*<\/[^>].*?>/g,"");;
+        document.getElementById("street").value = text;
+        document.getElementById("result1").style.display = "none";
+        //根据选择的输入提示关键字查询
+        mapObj.plugin(["AMap.PlaceSearch"], function() {
+            var msearch = new AMap.PlaceSearch();  //构造地点查询类
+            AMap.event.addListener(msearch, "complete", placeSearch_CallBack); //查询成功时的回调函数
+            msearch.search(text);  //关键字查询查询
+        });
+    }
+
+
+
+    //输出关键字查询结果的回调函数
+    function placeSearch_CallBack(data) {
+        //清空地图上的InfoWindow和Marker
+        windowsArr = [];
+        marker     = [];
+        mapObj.clearMap();
+        var resultStr1 = "";
+        var poiArr = data.poiList.pois;
+        var resultCount = poiArr.length;
+        addmarker(0, poiArr[0]);
+        var lg = poiArr[0].location.lng;
+        var lt = poiArr[0].location.lat;
+        $("#jd").val(lg);
+        $("#wd").val(lt);
+        mapObj.setFitView();
+    }
+
+    //定位选择输入提示关键字
+    function focus_callback() {
+        if (navigator.userAgent.indexOf("MSIE") > 0) {
+            document.getElementById("street").onpropertychange = autoSearch;
+        }
+    }
+
+    //鼠标滑过查询结果改变背景样式，根据id打开信息窗体
+    function openMarkerTipById1(pointid, thiss) {
+        thiss.style.background = '#CAE1FF';
+        windowsArr[pointid].open(mapObj, marker[pointid]);
+    }
+
+    //添加查询结果的marker&infowindow
+    function addmarker(i, d) {
+        var lngX = d.location.getLng();
+        var latY = d.location.getLat();
+        var markerOption = {
+            map:mapObj,
+            icon:new AMap.Icon({
+                image: "http://api.amap.com/Public/images/js/mark.png",
+                size:new AMap.Size(58,30),
+                imageOffset: new AMap.Pixel(-32, -0)
+            }),
+            position:new AMap.LngLat(lngX, latY)
+        };
+        var mar = new AMap.Marker(markerOption);
+        marker.push(new AMap.LngLat(lngX, latY));
+
+        var infoWindow = new AMap.InfoWindow({
+            content:"<h3><font color=\"#00a6ac\">  " + (i + 1) + ". " + d.name + "</font></h3>" + TipContents(d.type, d.address, d.tel),
+            size:new AMap.Size(300, 0),
+            autoMove:true,
+            offset:new AMap.Pixel(0,-30)
+        });
+        windowsArr.push(infoWindow);
+        var aa = function (e) {infoWindow.open(mapObj, mar.getPosition());};
+        AMap.event.addListener(mar, "click", aa);
+    }
+
+    //infowindow显示内容
+    function TipContents(type, address, tel) {  //窗体内容
+        if (type == "" || type == "undefined" || type == null || type == " undefined" || typeof type == "undefined") {
+            type = "暂无";
+        }
+        if (address == "" || address == "undefined" || address == null || address == " undefined" || typeof address == "undefined") {
+            address = "暂无";
+        }
+        if (tel == "" || tel == "undefined" || tel == null || tel == " undefined" || typeof address == "tel") {
+            tel = "暂无";
+        }
+        var str = "  地址：" + address + "<br />  电话：" + tel + " <br />  类型：" + type;
+        return str;
+    }
+    var swf ='<?php echo $this->basePath() . '/adminStyle/js/uploadify.swf'?>';
+    var uploader = '<?php echo $this->url('admin-common',array('action'=>'getInputFileTwo')) ;?>';
+</script>
+<style type="text/css">
+    .match_text div:hover {
+        background: #f0f0f0;
+    }
+
+    .add_input {
+        border: 1px dashed #cccccc;
+        margin-top: 5px;
+        color: #cccccc;
+    }
+
+    .close {
+        margin-top: 10px;
+        margin-left: 10px;
+        float: left;
+    }
+
+    .form-control {
+        width: 50%;
+        float: left;
+        margin-bottom: 5px;
+        margin-right: 5px;
+    }
+    .view_box {
+        width: 379px;
+        height: 795px;
+        background: url("<?php echo ROOT_PATH; ?>images/iphone-frame.png") no-repeat;
+        position: fixed;
+        left: 40%;
+        top: 10%;
+        z-index: 10;
+    }
+    .inner_box {
+        margin-top: 116px;
+        margin-left: 32px;
+        width: 319px;
+        height: 568px;
+        overflow: hidden;
+    }
+    .red_star {
+        color: red;
+    }
+</style>
+<div class="row">
+    <form role="form" class="form-horizontal" action="<?php echo $this->url('admin-user', array('action' => 'addUser')) ?>" onsubmit="return checkSubmit()" method="post">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>基本资料(必填)</h3>
+                </div>
+                <div class="panel-body">
+<!--                    <div class="form-group">-->
+<!--                        <label class="col-sm-2 control-label" for="field-4">绑定设备ID：</label>-->
+<!--                        <div class="col-sm-10">-->
+<!--                            <input type="text" class="form-control"-->
+<!--                                   placeholder="请输入设备ID，留空为已绑定设备" name="device_id"-->
+<!--                                   value=""-->
+<!--                                />-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="form-group-separator"></div>-->
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-4"><i class="red_star">*&nbsp;</i>模版：</label>
+                        <div class="col-sm-10">
+                            <select name="template" class="form-control" style="margin-right:10px;" onchange="chg_view(this.value)">
+                                <?php foreach($tem as $k => $v){?>
+                                    <option value="<?php echo $k;?>" <?php echo isset($info->template) && $info->template == $k ? 'selected' : ''; ?>>模版<?php echo $v; ?></option>
+                                <?php } ?>
+                            </select>
+                            <a class="btn btn-info" href="javascript:void(0)" onclick="view()">查看模版</a>
+                        </div>
+                    </div>
+                    <div class="form-group-separator"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><i class="red_star">*&nbsp;</i>个人头像照：(200 X 200)</label>
+
+                        <div class="col-sm-10">
+                            <input type="file" id="img0" name="Filedata"
+                                   onchange="return ajaxFileUpload('0');"/>
+                            <input type="hidden" name="image"
+                                   value="<?php echo isset($info['head_icon']) ? $info['head_icon'] : ''; ?>"
+                                   id="img_id_0"/>
+                            <br/>
+
+                            <img
+                                src="<?php echo isset($info['head_icon']) && isset($head_icon[$info['head_icon']]['path']) ? $head_icon[$info['head_icon']]['path'] : ROOT_PATH . 'adminStyle/img/no_pic.gif'; ?>"
+                                width="200" height="200" id="img_0"/>
+
+                        </div>
+                    </div>
+                    <div class="form-group-separator"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-4"><i class="red_star">*&nbsp;</i>姓名：</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" maxlength="6"
+                                   placeholder="请输入姓名,不得超过6个字" name="name" required
+                                   value="<?php echo isset($info->name) ? $info->name : ''; ?>"
+                                  /><span>(不得超过6个字)</span>
+                        </div>
+                    </div>
+                    <div class="form-group-separator"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-4"><i class="red_star">*&nbsp;</i>移动电话：</label>
+                        <div class="col-sm-10">
+                            <?php if(isset($info->mobile)){ $mobile = explode(",",$info->mobile); foreach($mobile as $v){?>
+                                <input type="text" class="form-control" required pattern="1[0-9]{10}"
+                                       placeholder="请输入移动电话号码" name="mobile[]"
+                                       value="<?php echo $v; ?>"
+                                    >
+                            <?php }}else{ ?>
+                                <input type="text" class="form-control" required pattern="1[0-9]{10}"
+                                       placeholder="请输入移动电话号码" name="mobile[]"
+                                       value=""
+                                    >
+                            <?php } ?>
+                            <a class="form-control add_input" href="javascript:void(0)" onclick="addInput(this)">+添加一个移动电话号码</a>
+                        </div>
+                    </div>
+                    <div class="form-group-separator"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-4"><i class="red_star">*&nbsp;</i>微信号：</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" required maxlength="20"
+                                   placeholder="请输入微信号" name="weixin"
+                                   value="<?php echo isset($info->weixin_number) ? $info->weixin_number : ''; ?>"
+                                />
+                        </div>
+                    </div>
+                    <div class="form-group-separator"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-4"><i class="red_star">*&nbsp;</i>在职公司：</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" required maxlength="30"
+                                   placeholder="请输入公司名称" name="company"
+                                   value="<?php echo isset($info->company) ? $info->company : ''; ?>"
+                                /><span>(不得超过30个字)</span>
+                        </div>
+                    </div>
+                    <div class="form-group-separator"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-4"><i class="red_star">*&nbsp;</i>职位：</label>
+                        <div class="col-sm-10">
+                            <?php if(isset($info->position)){ $position = explode(",",$info->position); foreach($position as $v){?>
+                                <input type="text" class="form-control" required maxlength="10"
+                                       placeholder="请输入所在职位" name="position[]"
+                                       value="<?php echo $v; ?>"
+                                    />
+                            <?php }}else{?>
+                                <input type="text" class="form-control" required maxlength="10"
+                                       placeholder="请输入所在职位" name="position[]"
+                                       value=""
+                                    /><span>(不得超过10个字)</span>
+                            <?php }?>
+                            <a class="form-control add_input" href="javascript:void(0)" onclick="addInput(this)">+添加一个职位</a>
+                        </div>
+                    </div>
+                    <div class="form-group-separator"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-4"><i class="red_star">*&nbsp;</i>联系地址：</label>
+                        <div class="col-sm-10">
+                            <span id="area">
+								<select class="form-control" id="province" name="province_id" style="width: 100px;"></select>
+								<select class="form-control" id="city" name="city_id" style="width: 100px;"></select>
+								<select class="form-control" id="county" name="county" style="width: 100px;"></select>
+							</span>
+                            <input class="form-control" type="text" name="address" id="street" style="width: 500px" value="<?php echo isset($info->address) ? $info->address : ''; ?>" required />
+
+                            <input class="form-control" type="text" name="longitude" style="width: 100px" id="jd" value="<?php echo isset($info->longitude) ? $info->longitude : ''; ?>" required />
+
+                            <input class="form-control" type="text" name="latitude" style="width: 100px" id="wd" value="<?php echo isset($info->latitude) ? $info->latitude : ''; ?>" required />
+                            <div id="result1" name="result1"
+                                 style="overflow: auto; width: 60%; border: 1px solid gray; display: none;"></div>
+                            <div id="result" style="position: relative; display: none;"></div>
+                        </div>
+                    </div>
+                    <div class="form-group-separator"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-1"></label>
+                        <div class="col-sm-10">
+                            <div id="iCenter" style="margin: 0"></div>
+                        </div>
+                    </div>
+                    <div class="form-group-separator"></div>
+                </div>
+                <div class="panel-heading" style="margin-top: 30px;">
+                    <h3>其他资料</h3>
+                </div>
+                <div class="panel-body" style="background:#f0f0f0;">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-4">出生日期：</label>
+
+                        <div class="col-sm-10">
+                            <input class="form-control" data-mask="y-m-d" type="text"
+                                   placeholder="请输入出生日期"
+                                   value="<?php echo isset($info->birthday) ? $info->birthday : ''; ?>"
+                                   name="birthday">
+                        </div>
+                    </div>
+                    <div class="form-group-separator"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-4">国籍：</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" type="text" maxlength="10"
+                                   placeholder="请输入国籍"
+                                   value="<?php echo isset($info->citizenship) ? $info->citizenship : ''; ?>"
+                                   name="citizenship"><span>(不得超过10个字)</span>
+                        </div>
+                    </div>
+                    <div class="form-group-separator"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-4">爱好：</label>
+
+                        <div class="col-sm-10">
+                            <?php if(isset($info->hobby)){ $hobby = explode(",",$info->hobby); foreach($hobby as $v){?>
+                            <input class="form-control" type="text" maxlength="50"
+                                   placeholder="请输入个人爱好,如 看书"
+                                   value="<?php echo $v; ?>"
+                                   name="hobby[]">
+                            <?php }}else{ ?>
+                            <input class="form-control" type="text" maxlength="50"
+                                   placeholder="请输入个人爱好"
+                                   value=""
+                                   name="hobby[]"><span>(不得超过50个字,多个可用逗号隔开)</span>
+                            <?php }?>
+                            <a class="form-control add_input" href="javascript:void(0)" onclick="addInput(this)">+添加一个爱好</a>
+                        </div>
+                    </div>
+                    <div class="form-group-separator"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-4">个性签名：</label>
+
+                        <div class="col-sm-10">
+                            <textarea class="form-control" style="height: 150px;" name="signature" maxlength="100"><?php echo isset($info->signature) ? $info->signature : ''; ?></textarea><span>(不得超过100个字)</span>
+                        </div>
+                    </div>
+                    <div class="form-group-separator"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-4">个人资料：</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" style="height: 150px;" name="profile" maxlength="200"><?php echo isset($info->profile) ? $info->profile : ''; ?></textarea><span>(不得超过200个字)</span>
+                        </div>
+                    </div>
+                    <div class="form-group-separator"></div>
+
+
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-4">在职公司(英文)：</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control"  pattern="[a-zA-Z0-9\.\)\(- ]{50}"
+                                   placeholder="请输入公司名称(for English)" name="en_company"
+                                   value="<?php echo isset($info->en_company) ? $info->en_company : ''; ?>"
+                                 /><span>(不得超过50个字母)</span>
+                        </div>
+                    </div>
+                    <div class="form-group-separator"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-4">公司或项目描述：</label>
+                        <div class="col-sm-10">
+                            <textarea type="text" style="height: 150px;" class="form-control" name="description" maxlength="100"><?php echo isset($info->description) ? $info->description : ''; ?></textarea><span>(不得超过100个字)</span>
+                        </div>
+                    </div>
+                    <div class="form-group-separator"></div>
+
+
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-4">经营项目：</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" maxlength="50"
+                                   placeholder="请输入正在经营的项目" name="project"
+                                   value="<?php echo isset($info->project) ? $info->project : ''; ?>"
+                                 /><span>(不得超过50个字,多个可用逗号隔开)</span>
+                        </div>
+                    </div>
+                    <div class="form-group-separator"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-4">固定电话：</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" pattern="0[0-9]{2,3}-[0-9]{8}"
+                                   placeholder="请输入固定电话号码,如 0757-88888888" name="telephone"
+                                   value="<?php echo isset($info->telephone) ? $info->telephone : ''; ?>"
+                                >
+                        </div>
+                    </div>
+                    <div class="form-group-separator"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-4">传真：</label>
+                        <div class="col-sm-10">
+                            <?php if(isset($info->fax)){ $fax = explode(",",$info->fax); foreach($fax as $v){?>
+                            <input type="text" class="form-control" pattern="0[0-9]{2,3}-[0-9]{8}"
+                                   placeholder="请输入传真号码" name="fax[]"
+                                   value="<?php echo $v; ?>"
+                                >
+                            <?php }}else{ ?>
+                            <input type="text" class="form-control" pattern="0[0-9]{2,3}-[0-9]{8}"
+                                   placeholder="请输入传真号码" name="fax[]"
+                                   value=""
+                                >
+                            <?php }?>
+                            <a class="form-control add_input" href="javascript:void(0)" onclick="addInput(this)">+添加一个传真号码</a>
+                        </div>
+                    </div>
+                    <div class="form-group-separator"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-4">QQ：</label>
+                        <div class="col-sm-10">
+                            <?php if(isset($info->qq)){ $qq = explode(",",$info->qq); foreach($qq as $v){?>
+                            <input type="text" class="form-control"
+                                   placeholder="请输入QQ号"
+                                   value="<?php echo $v; ?>"
+                                   name="qq[]">
+                            <?php }}else{ ?>
+                            <input type="text" class="form-control" pattern="[0-9]{6,11}"
+                                   placeholder="请输入QQ号"
+                                   value=""
+                                   name="qq[]">
+                            <?php } ?>
+                            <a class="form-control add_input" href="javascript:void(0)" onclick="addInput(this)">+添加一个QQ号码</a>
+                        </div>
+                    </div>
+                    <div class="form-group-separator"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-4">电子邮箱：</label>
+                        <div class="col-sm-10">
+                            <?php if(isset($info->email)){ $email = explode(",",$info->email); foreach($email as $v){?>
+                            <input type="text" class="form-control" pattern="[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+"
+                                   placeholder="请输入电子邮箱"
+                                   value="<?php echo $v; ?>"
+                                   name="email[]" />
+                            <?php }}else{ ?>
+                            <input type="text" class="form-control" pattern="[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+"
+                                   placeholder="请输入电子邮箱"
+                                   value=""
+                                   name="email[]" />
+                            <?php }?>
+                            <a class="form-control add_input" href="javascript:void(0)" onclick="addInput(this)">+添加一个电子邮箱</a>
+                        </div>
+                    </div>
+                    <div class="form-group-separator"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-4">网址：</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" pattern="http:\/\/[_a-zA-Z0-9-]+(.[_a-zA-Z0-9-]+)*"
+                                   placeholder="请输入个人网页地址"
+                                   value="<?php echo isset($info->web_address) ? $info->web_address : ''; ?>"
+                                   name="web_address">
+                        </div>
+                    </div>
+                    <div class="form-group-separator"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-4">微博：</label>
+                        <div class="col-sm-10">
+                            <?php if(isset($info->weibo)){ $weibo = explode(",",$info->weibo); foreach($weibo as $v){?>
+                            <input type="text" class="form-control"
+                                   placeholder="请输入微博号"
+                                   value="<?php echo $v; ?>"
+                                   name="weibo[]">
+                            <?php }}else{ ?>
+                            <input type="text" class="form-control"
+                                   placeholder="请输入微博号"
+                                   value=""
+                                   name="weibo[]">
+                            <?php }?>
+                            <a class="form-control add_input" href="javascript:void(0)" onclick="addInput(this)">+添加一个微博号</a>
+                        </div>
+                    </div>
+                    <div class="form-group-separator"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-4">其他：</label>
+                        <div class="col-sm-10">
+                            <textarea type="text" class="form-control" style="height: 150px;" maxlength="100" name="others"><?php echo isset($info->others) ? $info->others : ''; ?></textarea><span>(不得超过100个字)</span>
+                        </div>
+                    </div>
+                    <div class="form-group-separator"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"></label>
+
+                        <div class="col-sm-10">
+                            <input type="hidden" name="id"
+                                   value="<?php echo isset($info->id) ? $info->id : ''; ?>">
+                            <input type="submit" name="submit" value="保存"
+                                   class="btn btn-info"/>
+                            <?php if(isset($info->id) && $info->id){?>
+                            <a class="btn btn-info" href="javascript:void(0)" onclick="html()">预览</a>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="dialog_bg none template">
+    <a href=""></a>
+    <div class="view_box">
+        <div class="inner_box">
+            <iframe id="iframe" height="567px" width="350px" src="<?php echo PREVIEW_PATH."zero.html"; ?>" frameborder="0" scrolling="yes"></iframe>
+        </div>
+    </div>
+</div>
+
+<div class="dialog_bg none html">
+    <a href=""></a>
+    <div class="view_box">
+        <div class="inner_box">
+            <iframe id="iframe" height="567px" width="350px" src="<?php echo ROOT_PATH.'static_html/'.$info->html.".html"; ?>" frameborder="0" scrolling="yes"></iframe>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#province,#city").change(function(){
+        var address = $("#province option:selected").text()+$("#city option:selected").text();
+        geocoder('',address);
+    });
+
+    function view()
+    {
+        $('.template').show();
+    }
+    function html()
+    {
+        $('.html').show();
+    }
+    function chg_view(obj)
+    {
+        $('#iframe').attr('src', "<?php echo PREVIEW_PATH; ?>"+obj+".html");
+    }
+    $('.dialog_bg').click(function(){
+        $('.dialog_bg').hide();
+    });
+
+    $("#area").area({
+        cache: region,
+        p_id:<?php echo isset($info->province_id) ? $info->province_id : 440000;?>,
+        ci_id:<?php echo isset($info->city_id) ? $info->city_id : 440100;?><?php if(isset($info->county) && $info->county){?>,
+        co_id: <?php echo isset($info->county) ? $info->county : 440103;?><?php }?>
+    });
+    /**
+     * 搜索学校
+     */
+    $("#seachSchool").keyup(function () {
+        var seach = $(this).val();
+        if (seach == '') {
+            return;
+        }
+
+        $.post("<?php //echo $this->url('admin-school',array('action'=>'seachSchool'))?>", {seach: seach},
+            function (data) {
+                if (data) {
+
+                    data = $.parseJSON(data);
+                    var str = '';
+                    for (i in data) {
+                        str += "<div onclick=\"getSchool(" + i + ",'" + data[i] + "')\" class='school_list'>" + data[i] + "</div>";
+                    }
+                    $("#school_list").html(str);
+                    $("#school_list").show();
+                }
+            });
+    });
+
+    /**
+     * 设置学校ID，根据ID查找专业
+     */
+    function getSchool(school_id, school_name) {
+        if (!school_id) {
+            return;
+        }
+        $("#school_id").val(school_id);
+        $.post("<?php //echo $this->url('admin-school',array('action'=>'getProfessional'))?>", {schoolId: school_id},
+            function (data) {
+                if (data) {
+                    data = $.parseJSON(data);
+                    var str = '';
+                    for (i in data) {
+                        str += "<option value='" + i + "'>" + data[i] + "</option>";
+                    }
+                    $("#professional_id").html();
+                    $("#professional_id").html(str);
+                }
+                else {
+                    str += "<option>该学校未有相关专业</option>";
+                    $("#professional_id").html(str);
+                }
+                $("#seachSchool").val(school_name);
+                $("#school_list").hide();
+            });
+    }
+
+    $("#mobile").blur(function () {
+        var mobile = $(this).val();
+        if (!mobile) {
+            return;
+        }
+
+        $.post("<?php //echo $this->url('admin-user',array('action'=>'check'))?>", {mobile: mobile, type: 2},
+            function (data) {
+                if (data == 1) {
+                    $("#mobile_msg").text('手机号已存在!');
+                }
+                else {
+                    $("#mobile_msg").text('');
+                }
+            });
+    });
+
+    $("#nickname").blur(function () {
+        var nickname = $(this).val();
+        if (!nickname) {
+            return;
+        }
+        $.post("<?php //echo $this->url('admin-user',array('action'=>'check'))?>", {nickname: nickname, type: 1},
+            function (data) {
+                if (data == 1) {
+                    $("#name_msg").text('昵称已存在!');
+                }
+                else {
+                    $("#name_msg").text('');
+                }
+            });
+    });
+
+    function checkSubmit() {
+
+//        var name  = $("input[name='name']").val();
+        var head_icon = $("#img_id_0").val();
+//        var weixin = $("input[name='weixin']").val();
+//        var company = $("input[name='company']").val();
+//        var position = $("input[name='position']").val();
+//        var address = $("input[name='address']").val();
+//        var citizenship = $("input[name='citizenship']").val();
+//        var hobby = $("input[name='hobby']").val();
+//        var signature = $("input[name='signature']").val();
+//        var profile = $("input[name='profile']").val();
+//        var description = $("input[name='description']").val();
+//        var project = $("input[name='project']").val();
+//        var telephone = $("input[name='telephone']").val();
+//        var fax = $("input[name='fax']").val();
+//        var qq = $("input[name='qq']").val();
+//        var email = $("input[name='email']").val();
+//        var web_address = $("input[name='web_address']").val();
+//        var weibo = $("input[name='weibo']").val();
+//        var others = $("input[name='others']").val();
+
+//        if(getlength(name) > 12)
+//        {
+//            alert('主标题超过6个字');
+//            return false;
+//        }
+        if(head_icon == '')
+        {
+            alert('请上传头像');
+            return false;
+        }
+//        if(getlength(weixin) > 20)
+//        {
+//            alert('微信号不得超过20个字');
+//            return false;
+//        }
+//        if(getlength(company) > 60)
+//        {
+//            alert('公司名称不得超过30个字');
+//            return false;
+//        }
+//        if(getlength(position) > 20)
+//        {
+//            alert('职称不得超过10个字');
+//            return false;
+//        }
+//        if(getlength(citizenship) > 30)
+//        {
+//            alert('国籍不得超过15个中文或30个英文字母');
+//            return false;
+//        }
+//        if(getlength(hobby) > 20)
+//        {
+//            alert('爱好不得超过10个中文或20个英文字母');
+//            return false;
+//        }
+//        if(getlength(signature) > 100)
+//        {
+//            alert('个性签名不得超过50个中文或100个英文字母');
+//            return false;
+//        }
+//        if(getlength(profile) > 200)
+//        {
+//            alert('个人资料不得超过100个中文或200个英文字母');
+//            return false;
+//        }
+//        if(getlength(description) > 200)
+//        {
+//            alert('公司描述不得超过100个中文或200个英文字母');
+//            return false;
+//        }
+//        if(getlength(project) > 140)
+//        {
+//            alert('公司经营项目描述不得超过70个中文或140个英文字母');
+//            return false;
+//        }
+
+
+    }
+
+    //字段长度判断
+    function getlength (str) {
+        //<summary>获得字符串实际长度，中文2，英文1</summary>
+        //<param name="str">要获得长度的字符串</param>
+        var realLength = 0, len = str.length, charCode = -1;
+        for (var i = 0; i < len; i++) {
+            charCode = str.charCodeAt(i);
+            if (charCode >= 0 && charCode <= 128) realLength += 1;
+            else realLength += 2;
+        }
+
+        return realLength;
+    }
+
+        $("#user_group").change(function () {
+        var id = $(this).val()
+        if (id) {
+            $.post("<?php //echo $this->url('admin-label',array('action'=>'getUserLabel'))?>", {id: id},
+                function (data) {
+                    if (data) {
+                        $("#label_id").html(data);
+                    }
+                    else {
+                        $("#label_id").html('');
+                    }
+                });
+        }
+    });
+    function setLable(id, name) {
+        var html = $("#label").html();
+        var text = html + "<span><div id='uniform-undefined' class='checker'><span class='checked'><input type='checkbox' onclick='setting_label(this,0)' name='label[]' value='" + id + "' checked></span></div>" + name + '</span>';
+        $("#label").html(text);
+    }
+
+    function setting_label(obj, id) {
+        obj = $(obj).parent().parent().parent();
+        if (id) {//删除用户标签
+            $.post("<?php //echo $this->url('admin-label',array('action'=>'deleteUserLabel'))?>", {id: id},
+                function (data) {
+                    if (data) {
+                        obj.remove();
+                    }
+                });
+        }
+        else {
+            obj.remove();
+        }
+    }
+
+    function addInput(obj) {
+        var name = $(obj).siblings(".form-control").attr("name");
+        $(obj).before('<div class="box"><input type="text" style="margin-top:5px;" class="form-control" placeholder="请输入你需要输入的信息" name="' + name + '" value="" /><span class="close" onclick="removeInput(this)">&times;</span></div>');
+
+    }
+    function removeInput(obj) {
+        $(obj).parent().remove();
+    }
+</script>

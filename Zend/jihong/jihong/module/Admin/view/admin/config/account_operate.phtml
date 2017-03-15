@@ -1,0 +1,113 @@
+<style>
+    .tl{text-align: right;}
+    .main-nody{padding:5px 20px 0 20px;}
+    .main-nody h5{float: left;}
+    .tp{margin-top: 30px;}
+    .bc-1{display: none;}
+    .fl{float: left;}
+    .pd5{
+        padding:5px;	
+    }
+    .w320{
+    	width:320px;
+    }
+</style>
+<div class="panel panel-default">
+   <div class="panel-heading">
+       <div calss="row">
+           <div class="col-sm-6">
+              <a href="<?php echo $this->url('admin-config' , array('action' => 'adminList')); ?>">平台管理 
+              / 
+              <a href="<?php echo $this->url('admin-config' , array('action' => 'account')); ?>">收款账号管理</a> 
+              / 
+              <a href=""><?php if(isset($id)){  ?>编辑<?php  }else{ ?>新增<?php }?>收款账号</a>
+           </div>
+       </div>
+   </div>
+    <div class="pannel-body main-nody">
+    <?php if($id): ?>
+    <form class="form-horizontal" action="<?php echo $this->url('admin-config' , array('action' => 'editAccount')); ?>" method="post" >
+    <?php else: ?>
+    <form class="form-horizontal" action="<?php echo $this->url('admin-config' , array('action' => 'addAccount')); ?>" method="post" >
+    <?php endif; ?>
+        <div class="row">
+            <div class="col-lg-12">
+                <h5>新增收款账号</h5>
+            </div>
+            <div class="col-lg-12">
+                <table class="table table-striped" id="example-4" >
+                    <tbody>
+                        <?php 
+                        $total = count($bank_list);
+                        $number = 4;
+                        $rows = ceil($total / $number);
+                        for ($i = 0 ; $i < $rows ; $i++): 
+                        ?>
+                        <tr>
+                            <?php if($i==0):?>
+                            <td rowspan="<?php echo $rows ?>">选择银行</td>
+                            <?php endif;?>
+                            <td>
+                                <?php 
+                                for($j = 0 ; $j < 4 ; $j++):
+                                    $key = $j+$number*$i;
+                                    if($key >=$total )
+                                    {
+                                        break 2;
+                                    }
+                                ?>
+                                <input type="radio" name="bankId[]" value="<?php echo $bank_list[$key]->id; ?>" <?php echo isset($account_info->bank_id) && $account_info->bank_id == $bank_list[$key]->id ? 'checked' : (($i == 0 && $j ==0) ? 'checked' : '')?> > <span style="display:inline-block;width:15%"><?php echo $bank_list[$key]->name; ?></span>
+                                <?php endfor; ?>
+                            </td>
+                        </tr>
+                        <?php endfor;?>
+                        <tr>
+                            <td>开户行</td>
+                            <td>
+                                <input type="text" name="branch"  value="<?php echo isset($account_info->branch) ?  $account_info->branch :'' ?>" class="pd5 w320"  >
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>账号</td>
+                            <td>
+                                <input type="number" name="number" min="0" value="<?php echo isset($account_info->number) ?  $account_info->number :'' ?>" class="pd5 w320"  maxlength="19"  minlength="16" required>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>收款人</td>
+                            <td>
+                                <input type="text" name="name" value="<?php echo isset($account_info->name) ?  $account_info->name :'' ?>" class="pd5 w320" required>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>排序</td>
+                            <td>
+                                <input type="number" name="sort" min="0" value="<?php echo isset($account_info->sort) ?  $account_info->sort :'' ?>" class="pd5 w320">
+                                <span> 序号越小，则排序越前 </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h5></h5>
+            </div>
+            <div class="col-lg-12">
+                <table class="table table-striped" id="example-4">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input type="hidden" value="<?php echo isset($id)? $id : ''; ?>" name="id" >
+                                <input type="submit" value="保存" class="btn btn-info" name="submit" >
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>

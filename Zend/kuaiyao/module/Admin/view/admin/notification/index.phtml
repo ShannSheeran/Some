@@ -1,0 +1,71 @@
+<!-- Responsive Table -->
+<!-- Table exporting -->
+<style>
+	.row{
+		display:none;
+	}
+</style>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			<a
+				href="<?php echo $this->url('admin-notification',array('action'=>'add'))?>"
+				style="float: right; margin-left: 20px;"">
+				<button class="btn btn-large btn-info">发布新信息</button>
+			</a>
+
+			<form class="form-horizontal"
+				action="<?php echo $this->url('admin-notification',array('action'=>'index','id'=>0,'page'=>1))?>"
+				method="post" style="float: right; margin-left: 20px;">
+				<span style="font-weight: bold; font-size: 16px;"> 搜索全表</span>
+				：
+				<input type="text" name="keyword" value="<?php echo $keyword?>"
+					placeholder="搜索 标题、内容">
+				<input type="submit" name="submit" value="搜索" class="btn btn-info"
+					style="height: 25px; width: 60px; line-height: 25px; padding: 0; margin-left: 10px; margin-top: 5px;" />
+			</form>
+
+		</h3>
+
+		<div class="panel-options">
+
+			<a href="#" data-toggle="panel">
+				<span class="collapse-icon">&ndash;</span>
+				<span class="expand-icon">+</span>
+			</a>
+			<a href="#" data-toggle="remove"> &times; </a>
+		</div>
+	</div>
+	<div class="panel-body">
+		<table class="table table-bordered table-striped" id="example-4">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>标题</th>
+					<th style="width: 440px;">内容</th>
+					<th>发送对像</th>
+					<th>设备类型</th>
+					<th>状态</th>
+					<th>时间</th>
+
+				</tr>
+			</thead>
+			<tbody>
+						  <?php foreach($list as $v){?>
+							<tr>
+					<td><?php echo $v->id?></td>
+					<td><?php echo $this->escapehtml($v->title)?></td>
+					<td><?php echo $this->escapehtml($v->content)?></td>
+					<td><?php $to = $v->send_to; if($to==1){ echo '注册用户';}elseif($to==2){ echo '快应人';}elseif($to==3){echo '未提交认证用户';}elseif($to==0){echo '所有人';}?></td>
+					<td><?php $type = $v->device_type; if($type==1){ echo 'IOS';}elseif($type==2){ echo 'Android';}elseif($type==4){echo 'WindowsPhone';}elseif($type==8){echo '微信';}elseif($type==0){echo '所有设备';}?></td>
+
+					<td><?php if($v->status==1){ echo '发送成功';}elseif($v->status==2){echo '等待发送';}elseif($v->status==3){echo '发送中';}elseif($v->status==4){echo '发送失败';}?></td>
+					<td><?php echo $this->escapehtml(date("Y-m-d H:i",strtotime($v->timestamp)))?></td>
+
+				</tr>
+							<?php }?>
+						  </tbody>
+		</table>
+				 <?php   echo $this->paginationControl($paginator, 'Sliding', 'page',array('route' =>'admin-notification','condition'=>$condition));?> 
+			</div>
+</div>

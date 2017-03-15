@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="js/jquery-1.7.2.min.js"></script>
+    <script src="js/jquery.SuperSlide.js"></script>
+    <script src="js/jquery.jqzoom.js"></script>
+    <script src="js/base.js"></script>
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/content.css" />
+    <link rel="stylesheet" href="css/index.css" />
+    <script type="text/javascript">
+    $(function(){
+    //   $('.small_img_box li').click(function(){
+    //     $('.img_box img').attr('src',$(this).find('img').attr('src')).attr('jqimg',$(this).find('img').attr('src'));
+    //   });
+    //   jQuery('.img_list').slide({mainCell:'.small_img_box ul',effect:'leftLoop',autoPlay:false,vis:4});
+    //   $(".img_box").jqueryzoom({
+    //     xzoom:330,
+    //     yzoom:330,
+    //     offset:10,
+    //     position:"right",
+    //     preload:1,
+    //     lens:1
+    //   });
+    $('.small_img_box ul li').click(function(){
+      $(this).addClass('select_on').siblings().removeClass('select_on');
+    }); 
+    $('.choose-version .dd>div').click(function(){
+      $(this).addClass('on').siblings().removeClass('on');
+    }); 
+    $('.detail_cart_content .buy_cart').click(function(){
+      $('.add_cart_access_popup').show(); 
+    })
+    $('.add_cart_access_popup .close').click(function(){
+      $('.add_cart_access_popup').hide(); 
+    })
+    $('#redu').click(function(event) {//点击增加数量
+      var num = $('#goods_count').val();
+      if(num>1){
+        num--;
+      $('#goods_count').val(num);
+      }
+    });
+    $('#add').click(function(event) { //点击删减数量
+      var num = $('#goods_count').val();
+      num++;
+      $('#goods_count').val(num);
+    });
+})
+    </script>
+  </head>
+  <body>
+    <header class="">
+      <div class="wrap">
+        <div class="logo">
+          <a></a>
+        </div>
+        <div class="explain">全方位中国花卉交易平台</div>
+        <div class="header_phone">联系电话：400-0650-750</div>
+      </div>
+      <div class="clear"></div>
+      <div class="header_bottom">
+        <div class="wrap">
+          <div class="account">
+            <span class="f_color_white">账户：7729<a href="" class="quit">[退出]</a></span>
+          </div>
+          <nav>
+            <a>首页</a>
+            <a class="">资材订购</a>
+            <a>市场反馈</a>
+            <a>对账单</a>
+            <a>会员中心</a>
+            <a>最新热销</a>
+          </nav>
+        </div>
+    </header>
+    <section>
+      <div class="order wrap">
+        <div class="material_search">
+          <div class="clearfix search_box pr">
+            <div class="fl">
+              <from><input type="text" class="search_input" placeholder="请输商品名称搜索" value="" onfocus=";"></from>
+            </div>
+            <div class="fl"><input type="button" class="material_search_btn " value="搜索" onclick="Search()"></div>
+          </div>
+        </div>
+        <div class="btn_cart"><a>购物车</a></div>
+      </div>
+      <div class="clear"></div>
+      <div class="goods_detail wrap">
+        <p class="map_nav">
+          <a>供应信息</a>
+          <i>></i>
+          <a>多肉</a>
+          <i>></i>
+          <a>芦荟</a>
+        </p>
+      </div>
+      <div class="wrap clearfix bg_white mt25">
+        <div class="detail_img fl mt25">
+          <div id="preview" class="img_box"> 
+            <span class="jqzoom"><img jqimg="images/b1.jpg" src="images/b1.jpg" height="330" /></span>
+          </div>
+          <div class="img_list">
+            <div class="spec_left">
+              <img src="images/left.png">
+            </div>
+            <div class="small_img_box">
+              <div class="tempWrap">
+                <ul class="clearfix pl5" style="width: 1215px; position: relative; overflow: hidden; padding: 0px; margin: 0px;">
+                  <li class="on">
+                    <img alt="吉宏" bimg="images/b1.jpg" src="images/goods_img.png" height="330" onmousemove="preview(this);">
+                  </li>
+                  <li>
+                    <img alt="吉宏" bimg="images/b1.jpg" src="images/goods_img1.png" height="330" onmousemove="preview(this);">
+                  </li>
+                  <li>
+                    <img alt="吉宏" bimg="images/b1.jpg" src="images/goods_img.png" height="330" onmousemove="preview(this);">
+                  </li>
+                  <li>
+                    <img alt="吉宏" bimg="images/b1.jpg" src="images/goods_img1.png" height="330" onmousemove="preview(this);">
+                  </li>
+                  <li>
+                    <img alt="吉宏" bimg="images/b1.jpg" src="images/goods_img.png" height="330" onmousemove="preview(this);">
+                  </li>
+                  <li>
+                    <img alt="吉宏" bimg="images/b1.jpg" src="images/goods_img1.png" height="330" onmousemove="preview(this);">
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="spec_right">
+              <img src="images/right.png">
+            </div>
+          </div>
+          <div class="store_name">爱特安为网络科技有限公司</div>
+        </div>
+        <div class="detail_text fr">
+          <h2 class="goods_name">吉宏发财树</h2>
+          <div class="price">价格 : <span>￥7.7-9.0</span></div>
+          <div class="all_seller">总销量：3455</div>
+          <div class="classify">分类：发财树>吉宏特色</div>
+          <div class="text none">
+            <p>发财树在园林绿化中可以作为庭荫树应用，用来遮阴。早期的园林绿化中，常常把发财树孤植或对植，建造出凉爽的、舒适的园林环境，遮蔽炎炎烈日。后来发财树被用在了园林绿地上，在一些风景名胜区也多有种植。发财树是常青高大乔木，可以长出10m的树干，树冠幅度大，形成很大的绿荫，可以遮蔽烈日，调节气温，带来良好的、舒适度高的休息环境以及娱乐场所。发财树的叶片平展，没有不良气味，没有毒害作用，也很少有虫害现象，生长繁殖力强，可以适应不同的生态环境，发财树的树形也有很高的观赏价值，它的这些特性决定了它可以被园林绿化工作者广泛应用。作为庭荫树具体应用时，可以根据园林实际场地面积的大小，以及周围建筑物的高度来决定对植，孤植或者丛植发财树。</p>
+            <a class="btn_release none">发布此商品</a>
+          </div> 
+          <div class="detail_cart_content">
+            <ul class="fl">
+              <li>
+                <div class="fl mb10">
+                  <div class="choose-version fl">
+                    <div class="dt">规格：</div>
+                    <div class="dd clearfix">
+                      <div class="fl mr5 pl20 pr20 tc h30 lh30 mb5">清华出版社</div>
+                      <div class="fl mr5 pl20 pr20 tc h30 lh30 mb5">北大出版社</div>
+                      <div class="fl mr5 pl20 pr20 tc h30 lh30 mb5">小说出版社</div>
+                      <div class="fl mr5 pl20 pr20 tc h30 lh30 mb5">爱特安为出版社</div>
+                      <div class="fl mr5 pl20 pr20 tc h30 lh30 mb5">爱特安为出版社</div>
+                      <div class="fl mr5 pl20 pr20 tc h30 lh30 mb5">爱特安为出版社</div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="fl mb10">
+                  <div class="choose-version fl">
+                    <div class="dt">型号：</div>
+                    <div class="dd clearfix">
+                      <div class="fl mr5 pl20 pr20 tc h30 lh30 mb5">清华出版社</div>
+                      <div class="fl mr5 pl20 pr20 tc h30 lh30 mb5">北大出版社</div>
+                      <div class="fl mr5 pl20 pr20 tc h30 lh30 mb5">小说出版社</div>
+                      <div class="fl mr5 pl20 pr20 tc h30 lh30 mb5">爱特安为出版社</div>
+                      <div class="fl mr5 pl20 pr20 tc h30 lh30 mb5">爱特安为出版社</div>
+                      <div class="fl mr5 pl20 pr20 tc h30 lh30 mb5">爱特安为出版社</div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li class="choose-num">
+                <div class="dt">数量：</div>
+                <div class="dd">
+                  <span style="font-size:0;">
+                    <a id="redu">-</a>
+                    <input type="number" class="numb tc" name="number" min="1" max="439" step="0" value="1" id="goods_count">
+                    <a id="add">+</a>
+                  </span>
+                  <span class="stock">库存：0</span>
+                </div>
+              </li>
+            </ul>
+            <a class="buy_now">立即购买</a>
+            <a class="buy_cart" onclick="showDialog()">加入购物车</a>
+            <!-- 弹窗 -->
+            <div class="page_strong top2"></div>
+            <div class="add_cart_access_popup">
+              <h2>添加成功</h2>
+              <span class="close" onclick="hideDialog();"></span>
+              <div class="message">
+                <h3>商品已成功加入购物车！</h2>
+                  <p>当前购物车共<i>6</i>件商品</p>
+                  <a class="go_balance">去结算</a><a>继续购物</a>
+                </div>
+                <div class="fell_interest">
+                  <h4>你可能也感兴趣</h4>
+                  <ul>
+                    <li>
+                      <div class="goods_img">
+                        <img src="images/goods_img2.png">
+                      </div>
+                      <div class="goods_text">
+                        <div class="goods_name">
+                          多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉
+                        </div>
+                        <div class="price_num">
+                          <span class="goods_price">￥7.90-9.0</span>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="goods_img">
+                        <img src="images/goods_img2.png">
+                      </div>
+                      <div class="goods_text">
+                        <div class="goods_name">
+                          多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉
+                        </div>
+                        <div class="price_num">
+                          <span class="goods_price">￥7.90-9.0</span>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="goods_img">
+                        <img src="images/goods_img2.png">
+                      </div>
+                      <div class="goods_text">
+                        <div class="goods_name">
+                          多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉
+                        </div>
+                        <div class="price_num">
+                          <span class="goods_price">￥7.90-9.0</span>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="goods_img">
+                        <img src="images/goods_img2.png">
+                      </div>
+                      <div class="goods_text">
+                        <div class="goods_name">
+                          多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉多肉
+                        </div>
+                        <div class="price_num">
+                          <span class="goods_price">￥7.90-9.0</span>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!-- 弹窗 -->
+            </div>        
+          </div>
+      </div>
+      <div class="wrap specification_statistics none">
+        <div class="standard">
+          <h2>规格统计</h2>
+          <ul class="standard_list">
+            <li class="standard_name">规格等级</li>
+            <li class="standard_classify">型号</li>
+            <li class="standard_unit">单位</li>
+            <li class="standard_packnum">装箱数</li>
+            <li class="standard_univalent">商品单价</li>
+            <li class="standard_sellnum">商品销量</li>
+          </ul>
+          <ul class="standard_content">
+            <li>
+              <div class="standard_name">80#/A级
+              </div>
+              <div class="standard_classify">ylbb
+              </div>
+              <div class="standard_unit">盆
+              </div>
+              <div class="standard_packnum">30
+              </div>
+              <div class="standard_univalent">￥720.0
+              </div>
+              <div class="standard_sellnum">代付款
+              </div>
+            </li>
+            <li>
+              <div class="standard_name">80#/A级
+              </div>
+              <div class="standard_classify">ylbb
+              </div>
+              <div class="standard_unit">盆
+              </div>
+              <div class="standard_packnum">30
+              </div>
+              <div class="standard_univalent">￥720.0
+              </div>
+              <div class="standard_sellnum">代付款
+              </div>
+            </li>
+            <li>
+              <div class="standard_name">80#/A级
+              </div>
+              <div class="standard_classify">ylbb
+              </div>
+              <div class="standard_unit">盆
+              </div>
+              <div class="standard_packnum">30
+              </div>
+              <div class="standard_univalent">￥720.0
+              </div>
+              <div class="standard_sellnum">代付款
+              </div>
+            </li>
+            <li>
+              <div class="standard_name">80#/A级
+              </div>
+              <div class="standard_classify">ylbb
+              </div>
+              <div class="standard_unit">盆
+              </div>
+              <div class="standard_packnum">30
+              </div>
+              <div class="standard_univalent">￥720.0
+              </div>
+              <div class="standard_sellnum">代付款
+              </div>
+            </li>
+            <li>
+              <div class="standard_name">80#/A级
+              </div>
+              <div class="standard_classify">ylbb
+              </div>
+              <div class="standard_unit">盆
+              </div>
+              <div class="standard_packnum">30
+              </div>
+              <div class="standard_univalent">￥720.0
+              </div>
+              <div class="standard_sellnum">代付款
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="clear"></div>
+      <div class="wrap commodity_introduction">
+        <h2>商品介绍</h2>
+        <p></p>
+      </div>
+    </section>
+    <footer class="f_color_white">
+      <div class="wrap">
+        <div class="external_links">
+          <a>百度</a>
+          <a>植物百度百科</a>
+        </div>
+        <p class="tc">
+          <span>版权所有  广州吉宏园艺有限公司（本公司为通过ISO9001：2008国际质量体系认证单位）</span>
+          <span class="support">技术支持：爱特安为网络科技有限公司</span>
+          <p>
+            <span class="address">地址：广州市荔湾区龙溪大道花卉科技园艺西街18号（510375）</span>
+            <span class="phone">免费咨询电话：4000-650-750</span>
+            <span>传真：020-81413138</span>
+            <span class="email">E-MAIL: xiejing@ji-hong.cn</span>
+          </p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+

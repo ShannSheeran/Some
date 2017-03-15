@@ -1,0 +1,378 @@
+<?php echo $this->headScript()->offsetSetFile(10, $this->basePath() . '/js/ajaxfileupload.js') ?>
+<script src="<?php echo $this->basePath();?>/kindeditor/kindeditor.js"></script>
+<script src="<?php echo $this->basePath();?>/kindeditor/lang/zh_CN.js"></script>
+<script src="<?php echo $this->basePath() ?>/js/Uploads.js"></script>
+<script src="<?php echo $this->basePath() ?>/adminStyle/js/jquery.uploadify-3.1.min.js"></script>
+<?php echo $this->headLink()->offsetSetStylesheet(15,$this->basePath() . '/css/uploadify.css')?>
+<script type="text/javascript">
+	var swf ='<?php echo $this->basePath() . '/adminStyle/js/uploadify.swf'?>';
+    var uploader = '<?php echo $this->url('admin-common',array('action'=>'getAdminFile'));?>';//图片上传地址 
+   var url_two = '<?php echo $this->url('admin-common',array('action'=>'getAdminFileTwo'));?>';//图片上传地址
+</script>
+<script type="text/javascript"> 
+		/* function lookup(company) { 
+			if(company.length == 0) { 
+				$('#suggestions').hide(); 
+			}else { 
+			
+				$.post("<?php echo $this->url('admin-activity',array('action'=>'check'))?>", {checkcompany: ""+company+""}, function(data){ 
+					if(data.length >0) { 
+						$('#suggestions').show(); 
+						$('#autoSuggestionsList').html(data); 
+					} 
+				}); 
+			} 
+		} 
+		function fill(thisValue) { 
+			$('#company').val(thisValue); 
+			setTimeout("$('#suggestions').hide();", 200); 
+		}  */
+</script> 
+<style type="text/css">
+
+
+.controls input {
+	height: 25px;
+}
+
+.form-horizontal .control-label {
+	width: 200px;
+}
+
+.form-control{width: 500px;margin-bottom: 5px;}
+
+.search {
+    width: 300px;
+    height: 40px;
+    position: relative;
+}
+
+.edit {
+    overflow: hidden;
+}
+
+.search_input {
+    width: 290px;
+    height: 34px;
+    font-size: 16px;
+}
+
+.search_input:focus {
+    outline: none;
+}
+
+.match_text {
+    display: none;
+    position: absolute;
+    top: 6px;
+    width: 290px;
+    z-index: 99;
+    background-color: white;
+    border: 1px solid #ccc;
+}
+
+.match_text div:hover {
+    background: #f0f0f0;
+}
+
+.match_text ul {
+    list-style-type: none;
+    border: 1px solid #cccccc;
+    margin-bottom: 0px;
+}
+
+.match_text ul li {
+    font-size: 12px;
+    color: #333333;
+    display: block;
+    line-height: 25px;
+    padding-left: 10px;
+    cursor: pointer;
+}
+.box { 
+		position: relative; 
+		left: 0px; 
+		margin-top:30px;
+		width: 500px; 
+		background-color: #d6d3d6; 
+		-moz-border-radius: 7px; 
+		-webkit-border-radius: 7px; 
+		border: 2px solid #d6d3d6; 
+		color: #fff; 
+	} 
+	.list { 
+		margin: 0px; 
+		padding: 0px; 
+	} 
+	.list li { 
+		margin: 0px 0px 3px 0px; 
+		padding: 3px; 
+		cursor: pointer; 
+		color:white;
+	} 
+	.list li:hover { 
+		background-color: #659CD8; 
+	} 
+	.mot_tright{
+		margin-left: 200px;
+		margin-top: 10px;
+	}
+.controls span{
+	color:#3a3a3a;
+}
+</style>
+
+<div class="row">
+	<div class="col-sm-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 style="width:200px;float:left;">新增公司活动</h3>
+				<div style="width:400px;float:left;margin:20px 0 0 1172px;">
+    				<span><a href="<?php echo $this->url('admin-activity',array('action'=>'index'))?>">商业圈</a></span>|
+    				<span>活动详情</span>
+    			</div>
+				<div class="panel-options">
+					<a href="#" data-toggle="panel">
+						<span class="collapse-icon">&ndash;</span>
+						<span class="expand-icon">+</span>
+					</a>
+					<a href="#" data-toggle="remove"> &times; </a>
+				</div>
+			</div>
+			<div class="panel-body">
+                <form role="form" class="form-horizontal" action="<?php echo $this->url("admin-activity",array('action'=>'add'));?>" method="post" onsubmit="return check()">
+				<div class="form-group">
+				
+					<label class="col-sm-2 control-label" for="field-1">发布公司:</label>
+					<div class="col-sm-10">
+						<input class="form-control fl mr10" required type="text" name="company" id="company"  onkeyup="lookup(this.value);" onclick="fill();" placeholder="请输入发布公司"/><span id='remind' style='color:red;height:30px;line-height:30px;'></span>
+						<div class="box" id="suggestions" style="display: none;"> 
+							<div class="list" id="autoSuggestionsList"></div> 
+						</div>
+					</div>
+				</div>
+				<div class="form-group-separator"></div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="field-1">活动标题:</label>
+					<div class="col-sm-10">
+						<input class="form-control"  required type="text" name="acName"  id="title" placeholder="请输入20字以内的活动标题"/><span id='titles' style='color:red;'></span>
+					</div>
+				</div>
+				<div class="form-group-separator"></div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="field-1">排序:</label>
+					<div class="col-sm-10">
+						<input class="form-control" type="number" name="sort" id="sort" value="<?php echo isset($data->sort)?$data->sort:'0'; ?>" />
+					</div>
+				</div>
+				<div class="form-group-separator"></div>
+				<div class="form-group">
+					<!--多图片上传-->
+					<div class="control-group">
+						<label class="col-sm-2 control-label" for="field-1">活动图片：</label>
+							<div class="controls">
+								<div style="line-height:30px;display:block;height:30px;">提示：(图片比例建议4:3，请上传1-5张图片)</div>
+							         <div class="mot_tright" id="img_div">									           
+                                       <input id="index_img" type="text" name="image_ids[]" />
+                                     </div>
+							</div>
+					</div>
+				</div>
+				<div class="form-group-separator"></div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label"  for="field-1">活动描述：</label>
+					<div class="col-sm-10">
+                        <textarea class="form-control"  name="content" id="uu" value=""></textarea><span id='desc' style='color:red;'></span>
+                        <input type='hidden' name='id' value="" class='ids'/>
+					</div>
+				</div>
+				<div class="form-group-separator"></div>
+				
+				
+				<div class="form-group">
+					<div class="col-sm-10">
+					      <input type='reset' value='取消' onclick="jump()" class='btn btn-info' style='margin-left:300px;'/>
+                        <input type='submit' value='添加' class='btn btn-info'  style='margin-left:100px;'/>
+					</div>
+				</div>
+				<div class="form-group-separator"></div>
+				
+				
+										
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+					
+<script type="text/javascript">
+//单文件上传    
+$("#file0").change(function(){
+    var objUrl = getObjectURL(this.files[0]) ;
+    console.log("objUrl = "+objUrl) ;
+    if (objUrl) {
+        $("#img0").attr("src", objUrl) ;
+    }
+}) ;
+//建立一個可存取到該file的url
+function getObjectURL(file) {
+    var url = null ; 
+    if (window.createObjectURL!=undefined) { // basic
+        url = window.createObjectURL(file) ;
+    } else if (window.URL!=undefined) { // mozilla(firefox)
+        url = window.URL.createObjectURL(file) ;
+    } else if (window.webkitURL!=undefined) { // webkit or chrome
+        url = window.webkitURL.createObjectURL(file) ;
+    }
+    return url ;
+}
+
+
+
+
+KindEditor.ready(function(K) {
+    window.editor = K.create('#uu');
+});
+
+//增加活动时，判断公司是否存在
+$('#company').change(function(){
+	$('#remind').html("");
+	var company=$.trim($('#company').val());
+
+		$.post("<?php echo $this->url('admin-activity',array('action' =>'company'));?>",{company:company},function(data){
+			if(data==0){
+				$('#remind').html("公司不存在，不能添加活动(<a href='<?php echo $this->url('admin-company',array('action' =>'companydetails'));?>'>添加公司</a>)");
+				return false;
+			}else if(data==1){
+				$('#remind').html("");
+				}
+			});			
+});
+
+$('#company').blur(function(){
+	$('#remind').html("");
+	var company=$.trim($('#company').val());
+
+		$.post("<?php echo $this->url('admin-activity',array('action' =>'company'));?>",{company:company},function(data){
+			if(data==0){
+				$('#remind').html("公司不存在，不能添加活动(<a href='<?php echo $this->url('admin-company',array('action' =>'companydetails'));?>'>添加公司</a>)");
+				return false;
+			}else if(data==1){
+				$('#remind').html("");
+				}
+			});			
+});
+
+$('#company').keyup(function(){
+	$('#remind').html("");
+	var company=$.trim($('#company').val());
+
+		$.post("<?php echo $this->url('admin-activity',array('action' =>'company'));?>",{company:company},function(data){
+			if(data==0){
+				$('#remind').html("公司不存在，不能添加活动(<a href='<?php echo $this->url('admin-company',array('action' =>'companydetails'));?>'>添加公司</a>)");
+				return false;
+			}else if(data==1){
+				$('#remind').html("");
+				}
+			});			
+});
+$('#title').keyup(function(){
+	var value=$('#title').val();
+	var a=value.length;
+	if(a>20)
+	{
+		$('#title').blur();
+		$('#titles').html('活动标题超过20字');
+
+	}
+});
+/* $('#activity').blur(function(){
+	var v=$('#activity').val().length;
+	
+	if(v<1 || v>20){
+		
+		$('#title').html('请输入20字以内的活动标题');
+		$('#add').click(function(){
+			return false;
+		})
+	}else{
+		$('#title').html('');
+		}
+}) */
+
+/* $('#uu').blur(function(){
+	var v=$('#uu').val().length;
+	if(v<1){
+		$('#desc').html('活动描述不能为空');
+		return false;
+	}else{
+		$('#desc').html('');
+	}
+}) */
+
+function jump(){
+	window.location="<?php echo $this->url('admin-activity',array('action'=>'index'))?>";
+}
+
+/* function check()
+{
+	var img=$.trim($('.upload').val());
+	var text=$.trim($('#uu').val());
+	if(img==''){
+		alert('请选择上传文件');
+		return false;
+		history.back();
+	}
+	if(img==''){
+		alert('请填写活动内容');
+		return false;
+		history.back();
+	}
+	
+}*/
+
+//字段长度判断
+function getlength (str) {
+    //<summary>获得字符串实际长度，中文2，英文1</summary>
+    //<param name="str">要获得长度的字符串</param>
+    var realLength = 0, len = str.length, charCode = -1;
+    for (var i = 0; i < len; i++) {
+        charCode = str.charCodeAt(i);
+        if (charCode >= 0 && charCode <= 128) realLength += 1;
+        else realLength += 2;
+    }
+
+    return realLength;
+}
+
+function json(obj)
+{
+    if(obj==''){return;}
+    var json = new Object;
+    json.s = obj;
+
+    $.post("<?php echo $this->url('admin-device',array('action'=>'deviceBindPage'));?>", {request: json},
+        function(data)
+        {
+            data = $.parseJSON(data);
+            if(data)
+            {
+                $("#json_back").show();
+                var html = '';
+                var list = data;
+                for(var i =0;i<list.length;i++){
+                    html+='<div style="width:290px;cursor:pointer;">'+list[i].page_id+'#'+list[i].title+'</div>';
+                }
+                $("#json_back").html(html);
+                $("#json_back div").click(function(){
+                    $("#search_text").val( $(this).text() );
+                    $("#json_back").hide();
+                });
+            }
+        });
+}
+
+
+
+</script>

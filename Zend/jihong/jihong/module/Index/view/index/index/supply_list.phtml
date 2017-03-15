@@ -1,0 +1,98 @@
+    <div class="supp_banner">
+        <img style="width:1903px; height:400px;" src="<?php echo $ads_info ? ROOT_PATH.UPLOAD_PATH.$ads_info->path.$ads_info->filename : ''?>" alt="" />
+    </div>
+    <div class="supp_main wrap">
+        <div class="producer_main_tittle">
+            <h2 class="font22">供应信息</h2>
+        </div>
+        <div class="supp_main_nav">
+            <a class="font16 corgray6">供应信息</a>
+            <?php if($big_category_info): ?>
+            <i class="font16 corgray6">&gt;</i>
+            <a class="font16 corgray6"><?php echo $big_category_info->name?></a>
+            <?php endif; ?>
+            <?php if($small_category_info): ?>
+            <i class="font16 corgray6">&gt;</i>
+            <a class="font16 corgray6"><?php echo $small_category_info->name?></a>
+            <?php endif; ?>
+             <form action="<?php echo $this->url('index' , array('controller' =>'index' , 'action' => 'supplyList' ))?>" method="get">
+            <div class="search clearfix">
+                <input class="search_box fl font14 corgray6" type="text" name="keyword" placeholder="请输商品名称搜索"  value="<?php echo isset($search) ? $search : ''; ?>" />
+                <button class="search_txt fl font16 corgrayf"  style="border:none" type="submit">搜索</button>
+            </div>
+            </form>
+        </div>
+        <div class="goos_list">
+            <div class="classfiy font14 corgray3 clearfix" id="classfiy_big">
+                <p class="font14 corgray3 fl">商品大类：</p>
+                    <ul class="fl">
+                        <li><a class="<?php echo !$big_category ? "corosered" : "" ?>" href="<?php echo $this->url('index' , array('controller' =>'index' , 'action' => 'supplyList' ))?>">全部</a></li>
+                        <?php foreach ($firstCategory as $value):  ?>
+                        <li><a class="<?php echo isset($big_category) && $big_category == $value->id ? "corosered" : "" ?>" href="<?php echo $this->url('index' , array('controller' =>'index' , 'action' => 'supplyList' , 'bc' => $value->id ))?>"><?php echo $value->name; ?></a></li>
+                        <?php endforeach; ?>
+                    </ul>
+                <div class="more font14 corgray3 fl">更多</div>
+            </div>
+            <div class="classfiy font14 corgray3 clearfix" id="classfiy_small">
+                <p class="font14 corgray3 fl">商品小类：</p>
+                <ul class="fl small">
+                    <li><a class="<?php echo !$small_category ? "corosered" : "" ?>" href="<?php echo (isset($big_category) && $big_category) ? $this->url('index' , array('controller' =>'index' , 'action' => 'supplyList' , 'bc' => $big_category )) : $this->url('index' , array('controller' =>'index' , 'action' => 'supplyList' )) ?>">全部</a></li>
+                    <?php foreach ($secondCategory as $value): ?>
+                    <li><a class="<?php echo isset($small_category) && $small_category == $value->id ? "corosered" : "" ?>" href="<?php echo $this->url('index' , array('controller' =>'index' , 'action' => 'supplyList' , 'bc' => $big_category , 'sc' => $value->id   ))?>"><?php echo $value->name;?></a></li>
+                    <?php endforeach;?>
+                </ul>
+                <div class="more font14 corgray3 fl">更多</div>
+            </div>
+            <div class="goos_list_pic clearfix" style="<?php echo empty($goods_list) || count($goods_list) < 9 ? 'margin-bottom:90px' : ''; ?>">
+                <div class="goos_list_picl fl">
+                    <p class="tittle font16 corgrayf">新货上市</p>
+                    <ul>
+                        <?php foreach ($goods_new as $value): ?>
+                        <li>
+                            <a href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'supplyDetail' , 'id' => $value->id))?>">
+                                <img src="<?php echo $value->image_path ?>" alt="" />
+                                <p class="font16 corgray6 docration"><?php echo $value->name?></p>
+                            </a>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+                <div class="goos_list_picr fr">
+                    <ul class="clearfix piclist">
+                        <?php foreach ($goods_list as $value): ?>
+                        <li>
+                            <a href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'supplyDetail' , 'id' => $value->id))?>">
+                                <img src="<?php echo $value->image_path; ?>" alt="" />
+                                <p class="font16 corgray6 docration"><?php echo $value->name; ?></p>
+                            </a>
+                        </li>
+                        <?php endforeach; ?>
+                     </ul>
+                     <?php echo $this->paginationControl($paginator, 'Sliding', 'layout_index/page',array('route' =>'index','condition'=>$condition));?>
+                </div>
+            </div>
+        </div>   
+    </div>
+    
+<script type="text/javascript">
+    var big_category = '<?php echo $big_category;?>';
+    var small_category = '<?php echo $small_category;?>';
+    $(function(){
+    	  $(".more").click(function(){
+    			$(this).prev().height(($(this).prev().height()==46)? "auto":"46");
+    	  })
+
+    	  if(big_category != 0)
+    	  {
+    		  $(".more").eq(0).trigger('click');
+    	  }
+    	  
+    	  if(small_category != 0)
+    	  {
+    		  $(".more").eq(1).trigger('click');
+    	  }
+    })
+    
+/*     $('.goos_list_picl img').width('183px').height('183px');
+    $('.goos_list_picr img').width('190px').height('190px'); */
+</script>

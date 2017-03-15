@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="css/base.css" />
+<link rel="stylesheet" href="css/content.css" />
+<link rel="stylesheet" href="css/index.css" />
+<link rel="stylesheet" href="css/user.css" />
+<script src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+
+        // 弹窗中商品选中点击事件
+            $('.choose').click(function(event) {
+                $(this).toggleClass('onchoose');
+            });
+         // 弹窗
+         $('.once').click(function(event) {
+             $('.under_cover02').show();
+             $('.pop_newaddress_bj').show();
+         });
+         // 弹窗内容关闭
+         $('.pop_newaddress .cancel,.pop_newad_main .remove').click(function(event) {
+             $('.pop_newaddress').hide();
+             $('.pop_newaddress_bj').hide();
+         });
+
+         //编辑地址的弹窗
+         $('.edit').click(function(event) {
+             $('.under_cover01').show();
+             $('.pop_newaddress_bj').show();
+         });
+         //删除地址的弹窗
+         $('.revise .del').click(function(event) {
+			var parent=$(this).parents(".contact_way");
+             $('.del_addr').show();
+             $('.pop_newaddress_bj').show();
+			 $(".yeah").click(function(){
+				parent.remove();
+			 })
+			 
+         });
+         $('.del_addr .no,.del_addr .yeah').click(function(event) {
+             $('.del_addr').hide();
+             $('.pop_newaddress_bj').hide();
+         });
+         $('.more_addr').click(function(event) {
+            $(this).toggleClass('on');
+            $('#name02,#name03').slideToggle();
+         });
+         $('.fist_addr .contact_way:first-child .surname').addClass('onsurname');
+         $('.fist_addr .contact_way:first-child').addClass('on');
+		 $(".contact_way").click(function(){
+            $(this).addClass('on').siblings().removeClass('on');
+            $(this).find(".surname").addClass('onsurname').siblings(".revise").show();
+            $(this).siblings().find(".surname").removeClass("onsurname").siblings(".revise").hide();		
+		 })
+    })
+</script>
+</head>
+<body>
+    <header class="">
+          <div class="wrap">
+            <div class="logo">
+              <a></a>
+            </div>
+            <div class="explain">全方位中国花卉交易平台</div>
+            <div class="header_phone">联系电话：400-0650-750</div>
+          </div>
+          <div class="clear"></div>
+          <div class="header_bottom">
+            <div class="wrap">
+              <div class="account">
+                <span>账户：7729<a href="" class="quit">[退出]</a></span>
+              </div>
+              <nav>
+                <a>首页</a>
+                <a class="">资材订购</a>
+                <a>市场反馈</a>
+                <a>对账单</a>
+                <a>会员中心</a>
+                <a>最新热销</a>
+              </nav>
+            </div>
+            </div>
+    </header>
+    <div class="Receiving_infor wrap">
+        <div class="Receiving clearfix">
+            <h2 class="fl font16 color3">收货信息</h2>
+            <div class="amend">
+                <a class="once colorrose">新增收货地址</a>
+            </div>
+        </div>
+        <div class="fist_addr"> 
+            <div class="contact_way clearfix mb20" id="name01">
+                <span class="surname fl">张三</span>
+                <p class="telephone fl">13888888888</p>
+                <p class="fl">广东省  广州市  荔湾区  周门北路38号 协晟大厦208室 </p>
+                <div class="revise">
+                    <a class="colorrose edit">编辑</a>
+                    <a class="colorrose del">删除</a>
+                </div>
+            </div>			
+			<div class="contact_way clearfix mb20 none" id="name02">
+                <span class="surname fl">张三</span>
+                <p class="telephone fl">13888888888</p>
+                <p class="fl">广东省  广州市  荔湾区  周门北路38号 协晟大厦208室 </p>
+                <div class="revise">
+                    <a class="colorrose default_addr">设为默认地址</a>
+                    <a class="colorrose edit">编辑</a>
+                    <a class="colorrose del">删除</a>
+                </div>
+            </div>
+            <div class="contact_way clearfix mb20 none" id="name03">
+                <span class="surname fl">张三</span>
+                <p class="telephone fl">13888888888</p>
+                <p class="fl">广东省  广州市  荔湾区  周门北路38号 协晟大厦208室 </p>
+                <div class="revise">
+                    <a class="colorrose default_addr">设为默认地址</a>
+                    <a class="colorrose edit">编辑</a>
+                    <a class="colorrose del">删除</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="more_addr">更多地址</div>
+    </div>
+    <div class="order_infor wrap clearfix">
+        <h2 class="fl font16 color3">确认订单</h2>
+        <div class="order_infor_r">
+            <div class="infor_tittle">
+                <ul class="clearfix">
+                    <li>商品</li>
+                    <li>单价</li>
+                    <li>数量</li>
+                    <li>金额</li>
+                </ul>
+            </div>
+            <div>
+                <div class="">
+                    <p class="company">供应商：爱特安为网络技术有限公司</p>
+                    <ul class="goods_box clearfix">
+                        <li class="clearfix li01">
+                            <div class="pic fl"><img src="images/firm_order_pic.jpg" alt="" /></div>
+                            <div class="pic_infor">
+                                <p class="font16">吉宏发财树</p>
+                                <p>规格：   90#/A级</p>
+                                <p>型号：   hdjh</p>
+                            </div>
+                        </li>
+                        <li class="li02">7.5</li>
+                        <li class="li03">10</li>
+                        <li class="colorrose li04">75.0</li>
+                    </ul>
+                </div>
+                <div class="">
+                    <ul class="goods_box clearfix">
+                        <li class="clearfix li01">
+                            <div class="pic fl"><img src="images/firm_order_pic.jpg" alt="" /></div>
+                            <div class="pic_infor">
+                                <p class="font16">吉宏发财树</p>
+                                <p>规格：   90#/A级</p>
+                                <p>型号：   hdjh</p>
+                            </div>
+                        </li>
+                        <li class="li02">7.5</li>
+                        <li class="li03">10</li>
+                        <li class="colorrose li04">75.0</li>
+                    </ul>
+                </div>
+                <div class="message clearfix">
+                    <p class="order_form fl font16">订单留言：</p>
+                    <input class="form_box fl font16" type="text" placeholder="请输入您对货品/物流等的要求" />
+                    <p class="tote fl font16">商品数：<span>11</span></p>
+                    <p class="aggregate fl font16">总金额：<span>598.0元</span></p>
+                </div>
+            </div>
+            <div>
+                <div class="">
+                    <p class="company">供应商：爱特安为网络技术有限公司</p>
+                    <ul class="goods_box clearfix">
+                        <li class="clearfix li01">
+                            <div class="pic fl"><img src="images/firm_order_pic.jpg" alt="" /></div>
+                            <div class="pic_infor">
+                                <p class="font16">吉宏发财树</p>
+                                <p>规格：   90#/A级</p>
+                                <p>型号：   hdjh</p>
+                            </div>
+                        </li>
+                        <li class="li02">7.5</li>
+                        <li class="li03">10</li>
+                        <li class="colorrose li04">75.0</li>
+                    </ul>
+                </div>
+                <div class="message clearfix">
+                    <p class="order_form fl font16">订单留言：</p>
+                    <input class="form_box fl font16" type="text" placeholder="请输入您对货品/物流等的要求" />
+                    <p class="tote fl font16">商品数：<span>11</span></p>
+                    <p class="aggregate fl font16">总金额：<span>598.0元</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="service_infor wrap">
+        <p>应付总额：<span class="colorrose">￥750.0</span>元</p>
+        <p>寄送至： 广东 广州市 荔湾区 广东省广州市荔湾区周门北路38号协晟大厦208室 收货人：张三 138****8888</p>
+    </div>
+    <div class="btns wrap">
+        <a class="return">返回购物车</a>
+        <a class="place_order" >提交订单</a>
+    </div>
+    <!-- 编辑地址的弹窗 -->
+    <div class="pop_newaddress_bj"></div>
+    <div class="pop_newaddress under_cover01">
+        <h3 class="pop_tittle">
+            编辑收货地址
+            <div class="cancel"></div>
+        </h3>
+        <div class="pop_newad_main">
+            <div class="receiver clearfix mb10">
+                <span class="font16 tit fl">收货人：</span>
+                <input class="compellation" type="text" placeholder="张三" />
+            </div>
+            <div class="district clearfix mb10">
+                <span class="font16 tit fl">所在地区：</span>
+                <div class="select_box">
+                    <select class="dis_infor fl" name="" id="">
+                        <option value="">广东省</option>
+                    </select>
+                    <select class="dis_infor no_border" name="" id="">
+                        <option value="">广东省</option>
+                    </select>
+                </div>  
+            </div>
+            <div class="amply clearfix mb10">
+                <span class="font16 tit fl">详细地址：</span>
+                <input class="compellation" type="text" placeholder="张周门北路38号协晟大厦208室" />
+            </div>
+            <div class="phonecode clearfix">
+                <span class="font16 tit fl">手机号：</span>
+                <input class="compellation" type="text" placeholder="13888888888" />
+            </div>
+            <div class="default clearfix">
+                <div class="choose fl">
+                </div>
+                <p>设为默认地址</p>
+            </div>
+            <div class="pop_new_btns clearfix">
+                <input class="remove fl" type="button" value="取消" />
+                <input class="keep current" type="button" value="保存收货人" />
+            </div>
+        </div>
+    </div>
+    <!-- 新增收货地址弹窗 -->
+    <div class="pop_newaddress under_cover02">
+        <h3 class="pop_tittle">
+            新增收货地址
+            <div class="cancel"></div>
+        </h3>
+        <div class="pop_newad_main">
+            <div class="receiver clearfix mb10">
+                <span class="font16 tit fl">收货人：</span>
+                <input class="compellation" type="text" />
+            </div>
+            <div class="district clearfix mb10">
+                <span class="font16 tit fl">所在地区：</span>
+                <div class="select_box">
+                    <select class="dis_infor fl" name="" id="">
+                        <option value="">广东省</option>
+                    </select>
+                    <select class="dis_infor no_border" name="" id="">
+                        <option value="">广东省</option>
+                    </select>
+                </div>
+            </div>
+            <div class="amply clearfix mb10">
+                <span class="font16 tit fl">详细地址：</span>
+                <input class="compellation" type="text" />
+            </div>
+            <div class="phonecode clearfix">
+                <span class="font16 tit fl">手机号：</span>
+                <input class="compellation" type="text" />
+            </div>
+            <div class="default clearfix">
+                <div class="choose fl">
+                </div>
+                <p>设为默认地址</p>
+            </div>
+            <div class="pop_new_btns clearfix">
+                <input class="remove fl" type="button" value="取消" />
+                <input class="keep current" type="button" value="保存收货人" />
+            </div>
+        </div>
+    </div>
+    <!-- 删除地址弹窗 -->
+    <div class="del_addr">
+        <h3>删除地址</h3>
+        <p>是否确认要删除选择的地址？</p>
+        <div class="pop_shopc_btns">
+            <a class="fl no">取消</a>
+            <a class="fl yeah current">确定</a>
+        </div>
+    </div>
+</body>
+</html>

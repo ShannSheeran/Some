@@ -1,0 +1,1469 @@
+<?php echo $this->headLink()->appendStylesheet($this->basePath() . '/css/demo.Default.css')?>
+<script src="<?php echo $this->basePath();?>/kindeditor/kindeditor.js"></script>
+<script src="<?php echo $this->basePath();?>/kindeditor/lang/zh_CN.js"></script>
+<?php echo $this->headScript()->offsetSetFile(10, $this->basePath() . '/js/ajaxfileupload.js') ?>
+<?php echo $this->headScript()->prependFile($this->basePath() . '/js/jq_area.js') ?>
+<?php echo $this->headScript()->prependFile($this->basePath() . '/js/region.js') ?>
+<script type="text/javascript" src="<?php echo $this->basePath();?>/js/public.js"></script>
+<?php $tem = array("zero"=>'一'/*,"first"=>'二',"second"=>'三',"third"=>'四',"fourth"=>'五',"fifth"=>'六',"sixth"=>'七',"seventh"=>'八'*/); ?>
+<script language="javascript"
+        src="http://webapi.amap.com/maps?v=1.3&key=d4e906f2d3b338bc0fa31cba41b4c5ca"></script>
+<!-- //上传JS -->
+<script type="text/javascript">
+    var url = '<?php echo $this->url('admin-common',array('action'=>'getAdminFile'));?>';//图片上传地址
+    var url_two = '<?php echo $this->url('admin-common',array('action'=>'getAdminFileTwo'));?>';//图片上传地址
+</script>
+<script language="javascript">
+    $(document).ready(function (){
+        mapInit();
+        Get_Position();
+    });
+    var marker = new Array();
+    var windowsArr = new Array();
+    var mapObj;
+    function mapInit() {
+        var opt = {
+            level: 10, //设置地图缩放级别
+            center: new AMap.LngLat(113.246671, 23.125097) //设置地图中心点
+        }
+        mapObj = new AMap.Map("iCenter", opt);
+
+        //加载输入提示插件
+        mapObj.plugin(["AMap.Autocomplete"], function() {
+            //判断是否IE浏览器
+            if (navigator.userAgent.indexOf("MSIE") > 0) {
+                document.getElementById("street").onpropertychange = autoSearch;
+            }
+            else {
+                document.getElementById("street").oninput = autoSearch;
+            }
+        });
+
+        //为地图注册click事件获取鼠标点击出的经纬度坐标
+        var clickEventListener=AMap.event.addListener(mapObj,'click',function(e){
+
+            var Longitude = e.lnglat.getLng();
+            var Latitude = e.lnglat.getLat();
+            mapObj.clearMap();
+            mapObj.panTo(new AMap.LngLat(Longitude,Latitude));
+            marker = new AMap.Marker({
+                //icon:"http://api.amap.com/Public/images/js/mark.png",
+                icon:new AMap.Icon({
+                    image: "http://api.amap.com/Public/images/js/mark.png",
+                    size:new AMap.Size(58,30),
+                    imageOffset: new AMap.Pixel(-32, -0)
+                }),
+                position:new AMap.LngLat(Longitude,Latitude)
+            });
+            $("#jd").val(Longitude);
+            $("#wd").val(Latitude);
+            var lnglatXY = new AMap.LngLat(Longitude,Latitude);
+            geocoder(lnglatXY,'');
+            marker.setMap(mapObj);  //在地图上添加点
+            mapObj.setFitView(); //调整到合理视野
+        });
+    }
+
+    function Get_Position(w,j,e){
+        var w = '<?php echo isset($company_info['latitude'])?$company_info['latitude']:0;?>';
+        var j ='<?php echo isset($company_info['longitude'])?$company_info['longitude']:0;?>';
+        if(w==0 || j==0){
+            return false;
+        }
+        if(w && j){
+            var lnglatXY = new AMap.LngLat(j,w);
+            geocoder_two(lnglatXY);
+        }
+    }
+    function geocoder_two(lnglatXY) {
+        var MGeocoder;
+        //加载地理编码插件
+        mapObj.plugin(["AMap.Geocoder"], function() {
+            MGeocoder = new AMap.Geocoder({
+                radius: 1000,
+                extensions: "all"
+            });
+            //逆地理编码
+            MGeocoder.getAddress(lnglatXY);
+        });
+        //加点
+        mapObj.clearMap();
+        //加点
+        var marker = new AMap.Marker({
+            map:mapObj,
+            icon: new AMap.Icon({
+                image: "http://api.amap.com/Public/images/js/mark.png",
+                size:new AMap.Size(58,30),
+                imageOffset: new AMap.Pixel(-32, -0)
+            }),
+            position: lnglatXY,
+            offset: new AMap.Pixel(-5,-30)
+        });
+        mapObj.setFitView();
+    }
+
+    function geocoder(lnglatXY,address) {
+        var MGeocoder;
+        //加载地理编码插件
+        AMap.service(["AMap.Geocoder"], function() {
+            MGeocoder = new AMap.Geocoder({
+                radius: 1000,
+                extensions: "all"
+            });
+            //逆地理编码
+            if(lnglatXY && address == '')
+            {
+                MGeocoder.getAddress(lnglatXY, function(status, result){
+
+                    var address= result.regeocode.formattedAddress;
+                    var address_more=address.split("县");
+                    if(address_more[1]==undefined){
+                        address_more=address.split("区");
+                        if(address_more[1]==undefined){
+                            address_more=address.split("市");
+                        }
+                    }
+                    address_more=address.split(address_more[0]);
+                    address_more=address_more[1].substr(1);
+                    if(address_more==undefined || address_more==""){
+                        address_more=address;
+                    }
+
+                    //$("#street").val(address_more);
+
+                });
+            }
+
+            if(address && address!= 1)
+            {
+                MGeocoder.getLocation(address, function(status, result){
+                    if(status === 'complete' && result.info === 'OK'){
+                        geocoder_CallBack(result);
+                    }
+                });
+
+
+            }
+        });
+
+
+    }
+
+    //地理编码返回结果展示
+    function geocoder_CallBack(data){
+        console.log(data);
+        var resultStr="";
+        //地理编码结果数组
+        var geocode = new Array();
+        geocode = data.geocodes;
+        mapObj.clearMap();
+
+        if(geocode[0]){
+            var lngX = geocode[0].location.getLng();
+            var latY = geocode[0].location.getLat();
+            $("#jd").val(lngX);
+            $("#wd").val(latY);
+            mapObj.clearMap();
+            mapObj.panTo(new AMap.LngLat(lngX,latY));
+            marker = new AMap.Marker({
+                //icon:"http://api.amap.com/Public/images/js/mark.png",
+                icon:new AMap.Icon({
+                    image: "http://api.amap.com/Public/images/js/mark.png",
+                    size:new AMap.Size(58,30),
+                    imageOffset: new AMap.Pixel(-32, -0)
+                }),
+                position:new AMap.LngLat(lngX,latY)
+            });
+            var lnglatXY = new AMap.LngLat(lngX,latY);
+            geocoder(lnglatXY,1);
+            marker.setMap(mapObj);  //在地图上添加点
+            mapObj.setFitView(); //调整到合理视野
+        }
+        else
+        {
+            alert('未搜索到此地址信息!');
+        }
+
+    }
+
+    //输入提示
+    function autoSearch() {
+        var keywords = document.getElementById("street").value;
+        var auto;
+        var autoOptions = {
+            pageIndex:1,
+            pageSize:10,
+            city: "周门北路" //城市，默认全国
+        };
+        auto = new AMap.Autocomplete(autoOptions);
+        //查询成功时返回查询结果
+        AMap.event.addListener(auto, "complete", autocomplete_CallBack);
+        auto.search(keywords);
+    }
+
+    //输出输入提示结果的回调函数
+    function autocomplete_CallBack(data) {
+
+        var resultStr = "";
+        var tipArr = [];
+        tipArr = data.tips;
+        if (tipArr.length>0) {
+            for (var i = 0; i < tipArr.length; i++) {
+                resultStr += "<div id='divid" + (i+1) + "' onmouseover='openMarkerTipById(" + (i+1)
+                    + ",this)' onclick='selectResult(" + i + ")' onmouseout='onmouseout_MarkerStyle(" + (i+1)
+                    + ",this)' style=\"font-size: 13px;cursor:pointer;padding:5px 5px 5px 5px;\">" + tipArr[i].name + "<span style='color:#C1C1C1;'>"+ tipArr[i].district + "</span></div>";
+            }
+
+        }
+        else  {
+            resultStr = " π__π 亲,人家找不到结果!<br />要不试试：<br />1.请确保所有字词拼写正确<br />2.尝试不同的关键字<br />3.尝试更宽泛的关键字";
+        }
+
+        document.getElementById("result1").innerHTML = resultStr;
+        document.getElementById("result1").style.display = "block";
+    }
+
+
+
+    //输入提示框鼠标滑过时的样式
+    function openMarkerTipById(pointid, thiss) {  //根据id打开搜索结果点tip
+        thiss.style.background = '#CAE1FF';
+    }
+
+    //输入提示框鼠标移出时的样式
+    function onmouseout_MarkerStyle(pointid, thiss) {  //鼠标移开后点样式恢复
+        thiss.style.background = "";
+    }
+
+    //从输入提示框中选择关键字并查询
+    function selectResult(index) {
+        if (navigator.userAgent.indexOf("MSIE") > 0) {
+            document.getElementById("street").onpropertychange = null;
+            document.getElementById("street").onfocus = focus_callback;
+        }
+        //截取输入提示的关键字部分
+        var text = document.getElementById("divid" + (index + 1)).innerHTML.replace(/<[^>].*?>.*<\/[^>].*?>/g,"");;
+        document.getElementById("street").value = text;
+        document.getElementById("result1").style.display = "none";
+        //根据选择的输入提示关键字查询
+        mapObj.plugin(["AMap.PlaceSearch"], function() {
+            var msearch = new AMap.PlaceSearch();  //构造地点查询类
+            AMap.event.addListener(msearch, "complete", placeSearch_CallBack); //查询成功时的回调函数
+            msearch.search(text);  //关键字查询查询
+        });
+    }
+
+
+
+    //输出关键字查询结果的回调函数
+    function placeSearch_CallBack(data) {
+        //清空地图上的InfoWindow和Marker
+        windowsArr = [];
+        marker     = [];
+        mapObj.clearMap();
+        var resultStr1 = "";
+        var poiArr = data.poiList.pois;
+        var resultCount = poiArr.length;
+        addmarker(0, poiArr[0]);
+        var lg = poiArr[0].location.lng;
+        var lt = poiArr[0].location.lat;
+        $("#jd").val(lg);
+        $("#wd").val(lt);
+        mapObj.setFitView();
+    }
+
+    //定位选择输入提示关键字
+    function focus_callback() {
+        if (navigator.userAgent.indexOf("MSIE") > 0) {
+            document.getElementById("street").onpropertychange = autoSearch;
+        }
+    }
+
+    //鼠标滑过查询结果改变背景样式，根据id打开信息窗体
+    function openMarkerTipById1(pointid, thiss) {
+        thiss.style.background = '#CAE1FF';
+        windowsArr[pointid].open(mapObj, marker[pointid]);
+    }
+
+    //添加查询结果的marker&infowindow
+    function addmarker(i, d) {
+        var lngX = d.location.getLng();
+        var latY = d.location.getLat();
+        var markerOption = {
+            map:mapObj,
+            icon:new AMap.Icon({
+                image: "http://api.amap.com/Public/images/js/mark.png",
+                size:new AMap.Size(58,30),
+                imageOffset: new AMap.Pixel(-32, -0)
+            }),
+            position:new AMap.LngLat(lngX, latY)
+        };
+        var mar = new AMap.Marker(markerOption);
+        marker.push(new AMap.LngLat(lngX, latY));
+
+        var infoWindow = new AMap.InfoWindow({
+            content:"<h3><font color=\"#00a6ac\">  " + (i + 1) + ". " + d.name + "</font></h3>" + TipContents(d.type, d.address, d.tel),
+            size:new AMap.Size(300, 0),
+            autoMove:true,
+            offset:new AMap.Pixel(0,-30)
+        });
+        windowsArr.push(infoWindow);
+        var aa = function (e) {infoWindow.open(mapObj, mar.getPosition());};
+        AMap.event.addListener(mar, "click", aa);
+    }
+
+    //infowindow显示内容
+    function TipContents(type, address, tel) {  //窗体内容
+        if (type == "" || type == "undefined" || type == null || type == " undefined" || typeof type == "undefined") {
+            type = "暂无";
+        }
+        if (address == "" || address == "undefined" || address == null || address == " undefined" || typeof address == "undefined") {
+            address = "暂无";
+        }
+        if (tel == "" || tel == "undefined" || tel == null || tel == " undefined" || typeof address == "tel") {
+            tel = "暂无";
+        }
+        var str = "  地址：" + address + "<br />  电话：" + tel + " <br />  类型：" + type;
+        return str;
+    }
+    var swf ='<?php echo $this->basePath() . '/adminStyle/js/uploadify.swf'?>';
+    var uploader = '<?php echo $this->url('admin-common',array('action'=>'getInputFileTwo')) ;?>';
+</script>
+<style type="text/css">
+    .match_text div:hover {
+        background: #f0f0f0;
+    }
+
+    .add_input {
+        border: 1px dashed #cccccc;
+        margin-top: 5px;
+        color: #cccccc;
+    }
+
+    .close {
+        margin-top: 10px;
+        margin-left: 10px;
+        float: left;
+    }
+
+    .form-control {
+        width: 50%;
+        float: left;
+        margin-bottom: 5px;
+        margin-right: 5px;
+    }
+
+    .view_box {
+        width: 379px;
+        height: 795px;
+        background: url("<?php echo ROOT_PATH; ?>images/iphone-frame.png")
+        no-repeat;
+        position: fixed;
+        left: 40%;
+        top: 10%;
+        z-index: 10;
+    }
+
+    .inner_box {
+        margin-top: 116px;
+        margin-left: 32px;
+        width: 319px;
+        height: 568px;
+        overflow: hidden;
+    }
+
+    .red_star {
+        color: red;
+    }
+    .up{
+        margin-right:0px;
+    }
+    .logo{
+        width:280px;
+        height:245px;
+        float:left;
+    }
+    .f222{
+        margin-left:40px;
+    }
+    .col-sm-2{
+        text-align:left ;
+    }
+    #red_star{
+        text-align:left ;
+    }
+    .introduce{
+        margin-top:15px;
+        margin-left: 150px;
+    }
+    .son{float:left;width:400px;}
+    .son_company{width:1400px;}
+    #companyName{margin-top:10px;}
+    .form-group{
+        position: relative;
+    }
+    .card{
+        position: absolute;
+        top:-50px;
+        right: 0;
+    }
+    .card .cardBox img{
+        width: 75px;
+        height: 75px;
+        border:1px solid #eee;
+        float: left;
+    }
+    .card .cardBox{
+        border:1px solid #999;
+        display: inline-block;
+        padding:5px;
+    }
+    .card .cardBox .cardRight{
+        float: left;
+        margin-left:5px;
+    }
+    .card .cardBox .cardRight p{
+        height: 15px;
+    }
+    .CompanyCard{
+        position: relative;
+        border:1px solid #eee;
+        margin-right: 10px;
+    }
+    .CompanyCard .delete{
+        position: absolute;
+        display: inline-block;
+        background: #000;
+        color:#fff;
+        width:15px;
+        height: 15px;
+        border-radius: 15px;
+        text-align: center;
+        line-height: 15px;
+        top:-5px;
+        right: -5px;
+        display: none;
+    }
+    .edit a{
+        border:1px solid #dedede;
+        background: #fff;
+        color:#666;
+        border-radius: 5px;
+        padding:5px 10px;
+    }
+    .addCardB{
+        display: none;
+        margin:10px 0;
+    }
+    .addCardB input[type=text]{
+        width:300px;
+        padding:2px 5px;
+    }
+    .addCardB .confirmAdd{
+        margin-left: 10px;
+        margin-bottom: 0;
+        background: rgb(42, 156, 209);
+        color:#fff;
+        height:
+    }
+    .col-sm-10 input[type=submit]{
+        margin:10px 0 0 0;
+    }
+    .addbox,.addboxB{
+        float: left;
+    }
+    .staff{
+        margin-left:61%;
+    }
+    .color{
+        color:black;
+    }
+    .detail{
+        margin-left:20px;
+    }
+    .apl{
+        margin-left: 5px;
+    }
+    .personal{
+        height:85px;
+        position:relative;
+    }
+    .card{
+        margin-top:20px;
+    }
+    .uploadfile{
+        position: relative;
+        height: 30px;
+    }
+    .uploadfile div{
+        position: absolute;
+        top:0;
+        left: 76px;
+        width:100px;
+        height: 30px;
+        background: #fff;
+    }
+    .ups{
+        float:left;
+    }
+    .limit{
+        float:left;
+    }
+    #load{
+        display:block;
+    }
+
+    .amplification{
+        width:402px;
+        height:402px;
+        vertical-align: middle;
+        border:1px solid #333;
+        position: fixed;
+        top:200px;
+        left: 50%;
+        margin-left: -500px;
+        z-index: 100;
+        display: none;
+    }
+    .amplification img{
+        width:100%;
+        vertical-align: middle;
+    }
+    .fl1{
+        float:left;
+    }
+    .col-sm-10{
+        width:60%;
+    }
+    .fl4{
+        width:200px;
+    }
+    .fl5{
+        margin-left:68%;
+        margin-top:10px;
+    }
+    .fl6{
+        height:290px;
+    }
+    .cardBox p{
+        width:1450px;
+        margin-right: 0;
+    }
+    .boxs{
+        display:none;
+    }
+    .edit{
+        width:160px;
+    }
+    .fl11{
+        margin-left:0;
+        padding-left: 0;
+        width:50px;
+    }
+    .position{
+        position:absolute;
+        top:76%;
+        left:77%;
+    }
+    .rejected{
+        height:24px;
+        width:70px;
+        text-align:center;
+        line-height: 24px;
+        margin-top:18px;
+        padding:2px 2px 5px 2px;
+    }
+    #son_company{
+        float: left;
+    }
+    .confirmAdd{
+        float: left;
+        height:24px;
+    }
+    #sonc{
+        float: left;
+    }
+    .clear{
+        clear: both;
+    }
+    .addCardB{
+        width:300%;
+        height:30px;
+    }
+    .addCardB .btn{
+        height:25px;
+    }
+</style>
+<div class="row">
+    <form role="form" class="form-horizontal"
+          action="<?php echo $this->url('admin-company', array('action' => 'modify')) ?>"
+          onsubmit="return checkSubmit()" method="post" enctype="multipart/form-data">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading" id="spe">
+                    <a href="" class="color">基本资料(必填)</a>
+                    <a style="color:#067EC0;" href="<?php echo $this->url('admin-company',array('action'=>'visit','id'=>$company_info['id']))?>" class="staff color">公司访问量</a>
+                    <a style="color:#067EC0;" href="<?php echo $this->url('admin-company',array('action'=>'staff','id'=>$company_info['id']))?>" class="color apl">员工加入申请(<?php echo $staff_total;?>)</a>
+                    <a style="color:#067EC0;" href="<?php echo $this->url('admin-company',array('action'=>'index'))?>" class="color1 details">公司名片</a>
+                    |<a class="color">名片详情</a>
+
+                </div>
+                <input type="hidden" value="<?php echo $company_info['id']?>" name = "id" >
+                <div class="panel-body">
+                    <!--此处慎改-->
+                    <div class="form-group personal">
+                        <label class="col-sm-2 control-label" for="field-4"><i class="red_star">*&nbsp;</i>公司名称：</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" placeholder="请填写公司名称" required
+                                   name="name" value="<?php echo $company_info['name']?>" id="companyName"/><span id='remind' style='color:red;height:30px;line-height:30px;'></span>
+                        </div>
+                        <?php if($user_info){?>
+                            <div class="">
+
+                                <div class="dis cardBox" >
+                                    <a href="<?php echo $this->url('admin-user',array('action'=>'show','id'=>$user_info['id']))?>">
+                                        <p>管理者：<?php echo isset($user_info['name']) ? $user_info['name'] : '';?></p>
+                                        <p>电话号码：<?php echo isset($user_info['mobile']) ? $user_info['mobile'] : '';?></p>
+                                    </a>
+                                    <!--<img src="<?php /*if($head){echo ROOT_PATH.UPLOAD_PATH.$head;}else{echo ROOT_PATH.'images/img_headportrait@3x.png'; }*/?>" alt="">
+                                <div class="cardRight">
+                                    <p><?php /*echo $card['name']*/?></p>
+                                    <p><?php /*echo $card['position']*/?></p>
+                                    <p><?php /*echo $card['mobile']*/?></p>
+                                </div>-->
+
+                                </div>
+                                <div class="boxs cardBox" >
+                                    <label class="fl11 col-sm-2 control-label">管理者：</label>
+                                    <input name="mobile" type="text" class="edit form-control" placeholder="请输入管理者手机号">
+                                    <span class="btn btn-info" onclick="change()">修改</span>
+                                    <span class="btn btn-info" onclick="cancel()">取消</span>
+                                </div>
+                                <p class="fl5"><span class="change btn btn-info" onclick="edit()" >变更管理人<span>&nbsp;&nbsp;&nbsp;</p>
+                            </div>
+                        <?php }else{?>
+                            <!--<a href="<?php /*echo $this->url('admin-user',array('action'=>'index'));*/?>">添加管理人</a>-->
+                            <div class="flse fl1" style="display:none;">
+                                <label class="col-sm-2 control-label">添加管理者：</label>
+                                <input class="form-control fl4" type="text" placeholder="请输入公司管理者手机号">
+                                <span onclick="show2()" class="btn btn-info">确定</span>
+                            </div>
+                            <a href="javascript:void(0);" onclick="show()" class="mannge">添加管理人</a>
+                        <?php }?>
+                        <?php if($user_info){$total = $pass_total+1;}else{$total= $pass_total;}?>
+                        <?php if($user_info){$id= $user_info['id'];}else{$id= 0;}?>
+                        <a class="position btn btn-info" href="<?php echo $this->url('admin-company',array('action'=>'pass','id'=>$company_info['id'],'page'=>$id))?>">公司员工（<?php echo $total;?>人）</a>
+                    </div>
+
+                    <div class="form-group-separator"></div>
+                    <!--图片上传-->
+                    <div class="form-group fl6" id="setup">
+                        <div class="logo f222" id="left-bj">
+                            <label class="col-sm-2 control-label"><i id="red_star" class="red_star">*&nbsp;</i>公司logo：</label>
+
+                            <div class="col-sm-10">
+                                <div class="uploadfile">
+                                    <input type="file" class="up_logo" id="file0" multiple name="up_logo">
+                                    <div>选择文件</div>
+                                </div>
+                                <p>(请上传比例为4:3的logo)</p>
+                                <img id="c_logo" class="c_logo" src="<?php if($image){echo ROOT_PATH.UPLOAD_PATH.$image['path'].$image['filename'];}else{echo ROOT_PATH . 'adminStyle/img/no_pic.gif';}?>" id="preview" alt="" style="width:200px;height:200px;" />
+                                <input type="hidden" name="up_logo" value="<?php echo $image['id']?>">
+                            </div>
+                        </div>
+                        <!-- 图片放大 -->
+                        <div class="amplification"></div>
+
+                        <div class="logo f222">
+                            <label class="col-sm-2 control-label"><i id="red_star" class="red_star">*&nbsp;</i>营业执照：</label>
+
+                            <div class="col-sm-10">
+
+                                <div class="uploadfile">
+                                    <input type="file" value="111" class="up_license" id="file0" multiple name="up_license">
+                                    <div>选择文件</div>
+                                </div>
+                                <p class="abc">(请上传小于1M的图片)</p>
+                                <img  id="c_logo" class="license" src="<?php if($license){echo ROOT_PATH.UPLOAD_PATH.$license['path'].$license['filename'];}else{echo ROOT_PATH . 'adminStyle/img/no_pic.gif';}?>" id="preview" alt="" style="width:200px;height:200px;" />
+                                <input type="hidden" name="up_license" value="<?php echo $license['id']?>">
+                            </div>
+                        </div>
+
+
+                        <div class="logo f222">
+                            <label class="col-sm-2 control-label"><i id="red_star" class="red_star">*&nbsp;</i>法人身份证：</label>
+
+                            <div class="col-sm-10">
+                                <div class="uploadfile">
+                                    <input type="file" class="up_coporation" id="file0" multiple name="up_coporation">
+                                    <div>选择文件</div>
+                                </div>
+                                <p class="abc">(请上传小于1M的图片)</p>
+                                <img  id="c_logo" class="coporation" src="<?php if($coporation){echo ROOT_PATH.UPLOAD_PATH.$coporation['path'].$coporation['filename'];}else{echo ROOT_PATH . 'adminStyle/img/no_pic.gif';}?>" id="preview" alt="" style="width:200px;height:200px;" />
+                                <input type="hidden" name="up_coporation" value="<?php echo $coporation['id']?>">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group-separator"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-4"><i
+                                class="red_star">*&nbsp;</i>公司规模：</label>
+                        <div class="col-sm-10">
+                            <select name="scale" >
+                                <?php foreach($scale as $k => $v){?>
+                                    <option value="<?php echo $k?>" <?php echo $k==$company_info['scale']?'selected':''?>><?php echo $v?></option>
+                                <?php }?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group-separator"></div>
+
+                    <div class="form-group ">
+                        <label class="col-sm-2 control-label" for="field-4"><i
+                                class="red_star">*&nbsp;</i>是否推荐：</label>
+                        <div class="col-sm-10">
+                            <select name="is_top" id="aaa">
+                                <option value="1" <?php echo $company_info['is_top']==1?'selected':''?>>推荐</option>
+                                <option value="2" <?php echo $company_info['is_top']==2?'selected':''?>>不推荐</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group-separator"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-4"><i
+                                class="red_star">*&nbsp;</i>所属行业：</label>
+                        <div class="col-sm-10">
+                            <select name="category" >
+                                <?php foreach($category as $k => $v){?>
+                                    <option value="<?php echo $k?>" <?php echo $k==$company_info['category_id']?'selected':''?>><?php echo $v?></option>
+                                <?php }?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group-separator"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-4"><i
+                                class="red_star">*&nbsp;</i>电话：</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control"
+                                   placeholder="请输入公司电话号码"
+                                   name="telephone" value="<?php echo $company_info['telephone']; ?>">
+                        </div>
+                    </div>
+                    <div class="form-group-separator"></div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-4">公司简介：</label>
+                        <div class="col-sm-10">
+								<textarea id="company" type="text" style="height: 300px;"
+                                          class="form-control" name="description" maxlength="100"><?php echo isset($company_info['description']) ? $company_info['description'] : ''; ?></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group-separator"></div>
+
+                    <div class="form-group">
+                        <div style="height:50px">
+                            <label class="col-sm-2 control-label" for="field-4">我能提供：</label>
+                            <div class="box col-sm-10">
+                                <?php if($provide && is_array($provide['list'])){?>
+                                    <?php foreach($provide['list'] as $val){?>
+                                        <input type="text" style="margin-top:5px;width:120px;height:30px;" value="<?php echo $val['name'];?>" class="infomation twos contro" placeholder="请输入你需要输入的信息" name="provide[]" />
+                                        <input type="hidden" maxlength="9" name="provide_id[]" value="<?php echo $val['id'];?>">
+                                    <?php }?>
+                                <?php }?>
+                                <span class="provide" id="load" onclick="addInput(this)">+添加</span>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-10 introduce">
+								<textarea id="company1" type="text" style="height: 300px;"
+                                          class="form-control" name="provide_content" maxlength="100"><?php echo $company_info['provide']?></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div style="height:50px">
+                            <label class="col-sm-2 control-label" for="field-4">我的需要：</label>
+                            <div class="box col-sm-10">
+                                <?php if($need && is_array($need['list'])){?>
+                                    <?php foreach($need['list'] as $val){?>
+                                        <input type="text" maxlength="9" style="margin-top:5px;width:120px;height:30px;" value="<?php echo $val['name'];?>" class="infomation twos contro" placeholder="请输入你需要输入的信息" name="needs[]" />
+                                        <input type="hidden" name="need_id[]" value="<?php echo $val['id'];?>">
+                                    <?php }?>
+                                <?php }?>
+                                <span class="need" id="ups" onclick="addDiv(this)">+添加</span>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-10 introduce">
+                            <textarea id="company2" type="text" style="height: 300px;" class="form-control" name="needs_content" maxlength="100"><?php echo $company_info['needs'];?></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group-separator"></div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-4"><i
+                                class="red_star">*&nbsp;</i>联系地址：</label>
+                        <div class="col-sm-10">
+							<span id="area"> <select class="form-control" id="province"
+                                                     name="province_id" style="width: 100px;"></select><select
+                                    class="form-control" id="city" name="city_id"
+                                    style="width: 100px;"></select> <select class="form-control"
+                                                                            id="county" name="county" style="width: 100px;"></select>
+							</span> <input class="form-control" type="text" name="street"
+                                           id="street" style="width: 500px"
+                                           value="<?php echo isset($company_info['street']) ? $company_info['street'] : ''; ?>"
+                                           required /> <input class="form-control" type="text"
+                                                              name="longitude" style="width: 100px" id="jd"
+                                                              value="<?php echo isset($company_info['longitude']) ? $company_info['longitude'] : ''; ?>"
+                                                              required /> <input class="form-control" type="text"
+                                                                                 name="latitude" style="width: 100px" id="wd"
+                                                                                 value="<?php echo isset($company_info['latitude']) ? $company_info['latitude'] : ''; ?>"
+                                                                                 required />
+                            <div id="result1" name="result1"
+                                 style="overflow: auto; width: 60%; border: 1px solid gray; display: none;"></div>
+                            <div id="result" style="position: relative; display: none;"></div>
+                        </div>
+                    </div>
+                    <div class="form-group-separator"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-1"></label>
+                        <div class="col-sm-10">
+                            <div id="iCenter" style="margin: 0"></div>
+                        </div>
+                    </div>
+                    <div class="form-group-separator"></div>
+                    <!--子公司-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-1">子公司：</label>
+                        <div class="col-sm-10 son_company">
+                            <ul>
+                                <?php foreach($son_company['list'] as $k=>$v){?>
+                                    <li class="CompanyCard wrap bg_white mb10 son">
+                                        <div class="clearfix pt10 pb10 pl10 pr10">
+                                            <img class="w" id="companyLogo"style="width:75px; height:60px;" src="<?php if($v['logo']){echo ROOT_PATH.UPLOAD_PATH.$v['logo'];}else{echo ROOT_PATH.'/images/img_logo@2x.png';} ;?>">
+                                        </div>
+                                        <div class="flex1 company_text ">
+                                            <p id="companyName" class="  none_bold"><?php echo $v['name']?></p>
+                                            <p class="line2_overflow f14">
+                                                <span class="f_color_gray border_right" id="companyRegion"><?php echo $v['region']?></span>
+                                                |<span class="f_color_gray pl5 border_right" id="companyCategory">
+                								<?php foreach($category as $k=>$val):?>
+                                                    <?php if($k==$v['category_id']){?>
+                                                        <?php echo $val;?>
+                                                    <?php }?>
+                                                <?php endforeach?>
+                							</span>
+                                                |<span class="f_color_gray pl5" id="companyScale">
+                								<?php foreach($scale as $k=>$val):?>
+                                                    <?php if($k==$v['scale']){?>
+                                                        <?php echo $val;?>
+                                                    <?php }?>
+                                                <?php endforeach?>
+                							</span>
+                                        </div>
+                                        <a href="javascript:void(0);" onclick="deleteSonCompany(<?php echo $v['id'];?>)" class="delete">×</a>
+                                    </li>
+                                <?php }?>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="audit_status" value="<?php echo $company_info['audit_status']?>">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="field-1"></label>
+                        <div class="col-sm-10">
+                            <div class="edit">
+                                <a class="compile">编辑</a>
+                                <a class="accomplish none">完成</a>
+                                <a class="addCard">添加</a>
+                                <div class="addCardB">
+                                    <input type="text" name="company" id="son_company" list="sonc">
+                                    <datalist id="sonc">
+                                        <?php foreach($all as $v){?>
+                                            <option><?php echo $v;?></option>
+                                        <?php }?>
+                                    </datalist>
+                                    <a class="btn btn-info" onclick="addSon()">确定添加</a>
+                                    <a class="btn btn-info" onclick="did()">取消</a>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <input type="submit" name="submit" value="提交更新" class="btn btn-info" />
+                            <a class="rejected btn btn-info " onclick="reject(3,<?php echo $company_info['id']?>)">驳回</a>
+                        </div>
+                    </div>
+
+                    <div class="form-group-separator"></div>
+
+                    <div>
+
+                    </div>
+                    <div class="panel-body" style="background: #f0f0f0;">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+<!--<div class="dialog_bg none template">
+	<a href=""></a>
+	<div class="view_box">
+		<div class="inner_box">
+			<iframe id="iframe" height="567px" width="350px"
+				src="<?php /*echo PREVIEW_PATH."zero.html"; */?>" frameborder="0"
+				scrolling="yes"></iframe>
+		</div>
+	</div>
+</div>
+
+<div class="dialog_bg none html">
+	<a href=""></a>
+	<div class="view_box">
+		<div class="inner_box">
+			<iframe id="iframe" height="567px" width="350px"
+				src="<?php /*echo ROOT_PATH.'static_html/'.$info->html.".html"; */?>"
+				frameborder="0" scrolling="yes"></iframe>
+		</div>
+	</div>
+</div>-->
+
+<script type="text/javascript">
+    KindEditor.ready(function(K) {
+        window.editor = K.create('#company');
+    });
+    KindEditor.ready(function(K) {
+        window.editor = K.create('#company1');
+    });
+    KindEditor.ready(function(K) {
+        window.editor = K.create('#company2');
+    });
+    $('#companyName').blur(function(){
+        $('#remind').html("");
+        var company  =$.trim($('#companyName').val());
+        var id = $("input[name='id']").val();
+        if(company == ''){
+            $('#remind').html("公司名不能为空！");
+            return false;
+        }
+
+        if(id == ''){
+            $('#remind').html("公司名不存在！");
+            return false;
+        }
+
+        $.post("<?php echo $this->url('admin-company',array('action' =>'checkName'));?>",{company:company,id:id},function(data){
+            if(data == 0){
+                $('#remind').html("公司已存在，不能添加公司!");
+                return false;
+            }else if(data == 1){
+                $('#remind').html("");
+            }else if(data == 2){
+                $('#remind').html("公司名不能为空！");
+                return false;
+            }
+        });
+    });
+
+
+    /*logo*/
+    $(".up_logo").change(function(){
+        var objUrl = getObjectURL(this.files[0]) ;
+        console.log("objUrl = "+objUrl) ;
+        if (objUrl) {
+            $(".c_logo").attr("src", objUrl) ;
+        }
+    }) ;
+
+    /*营业执照*/
+    $(".up_license").change(function(){
+        var objUrl = getObjectURL(this.files[0]) ;
+        console.log("objUrl = "+objUrl) ;
+        if (objUrl) {
+            $(".license").attr("src", objUrl) ;
+        }
+    }) ;
+
+    /*法人身份*/
+    $(".up_coporation").change(function(){
+        var objUrl = getObjectURL(this.files[0]) ;
+        console.log("objUrl = "+objUrl) ;
+        if (objUrl) {
+            $(".coporation").attr("src", objUrl) ;
+        }
+    }) ;
+    //建立一個可存取到該file的url
+    function getObjectURL(file) {
+        var url = null ;
+        if (window.createObjectURL!=undefined) { // basic
+            url = window.createObjectURL(file) ;
+        } else if (window.URL!=undefined) { // mozilla(firefox)
+            url = window.URL.createObjectURL(file) ;
+        } else if (window.webkitURL!=undefined) { // webkit or chrome
+            url = window.webkitURL.createObjectURL(file) ;
+        }
+        return url ;
+    }
+
+
+    function deleteSonCompany(id)
+    {
+        window.location.href="<?php echo $this->url('admin-company',array('action'=>'deleteSonCompany','id'=>$company_info['id']))?>?cid="+id;
+    }
+
+    function addSon(){
+        var son= $.trim($('#son_company').val());
+        var m_id=<?php echo $company_info['id'];?>;
+        $.post(
+            '<?php echo $this->url('admin-company',array('action'=>'addSonCompany'));?>',{name:son,id:m_id},function(data){
+                if(data==1){
+                    alert('新增子公司成功');
+                    location.reload();
+                }else{
+                    alert('新增子公司失败');
+                }
+            });
+    }
+
+
+    $("#province,#city").change(function(){
+        var address = $("#province option:selected").text()+$("#city option:selected").text();
+        geocoder('',address);
+    });
+
+    function view()
+    {
+        $('.template').show();
+    }
+    function html()
+    {
+        $('.html').show();
+    }
+    function chg_view(obj)
+    {
+        $('#iframe').attr('src', "<?php echo PREVIEW_PATH; ?>"+obj+".html");
+    }
+    $('.dialog_bg').click(function(){
+        $('.dialog_bg').hide();
+    });
+
+    <?php $region_info = isset($company_info['region_info']) ? json_decode($company_info['region_info'], true ):[];?>
+
+
+    $("#area").area({
+        cache: region,
+        p_id:<?php echo isset($region_info['0']['region']['id']) ? $region_info['0']['region']['id'] : 440000;?>,
+        ci_id:<?php echo isset($region_info['1']['region']['id']) ? $region_info['1']['region']['id'] : 440100;?>,
+        co_id:<?php echo isset($region_info['2']['region']['id']) ? $region_info['2']['region']['id'] : 440103;?>
+    });
+
+    function did(){
+        location.reload();
+    }
+
+
+    /*
+     * 添加管理员操作
+     *
+     * */
+    function show(){
+        $('.mannge').hide();
+        $('.flse').show();
+    }
+
+    function show2(){
+        $('.mannge').show();
+        $('.flse').hide();
+        var mobile= $.trim($('.fl4').val());
+        var id=<?php echo $company_info['id'];?>;
+        if(mobile.length==11){
+            $.post('<?php echo $this->url('admin-company',array('action'=>'addMannge'));?>',{mobile:mobile ,id:id},function(data){
+                if(data==1){
+                    alert('添加成功');
+                    location.reload();
+                }else{
+                    alert('添加失败');
+                }
+            });
+        }else{
+            alert('请输入正确的手机号');
+        }
+    }
+    /*
+     *
+     * 修改管理者
+     * */
+    function edit(){
+
+        $('.cardBox').hide();
+        $('.boxs').show();
+        $('.change').hide();
+    }
+
+    function change(){
+        var mobile = $.trim($('.edit').val());
+        var cId = <?php echo $company_info['id'];?>;
+        if(mobile.length==11){
+            $.post('<?php echo $this->url('admin-company',array('action'=>'change'));?>',{mobile1:mobile, cId:cId},function(data){
+                if(data==1){
+                    alert('修改成功');
+                    $('.cardBox').show();
+                    $('.boxs').hide();
+                    $('.change').show();
+                    location.reload();
+                }else{
+                    alert('管理者不存在');
+                }
+            });
+        }else{
+            alert('请输入11位的手机号码');
+        }
+    }
+    function cancel(){
+        location.reload();
+    }
+    /*
+    * 驳回审核通过的公司
+    *
+    *
+    * */
+    function reject(obj,obj2)
+    {
+        $.post('<?php echo $this->url('admin-company',array('action'=>'reject'))?>',{status: obj, id: obj2},function(data){
+            if(data==1){
+                alert('驳回成功');
+                window.location.href="<?php echo $this->url('admin-company',array('action'=>'index'));?>";
+            }else{
+                alert('驳回失败');
+            }
+        });
+    }
+
+    /**
+     * 搜索学校
+     */
+    $("#seachSchool").keyup(function () {
+        var seach = $(this).val();
+        if (seach == '') {
+            return;
+        }
+
+        $.post("<?php //echo $this->url('admin-school',array('action'=>'seachSchool'))?>", {seach: seach},
+            function (data) {
+                if (data) {
+
+                    data = $.parseJSON(data);
+                    var str = '';
+                    for (i in data) {
+                        str += "<div onclick=\"getSchool(" + i + ",'" + data[i] + "')\" class='school_list'>" + data[i] + "</div>";
+                    }
+                    $("#school_list").html(str);
+                    $("#school_list").show();
+                }
+            });
+    });
+
+    /**
+     * 设置学校ID，根据ID查找专业
+     */
+    function getSchool(school_id, school_name) {
+        if (!school_id) {
+            return;
+        }
+        $("#school_id").val(school_id);
+        $.post("<?php //echo $this->url('admin-school',array('action'=>'getProfessional'))?>", {schoolId: school_id},
+            function (data) {
+                if (data) {
+                    data = $.parseJSON(data);
+                    var str = '';
+                    for (i in data) {
+                        str += "<option value='" + i + "'>" + data[i] + "</option>";
+                    }
+                    $("#professional_id").html();
+                    $("#professional_id").html(str);
+                }
+                else {
+                    str += "<option>该学校未有相关专业</option>";
+                    $("#professional_id").html(str);
+                }
+                $("#seachSchool").val(school_name);
+                $("#school_list").hide();
+            });
+    }
+
+    $("#mobile").blur(function () {
+        var mobile = $(this).val();
+        if (!mobile) {
+            return;
+        }
+
+        $.post("<?php //echo $this->url('admin-user',array('action'=>'check'))?>", {mobile: mobile, type: 2},
+            function (data) {
+                if (data == 1) {
+                    $("#mobile_msg").text('手机号已存在!');
+                }
+                else {
+                    $("#mobile_msg").text('');
+                }
+            });
+    });
+
+    $("#nickname").blur(function () {
+        var nickname = $(this).val();
+        if (!nickname) {
+            return;
+        }
+        $.post("<?php //echo $this->url('admin-user',array('action'=>'check'))?>", {nickname: nickname, type: 1},
+            function (data) {
+                if (data == 1) {
+                    $("#name_msg").text('昵称已存在!');
+                }
+                else {
+                    $("#name_msg").text('');
+                }
+            });
+    });
+
+    function checkSubmit() {
+          $('.contro').each(function(){
+              var a = $.trim($(this).val());
+              $(this).val(a);
+
+          });
+
+//        var name  = $("input[name='name']").val();
+//        var head_icon = $("#img_id_0").val();
+//        var weixin = $("input[name='weixin']").val();
+//        var company = $("input[name='company']").val();
+//        var position = $("input[name='position']").val();
+//        var address = $("input[name='address']").val();
+//        var citizenship = $("input[name='citizenship']").val();
+//        var hobby = $("input[name='hobby']").val();
+//        var signature = $("input[name='signature']").val();
+//        var profile = $("input[name='profile']").val();
+//        var description = $("input[name='description']").val();
+//        var project = $("input[name='project']").val();
+//        var telephone = $("input[name='telephone']").val();
+//        var fax = $("input[name='fax']").val();
+//        var qq = $("input[name='qq']").val();
+//        var email = $("input[name='email']").val();
+//        var web_address = $("input[name='web_address']").val();
+//        var weibo = $("input[name='weibo']").val();
+//        var others = $("input[name='others']").val();
+//           if(companyName == "")
+//           {
+//               alert('公司名不能为空！');
+//               return false;
+//           }
+
+//           if(telephone == "")
+//           {
+//               alert('电话号码不能为空！');
+//               return false;
+//           }
+
+
+//        if(getlength(name) > 12)
+//        {
+//            alert('主标题超过6个字');
+//            return false;
+//        }
+//         if(head_icon == '')
+//         {
+//             alert('请上传头像');
+//             return false;
+//         }
+//        if(getlength(weixin) > 20)
+//        {
+//            alert('微信号不超过20个字');
+//            return false;
+//        }
+//        if(getlength(company) > 60)
+//        {
+//            alert('公司名称不超过30个字');
+//            return false;
+//        }
+//        if(getlength(position) > 20)
+//        {
+//            alert('职称不超过10个字');
+//            return false;
+//        }
+//        if(getlength(citizenship) > 30)
+//        {
+//            alert('国籍不超过15个中文或30个英文字母');
+//            return false;
+//        }
+//        if(getlength(hobby) > 20)
+//        {
+//            alert('爱好不超过10个中文或20个英文字母');
+//            return false;
+//        }
+//        if(getlength(signature) > 100)
+//        {
+//            alert('个性签名不超过50个中文或100个英文字母');
+//            return false;
+//        }
+//        if(getlength(profile) > 200)
+//        {
+//            alert('个人资料不超过100个中文或200个英文字母');
+//            return false;
+//        }
+//        if(getlength(description) > 200)
+//        {
+//            alert('公司描述不超过100个中文或200个英文字母');
+//            return false;
+//        }
+//        if(getlength(project) > 140)
+//        {
+//            alert('公司经营项目描述不超过70个中文或140个英文字母');
+//            return false;
+//        }
+
+
+    }
+
+    function checkcompany(){
+        var name = ("#companyName").val();
+
+    }
+
+    //字段长度判断
+    function getlength (str) {
+        //<summary>获得字符串实际长度，中文2，英文1</summary>
+        //<param name="str">要获得长度的字符串</param>
+        var realLength = 0, len = str.length, charCode = -1;
+        for (var i = 0; i < len; i++) {
+            charCode = str.charCodeAt(i);
+            if (charCode >= 0 && charCode <= 128) realLength += 1;
+            else realLength += 2;
+        }
+
+        return realLength;
+    }
+
+    $("#user_group").change(function () {
+        var id = $(this).val()
+        if (id) {
+            $.post("<?php //echo $this->url('admin-label',array('action'=>'getUserLabel'))?>", {id: id},
+                function (data) {
+                    if (data) {
+                        $("#label_id").html(data);
+                    }
+                    else {
+                        $("#label_id").html('');
+                    }
+                });
+        }
+    });
+
+    //     function setLable(id, name) {
+    //         var html = $("#label").html();
+    //         var text = html + "<span><div id='uniform-undefined' class='checker'><span class='checked'><input type='checkbox' onclick='setting_label(this,0)' name='label[]' value='" + id + "' checked></span></div>" + name + '</span>';
+    //         $("#label").html(text);
+    //     }
+
+    function setting_label(obj, id) {
+        obj = $(obj).parent().parent().parent();
+        if (id) {//删除用户标签
+            $.post("<?php //echo $this->url('admin-label',array('action'=>'deleteUserLabel'))?>", {id: id},
+                function (data) {
+                    if (data) {
+                        obj.remove();
+                    }
+                });
+        }
+        else {
+            obj.remove();
+        }
+    }
+
+    function addInput(obj) {
+        if($(".addbox").length < 5 ){
+            var name = $(obj).siblings(".form-control").attr("name");
+            $(obj).before('<div class="addbox"><input type="text" style="margin-top:5px;padding:5px" maxlength="9" class="form-control contro" placeholder="请输入你需要输入的信息" name="provide[]" value="" /><span class="close" onclick="removeInput(this)">&times;</span></div>');
+        }
+    }
+    function addDiv(obj) {
+        if($(".addboxB").length < 5 ){
+            var name = $(obj).siblings(".form-control").attr("name");
+            $(obj).before('<div class="addboxB"><input type="text" style="margin-top:5px;padding:5px" maxlength="9" class="form-control contro" placeholder="请输入你需要输入的信息" name="needs[]" value="" /><span class="close" onclick="removeInput(this)">&times;</span></div>');
+        }
+    }
+
+    function removeInput(obj) {
+        $(obj).parent().remove();
+    }
+    $('．addbox').keyup(function(){
+        var value=$('#limit[]').val();
+        alert(value);
+        if(value.length>10)
+        {
+            $('#limit[]').onblur();
+        }
+    });
+    //查询主帐号是否存在
+    //   $("#main_mobile").blur( function () {
+    // 	var	main_moblie = $(this).val();
+    // 		if(main_moblie)
+    // 		{
+    //			$.post("<?php //echo $this->url('admin-user',array('action'=>'check'))?>", { mobile: main_moblie },
+    // 					   function(data)
+    // 					   {
+    // 					     if(data==1)
+    // 						 {
+    // 							$("#err_msg").text('主帐号不存在,将新建此用户！');
+    // 						 }else if(data==2)
+    // 						 {
+    // 							 $("#err_msg").text('帐号存在此名片将绑定此用户下!');
+    // 						 }
+    // 					   });
+    // 		}
+    // 	  } );
+    //编辑名片
+    $(".compile").click(function(){
+        $(this).css('display','none');
+        $(".accomplish").css('display','inline-block');
+        $(".delete").css('display','inline-block');
+        $(".addCard").css('display','none');
+    })
+    $(".accomplish").click(function(){
+        $(this).css('display','none');
+        $(".compile").css('display','inline-block');
+        $(".delete").css('display','none');
+        $(".addCard").css('display','inline-block');
+    })
+    $(".addCard").click(function(){
+        $(this).css('display','none');
+        $(".compile").css('display','none');
+        $(".accomplish").css('display','none');
+        $(".addCardB").css('display','block');
+    })
+    $(".confirmAdd").click(function(){
+        $(".addCardB").css('display','none');
+        $(".compile").css('display','inline-block');
+        $(".addCard").css('display','inline-block');
+    })
+
+
+
+    $("#setup img").click(function(){
+        var cimg = $(this);
+        var h=cimg.context.outerHTML;
+        $(".amplification").show();
+        $(".amplification").html(h);
+        $(".amplification img").width(800);
+        $(".amplification img").height(600);
+    });
+
+    $(".amplification").click(function(){
+        $(this).hide();
+    });
+</script>

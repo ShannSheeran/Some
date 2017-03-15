@@ -1,0 +1,49 @@
+    <div class="sup_crumbs">
+        <div class="wrap sup_crumbs_con">
+          <a class="font16 corgray6" href="<?php echo $this->url('index' , array('controller' =>'index' , 'action' => 'supplyList'))?>">供应信息</a>
+          <i class="font16 corgray6">></i>
+          <a class="font16 corgray6" href="<?php echo $this->url('index' , array('controller' =>'index' , 'action' => 'supplyList' , 'bc' => $big_category->id ))?>" ><?php echo isset($big_category->name) ?  $big_category->name : ''?></a>
+          <i class="font16 corgray6">></i>
+          <a class="font16 corgray6" href = "<?php echo $this->url('index' , array('controller' =>'index' , 'action' => 'supplyList' ,'bc' => $big_category->id, 'sc' => $small_category->id ))?>" ><?php echo isset($small_category->name) ?  $small_category->name : ''?></a>
+        </div>
+    </div>
+    <div class="wrap" style="margin-bottom: 165px">
+        <div class="clearfix mt25 pr">
+
+            <div class="detail_img fl">
+                <div id="preview" class="spec-preview"> 
+                      <span class="jqzoom"><img jqimg="<?php echo !empty($images) ? ROOT_PATH.UPLOAD_PATH.$images[0]->path.$images[0]->filename : ''?>" src="<?php echo !empty($images) ? ROOT_PATH.UPLOAD_PATH.'thumb/300X300X3/'.$images[0]->path.$images[0]->filename : ''?>" width="330px" height="330" /></span>
+                </div>
+                <div class="spec-scroll">
+                    <a class="prev"><img src="<?php echo ROOT_PATH?>images/left.png" height="65" width="13" alt="" /></a>
+                    <a class="next"><img src="<?php echo ROOT_PATH?>images/right.png" height="65" width="13" alt="" /></a>
+                    <div class="items">
+                        <ul>
+                            <?php 
+                                if(!empty($images)):
+                                   foreach ($images as $value):
+                             ?>
+                            <li><img alt="吉宏" bimg="<?php echo ROOT_PATH.UPLOAD_PATH.$value->path.$value->filename?>" src="<?php echo ROOT_PATH.UPLOAD_PATH.'thumb/300X300X3/'.$value->path.$value->filename?>" height="330" onmousemove="preview(this);"></li>
+                            <?php 
+                                    endforeach; 
+                                endif;
+                              ?>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detail_text fr">
+              <h2 class="goods_name"><?php echo $goods_info->name?></h2>
+              <div class="classify">分类：<?php echo isset($big_category->name) ?  $big_category->name : ''?>><?php echo isset($small_category->name) ?  $small_category->name : ''?></div>
+              <div class="text">
+                <p class="font14"><?php echo $goods_info->description?></p>
+              </div>
+            </div>
+
+        </div>
+    </div>
+    
+<script type="text/javascript">
+scrollDiv();
+</script>

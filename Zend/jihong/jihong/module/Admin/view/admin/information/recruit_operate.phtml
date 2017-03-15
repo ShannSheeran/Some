@@ -1,0 +1,129 @@
+<?php echo $this->headScript()->prependFile($this->basePath() . '/js/admin/jq_area.js') ?>
+<?php echo $this->headScript()->prependFile($this->basePath() . '/js/admin/region.js') ?>
+<script src="<?php echo $this->basePath();?>/kindeditor/kindeditor.js"></script>
+<style>
+    .tl{text-align: right;}
+    .main-nody{padding:5px 20px 0 20px;}
+    .main-nody h5{float: left;}
+    .tp{margin-top: 30px;}
+    .bc-1{display: none;}
+    .fl{float: left;}
+    .pd5{
+        padding:5px;	
+    }
+</style>
+
+<div class="panel panel-default">
+   <div class="panel-heading">
+       <div calss="row">
+           <div class="col-sm-6">
+               <a href="<?php echo $this->url('admin-information' , array('action' => 'platformInformation'));?>">信息管理 </a> 
+               / <a href="<?php echo $this->url('admin-information' , array('action' => 'recruit'));?>">招聘管理</a> 
+               / 
+               <?php if(isset($id) && $id): ?> 
+               <a href="">编辑职位</a>    
+               <?php else: ?>
+               <a href="">新增职位</a>    
+               <?php endif;?>
+           </div>
+       </div>
+   </div>
+    <div class="pannel-body main-nody">
+         <?php if($id){ ?>
+        <form class="form-horizontal" action="<?php echo $this->url('admin-information' , array('action' =>'editRecruit')); ?>" method="post"  enctype="multipart/form-data">
+        <?php }else{ ?>
+        <form class="form-horizontal" action="<?php echo $this->url('admin-information' , array('action' =>'addRecruit')); ?>" method="post"  enctype="multipart/form-data">
+        <?php } ?>
+            <div class="row">
+                <div class="col-lg-12">
+                    <h5>职位信息</h5>
+                </div>
+                <div class="col-lg-12">
+                
+                    <table class="table table-striped" id="example-4" >
+                        <tbody>
+                            <tr>
+                                <td>职位名称</td>
+                                <td>
+                                    <input type="text" name="name" value="<?php echo isset($recruit_info->name) ? $recruit_info->name:''?>" class="pd5" >
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>职位排序</td>
+                                <td>
+                                    <input type="number" min="0" name="sort" value="<?php echo isset($recruit_info->sort) ? $recruit_info->sort :''?>" class="pd5" >
+                                    <span> 编号越大则在同广告位中顺序越靠前</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>最低学历</td>
+                                <td>
+                                    <select name="education"   class="pd5" >
+                                        <?php foreach ($education as $key => $value): ?>
+                                        <option value="<?php echo $key; ?>" <?php echo isset($recruit_info->education) && $recruit_info->education == $key ? 'selected' :''?>><?php echo $value; ?></option>
+                                        <?php endforeach;?>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>工作年限</td>
+                                <td>
+                                    <select name="work_limit"   class="pd5" >
+                                        <?php foreach ($yearsOfWorking as $key => $value): ?>
+                                        <option value="<?php echo $key; ?>" <?php echo isset($recruit_info->work_limit) && $recruit_info->work_limit == $key ? 'selected' :''?>><?php echo $value; ?></option>
+                                        <?php endforeach;?>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>工作地点</td>
+                                <td>
+                                    <span id="area">
+                        			     <select id="province" name="province" style="width: 100px;padding:5px;"></select>
+                                         <select id="city" name="city" style="width: 100px;padding:5px;"></select>
+                                         <select id="county" name="county" style="width: 100px;padding:5px;"></select>
+                                         <input type="text" name="street"  value="<?php echo isset($recruit_info->street)? $recruit_info->street :''; ?>" placeholder="请输入街道地址" class="pd5" >
+                        		      </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>工作要求以及岗位待遇</td>
+                                <td>
+                                    <textarea id="editor_id" name="description" style="width:700px;height:300px;"><?php echo isset($recruit_info->description)? $recruit_info->description :''; ?></textarea>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="row tp">
+                <div class="col-lg-12">
+                    <h5>
+                        <input type="hidden" value="<?php echo isset($id)? $id : ''; ?>" name="id" >
+                        <button type="submit" name="submit"  value="保存" class="btn btn-info btn-large">保存</button>
+                     </h5>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+
+$("#area").area({
+    cache: region,
+    p_id:<?php echo isset($address_info[0]['region']['id']) ? $address_info[0]['region']['id'] : 440000;?>,
+    ci_id:<?php echo isset($address_info[1]['region']['id']) ? $address_info[1]['region']['id'] : 440100;?>,
+    co_id: <?php echo isset($address_info[2]['region']['id']) ? $address_info[2]['region']['id'] : 440103;?>
+});
+
+</script>
+
+<script>
+    KindEditor.ready(function(K) {
+        window.editor = K.create('#editor_id', {
+            filterMode: true,//是否开启过滤模式
+        });
+    });
+</script>

@@ -1,0 +1,81 @@
+    <div class="banner mb30">
+        <center>
+        <img style="width:100%; height:400px;" src="<?php echo $ads_info ? ROOT_PATH.UPLOAD_PATH.$ads_info->path.$ads_info->filename : ''?>" alt="" />
+        </center>
+    </div>
+
+    <div class="tab_column wrap">
+        <ul>
+            <li class="first"><a class="choice_li"  href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'companyIntro'  ))?>">企业概况</a></li>
+            <li class="publicClass"><a class="choice_li"  href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'dynamic'  ))?>">企业动态</a></li>
+            <li class="publicClass"><a class="choice_li"  href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'teams'  ))?>">吉宏团队</a></li>
+            <li class="publicClass current"><a class="choice_li"  href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'recruit'  ))?>">招聘信息</a></li>
+            <li class="publicClass"><a class="choice_li"  href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'questions'  ))?>">常见问题</a></li>
+        </ul>
+    </div>
+
+    <div class="advertise pub pub_current wrap">
+        <div class="main_title">
+            <h2>加入我们</h2>
+        </div>
+        <div class="clearfix">
+            <div class="advertise-l fl">
+                <ul>
+                    <?php for($i = 0 ; $i < count($recruit_list) ; $i++): ?>
+                    <li class="<?php if($i == 0) echo 'current'; ?>" onclick="selectRecruit(<?php echo $recruit_list[$i]->id; ?>)"><?php echo $recruit_list[$i]->name ?></li>
+                    <?php endfor; ?>
+                </ul>
+            </div>
+            
+            <?php for($i = 0 ; $i < count($recruit_list) ; $i++): ?>
+            <div class="advertise-r fl" style="display:<?php if($i != 0) echo 'none'; ?>" id="item_<?php echo $recruit_list[$i]->id; ?>">
+                <div class="time clearfix">
+                    <p class="counterman"><?php echo $recruit_list[$i]->name ?></p>
+                    <p class="datas">发布时间：<?php echo substr($recruit_list[$i]->timestamp, 0 , 10) ?></p>
+                    <p class="fl lh41 pt12 font14 corgray6 mr48">最低学历：<?php echo $education[$recruit_list[$i]->education]?></p>
+                    <p class="fl lh41 pt12 font14 corgray6 mr48">工作年限：<?php echo $years_of_working[$recruit_list[$i]->work_limit] ?></p>
+                    <p class="fl lh41 pt12 font14 corgray6 mr48 re-adress">工作地点：<?php echo str_replace(' ', '', $recruit_list[$i]->address) ?></p>
+                </div>
+                <div class="adver_con">
+                    <?php echo $recruit_list[$i]->description ?>
+                </div>
+            </div>
+            <?php endfor; ?>
+        </div>
+        <div class="sen_email">
+            <p class="font18 corgray6">如果你热爱园艺，熟悉园艺，那么你就是我们需要的人。请在下面找到你认为最适合你的岗位，</p>
+            <p class="font18 corgray6">并将你的简历发送到邮箱：<a class="emailadr font18">xulf@ji-hong.cn</a></p>
+            <p class="font18 corgray6">让我们一起共创辉煌！</p>
+        </div>
+    </div>
+    <!-- 招聘信息部分完成 -->
+
+<script type="text/javascript">
+    $(function(){
+        
+        
+        $('.tab_column li').click(function(event) {
+            if( $(this).index() >=1){
+                $(this).addClass('current').siblings('').removeClass('current').removeClass("current1");
+                $('.pub').eq($(this).index()).addClass('pub_current').siblings('').removeClass('pub_current');
+            }else{
+                $(this).addClass('current1').siblings('').removeClass('current');
+                $('.pub').eq($(this).index()).addClass('pub_current').siblings('').removeClass('pub_current');
+            }
+                
+        });
+        $('.team ul li').click(function(event) {
+            $(this).addClass('current').siblings('').removeClass('current');
+        });
+
+        $('.advertise-l ul li').click(function(event) {
+            $(this).addClass('current').siblings('').removeClass('current');
+        });
+    })
+    
+    function selectRecruit(id)
+    {
+        $('div.advertise-r').hide();
+        $('#item_'+id).show();
+    }
+</script>

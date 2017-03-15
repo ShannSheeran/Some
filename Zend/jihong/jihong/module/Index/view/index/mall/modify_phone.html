@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script src="../js/jquery-1.7.2.min.js"></script>
+<script src="../js/jquery.SuperSlide.js"></script>
+<script src="../js/base.js"></script>
+<link rel="stylesheet" href="../css/base.css" />
+<link rel="stylesheet" href="../css/content.css" />
+<link rel="stylesheet" href="../css/user.css" />
+<script type="text/javascript">
+    $(function(){
+        // 弹窗
+         $('.next_step').click(function(event) {
+             $('.pop_phonenumber').show();
+             $('.pop_phonenumber_bj').show();
+         });
+         // 弹窗内容关闭
+         $('.confirm').click(function(event) {
+             $('.pop_phonenumber').hide();
+             $('.pop_phonenumber_bj').hide();
+         });
+    })
+</script>
+</head>
+<body>
+    <header class="">
+          <div class="wrap">
+            <div class="logo">
+              <a></a>
+            </div>
+            <div class="explain">全方位中国花卉交易平台</div>
+            <div class="header_phone">联系电话：400-0650-750</div>
+          </div>
+          <div class="clear"></div>
+          <div class="header_bottom">
+            <div class="wrap">
+              <div class="account">
+                <span>账户：7729<a href="" class="quit">[退出]</a></span>
+              </div>
+              <nav>
+                <a>首页</a>
+                <a class="">资材订购</a>
+                <a>市场反馈</a>
+                <a>对账单</a>
+                <a>会员中心</a>
+                <a>最新热销</a>
+              </nav>
+            </div>
+            </div>
+    </header>
+    <section>
+        <div class="wrap">
+            <div class="user_content">
+                <div class="user_content_left">
+                    <div class="user_center">
+                        <h2>会员中心</h2>
+                        <ul>
+                            <li>我的商品</li>
+                            <li>发布商品</li>
+                            <li class="on">资材订单</li>
+                            <li>我的售后</li>
+                            <li>市场反馈</li>
+                            <li>对账单查询</li>
+                            <li>会员信息</li>
+                            <li>修改密码</li>
+                            <li>修改手机号码</li>
+                        </ul>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="contact_us">
+                        <h2>联系我们</h2>
+                        <p>客服：4000-650-750</p>
+                        <p>传真：020-81413138</p>
+                        <p>E-mail : xiejing@ji-hong.cn</p>
+                        <p>http://gd.ji-hong.com.cn</p>
+                    </div>
+                </div>
+                <div class="phonenumber">
+                    <h3>修改手机号码</h3>
+                    <p>已验证手机：138****8888</p>
+                    <div class="code">
+                        <span class="fl">手机验证码：</span>
+                        <input class="codebox fl" type="text" />
+                        <span class="gain_code">获取验证码</span>
+                    </div>
+                    <div class="next_step">下一步</div>
+                        
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+<!-- 弹窗 -->
+    <div class="pop_phonenumber_bj"></div>
+    <div class="pop_phonenumber">
+        <h4>修改成功</h4>
+        <p>手机号码修改成功</p>
+        <p class="confirm">确定</p>
+    </div>
+</body>
+</html>

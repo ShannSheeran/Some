@@ -1,0 +1,95 @@
+<link href="<?php echo $this->basePath();?>/images/favicon.ico" rel="shortcut icon" type="images/vnd.microsoft.icon">
+<link href="<?php echo $this->basePath();?>/css/admin/fonts/linecons/css/linecons.css" media="screen" rel="stylesheet" type="text/css">
+<link href="<?php echo $this->basePath();?>/css/admin/fonts/fontawesome/css/font-awesome.min.css" media="screen" rel="stylesheet" type="text/css">
+<link href="<?php echo $this->basePath();?>/css/admin/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="<?php echo $this->basePath();?>/css/admin/xenon-core.css" media="screen" rel="stylesheet" type="text/css">
+<link href="<?php echo $this->basePath();?>/css/admin/xenon-forms.css" media="screen" rel="stylesheet" type="text/css">
+<link href="<?php echo $this->basePath();?>/css/admin/xenon-components.css" media="screen" rel="stylesheet" type="text/css">
+<link href="<?php echo $this->basePath();?>/css/admin/xenon-skins.css" media="screen" rel="stylesheet" type="text/css">
+<link href="<?php echo $this->basePath();?>/css/admin/page.css" media="screen" rel="stylesheet" type="text/css">
+<link href="<?php echo $this->basePath();?>/css/admin/custom.css" media="screen" rel="stylesheet" type="text/css">	 
+	 <!--[if lt IE 9]><script type="text/javascript" src="/jihong/public/js/admin/html5shiv.min.js"></script><![endif]-->
+<!--[if lt IE 9]><script type="text/javascript" src="/jihong/public/js/admin/respond.min.js"></script><![endif]-->
+<script type="text/javascript" src="<?php echo $this->basePath();?>/js/admin/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath();?>/js/admin/public.js"></script><script type="text/javascript">
+// jQuery(document).ready(function($)
+// 		{
+// 			$("#example-4").dataTable({
+// 				dom: "<'row'<'col-sm-5'l><'col-sm-7'Tf>r>"+
+// 					 "t"+
+// 					 "<'row'<'col-xs-6'i><'col-xs-6'p>>",
+// 				tableTools: {
+					sSwfPath: "<?php echo $this->basePath();?>/js/admin/datatables/tabletools/copy_csv_xls_pdf.swf"
+// 				}
+// 			});
+// 		});
+
+var Sys = {};
+var ua = navigator.userAgent.toLowerCase();
+if (window.ActiveXObject)
+{
+    Sys.ie = ua.match(/msie ([\d.]+)/)[1];
+}
+if (Sys.ie)
+{
+	var IE = navigator.userAgent.indexOf("MSIE 9.0")>0 ? 1 : 0;
+	  if(IE==0)
+	  {
+		  alert('系统检测到您正在使用IE内核浏览器，为了更好的体验，请升级至IE9及以上版本的浏览器！');
+	  }
+}
+
+</script>
+<style>
+    .tl{text-align: right;}
+    .main-nody{padding:5px 20px 0 20px;}
+    .main-nody h5{float: left;}
+    .tp{margin-top: 30px;}
+    .bc-1{display: none;}
+    .fl{float: left;}
+</style>
+<div class="panel panel-default" style="margin-bottom: 0px;">
+    <div class="pannel-body main-nody">        
+        <!-- 营业额统计 -->
+        <div class="row tp">
+            <div class="col-lg-12">
+                <h5></h5>
+            </div>
+            <div class="col-lg-12">
+                <table class="table table-striped" id="example-4" >
+                    <thead>
+        				<tr>
+        					<th>日期</th>
+        					<th>盆栽营业额</th>
+        					<th>资材营业额</th>
+        					<th>总营业额</th>
+        				</tr>
+        			</thead>
+        			<tbody>
+        			    <?php foreach ($statistics_list as $value): ?>
+                        <tr class="tr_list" valign="middle">
+        					<td style="padding-top:18px;"><?php echo substr($value->timestamp, 0 , 10); ?></td>
+        					<td style="padding-top:18px;"><?php echo $value->income_cash_goods; ?></td>
+        					<td style="padding-top:18px;"><?php echo $value->income_cash_equipment; ?></td>
+        					<td style="padding-top:18px;"><?php echo $value->income_cash_total; ?></td>
+        				</tr>
+        				<?php endforeach;?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <?php echo $this->paginationControl($paginator, 'Sliding', 'page',array('route' =>'admin-financial','condition'=>$condition));?>
+        
+    </div>
+</div>
+<script type="text/javascript" src="<?php echo $this->basePath() . '/js/admin/bootstrap.min.js';?>"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() . '/js/admin/TweenMax.min.js';?>"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() .  '/js/admin/resizeable.js';?>"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() . '/js/admin/joinable.js';?>"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() .  '/js/admin/xenon-api.js';?>"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() .  '/js/admin/xenon-toggles.js';?>"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() .  '/js/admin/xenon-custom.js';?>"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() . '/js/admin/inputmask/jquery.inputmask.bundle.js';?>"></script>
+
+

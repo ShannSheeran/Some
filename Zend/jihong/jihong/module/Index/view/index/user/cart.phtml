@@ -1,0 +1,427 @@
+    <!-- 当购物车不为空的时候显示的页面 -->
+    <div class="sc_main wrap">
+        <div class="sc_main_tittle">
+            <div class="fl check">
+                <div class="choose"></div>
+            </div>
+            <ul class="tittle_list">
+                <li>全选</li>
+                <li>商品</li>
+                <li>数量</li>
+                <li>单价</li>
+                <li>金额</li>
+            </ul>
+        </div>
+        <div class="all_order" ></div>
+        <div class="bill clearfix">
+            <div class="check fl">
+                <div class="choose fl"></div>
+                <p>全选</p>
+            </div>
+            <p class="fl delete" onclick="deleteCart()">删除选中的商品</p>
+            <p class="fl choosed">已选<span id="goodsChoosedNumber">0</span>件商品</p>
+            <p class="fl amount">总金额: <span></span></p>
+            <a href="#" onclick="confirmOrder()"><div class="balance fr" >去结算</div></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    <!-- <div class="clear"></div> -->
+    <!-- 弹窗 -->
+    <div class="pop_shoppingcar_bj"></div>
+    <div class="pop_shoppingcar">
+        <h3>删除商品</h3>
+        <p>确定要删除选定的商品？</p>
+        <div class="pop_shopc_btns">
+            <a class="fl no" onclick="closeDialog(this)">取消</a>
+            <a class="fl yeah current" onclick="confirmDelete(this)">确定</a>
+        </div>
+    </div>
+    
+    <!-- 当购物车为空的时候显示的页面 -->
+   <div class="car-content none">
+        <p>购物车空空的哦~~快去看看心仪的商品吧~</p>
+        <a href="<?php echo $this->url('index' , array('controller' => 'goods' , 'action' => 'shopList'))?>">去购物>></a>
+    </div>
+
+    <!-- 当访问的页面不存在的时候 -->
+
+    <!-- <div class="empty">
+        <p class="regret">很抱歉，您访问的页面不存在！</p>
+        <div class="tips clearfix">
+            <span>4</span>
+            <span class="pic"></span>
+            <span class="right">4</span>
+        </div>
+        <p class="other">您要查看的网址可能已被删除或者暂时不可用点击以下链接继续浏览网站</p>
+        <a class="btn" href="#">返回上一页</a>
+    </div> -->   
+<script>
+$(function(){    
+    cartDetail();
+})
+
+function cartDetail()
+{
+    var json = GetJson('CartDetails');
+    json.json = JSON.stringify(json);
+    console.log(json);
+   $.post('<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'getJson'))?>' , json , function(data){
+       console.log(data);
+       if(data.q.s == 0)
+       {
+           if(data.q.total > 0)
+           {
+               var html = '';
+               for(var i = 0 ; i < data.q.merchants.length ; i++)
+               {
+            	   merchant = data.q.merchants[i].merchant;
+
+                   html += '<div class="fisrt_order"><div class="companName clearfix"><div class="checkbox fl" onclick="groupCheck(this)"><div class="choose"></div></div>';
+                   html += '<p>' + merchant.merchantName + '</p></div>';
+                   html += '<div class="order_infor">';
+                   for(var j = 0 ; j < merchant.goodses.length ; j++)
+                   {
+                	   goods = merchant.goodses[j].goods;
+                	   html += '<ul class="order_list clearfix" id="list0' + (j + 1) + '"><li><div class="check"><div class="choose item_choose_status" onclick="itemCheck(this)" ></div></div></li>';
+                	   html += '<li><div class="pic fl"><img style="width:120px;height:120px;" src="<?php echo ROOT_PATH.UPLOAD_PATH; ?>' + 'thumb/120X120X3/'+goods.images[0].image.path + '" alt="" /></div>';
+                	   html += '<div class="pic_infor"><p class="font16">' + goods.name + '</p>';
+                	   for(var z = 0 ; z < goods.specifications.length ; z++)
+                	   {
+                		   specification = goods.specifications[z].specification;
+                		   if(specification.id == goods.selectedId)
+                		   {
+                			   html += '<p class="fl">规格：<span>' + specification.size + '</span></p>';
+                			   html += '<p>型号：'  + specification.model  + '</p></div></li>';
+                			   html += '<li class="clearfix"><div class="minus fl" onclick="minus(this)"></div><input class="numbers fl" type="text" value="' + goods.number + '" id="goodsID' + goods.id + '" specification_id="' + goods.selectedId + '" goods_id="' + goods.goodsId + '" cart_id="' + goods.id + '" maxNumber="' + specification.number + '" onblur="editNum(this)" /><div class="add fl" onclick="add(this)"></div></li>';
+                        	   html += '<li id="cash' + goods.id + '">' + specification.cash + '</li>';
+                        	   html += '<li class="colorrose" id="totalCash' + goods.id + '">' + parseFloat(specification.cash * goods.number).toFixed(1) + '</li>';
+                		   }
+                	   }
+                	   html += '</ul>';
+                   }
+                   html += '</div></div>';
+               }
+               $('.all_order').html(html);
+               calculatorPrice();
+           }
+           else
+           {
+               $('.sc_main').hide();
+               $('.car-content').show();
+           }
+       }
+   },"json");
+}
+
+var actAdd = true
+function add(evt)
+{
+    if(!actAdd)
+    {
+        return false;
+    }
+    
+    var num = $(evt).prev().val();
+    var number = ++num;
+    var max_number = $(evt).prev().attr('maxNumber');
+    if(number > max_number)
+    {
+    	return false;
+    }
+
+    actAdd = false;
+    var goods_id = $(evt).prev().attr('goods_id');
+    var cart_id = $(evt).prev().attr('cart_id');
+    var specification_id = $(evt).prev().attr('specification_id');
+    var json = GetJson('CartSubmit');
+    json.q.goodsId = goods_id;
+    json.q.specificationId = specification_id;
+    json.q.number = number;
+    json.q.cartId = cart_id;
+    json.json = JSON.stringify(json);
+    console.log(json);
+    $.post('<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'getJson'))?>' , json , function(data){
+        if(data.q.s == 0)
+        {
+        	actAdd = true;
+        	$(evt).prev().val(number);
+        	calculatorPrice(cart_id);
+        }
+        else
+        {
+            alert(data.q.d);
+        }
+    },"json");
+}
+
+var actMinus = true
+function minus(evt)
+{
+    if(!actMinus)
+    {
+        return false;
+    }
+    
+    var num = $(evt).next().val();
+    var number = --num;
+    if(number < 1)
+    {
+    	return false;
+    }
+
+    actMinus = false;
+    var goods_id = $(evt).next().attr('goods_id');
+    var cart_id = $(evt).next().attr('cart_id');
+    var specification_id = $(evt).next().attr('specification_id');
+    var json = GetJson('CartSubmit');
+    json.q.goodsId = goods_id;
+    json.q.specificationId = specification_id;
+    json.q.number = number;
+    json.q.cartId = cart_id;
+    json.json = JSON.stringify(json);
+    console.log(json);
+    $.post('<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'getJson'))?>' , json , function(data){
+        if(data.q.s == 0)
+        {
+        	actMinus = true;
+        	$(evt).next().val(number);
+        	calculatorPrice(cart_id);
+        }
+        else
+        {
+            alert(data.q.d);
+        }
+    },"json");
+}
+
+var actEditNum = true
+function editNum(evt)
+{
+    if(!actEditNum)
+    {
+        return false;
+    }
+    
+    var number = $(evt).val();
+    var max_number = $(evt).prev().attr('maxNumber');
+    if(number < 1)
+    {
+    	$(evt).val(1);
+    	return false;
+    }
+    if(number > max_number)
+    {
+    	$(evt).val(max_number);
+    	return false;
+    }
+
+    actEditNum = false;
+    var goods_id = $(evt).attr('goods_id');
+    var cart_id = $(evt).attr('cart_id');
+    var specification_id = $(evt).attr('specification_id');
+    var json = GetJson('CartSubmit');
+    json.q.goodsId = goods_id;
+    json.q.specificationId = specification_id;
+    json.q.number = number;
+    json.q.cartId = cart_id;
+    json.json = JSON.stringify(json);
+    console.log(json);
+    $.post('<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'getJson'))?>' , json , function(data){
+        if(data.q.s == 0)
+        {
+        	actEditNum = true;
+        	$(evt).val(number);
+        	calculatorPrice(cart_id);
+        }
+        else
+        {
+            alert(data.q.d);
+        }
+    },"json");
+}
+
+function calculatorPrice(id)
+{
+    if(id)
+    {
+    	var number = $('#goodsID' + id).val();
+        var price = parseFloat($('#cash' + id).html()).toFixed(1);
+        var totalCash = parseFloat(number * price).toFixed(1);
+        $('#totalCash' + id).html(totalCash);
+    }
+    
+    var orderCash = 0;
+    for(var i = 0 ; i < $('.item_choose_status').length ; i++)
+    {
+    	if($('.item_choose_status').eq(i).hasClass('onchoose'))
+    	{
+    		orderCash += parseFloat($('.colorrose').eq(i).html());
+    	}
+    }
+    orderCash = parseFloat(orderCash).toFixed(1);
+    $('.amount span').html('￥' +orderCash);
+}
+
+$('.sc_main_tittle .choose,.bill .choose').click(function(event) {
+	//1.点击全选，所有选中；再次点击，所有取消;
+	if($(".sc_main_tittle .choose").hasClass("onchoose") ){
+		$(this).parents(".sc_main").find(".choose").each(function(){
+			$(this).removeClass("onchoose");
+		})
+	}else{
+		$(this).parents(".sc_main").find(".choose").each(function(){
+			$(this).addClass("onchoose");
+		})
+	}
+	calculatorChoosedNumber();
+});
+
+function itemCheck(evt)
+{
+	//4.点击本公司下面的项，如果本公司下面的项都被点击选中，公司本身被选中；再点击导致本公司下面的选没有都选中，公司本身被取消。
+     $(evt).toggleClass('onchoose');
+     
+	  var isAllChecked=true;
+	  var order_infor=$(evt).parents(".order_infor");
+	  var companyCheck=order_infor.prev(".companName").find(".choose");
+	  var item=order_infor.find(".choose");
+	  
+	  item.each(function(event){
+			if(!$(item).eq(event).hasClass("onchoose") ){
+				isAllChecked=false;
+			}
+	  });
+	  
+	  if(isAllChecked)
+	  {
+			companyCheck.addClass("onchoose");
+			item.each(function(){
+				$(evt).addClass("onchoose");
+			})
+	  }
+	  else
+	  {
+		    companyCheck.removeClass("onchoose");
+	  }
+	  
+	  //5.本购物车所有公司所有下面的项都被选中，全选处自动被选中；本购物车中所有项没有都选中，全选处不选中
+	  allCheck();
+}
+
+function allCheck(){
+	//5.本购物车所有公司所有下面的项都被选中，全选处自动被选中；本购物车中所有项没有都选中，全选处不选中
+	  var allCheck=true;
+	  $(".all_order .companName").find(".choose").each(function(){
+			if(!$(this).hasClass("onchoose")){
+				allCheck=false;
+			}
+	  });
+	  
+	  if(allCheck){
+			$('.sc_main_tittle .choose').trigger("click");
+	  }else{
+			$('.sc_main_tittle .choose,.bill .choose').removeClass("onchoose");
+	  }
+	  calculatorChoosedNumber();
+}
+
+function groupCheck(evt)
+{
+	//3.点击公司，选中公司下面所有的项包括公司本身；再次点击，本公司下面的全部取消，不影响其他公司；
+	$(evt).find(".choose").toggleClass("onchoose");
+	var item=$(evt).parents(".companName").siblings(".order_infor").find(".choose");
+	
+	if($(evt).find(".choose").hasClass("onchoose")){
+		item.addClass("onchoose");
+	}else{
+		item.removeClass("onchoose");
+	}
+	//5.本购物车所有公司所有下面的项都被选中，全选处自动被选中；本购物车中所有项没有都选中，全选处不选中
+	allCheck();
+}
+
+function calculatorChoosedNumber()
+{
+    number = 0;
+    for(var i = 0 ; i < $('.item_choose_status').length ; i++ )
+    {
+    	if($('.item_choose_status').eq(i).hasClass('onchoose'))
+    	{
+    		number++;
+   		    calculatorPrice();
+    	}
+    }
+
+    $('#goodsChoosedNumber').html(number);
+}
+
+function deleteCart()
+{
+	// 弹窗
+	 $('.pop_shoppingcar').show();
+     $('.pop_shoppingcar_bj').show();
+}
+
+var actConfirmDelete = true;
+function confirmDelete(evt)
+{
+	if(!actConfirmDelete)
+	{
+		return false;
+	}
+	var cart_ids = new Array;
+	for(var i = 0 ; i < $('.item_choose_status').length ; i++ )
+    {
+    	if($('.item_choose_status').eq(i).hasClass('onchoose'))
+    	{
+    		cart_ids.push( $('.numbers').eq(i).attr('cart_id') );
+    	}
+    }
+	actConfirmDelete = false;
+   $.post('<?php echo $this->url('index' , array('controller' => 'user' , 'action' => 'deleteCart'))?>' , {"ids" : cart_ids} , function(data){
+	   console.log(data);
+	   if(data.status == 0)
+	   {
+		   cartDetail();
+		   
+	   }
+	   closeDialog(evt);
+	   actConfirmDelete = true;
+   },"json");
+}
+
+function closeDialog(evt)
+{
+	$(evt).addClass('current').siblings('').removeClass('current');
+	$('.pop_shoppingcar').hide();
+    $('.pop_shoppingcar_bj').hide();
+}
+
+actConfirmOrder = true;
+function confirmOrder()
+{
+	if(!actConfirmOrder)
+	{
+		return false;
+	}
+	var cart_ids = new Array;
+	for(var i = 0 ; i < $('.item_choose_status').length ; i++ )
+    {
+    	if($('.item_choose_status').eq(i).hasClass('onchoose'))
+    	{
+    		cart_ids.push( $('.numbers').eq(i).attr('cart_id') );
+    	}
+    }
+    if(cart_ids.length == 0)
+    {
+        return false;
+    }
+    $.post('<?php echo $this->url('index' , array('controller' => 'order' , 'action' => 'saveCartId'))?>' , {'cart_ids' : cart_ids} , function(data){
+        if(data.status == 0)
+        {
+            location.href="<?php echo $this->url('index' , array('controller' => 'order' , 'action' => 'confirmOrder'))?>?cartType=<?php echo isset($_GET['cartType']) ? $_GET['cartType'] : ''?>";
+        }
+    },"json");
+}
+</script>

@@ -1,0 +1,75 @@
+<!-- Responsive Table -->
+<!-- Table exporting -->
+<?php //echo '<pre>'; print_r($list);exit; ?>
+<style>
+	.row{
+		display:none;
+	}
+</style>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			<a href="<?php echo $this->url('admin-financial',array('cid'=>1))?>">
+				<button class="btn btn-large <?php if($cid==1){?>btn-info<?php }?>">收入</button>
+			</a>
+			<a href="<?php echo $this->url('admin-financial',array('cid'=>2))?>">
+				<button class="btn btn-large <?php if($cid==2){?>btn-info<?php }?>">支出</button>
+			</a>
+			<a href="<?php echo $this->url('admin-financial',array('cid'=>3))?>">
+				<button class="btn btn-large <?php if($cid==3){?>btn-info<?php }?>">提现</button>
+			</a>
+			<form class="form-horizontal"
+				action="<?php echo $this->url('admin-financial',array('action'=>'index','cid'=>$cid))?>"
+				method="post" style="float: right; margin-left: 20px;">
+				<span style="font-weight: bold; font-size: 16px;"> 搜索全表</span>
+				：
+				<input type="text" name="keyword" value="<?php echo $keyword?>"
+					placeholder="流水单号">
+				<input type="submit" name="submit" value="搜索" class="btn btn-info"
+					style="height: 25px; width: 60px; line-height: 25px; padding: 0; margin-left: 10px; margin-top: 5px;" />
+			</form>
+		</h3>
+		<div class="panel-options">
+			<a href="#" data-toggle="panel">
+				<span class="collapse-icon">&ndash;</span>
+				<span class="expand-icon">+</span>
+			</a>
+			<a href="#" data-toggle="remove"> &times; </a>
+		</div>
+	</div>
+	<div class="panel-body">
+		<table class="table table-bordered table-striped" id="example-4">
+			<thead>
+				<tr>
+                    <th>交易流水号</th>
+                    <th>类型</th>
+					<th>金额</th>
+					<?php if($cid!=3){ ?>
+					<td>订单</td>
+					<?php }?>
+					<th>用户</th>
+					<th>时间</th>
+					<th>状态</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+            <?php if(isset($list)){?>
+            <?php foreach($list as $v){?>
+                <tr>
+                    <td><?php echo $v->transfer_no;?></td>
+                    <td><?php echo $financialType[$v->type];?></td>
+                    <td><?php echo $v->amount;?></td>
+                    <?php if($cid!=3){ ?>
+                    <td><?php echo $v->order_sn;?></td>
+                    <?php }?>
+                    <td><a href="<?php echo $this->url('admin-user', array('action' => 'details', 'id' => $v->user_id));?>"><?php echo $v->user_name;?>&nbsp;&nbsp;</a><?php echo $v['user_mobile'];?></td>
+                    <td><?php echo $v->timestamp;?></td>
+                    <td><?php if($v->status == 1){echo '成功';}else if($v->status == 2){echo '失败';}else if($v->status == 3){echo '待审核';}?></td>
+                    <td><a class="btn btn-info" href="<?php echo $this->url('admin-financial', array('action' => 'financialdetail', 'id' => $v->id));?>">查看</a></td>
+                </tr>
+            <?php }}?>
+            </tbody>
+        </table>
+        <?php echo $this->paginationControl($paginator, 'Sliding', 'page',array('route' =>'admin-financial','condition'=>$condition));?>       </div>
+</div>

@@ -1,0 +1,470 @@
+<style>
+    .tl{text-align: right;}
+    .main-nody{padding:5px 20px 0 20px;}
+    .main-nody h5{float: left;}
+    .tp{margin-top: 30px;}
+    .bc-1{display: none;}
+    .fl{float: left;}
+</style>
+<div class="panel panel-default">
+   <div class="panel-heading">
+       <div calss="row">
+           <div class="col-sm-6">
+              <a href="<?php echo $this->url('admin-order' , array('action' => 'index')); ?>">订单管理 / <a href="<?php echo $this->url('admin-order' , array('action' => 'index' , 'type' => $type)); ?>"><?php if( $type == 1 ) { echo '盆栽订单管理';}elseif( $type == 2){ echo '资材订单管理'; }?></a> / <a href="">订单详情</a>
+           </div>
+       </div>
+   </div>
+    <div class="pannel-body main-nody">
+    <form class="form-horizontal" action="<?php echo $this->url('admin-order' , array('action' => 'dealOrder')); ?>" method="post" >
+        <div class="row">
+            <div class="col-lg-12">
+                <h5>订单信息</h5>
+            </div>
+            <div class="col-lg-12">
+                <table class="table table-striped" id="example-4" >
+                    <tbody>
+                        <tr>
+                            <td>订单编号</td>
+                            <td><?php echo $order_info->order_sn ?></td>
+                        </tr>
+                        <tr>
+                            <td>下单时间</td>
+                            <td><?php echo $order_info->timestamp ?></td>
+                        </tr>
+                        <tr>
+                            <td>支付方式</td>
+                            <td>
+                                <?php echo $pay_type[$order_info->pay_type]?>
+                                <?php if($order_info->pay_type == 1 && $order_info->total_cash >  $order_info->user_cash): ?>
+                                <span style="color:red" id="tip">（余款不足，请提醒用户尽快充值）</span>
+                                <?php elseif ($order_info->pay_type == 2 && $order_info->status !=1): ?>
+                                （<a href="#"  data-toggle="modal" data-target="#myModal" >查看支付凭证</a>）
+                                <?php endif; ?>
+                                <input type="hidden" value="<?php echo $order_info->user_cash; ?>" id="user_cash">
+                             </td>
+                        </tr>
+                        <tr>
+                            <td> 企业名称</td>
+                            <td><?php echo $order_info->user_name ?></td>
+                        </tr>
+                        <tr>
+                            <td> 联系人</td>
+                            <td><?php echo $order_info->name ?></td>
+                        </tr>
+                        <tr>
+                            <td>联系电话</td>
+                            <td><?php echo $order_info->mobile ?></td>
+                        </tr>
+                        <tr>
+                            <td> 收货地址</td>
+                            <td><?php echo $order_info->address ?></td>
+                        </tr>
+                        <tr>
+                            <td>订单留言</td>
+                            <td><?php echo $order_info->description ?></td>
+                        </tr>
+                        <tr>
+                            <td>供应商名称</td>
+                            <td><?php echo $order_info->merchant_name ?></td>
+                        </tr>
+                        <tr>
+                            <td>订单状态</td>
+                            <td> 
+                                <span style="color:red"><?php echo $order_status[$order_info->status]?></span>
+                            </td>
+                        </tr>
+                        <?php if($order_info->status == 7): ?>
+                        <tr>
+                            <td>失败原因</td>
+                            <td> 
+                                <span style="color:red"><?php echo $order_info->reason; ?></span>
+                            </td>
+                        </tr>
+                        <?php endif; ?>
+                        <?php if($order_info->status == 6): ?>
+                        <tr>
+                            <td>取消原因</td>
+                            <td> 
+                                <span style="color:red"><?php echo $order_info->reason; ?></span>
+                            </td>
+                        </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row tp">
+            <div class="col-lg-12">
+                <h5>商品信息</h5>
+            </div>
+            <div class="col-lg-12">
+                <table class="table table-striped" id="example-4" >
+                    <thead>
+                        <tr>
+                            <th>商品名称</th>
+                            <th>规格等级</th>
+                            <th>型号</th>
+                            <th>购买数量</th>
+                            <?php if($order_info->status == 1 || $order_info->status == 2): ?>
+                            <th>修改数量</th>
+                            <?php endif; ?>
+                            <th>单价</th>
+                            <?php if($order_info->status == 1 || $order_info->status == 2): ?>
+                            <th>修改单价</th>
+                            <?php endif; ?>
+                            <th>装箱数</th>
+                            <th>箱数</th>
+                            <th>金额</th>
+                            <?php if($order_info->status == 5): ?>
+                            <th>申请售后</th>
+                            <?php endif;?>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($order_goods_list as $value): ?>
+                        <tr>
+                            <td><?php echo $value->name?></td>
+                            <td><?php echo $value->size?></td>
+                            <td><?php echo $value->model?></td>
+                            <td><span class="item_number_<?php echo $value->id ?>"><?php echo $value->number?></span></td>
+                            <?php if($order_info->status == 1 || $order_info->status == 2): ?>
+                            <td><input type="number"  min="0"  name="number" value=""><input type="button" value="修改" class="btn btn-info" onclick="editNumber(this)" item_id="<?php echo $value->id ?>"></td>
+                            <?php endif;?>
+                            <td><span class="item_pricecash_<?php echo $value->id ?>"><?php echo $value->price_cash?></span></td>
+                            <?php if($order_info->status == 1 || $order_info->status == 2): ?>
+                            <td><input type="number"  min="0" step="0.1" name="" value=""><input type="button" value="修改" class="btn btn-info" item_id="<?php echo $value->id ?>" onclick="editPricecah(this)"></td>
+                            <?php endif;?>
+                            <td><span class="item_pack_<?php echo $value->id ?>"><?php echo $value->pack_number?></span></td>
+                            <td><span class="pack_number pack_number_<?php echo $value->id ?>"><?php echo ceil($value->number / $value->pack_number) ?></span></td>
+                            <td><span class="item_cash item_cash_<?php echo $value->id ?>"><?php echo $value->number * $value->price_cash ?></span></td>
+                            <?php if($order_info->status == 5 && $value->customer_service_id): ?>
+                            <td><a href="<?php echo $this->url('admin-service' , array('action' => 'detail' , 'id' => $value->customer_service_id))?>">查看</a></td>
+                            <?php endif;?>
+                        </tr>
+                        <?php endforeach;?>
+                        <tr>
+                            <?php if($order_info->status == 1 || $order_info->status == 2): ?>
+                            <td colspan="7"></td>
+                            <?php else:?>
+                            <td colspan="5"></td>
+                            <?php endif;?>
+                            <td>合计</td>
+                            <td>总箱数：<span id="box_number"></span></td>
+                            <td>总金额：<span id="total_cash"></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <?php if(!in_array($order_info->status, array(6,7))): ?>
+        <div class="row tp">
+            <div class="col-lg-12">
+                <h5>订单操作</h5>
+            </div>
+            <div class="col-lg-12">
+                <table class="table table-striped" id="example-4">
+                    <tbody>
+                        <tr>
+                            <td width="10%;">
+                                管理员备注
+                                <?php if(!in_array($order_info->status, array(4,5))): ?>
+                                   <p>(审核不通过或取消订单则填写不通过理由，字数不超过255个字)</p>
+                                <?php endif; ?>
+                            </td>
+                            <td>
+                                <textarea height="26px" cols="100%" id="reason" maxlength="255"  name="reason"><?php 
+                                if(in_array($order_info->status, array(4,5))): 
+                                    echo $order_info->reason;
+                                endif;
+                                ?></textarea>
+                            </td>
+                        </tr>
+                        <?php if($order_info->status == 3): ?>
+                        <tr>
+                            <td width="10%;">
+                                物流公司
+                            </td>
+                            <td>
+                                <select name="express_id"   id="express_id" style="padding:5px">
+                                    <option value="0">请选择物流公司</option>
+                                    <?php 
+                                        if(isset($express_list)): 
+                                            foreach ($express_list as $key => $value):
+                                    ?>
+                                        <option value="<?php echo $value->id; ?>"><?php echo $value->name; ?></option>
+                                    <?php 
+                                            endforeach;
+                                        endif; 
+                                     ?>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="10%;">
+                                物流单号
+                            </td>
+                            <td>
+                                 <input type="text" name="shipping_sn" value="" id="shipping_sn" style="width:320px;padding:5px" onKeyUp="onlyNumber(this)" >
+                            </td>
+                        </tr>
+                        <?php endif;?>
+                        <?php if($order_info->status == 4 || $order_info->status == 5): ?>
+                        <tr>
+                            <td width="10%;">
+                                物流公司
+                            </td>
+                            <td>
+                                <?php echo $order_info->express_name ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="10%;">
+                                物流单号
+                            </td>
+                            <td>
+                                <?php echo $order_info->shipping_sn ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="10%;">
+                                发货时间
+                            </td>
+                            <td>
+                                <?php echo $order_info->shipments ?>
+                            </td>
+                        </tr>
+                        <?php if($order_info->status == 5): ?>
+                        <tr>
+                            <td width="10%;">
+                                收货时间
+                            </td>
+                            <td>
+                                <?php echo $order_info->timestamp_update ?>
+                            </td>
+                        </tr>
+                        <?php endif;?>
+                        <?php endif;?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <?php endif;?>
+        
+        <?php if(in_array($order_info->status, array(1,2,3))): ?>
+        <div class="row">
+            <div class="col-lg-12">
+                <h5></h5>
+            </div>
+            <div class="col-lg-12">
+                <table class="table table-striped" id="example-4">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input type="hidden" name="id" value="<?php echo $id?>">
+                                <input type="hidden" name="type" value="<?php echo $type?>">
+                                <?php if($order_info->status == 1): ?>
+                                <a href="#"id="toCancel"  onclick="toCancel()" class="btn btn-info" >取消订单</a>
+                                <button type="submit" name="cancel"  id="cancel" value="取消订单" class="btn btn-info"  style="visibility:hidden;"></button>
+                                <?php endif;?>
+                                <?php if($order_info->status == 2): ?>
+                                <a href="#"id="toNoPass"  onclick="toNoPass()" class="btn btn-info" >审核不通过</a>
+                                <a href="#"id="toPass"  onclick="toPass()" class="btn btn-info" >审核通过</a>
+                                <button type="submit" name="nopass" value="审核不通过" id="nopass" class="btn btn-info" style="visibility:hidden;"></button>
+                                <button type="submit" name="pass" value="审核通过" id="pass" class="btn btn-info" style="visibility:hidden;"></button>
+                                <?php endif; ?>
+                                <?php if($order_info->status == 3): ?>
+                                <a href="#"id="toCancel"  onclick="toCancel()" class="btn btn-info" >取消订单</a>
+                                <a href="#"id="toDelivery"  onclick="toDelivery()" class="btn btn-info" >确认发货</a>
+                                <button type="submit" name="cancel"  id="cancel" value="取消订单" class="btn btn-info"  style="visibility:hidden;"></button>
+                                <button type="submit" name="delivery"  id="delivery" value="确认发货" class="btn btn-info" style="visibility:hidden;"></button>
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <?php endif;?>
+        
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style='z-index:8888;'>
+        	<div class="modal-dialog" >
+        		<div class="modal-content" >
+        			<div class="modal-header">
+        				<button type="button" class="close" data-dismiss="modal">×</button>
+        				<h3>付款凭证</h3>
+        			</div>
+        			<div class="modal-body">
+        			    <div class="row">
+        			        <div class="col-lg-12">
+                                    <h5>订单详情</h5>
+                            </div>
+                            <div class="col-lg-12">
+                			     <table class="table table-striped" id="example-4" >
+                                    <thead>
+                                        <tr>
+                                            <th>订单编号</th>
+                                            <th>订单金额</th>
+                                            <th>订单状态</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php 
+                                           if( isset($siblings_order)):
+                                                foreach ($siblings_order as $value):
+                                        ?>
+                                        <tr>
+                                            <td><?php echo $value->order_sn ?></td>
+                                            <td><?php echo $value->total_cash ?></td>
+                                            <td><?php echo $order_status[$value->status]?></td>
+                                            <td><a href="<?php echo $this->url('admin-order' , array('action' => 'detail' , 'id' => $value->id , 'type' => $value->type))?>">查看</a></td>
+                                        </tr>
+                                        <?php 
+                                                endforeach;
+                                            endif;
+                                        ?>
+                                        <tr>
+                                            <td colspan="3"></td>
+                                            <td>合计：<?php echo $parent_order->total_cash; ?></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+        			    <div class="row tp">
+        			        <div class="col-lg-12">
+                                    <h5>付款凭证</h5>
+                            </div>
+                            <div class="col-lg-12">
+                                <img alt="" src="<?php echo isset($image_info) && $image_info['filename'] ? ROOT_PATH.UPLOAD_PATH.$image_info['path'].$image_info['filename'] : ''; ?>" style="width:320px;height:auto">
+                            </div>
+                        </div>
+        			</div>
+        			<div style="clear: both"></div>
+        		</div>
+        	</div>
+        </div>
+        
+        </form>
+    </div>
+</div>
+
+<script>
+calculatorPack();
+calculatorCash();
+
+function editNumber(evt)
+{
+	var id = $(evt).attr('item_id');
+	var number = parseInt($(evt).siblings('input').val());
+	if(number)
+	{
+		$.post("<?php echo $this->url('admin-order' , array('action'=>'editNumber'))?>" , {"id":id , "number" :number },function(data){
+			data =  jQuery.parseJSON(data);
+			if(data.status == 1)
+			{
+				$('.item_number_' + id).html(number);
+				var pack = parseInt($('.item_pack_' + id).html());
+				var pack_number =  Math.ceil(number / pack);
+				$('.pack_number_' + id).html(pack_number);
+
+				var pricecash = parseFloat($('.item_pricecash_' + id).html());
+			    var item_pricecash = pricecash * number;
+			    $('.item_cash_' + id).html(item_pricecash);
+				calculatorPack();
+				calculatorCash();
+			}
+		})
+	}
+}
+
+function editPricecah(evt)
+{
+	var id = $(evt).attr('item_id');
+	var pricecash = parseFloat($(evt).siblings('input').val()).toFixed(1);
+	if(pricecash)
+	{
+		$.post("<?php echo $this->url('admin-order' , array('action'=>'editPricecash'))?>" , {"id":id , "pricecash" :pricecash },function(data){
+			data =  jQuery.parseJSON(data);
+			if(data.status == 1)
+			{
+				$('.item_pricecash_' + id).html(pricecash);
+				var number = parseInt($('.item_number_' + id).html());
+				var total_cash = parseFloat(number * pricecash).toFixed(1);
+				$('.item_cash_' + id).html(total_cash);
+				calculatorCash();
+			}
+		})
+	}
+}
+
+function calculatorPack()
+{
+	var total_pack_number = 0;
+	for(var i = 0 ;i< $('.pack_number').length ; i++)
+	{
+		total_pack_number += parseInt($('.pack_number').eq(i).html());
+	}
+	$('#box_number').html(total_pack_number);
+}
+
+function calculatorCash()
+{
+	var total_cash = 0.0;
+	for(var i = 0 ;i< $('.item_cash').length ; i++)
+	{
+		total_cash += parseFloat($('.item_cash').eq(i).html());
+	}
+	$('#total_cash').html(total_cash);
+
+	if($('#user_cash').val() >= total_cash)
+	{
+		$('#tip').html('');
+	}
+	else
+	{
+		$('#tip').html('（余款不足，请提醒用户尽快充值）');
+	}
+}
+
+function toCancel()
+{
+	if(confirm('确认取消订单?'))
+	{
+		$('#cancel').click();
+	}
+}
+
+function toNoPass()
+{
+	if(confirm('审核不通过?'))
+	{
+		$('#nopass').click();
+	}
+}
+
+function toPass()
+{
+	if(confirm('审核通过?'))
+	{
+		$('#pass').click();
+	}
+}
+
+function toDelivery()
+{
+	if(confirm('确认发货?'))
+	{
+		$('#delivery').click();
+	}
+}
+
+function onlyNumber(evt)
+{
+	preg_number = $(evt).val();
+	preg_number = preg_number.replace(/[\W]/g,'');
+	$(evt).val(preg_number);
+}
+</script>

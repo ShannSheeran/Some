@@ -1,0 +1,363 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>快摇名片，找人脉 谈生意</title>
+<meta name="Keywords" content="快摇名片，找人脉 谈生意" />
+<meta name="Description" content="快摇名片，找人脉 谈生意" />
+<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/pc/css/style.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/pc/css/home.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/pc/css/animate.min.css" />
+<!--<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/pc/css/login.css" />-->
+<script src="<?php echo $this->basePath();?>/pc/js/jquery.min.js"></script>
+<script src="<?php echo $this->basePath();?>/pc/js/jquery.lightbox_me.js"></script>
+
+<!--[if IE 6]>
+	<script src="js/pngAlaph.js" ></script> 
+	<script> 
+		DD_belatedPNG.fix('img');
+	</script> 
+<![endif]-->
+</head>
+<!-- <div class="down">
+	IOS下载<a href="https://itunes.apple.com/cn/app/kuai-yao-ming-pian-zui-ju/id1028830091?mt=8"><img src="<?php echo $this->basePath();?>/pc/images/banner_iphone.png" /></a>
+	安卓下载<a href="http://www.kuaiyao.name/download/ky.apk"><img src="<?php echo $this->basePath();?>/pc/images/banner_android.png" /></a>
+</div> -->
+<body>
+<!--  header -->
+<div class="header_box"></div>
+<div class="header">
+	<div class="header_center">
+		<div class="logo"><a href="<?php echo  $this->url("index");?>"><img src="<?php echo $this->basePath();?>/pc/images/logo.png" alt=""/></a></div>
+		<ul class="nav">
+			<li style="margin-left:0px;"><a href="<?php echo  $this->url("index");?>">首页</a></li>
+			<li><a href="javascript:void(0);" onclick="check_login();">购买</a></li>
+			<li class="down"><a href="javascript:void(0);">下载</a></li>
+			<li><a href="<?php echo  $this->url("index",array('action'=>'index','controller'=>'About'));?>">公司介绍</a></li>
+			<?php if (!isset($_COOKIE['index_user_id'])) {?>
+			<li class="login pop-login"><a href="javascript:void(0);">登录</a></li>
+			<li class="register pop-reg"><a href="javascript:void(0);">注册</a></li>
+			<?php }else {?>
+			<li><a href="<?php echo  $this->url("index",array('action'=>'Details','controller'=>'user'));?>" class="">
+            <?php echo (isset($_COOKIE['name'])&& $_COOKIE['name']) ? $_COOKIE['name'] : $_COOKIE['mobile']?></a> / <a class="" href="<?php echo  $this->url("index",array('action'=>'logout','controller'=>'user'));?>">退出</a></li>
+			<?php }?>
+		</ul>
+	</div>
+</div>
+<div class="down_box">
+	<div class="down_center">
+		<div class="down_left">
+			<img class="app_text" src="<?php echo $this->basePath();?>/pc/images/app_text.png" alt="" />
+			<div class="switchover">
+				<a class="s_left s_check" href="javascript:void(0);">苹果版</a>
+				<a class="s_right" href="javascript:void(0);">安卓版</a>
+			</div>
+		</div>
+		<div class="down_right">
+			<img class="code_icon" src="<?php echo $this->basePath();?>/pc/images/code-icon.png" alt="" />
+			<span>免费下载</span>
+			<div class="code_bg">
+				<img src="<?php echo $this->basePath();?>/pc/images/dowe_code.jpg" alt="" />
+			</div>
+		</div>
+	</div>
+</div>
+<?php echo $this->content;?>
+
+<!--  footer -->
+
+<div class="footer">
+   <div class="wrap">
+     <p>Copyright © kuaiyao.name. All rights reserved. 广东近场网络科技有限公司. 粤ICP备15066271号-3</p>
+   </div>
+</div>
+
+<div id="sign_login" class="sign_up">
+    <h2>用户登录</h2>
+    <dl>
+      <dt>账号：</dt>
+      <dd><input type="text" class="text" placeholder="手机号码" name="mobile"  id="mobiles"/></dd>
+      <dt>短信验证码：</dt>
+      <dd><input type="button" class="submit hq_code" onclick="Checks()" value="获取验证码" id="hq" /><input type="text" class="text code" placeholder="输入验证码" name="codes" id="codes"/></dd>
+      <dd><input class="btn_reg pop-reg" type="button" value="注　册" /><input type="submit" class="submit" value="登　录" name="submit_login" onclick="submit_login()"/></dd>
+    </dl>
+    <a id="close_x" class="close" href="#"><img src="<?php echo $this->basePath();?>/pc/images/pop-up1_close.jpg" /></a>
+</div>
+
+
+<div id="sign_reg" class="sign_up">
+    <h2>快速注册</h2>
+    <dl>
+      <dt>账号：</dt>
+      <dd><input type="text" class="text" placeholder="手机号码" name="mobile" id ="mobile"/></dd>
+      <dt>短信验证码：</dt>
+      <dd><input type="button" class="submit hq_code" onclick="Check()" value="获取验证码" id='lm' onMouseOver="background: url(<?php echo $this->basePath();?>/pc/images/pop-up1_04.jpg) no-repeat;" /><input type="text" class="text code" placeholder="输入验证码" name="code" id="code"/></dd>
+      <dd><input type="submit" class="btn_reg submit_reg" value="注　册" name="submit_register" onclick="submit_register()"/></dd>
+    </dl>
+    <a id="close_x" class="close" href="#"><img src="<?php echo $this->basePath();?>/pc/images/pop-up1_close.jpg" /></a>
+</div>
+
+
+</body>
+</html>
+<script type="text/javascript">   
+
+$(function(){
+	//下载
+	$(".header .down").click(function () {
+        $(".down_box").slideDown();
+        //点击下载联系方式隐藏
+		if($(".down_box").css("display")!="none"){
+			$(".h_contact").hide();
+		}
+    });//点击下载显示
+    $(document).click(function(){
+ 		$(".down_box").slideUp();
+ 		// 联系方式显示
+ 		if($(".h_contact").css("display")=="none"){
+ 			$(".h_contact").show();
+ 		}
+ 	});//点击页面下载隐藏
+ 	$(".down_box").click(function(event){
+ 		event.stopPropagation();
+ 		
+ 	});
+ 	$(".header").click(function(event){
+ 		event.stopPropagation();
+ 	});
+
+ 
+
+ 	// 下载版本切换
+ 	$(".switchover a").click(function(){
+ 		if($(this).hasClass("s_left")){//苹果
+
+ 		}else{//android
+
+ 		}
+        $(this).addClass('s_check').siblings().removeClass("s_check");
+    });
+ 	
+
+ 	$(".code_icon").mouseover(function(){
+ 		$(".code_bg").show();
+ 	}).mouseout(function(){
+ 		$(".code_bg").hide();
+ 	})
+ 	
+});
+
+//读取cookies
+function getCookie(name)
+{
+	var arr;
+	var reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+	
+	if(arr=document.cookie.match(reg)){
+		return unescape(arr[2]);
+	}else{
+		
+		return null;
+	} 
+}
+
+// 购买跳转
+function check_login()
+		{
+		// 	window.location.href="<?php echo $this->url('index',array('controller'=>'user','action'=>'buyDetails'));?>";
+			//getCookie('index_user_id')这里获取 不到值
+			if(getCookie('index_user_id'))
+			{
+				
+				window.location.href="<?php echo $this->url('index',array('controller'=>'user','action'=>'buyDetails'));?>";
+			}
+			else
+			{
+				$("#sign_login").lightbox_me({centered: true, preventScroll: true, onLoad: function() {
+					$("#sign_login").find("input:first").focus();
+				}});
+
+			} 
+		}
+
+var hasShow = false;  
+
+
+$(function(){
+var mobileAgent = new Array("iphone", "ipod", "ipad", "android", "mobile", "blackberry", "webos", "incognito", "webmate", "bada", "nokia", "lg", "ucweb", "skyfire");
+
+var browser = navigator.userAgent.toLowerCase(); 
+
+var isMobile = false; 
+
+for (var i=0; i<mobileAgent.length; i++){ if (browser.indexOf(mobileAgent[i])!=-1){ isMobile = true; 
+
+//alert(mobileAgent[i]); 
+
+location.href = 'http://www.kuaiyao.name/m/home.html';
+
+break; } } 
+if($.browser.msie && $.browser.version < 10){
+	//$('.dowebok-explain').show();
+	$('.part_dowebok').css("opacity","1");
+}
+
+
+$('.pop-login').click(function(e) {
+	$("#sign_login").lightbox_me({centered: true, preventScroll: true, onLoad: function() {
+		$("#sign_login").find("input:first").focus();
+	}});
+	e.preventDefault();
+});
+
+$('.pop-reg').click(function(e) {
+	$("#sign_reg").lightbox_me({centered: true, preventScroll: true, onLoad: function() {
+		$("#sign_reg").find("input:first").focus();
+	}});
+	e.preventDefault();
+});
+
+});
+/**
+ * 注册获取
+ */
+function Check()
+{
+	var id = $("#mobile").val();
+	if(id=="")
+		{
+		  alert("手机号码不能为空");
+		  return;
+		}
+	
+	$.post("<?php echo $this->url("index",array('action'=>'resgiterCheck','controller'=>'user'));?>", {register_code:id},
+			function(data){
+		console.log(data.q);
+		if(data.q.s==0)
+		{
+			setTimeout("startCounts(60)", 1000 );
+			 
+			// alert("获取成功,请在手机查看验证码");
+		}
+		else {
+			alert(data.q.d);
+		}
+		
+		},"json")
+}
+/**
+ * 登陆获取
+ */
+
+
+function Checks()
+{
+	var id = $("#mobiles").val();
+	if(id=="")
+	{
+	    alert("手机号码不能为空");
+	    return false;
+	}
+	
+	$.post("<?php echo $this->url("index",array('action'=>'resgiterCheck','controller'=>'user'));?>", {login_code:id},
+			function(data){
+		console.log(data.q);
+		if(data.q.s==0)
+		{
+			setTimeout("startCount(60)", 1000 );
+			
+			 //alert("获取成功,请在手机查看验证码");
+		}
+		else {
+			alert(data.q.d);
+		}
+	},"json");
+}
+var i1;
+function startCount(num) {
+	//console.log(num);
+    document.getElementById('hq').value= num + '秒';
+    $("#hq").addClass("hq_code_cur");
+    document.getElementById('hq').disabled=true;
+    num=num-1;
+    if(num<0)
+    {
+    	document.getElementById('hq').value='重新获取验证码';
+    	$("#hq").removeClass("hq_code_cur");
+ 	    document.getElementById('hq').disabled=false;
+  	    clearTimeout(i1);
+  	    return false;
+    }
+    i1 = setTimeout("startCount("+num+")",1000);
+}
+var ii
+function startCounts(num) {
+    document.getElementById('lm').value= num + '秒';
+    $("#lm").addClass("hq_code_cur");
+    document.getElementById('lm').disabled=true;
+    num=num-1;
+    if(num<0)
+        {
+    	document.getElementById('lm').value='重新获取验证码';
+    	$("#lm").removeClass("hq_code_cur");
+ 	    document.getElementById('lm').disabled=false;
+  	    clearTimeout(ii);
+    	  
+	    return false;
+        }
+    ii = setTimeout("startCounts("+num+")",1000);
+  }
+/**
+ * 登陆
+ */
+function submit_login()
+{
+	var id = $("#mobiles").val();
+	var codes = $("#codes").val();
+	if(id=="")
+		{
+		  alert("手机号码不能为空");
+		  return;
+		}
+	
+	$.post("<?php echo $this->url("index",array('action'=>'resgiterCheck','controller'=>'user'));?>", {submit_login:id,code:codes},
+			function(data){
+	   console.log(data.q);
+	   if(data.q.s==0)
+		   {
+		   window.location.href = "<?php echo $this->url("index",array('controller'=>'user','action'=>'Details'));?>";
+		   }
+	   else
+		   {
+		   alert(data.q.d);
+		   }
+		// window.location.href = "<?php echo $this->url("index",array('controller'=>'user','action'=>'Details'));?>";
+		},"json")
+}
+/**
+ *注册登陆
+ */
+function submit_register()
+{
+	var id = $("#mobile").val();
+	var code = $("#code").val();
+	if(id=="")
+		{
+		  alert("手机号码不能为空");
+		  return;
+		}
+	
+	$.post("<?php echo $this->url("index",array('action'=>'resgiterCheck','controller'=>'user'));?>", {submit_register:id,code:code},
+			function(data){
+		if(data.q.s==0)
+		   {
+		   window.location.href = "<?php echo $this->url("index",array('controller'=>'user','action'=>'Details'));?>";
+		   }
+	   else
+		   {
+		   alert(data.q.d);
+		   }
+		
+		},"json")
+}
+</script>

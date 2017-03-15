@@ -1,0 +1,149 @@
+  <script type="text/javascript">
+  $(function(){
+    $('.small_img_box ul li').click(function(){
+      $(this).addClass('select_on').siblings().removeClass('select_on');
+    }); 
+    $('.choose-version .dd>div').click(function(){
+      $(this).addClass('on').siblings().removeClass('on');
+    }); 
+    $('.detail_cart_content .buy_cart').click(function(){
+      $('.add_cart_access_popup').show(); 
+    })
+    $('.add_cart_access_popup .close').click(function(){
+      $('.add_cart_access_popup').hide(); 
+    })
+    $('#redu').click(function(event) {//点击增加数量
+      var num = $('#goods_count').val();
+      if(num>1){
+        num--;
+        $('#goods_count').val(num);
+      }
+    });
+    $('#add').click(function(event) { //点击删减数量
+      var num = $('#goods_count').val();
+      num++;
+      $('#goods_count').val(num);
+    });
+  })
+  </script>
+      <div class="clear"></div>
+      <div class="goods_detail wrap clearfix">
+        <p class="map_nav">
+          <a>供应信息</a>
+          <i>></i>
+          <a id="info_cate_name">多肉</a>
+        </p>
+      </div>
+      <div class="wrap clearfix bg_white mt25">
+        <div class="detail_img fl mt25">
+          <div id="preview" class="spec-preview"> 
+            <span class="jqzoom"><img jqimg="" src="" width="330px" height="330" /></span>
+          </div>
+          <div class="spec-scroll">
+            <a class="prev"><img src="<?php echo ROOT_PATH?>images/left.png" height="65" width="13" alt="" /></a>
+            <a class="next"><img src="<?php echo ROOT_PATH?>images/right.png" height="65" width="13" alt="" /></a>
+            <div class="items">
+              <ul>
+              </ul>
+             </div>
+           </div>
+        </div>
+        <div class="detail_text fr">
+          <h2 class="goods_name" id="goods_name">吉宏发财树</h2>
+          <div class="price">价格 : <span>￥7.7-9.0</span></div>
+          <div class="all_seller">总销量：3455</div>
+          <div class="classify">分类：发财树>吉宏特色</div>
+          <div class="text">
+            <p id="description">发财树在园林绿化中可以作为庭荫树应用，用来遮阴。早期的园林绿化中，常常把发财树孤植或对植，建造出凉爽的、舒适的园林环境，遮蔽炎炎烈日。</p>
+            <a class="btn_release" href="<?php echo $this->url('index',array('controller'=>'goods','action'=>'releaseGoods','id'=>$id))?>">发布此商品</a>
+          </div>
+          </div>
+      </div>
+      <div class="specification_statistics clearfix">
+        <div class="standard clearfix">
+          <h2 class="db">规格统计</h2>
+          <ul class="standard_list">
+            <li class="standard_name">规格等级</li>
+            <li class="standard_classify">型号</li>
+            <li class="standard_unit">单位</li>
+            <li class="standard_packnum">装箱数</li>
+            <li class="standard_univalent">商品单价</li>
+            <li class="standard_sellnum">商品销量</li>
+          </ul>
+          <ul class="standard_content">
+            <li>
+              <div class="standard_name">80#/A级
+              </div>
+              <div class="standard_classify">B
+              </div>
+              <div class="standard_unit">盆
+              </div>
+              <div class="standard_packnum">30
+              </div>
+              <div class="standard_univalent">￥720.0
+              </div>
+              <div class="standard_sellnum">5
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <script type="text/javascript">
+      $(function(){
+          var root_path = "<?php echo ROOT_PATH . UPLOAD_PATH?>";
+          var id = <?php echo $id?>;
+          var json = new Object();
+          json.n = "GoodsDetails";
+          json.q =new Object();
+    	  json.q.a = 1;
+          json.q.id = id;
+          $.post('<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'getJson'))?>' ,  {request: json} , function(data){
+              console.log(data);
+              if(data.q.s=='0')
+        	  {
+          	    $("#info_cate_name").html(data.q.goods.categoryName);
+          	    $("#goods_name").html(data.q.goods.name);
+          	    $(".all_seller").html("总销量："+data.q.goods.saleNumber);
+            	$(".classify").html("分类："+data.q.goods.categoryName);
+            	$(".jqzoom img").attr('src',root_path + "thumb/330X330X3/" + data.q.goods.images[0].image.path);
+            	$(".jqzoom img").attr('jqimg',root_path+data.q.goods.images[0].image.path);
+            	$(".price").html("价格 : <span>￥"+data.q.goods.cashRange+"</span>");
+            	$("#description").html(data.q.goods.description);
+            	
+            	var html = '';
+            	$.each(data.q.goods.images,function(index,item){
+            	    html += '<li><img alt="吉宏" bimg="'+root_path+item.image.path+'" src="'+root_path + "thumb/330X330X3/" +item.image.path+'" height="330" onmousemove="preview(this);"></li>'
+                	});
+            	$('.items ul').empty();
+            	$('.items ul').append(html);
+
+            	scrollDiv();
+
+            	var spec_html = '';
+            	$.each(data.q.goods.specifications,function(index,item){
+      		    	spec_html += '<li><div class="standard_name">'+item.specification.size+'</div><div class="standard_classify">'+item.specification.model+'</div><div class="standard_unit">'+data.q.goods.unitName+'</div><div class="standard_packnum">'+item.specification.packNumber+'</div><div class="standard_univalent">￥'+item.specification.cash+'</div><div class="standard_sellnum">'+item.specification.saleNumber+'</div></li>';
+                });
+                $('.standard_content').empty();
+          	    $('.standard_content').append(spec_html);
+              }
+              else
+              {
+          	     alert(data.q.d);  
+              }
+          },"json");
+          
+       })
+      </script>
+
+
+
+
+
+
+
+
+
+
+
+
+

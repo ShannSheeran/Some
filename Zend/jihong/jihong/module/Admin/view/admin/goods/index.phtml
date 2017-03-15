@@ -1,0 +1,246 @@
+<style>
+    .fl{
+    	float: left;
+    }
+	.dataTables_info{
+		display:none;
+	}
+	.dataTables_paginate{
+		display: none;
+	}
+	.bc-1{display: none;}
+	.col-sm-5{display: none;}
+	.col-sm-7{display:none;}
+	.pl10{
+		padding-left:10px;
+	}
+	.lh60{
+		line-height:60px;
+	}
+</style>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+		<a href="<?php echo $this->url('admin-goods' , array('action' => 'index')); ?>">商品管理 </a> / <a href="">商品管理</a>        
+		</h3>
+	</div>
+
+	<div class="panel-body">
+	   <div class="fl" >
+		    <a class="btn btn-info fl " href="<?php echo $this->url('admin-goods' , array('action' => 'addGoods' , 'type' => 1))?>">新增盆栽</a>
+		    <a class="btn btn-info fl " href="<?php echo $this->url('admin-goods' , array('action' => 'addGoods' , 'type' => 2))?>">新增资材</a>
+    		<a class="btn btn-info fl " href="javascript:batchUpDown('up')">批量上架</a>
+    		<a class="btn btn-info fl " href="javascript:batchUpDown('down')">批量下架</a>
+		</div>
+    	<div class="" style="float:right;">
+            <form class="form-horizontal" action="<?php $this->url('admin-goods' , array('action' => 'index')) ?>" method="get" style="float: left; margin-left: 20px;">
+            <span style="font-weight: bold; font-size: 14px;"> 关键词 :</span>
+			<input type="text" name="keyword" value="<?php echo isset($keyword) ? $keyword : ''?>" placeholder="请输入商品名/简码搜索" style="line-height: 26px" >
+            <span style="font-weight: bold; font-size: 14px;">商品分类：</span>
+            <select name="type" style="padding:4px" id="type" onchange="selectFirstCat()">
+                <option value="0">请选择</option>
+            <?php foreach ($categoryType as $k=>$v){?>
+                <option value="<?php echo $k?>" <?php echo isset($type)&&$type==$k ? "selected" : ""?>><?php echo $v;?></option>
+            <?php }?>
+            </select>
+            <select name="firstCategory" style="padding:4px" id="firstCategory" onchange="selectSecondCat()">
+                <option value="0">全部分类</option>
+            </select>
+            <select name="secondCategory" style="padding:4px" id="secondCategory">
+                <option value="0">请选择子分类</option>
+            </select>
+            <select name="status" style="padding:4px">
+                <option value="0">请选择</option>
+                <option value="3" <?php echo isset($status)&&$status == '3' ? "selected" : ''?>>出售中</option>
+                <option value="4" <?php echo isset($status)&&$status == '4' ? "selected" : ''?>>已下架</option>
+            </select>
+			<input type="submit"  value="搜索" class="btn btn-info" style="height: 26px; width: 60px; line-height: 26px; padding: 0; margin-left: 10px; margin-top: 5px;" />
+		    </form>
+    	</div>
+    	<div style="clear:both;"></div>
+		<table class="table table-bordered table-striped" id="example-4">
+			<thead>
+				<tr>
+				    <th><input type="checkbox" name="selectAll">全选</th>
+					<th>商品名称</th>
+					<th>商品简码</th>
+					<th>商品分类</th>
+					<th>商品单价</th>
+					<th>总销量</th>
+					<th>总库存</th>
+					<th>排序</th>
+					<th>商品状态</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?php if(!empty($goods)):?>
+			<?php foreach ($goods as $v){?>
+                <tr class="tr_list">
+					<td style="padding-top:31px;"><input type="checkbox" name="selectitem[]" good_id="<?php echo $v->id?>"></td>
+					<td >
+    					<a href="">
+                            <img class="fl" src="<?php echo empty($v['oneImage_path']) ? ROOT_PATH . 'images/no_pic.gif' :   ROOT_PATH.UPLOAD_PATH.$v['oneImage_path']?>">
+                            <span class="pl10 lh60"><?php echo $v['name']?></span>
+                        </a>
+					</td>
+					<td style="padding-top:31px;"><?php echo $v['code']?></td>
+					<td style="padding-top:31px;"><?php echo $v['category']?></td>
+					<td style="padding-top:31px;"><?php echo $v->max_cash == $v['min_cash'] ? $v['min_cash'] : $v['min_cash']."-".$v['max_cash']?></td>
+					<td style="padding-top:31px;"><?php echo $v['sale_number']?></td>
+					<td style="padding-top:31px;"><?php echo $v['number']?></td>
+					<td style="padding-top:31px;"><?php echo $v['sort']?></td>
+					<?php if($v['status']){?>
+					<?php foreach ($goodsStatus as $n=>$m){?>
+					<?php if($n == $v['status']){?>
+					<td style="padding-top:31px;"><?php echo $m?></td>
+					<?php }?>
+					<?php }?>
+					<?php }else{?>
+					<td style="padding-top:31px;">无</td>
+					<?php }?>
+					<td style="padding-top:24px;">
+					   <a href="<?php echo $this->url('admin-goods' , array('action' => 'addGoods','id'=>$v['id'] , 'type' => $v['type'])); ?>" class="btn btn-info">查看</a>
+					   <?php if($v->status == '3'){?>
+					   <a href="javascript:batchUpDown('down',<?php echo $v->id?>)" class="btn btn-info">下架</a>
+					   <?php }elseif($v->status == '4'){?>
+					   <a href="javascript:batchUpDown('up',<?php echo $v->id?>)" class="btn btn-info">上架</a>
+					   <?php }?>
+					   <a href="#" onclick="show_confirm('<?php echo $this->url('admin-goods' , array('action' => 'deleteGoods','id'=>$v['id'])); ?>')" class="btn btn-info">删除</a>
+					 </td>
+				</tr>
+			<?php }?>
+			<?php endif;?>
+            </tbody>
+		</table>
+        <?php echo $this->paginationControl($paginator, 'Sliding', 'page',array('route' =>'admin-goods','condition'=>$condition));?>       </div>
+</div>
+<script type="text/javascript">
+$(function(){
+	$("input[name='selectAll']").click(function(){
+		var isChecked = $(this).prop("checked");
+	    $("input[type='checkbox']").prop("checked", isChecked);
+	});
+
+	selectFirstCat();
+	
+	
+});
+
+
+function selectFirstCat()
+{
+	var type = $("#type").children('option:selected').val();
+	$.ajax({
+	    url:'<?php echo $this->url('admin-goods',array('action'=>'sameTypeCategory'))?>',
+	    type:'post',
+	    data:{'type':type},
+	    dataType:'json',
+	    success:function(data){
+		    if(data.code == '1'){
+			    var html = "<option value='0'>请选择</option>";
+		    	$.each(data.categorys,function(i,v){
+			    	if(v.id == "<?php echo isset($firstCategoryId)? $firstCategoryId : ''?>")
+			    	{
+			    		html += "<option value='"+v.id+"'  selected >"+v.name+"</option>";
+			    	}
+			    	else
+			    	{
+			    		html += "<option value='"+v.id+"'   >"+v.name+"</option>";
+			    	}
+				});
+		    	$('#firstCategory').empty();
+		    	$('#firstCategory').append(html)    
+		    	
+			}else{
+				$('#firstCategory').empty();
+				var html = "<option value='0'>请选择</option>";
+				$('#firstCategory').append(html) 
+			}
+		    selectSecondCat();
+		},
+	});
+}
+
+function selectSecondCat()
+{
+	var pid = $("#firstCategory").children('option:selected').val();
+	$.ajax({
+	    url:'<?php echo $this->url('admin-goods',array('action'=>'goodsCategoryLinkage'))?>',
+	    type:'post',
+	    data:{'pid':pid},
+	    dataType:'json',
+	    success:function(data){
+		    if(data.code == '1'){
+			    var html = "<option value='0'>请选择</option>";
+		    	$.each(data.categorys,function(i,v){
+		    		if(v.id == "<?php echo isset($secondCategoryId) ? $secondCategoryId : ''?>")
+			    	{
+			    		html += "<option value='"+v.id+"'  selected >"+v.name+"</option>";
+			    	}
+			    	else
+			    	{
+			    		html += "<option value='"+v.id+"'   >"+v.name+"</option>";
+			    	}
+				});
+		    	$('#secondCategory').empty();
+		    	$('#secondCategory').append(html)    
+			}else{
+				$('#secondCategory').empty();
+				var html = "<option value='0'>请选择</option>";
+				$('#secondCategory').append(html) 
+			}
+		},
+	});
+}
+
+function batchUpDown(op,id){
+	var ids_arr = new Array();
+	if(op == 'up'){//上架
+    	if(id){//单个上架
+    		ids_arr.push(id);
+    	}else{//批量上架
+    		$("input[name='selectitem[]']:checked").each(function(index,item){
+    			var good_id = $(this).attr('good_id');
+    			ids_arr.push(good_id);
+        	});
+    	}
+	}else if(op == 'down'){//下架
+        if(id){//单个下架
+        	ids_arr.push(id);
+    	}else{//批量下架
+    		$("input[name='selectitem[]']:checked").each(function(index,item){
+    			var good_id = $(this).attr('good_id');
+    			ids_arr.push(good_id);
+        	});
+    	}
+	}
+	if(ids_arr.length>0){
+    	$.ajax({
+    	    url:'<?php echo $this->url('admin-goods',array('action'=>'changeGoodsStatusUpdown'))?>',
+    	    type:'post',
+    	    data:{'op':op,'ids_arr':ids_arr},
+    	    dataType:'json',
+    	    success:function(data){
+        	    if(data.code == '1'){
+        	        window.location.reload();
+                }
+    		},
+    	});
+	}
+}
+</script>
+
+<script>
+function show_confirm(url)
+{
+	if(confirm('确认删除？'))
+	{
+		location.href = url;
+	}
+	else
+	{
+		return false;
+	}
+}
+</script>

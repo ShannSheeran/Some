@@ -1,0 +1,133 @@
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="tex/html; charset=gb2312">
+	<script type="text/javascript" src="<?php echo ROOT_PATH.'js/line/jquery.min.js'?>"></script>
+	<script type="text/javascript" src="<?php echo ROOT_PATH.'js/line/highcharts.js'?>"></script>
+	<script type="text/javascript" src="<?php echo ROOT_PATH.'js/line/exporting.js'?>"></script>
+
+	<script>
+	$(function () {
+		$('#container').highcharts({
+			title: {
+				text: '统计',
+				x: -20 //center
+			},
+			subtitle: {
+				text: '',
+				x: -20
+			},
+			xAxis: {
+				categories: <?php echo $date;?>
+			},
+			yAxis: {
+				title: {
+					text: ''
+				},
+				plotLines: [{
+					value: 0,
+					width: 1,
+					color: '#808080'
+				}]
+			},
+			tooltip: {
+				valueSuffix: ''
+			},
+			legend: {
+				layout: 'vertical',
+				align: 'right',
+				verticalAlign: 'middle',
+				borderWidth: 0
+			},
+			series: [{
+				name: '<?php echo $title;?>',
+				data: <?php echo $data;?>
+			}]
+		});
+	});
+
+  </script>
+  <style type="text/css">
+	#container{
+		width: 1280px;
+		margin:0 auto;
+	}
+	.table{
+		width:1280px;
+		margin:0 auto;
+		margin-top:20px;
+	}
+	.panel{
+		width: 1280px;
+		margin:0 auto;
+	}
+	#tab{
+		margin-top: 50px;
+	}
+	.page{
+		margin-left: 280px;
+		margin-bottom: 20px;
+	}
+	.panel{
+		padding:0px;
+	}
+	.down{
+	   margin-left:1200px;
+	}
+  </style>
+</head>
+<body>
+<form action="<?php echo $this->url('admin-index',array('action'=>'index'))?>" method="post" name="form1" class="page">
+  <select name="type">
+	  <option value="1" <?php if((int)$type==1){echo "selected";}?>>新增人数</option>
+	  <option value="2" <?php if((int)$type==2){echo "selected";}?>>摇一摇人数</option>
+	  <option value="3" <?php if((int)$type==3){echo "selected";}?>>入驻公司数</option>
+	  <option value="4" <?php if((int)$type==4){echo "selected";}?>>设备销量</option>
+  </select>
+
+	  <select name=YYYY class="year">
+		  <?php foreach($se_year as $v){?>
+		  <option <?php if($v==$year){echo "selected";}?>><?php echo $v;?></option>
+		  <?php }?>
+	  </select>
+	  <select name=MM class="month" >
+		  <?php foreach($se_month as $v){?>
+			  <option <?php if($v==$month){echo "selected";}?>><?php echo $v;?></option>
+		  <?php }?>
+	  </select>
+	 <input type="submit" name="submit" value="搜索">
+  </form>
+
+
+
+  <div id="container" ></div>
+<div class="panel panel-default" id="tab">
+	<div class="panel-heading">
+	<a href="<?php echo $this->url('admin-index',array('action'=>'index','type'=>$type,'month'=>$month,'year'=>$year))?>"  class="down" >下载表格</a>
+	</div>
+  <table class="table table-bordered table-striped" id="example-4">
+	  <thead>
+	  <tr>
+		  <th>时间</th>
+		  <td><?php echo $title;?></td>
+	  </tr>
+	  </thead>
+	  <tbody>
+	  <?php foreach($info['list'] as $v){?>
+		  <tr>
+			  <td><?php echo $v['date'];?></td>
+			  <td><?php echo $v['value'];?></td>
+		  </tr>
+	  <?php }?>
+	  </tbody>
+  </table>
+
+</div>
+</body>
+<!--<script type="text/javascript">
+	function down(){
+		var cid=2;
+		$.post('<?php /*echo $this->url('admin-index',array('action'=>'index','cid'=>2))*/?>',{cid:cid},function(data){});
+	}
+</script>-->
+</html>

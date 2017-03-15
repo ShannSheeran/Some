@@ -1,0 +1,211 @@
+<script src="<?php echo $this->basePath();?>/js/admin/jedate.min.js"></script>
+<style>
+    .tl{text-align: right;}
+    .main-nody{padding:5px 20px 0 20px;}
+    .main-nody h5{float: left;}
+    .tp{margin-top: 30px;}
+    .bc-1{display: none;}
+    .fl{float: left;}
+</style>
+<div class="panel panel-default">
+   <div class="panel-heading">
+       <div calss="row">
+           <div class="col-sm-6">
+              <a href="<?php echo $this->url('admin-order' , array('action' => 'index')); ?>">订单管理 / <a href="<?php echo $this->url('admin-order' , array('action' => 'weeklyPlan')); ?>"> 周计划管理</a> / <a href="">周计划详情</a>
+           </div>
+       </div>
+   </div>
+    <div class="pannel-body main-nody">
+        <div class="row">
+            <div class="col-lg-12">
+                <h5>基本信息：</h5>
+            </div>
+            <div class="col-lg-12">
+                <table class="table table-striped" id="example-4" >
+                    <tbody>
+                        <tr>
+                            <td>订单编号</td>
+                            <td><?php echo $order_info->order_sn; ?></td>
+                        </tr>
+                        <tr>
+                            <td>下单时间</td>
+                            <td><?php echo $order_info->timestamp; ?></td>
+                        </tr>
+                        <tr>
+                            <td>企业名称</td>
+                            <td><?php echo $order_info->user_name ?></td>
+                        </tr>
+                        <tr>
+                            <td>购买商品总数</td>
+                            <td><?php echo $order_info->total_number ?></td>
+                        </tr>
+                        <tr>
+                            <td>已供应数</td>
+                            <td><?php echo $order_info->total_number -  $order_info->total_supply_number ?></td>
+                        </tr>
+                        <tr>
+                            <td> 未供应数</td>
+                            <td><?php echo $order_info->total_supply_number ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <form class="form-horizontal" action="<?php echo $this->url('admin-order' , array('action' => 'saveWeeklyPlan')); ?>" method="post" >
+        <div class="row tp">
+            <div class="col-lg-12">
+                <h5>供货计划：</h5>
+            </div>
+            <div class="col-lg-12">
+                <div style="margin-left: 20px;margin-bottom:5px;margin-top:10px;">
+        			<span style="font-size: 14px;"> 选择年月 :</span>
+        			<input class="datainp" id="dateTime" type="text" placeholder="选择年月"  readonly value="<?php echo $date;?>" name="dateTime"  style="line-height:26px;width:193px;text-indent:7px">
+        			<!-- <a href="#"  name=""  id="selectWeek"  onclick="selectWeek()" class="btn btn-info" style="margin-bottom:0px;">确定</a> -->
+        			<span style="color: gray">(确定年月选择周次)</span>
+    		    </div>
+    		    
+                <div style="margin-left: 20px;margin-bottom:5px;margin-top:10px;">
+        			<span style="font-size: 14px;"> 供货周次 :</span>
+        			<select style="padding:5px" id="week" name="week" onchange="weeklyPlan(this)">
+        			     <?php foreach ($week as $value): ?>
+        			     <option value="<?php echo $value; ?>" <?php if(isset($datatime)  && $datatime == $value){ echo 'selected'; }  ?>><?php echo $value; ?></option>
+        			     <?php endforeach;?>
+        			</select>
+    		    </div>
+    		    
+                <table class="table table-striped" id="example-4" >
+                    <thead>
+                        <tr>
+                            <th>商品名称</th>
+                            <th>规格等级</th>
+                            <th>型号</th>
+                            <th>购买数量</th>
+                            <th>未供应数</th>
+                            <th>星期日</th>
+                            <th>星期一</th>
+                            <th>星期二</th>
+                            <th>星期三</th>
+                            <th>星期四</th>
+                            <th>星期五</th>
+                            <th>星期六</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php 
+                        $i = 0;
+                        foreach ($order_goods_list as $value):
+                        ?>
+                        <tr>
+                            <td>
+                                <?php echo $value->name ?>
+                                <input type="hidden" name="order_goods_id[]" value="<?php echo $value->id; ?>">
+                            </td>
+                            <td><?php echo $value->size ?></td>
+                            <td><?php echo $value->model ?></td>
+                            <td><?php echo $value->number ?></td>
+                            <td><?php echo $value->supply_number ?></td>
+                            <td>
+                                <input type="number" min="0" name="number<?php echo $i ?>[]" value="<?php echo  isset($value->Sun) ? $value->Sun->number : 0; ?>" style="width:100px;text-align:center;" <?php echo  isset($disabled_day) && ($disabled_day > 0) ? 'disabled' : ''; ?>>
+                                <input type="hidden" name="plan_id<?php echo $i ?>[]" value="<?php echo  isset($value->Sun) ? $value->Sun->id : 0 ; ?>" <?php echo  isset($disabled_day) && ($disabled_day > 0) ? 'disabled' : ''; ?>>
+                            </td>
+                            <td>
+                                <input type="number" min="0" name="number<?php echo $i ?>[]" value="<?php echo  isset($value->Mon) ? $value->Mon->number: 0; ?>" style="width:100px;text-align:center;" <?php echo  isset($disabled_day) && ($disabled_day > 1) ? 'disabled' : ''; ?>>
+                                <input type="hidden" name="plan_id<?php echo $i ?>[]" value="<?php echo  isset($value->Mon) ? $value->Mon->id : 0 ; ?>" <?php echo  isset($disabled_day) && ($disabled_day > 1) ? 'disabled' : ''; ?>>
+                            </td>
+                            <td>
+                                <input type="number" min="0" name="number<?php echo $i ?>[]" value="<?php echo  isset($value->Tue) ? $value->Tue->number: 0; ?>" style="width:100px;text-align:center;" <?php echo  isset($disabled_day) && ($disabled_day > 2) ? 'disabled' : ''; ?>>
+                                <input type="hidden" name="plan_id<?php echo $i ?>[]" value="<?php echo  isset($value->Tue) ? $value->Tue->id : 0 ; ?>" <?php echo  isset($disabled_day) && ($disabled_day > 2) ? 'disabled' : ''; ?>>
+                            </td>
+                            <td>
+                                <input type="number" min="0" name="number<?php echo $i ?>[]" value="<?php echo  isset($value->Wed) ? $value->Wed->number: 0; ?>" style="width:100px;text-align:center;" <?php echo  isset($disabled_day) && ($disabled_day > 3) ? 'disabled' : ''; ?>>
+                                <input type="hidden" name="plan_id<?php echo $i ?>[]" value="<?php echo  isset($value->Wed) ? $value->Wed->id : 0 ; ?>" <?php echo  isset($disabled_day) && ($disabled_day > 3) ? 'disabled' : ''; ?>>
+                            </td>
+                            <td>
+                                <input type="number" min="0" name="number<?php echo $i ?>[]" value="<?php echo  isset($value->Thu) ? $value->Thu->number: 0; ?>" style="width:100px;text-align:center;" <?php echo  isset($disabled_day) && ($disabled_day > 4) ? 'disabled' : ''; ?>>
+                                <input type="hidden" name="plan_id<?php echo $i ?>[]" value="<?php echo  isset($value->Thu) ? $value->Thu->id : 0 ; ?>" <?php echo  isset($disabled_day) && ($disabled_day > 4) ? 'disabled' : ''; ?>>
+                            </td>
+                            <td>
+                                <input type="number" min="0" name="number<?php echo $i ?>[]" value="<?php echo  isset($value->Fri) ? $value->Fri->number: 0; ?>" style="width:100px;text-align:center;" <?php echo  isset($disabled_day) && ($disabled_day > 5) ? 'disabled' : ''; ?>>
+                                <input type="hidden" name="plan_id<?php echo $i ?>[]" value="<?php echo  isset($value->Fri) ? $value->Fri->id : 0 ; ?>" <?php echo  isset($disabled_day) && ($disabled_day > 5) ? 'disabled' : ''; ?>>
+                            </td>
+                            <td>
+                                <input type="number" min="0" name="number<?php echo $i ?>[]" value="<?php echo  isset($value->Sat) ? $value->Sat->number: 0; ?>" style="width:100px;text-align:center;" <?php echo  isset($disabled_day) && ($disabled_day > 6) ? 'disabled' : ''; ?>>
+                                <input type="hidden" name="plan_id<?php echo $i ?>[]" value="<?php echo  isset($value->Sat) ? $value->Sat->id : 0 ; ?>" <?php echo  isset($disabled_day) && ($disabled_day > 6) ? 'disabled' : ''; ?>>
+                            </td>
+                        </tr>
+                        <?php 
+                            $i++;
+                            endforeach;
+                         ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-12">
+                <h5></h5>
+            </div>
+            <div class="col-lg-12">
+                <table class="table table-striped" id="example-4">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input type="hidden" value="<?php echo isset($disabled_day) ?  $disabled_day  : 0 ?>" name="disabled_day">
+                                <input type="hidden" value="<?php echo $id?>" name="id" class="btn btn-info" >
+                                <input type="submit" value="保存" class="btn btn-info" name="save" >
+                                <input type="submit" value="保存并填写下周计划" class="btn btn-info" name="saveAndNext" >
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    date_time = jeDate({
+		dateCell:"#dateTime",
+		format:"YYYY-MM",
+		isinitVal:false,
+		isTime:true, //isClear:false,
+		minDate:"<?php echo date('Y-m'); ?>",
+		choosefun: function(){
+			selectWeek();
+	    }
+	});
+    jeDate(date_time);
+	
+	function selectWeek()
+	{
+		 var dateTime = $('#dateTime').val();
+		 console.log(dateTime);
+		 if(dateTime)
+		 {
+			 $.post('<?php echo $this->url('admin-order' , array('action' => 'selectWeek'))?>' , {'date':dateTime} , function(data){
+				 data =  jQuery.parseJSON(data);
+				 console.log(data);
+				 var html = '';
+				 for(var i = 0 ; i < data.length ; i++)
+				 {
+					 html += '<option value="' + data[i] + '">' + data[i] + '</option>';
+				 }
+				 $('#week').html(html);
+
+				 weeklyPlan('#week');
+			})
+		 }
+		 else
+		 {
+			 alert('请选择年月');
+			 return false;
+		 }
+	}
+
+	function weeklyPlan(evt)
+	{
+		location.href = '<?php echo $this->url('admin-order' , array('action' => 'planDetail' , 'id' => $id))?>?datetime=' + $(evt).val();
+	}
+</script>

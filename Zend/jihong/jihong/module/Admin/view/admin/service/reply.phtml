@@ -1,0 +1,130 @@
+<style>
+    .tl{text-align: right;}
+    .main-nody{padding:5px 20px 0 20px;}
+    .main-nody h5{float: left;}
+    .tp{margin-top: 30px;}
+    .bc-1{display: none;}
+    .fl{float: left;}
+</style>
+<div class="panel panel-default">
+   <div class="panel-heading">
+       <div calss="row">
+           <div class="col-sm-6">
+              <a href="<?php echo $this->url('admin-service' , array('action' => 'index')); ?>">售后留言管理 / <a href="<?php echo $this->url('admin-service' , array('action' => 'message')); ?>">留言管理</a> / <a href="">留言回复</a>
+           </div>
+       </div>
+   </div>
+    <div class="pannel-body main-nody">
+        <div class="row">
+            <div class="col-lg-12">
+                <h5>留言内容</h5>
+            </div>
+            <div class="col-lg-12">
+                <table class="table table-striped" id="example-4" >
+                    <tbody>
+                        <tr>
+                            <td width="10%">留言类型</td>
+                            <?php foreach ($messageType as $k=>$v){?>
+                            <?php if($k == $message->message_type){?>
+                            <td><?php echo $v?></td>
+                            <?php }?>
+                            <?php }?>
+                        </tr>
+                        <tr width="10%">
+                            <td>企业名称</td>
+                            <td><?php echo $message->company_name?></td>
+                        </tr>
+                        <tr width="10%">
+                            <td>留言时间</td>
+                            <td><?php echo $message->timestamp?></td>
+                        </tr>
+                        <tr width="10%">
+                            <td> 留言内容</td>
+                            <td><?php echo $message->content?></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <form class="form-horizontal" action="" method="get" >
+        <?php if($message->is_read == '1' && $message->parent_id == '0'){?>
+        <div class="row tp">
+            <div class="col-lg-12">
+                <h5>留言管理</h5>
+            </div>
+            <div class="col-lg-12">
+                <table class="table table-striped" id="example-4">
+                    <tbody>
+                        <tr>
+                            <td width="10%">处理状态</td>
+                            <td>未回复</td>
+                        </tr>
+                        <tr>
+                            <td width="10%"> 管理员回复</td>
+                            <td>
+                                <textarea height="26px" cols="100%" name="content"></textarea>
+                                <input type="hidden" name="parent_id" value="<?php echo isset($id)?$id:''?>"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <?php }else{?>
+        <div class="row tp">
+            <div class="col-lg-12">
+                <h5>回复内容</h5>
+            </div>
+            <div class="col-lg-12">
+                <table class="table table-striped" id="example-4">
+                    <tbody>
+                        <tr>
+                            <td width="10%">处理状态</td>
+                            <td>已回复</td>
+                        </tr>
+                        <tr>
+                            <td width="10%">操作员</td>
+                            <td><?php echo isset($admin_info)?$admin_info->name : ''?></td>
+                        </tr>
+                        <tr>
+                            <td width="10%">回复时间</td>
+                            <td><?php echo isset($reply_info)?$reply_info->timestamp :''?></td>
+                        </tr>
+                        <tr>
+                            <td width="10%"> 管理员回复</td>
+                            <td><?php echo isset($reply_info)?$reply_info->content :''?></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <?php }?>
+        
+        <?php if($message->is_read == '1' && $message->parent_id == '0'){?>
+        <div class="row">
+            <div class="col-lg-12">
+                <h5></h5>
+            </div>
+            <div class="col-lg-12">
+                <table class="table table-striped" id="example-4">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input type="button"  value="取消" class="btn btn-info" onclick="returnList()" >
+                                <button type="submit" name= "submit" value="确认回复" class="btn btn-info" >确认回复</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <?php }?>
+        </form>
+    </div>
+</div>
+<script>
+function returnList()
+{
+	location.href="<?php echo $this->url('admin-service' , array('action' => 'message' )); ?>";
+}
+</script>

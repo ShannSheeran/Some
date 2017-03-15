@@ -1,0 +1,769 @@
+<style type="text/css">
+#imageMenu {
+	height: 65px;
+	width: 424px;
+	overflow: hidden;
+	float: left;
+}
+
+#imageMenu li {
+	height: 67px;
+	width: 67px;
+	overflow: hidden;
+	float: left;
+	text-align: center;
+	margin: 0 0 0 23px;
+}
+
+#imageMenu li img {
+	width: 65px;
+	height: 65px;
+	cursor: pointer;
+	
+}
+
+#imageMenu li#onlickImg img,
+#imageMenu li:hover img {
+	width: 65px;
+	height: 63px;
+	border: 1px solid #c40000;
+}
+
+/* bigView */
+#bigView{position:absolute;border: 1px solid #959595; overflow: hidden; z-index:999;}
+#bigView img{position:absolute;}
+
+
+
+.m_right{
+	width: 580px;
+	padding-top: 25px;
+}
+
+
+
+
+/********************************/
+.div_auto{
+	width: 1110px;
+    margin: 0px auto;
+}
+
+.preview {
+	width: 424px;
+	margin-top: 25px;
+	margin-right: 50px;
+}
+
+/* bigImg */
+.bigImg {
+	position: relative;
+	float: left;
+	width: 420px;
+	height: 420px;
+	overflow: hidden;
+	border: 2px solid #f6f5f5;
+}
+
+.bigImg #midimg {
+	width: 420px;
+	height: 420px;
+}
+
+.bigImg #winSelector {
+	width: 235px;
+	height: 210px;
+}
+
+#winSelector {
+	position: absolute;
+	cursor: crosshair;
+	filter: alpha(opacity=15);
+	-moz-opacity: 0.15;
+	opacity: 0.15;
+	background-color: #000;
+	border: 1px solid #fff;
+}
+
+/* smallImg */
+.smallImg {
+	position: relative;
+	height: 65px;
+	margin-top: 25px;
+	/*background-color: #F1F0F0;*/
+	padding: 6px 0px;
+	width: 424px;
+	overflow: hidden;
+	float: left;
+}
+
+.scrollbutton {
+	width: 21px;
+	height: 65px;
+	overflow: hidden;
+	position: relative;
+	float: left;
+	cursor: pointer;
+}
+
+.scrollbutton.smallImgUp,
+.scrollbutton.smallImgUp.disabled {
+	background: url(<?php echo $this->basePath();?>/images/small/left_arrow.png) no-repeat;
+}
+
+.scrollbutton.smallImgDown,
+.scrollbutton.smallImgDown.disabled {
+	background: url(<?php echo $this->basePath();?>/images/small/right_arrow.png) no-repeat;
+}
+
+
+.title_h1{
+	font-size: 24px;
+	line-height: 28px;
+	padding: 0 0 5px ;
+	color: #333;
+}
+
+.color_red{
+	color: #d00101;
+}
+
+.Referral_Code {
+	width: 284px;
+	height: 35px;
+	position: absolute;
+	left: -10px;
+	bottom: 15px;
+	background: url(<?php echo $this->basePath();?>/images/small/discount.png) no-repeat;
+}
+
+.Referral_Code span{
+	color: #FFFFFF;
+	line-height: 40px;
+    padding-left: 23px; 
+}
+
+.button_a{
+	color: #FFFFFF;
+	background-color: #C40000;
+	text-align: center;
+	padding: 8px 50px;
+	font-weight: bold;
+	display: inline-block;
+	margin-top: 45px;
+}
+.button_a:hover{
+	color: #FFFFFF;
+}
+
+.the_order_details{
+	 margin-top: 15px; 
+	 padding-left: 20px;
+}
+
+.the_order_details span{
+	color: #959595;
+	
+}
+
+.Method_of_payment{
+	margin-top: 21px;
+	padding-left: 20px; 
+	height: 37px;
+}
+
+.Method_of_payment li{
+	float: left;
+	padding: 9px;
+	min-width: 75px;
+	border: 1px dashed  #d2d2d2;
+	margin-right: 15px;
+}
+
+.clear{
+	clear: both;
+}
+
+.product {
+	display: inline-block;
+	margin-top: 40px;
+	border: 1px solid #f4f5f5;
+	width: 100%;
+}
+
+.product li{
+	float: left;
+	width: 110px;
+	line-height: 40px;
+	text-align: center;	
+}
+
+.product_current{
+	color: #c40000;
+	background: url(<?php echo $this->basePath();?>/images/small/red_arrow.png) no-repeat 0 34px;
+}
+
+.product_details
+ {
+	width: 100%;
+	margin-bottom: 20px;
+}
+.product_details img{
+	width: 100%;
+}
+.product_details h2{
+	color: #333;
+	text-align: center;
+	font-size: 30px;
+	margin-top: 70px;
+	margin-bottom: 30px;
+}
+.product_details  h4{
+	color: #333;
+	font-size: 24px;
+	margin-bottom: 30px;
+	margin-top: 60px;
+}
+.product_details  p{
+	margin-left: 60px;
+	font-size: 18px;
+	color:#555;
+}
+embed{
+	margin-left: 230px;
+	margin-top: 20px;
+}
+.product_details  .instructions img{
+	margin:20px 0;
+	width: 80%;
+	margin-left: 10%;
+}
+.product_details ul{
+	margin-left:60px;
+	margin-top: 25px;
+	font-size: 18px;
+}
+.product_details  ul li{
+	margin-bottom: 10px;
+}
+.product_details  .instructions table th{
+	width:488px;
+	height: 78px;
+	border:1px solid #999;
+}
+.product_details .p_center{
+	text-align: center;
+}
+.product_details .warranty p{
+	text-indent: 2em;
+}
+.product_details .binding p{
+	margin-top:30px;
+}
+.product_details .binding img{
+	width:80%;
+	margin:20px 10%;
+}
+.product_details .binding .small{
+	width:40%;
+	margin:20px 30%;
+}
+.prev {
+	display: inline-block;
+	background: url(<?php echo $this->basePath();?>/images/small/left_arrow.png) no-repeat;
+	width: 21px;
+	height: 65px;
+	position: absolute;
+	left: 0;
+	top: 6px;
+	-webkit-border-radius: 3px;
+	cursor: pointer;
+}
+
+.next {
+	display: inline-block;
+	background: url(<?php echo $this->basePath();?>/images/small/right_arrow.png) no-repeat;
+	width: 21px;
+	height: 65px;
+	position: absolute;
+	right: 0;
+	top: 6px;
+	-webkit-border-radius: 3px;
+	cursor: pointer;
+}
+
+.discount_img {
+	width: 90%;
+	margin-left: 23px;
+	height: 300px;
+	overflow: hidden;
+	position: relative;
+}
+.border_red{
+	border: 1px solid red!important;
+}
+.boxBg{
+	position: fixed;
+	top:0;
+	left: 0;
+	right:0;
+	bottom:0;
+	background: #000;
+	opacity: 0.5;
+	display: none;
+}
+.attention{
+	background: #fff;
+	width:350px;
+	height: 380px;
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	margin-top: -150px;
+	margin-left: -150px;
+	text-align: center;
+	display: none;
+}
+.attention a{
+	display: inline-block;
+	font-size: 34px;
+	font-weight: bold;
+	float: right;
+	margin:10px 10px 0 0;
+}
+.attention img{
+	width: 80%;
+	margin:0 10%;
+}
+.attention p{
+	color: #fe0000;
+	font-size: 16px;
+	font-weight: bold;
+}
+</style>
+
+
+
+	<div class="ma clearfix">
+	    <div class="div_auto">
+	    	<!-- 左侧 start -->
+			<div class="preview fl">
+				<div id="vertical" class="bigImg">
+					<img src="<?php echo $this->basePath();?>/images/small/picture1.png" width="400" height="400" alt="" id="midimg" />
+					<div style="display:none;" id="winSelector"></div>
+				</div>
+				<div class="smallImg">
+					<!--<div class="scrollbutton smallImgUp disabled"></div>-->
+					<div id="imageMenu">
+						<a class="prev" id="LeftArr"></a>
+				        <a class="next" id="RightArr"></a>
+						<div class="discount_img">
+							<ul>
+								<li id="onlickImg"><img src="<?php echo $this->basePath();?>/images/small/picture1.png" width="68" height="68"/></li>
+								<li><img src="<?php echo $this->basePath();?>/images/small/picture2.png" width="68" height="68"/></li>
+								<li><img src="<?php echo $this->basePath();?>/images/small/picture3.png" width="68" height="68"/></li>
+								<li><img src="<?php echo $this->basePath();?>/images/small/picture4.png" width="68" height="68"/></li>
+								<li><img src="<?php echo $this->basePath();?>/images/small/picture5.png" width="68" height="68"/></li>
+								<li><img src="<?php echo $this->basePath();?>/images/small/picture6.png" width="68" height="68"/></li>
+							</ul>
+						</div>
+					</div>
+					<!--<div class="scrollbutton smallImgDown"></div>-->
+				</div>
+				<div id="bigView" style="display:none;"><img width="800" height="800" alt="" src="" /></div>
+				<div class="clear"></div>
+			</div>
+			<!-- 左侧 end -->
+			
+			<!-- 右侧 start -->
+			<div class="m_right fl">
+				<h1 class="title_h1">快摇名—蓝牙4.0设备支持微信摇一摇物联网名片</h1>
+				<span class="color_red">累计7万台&nbsp;全国联保&nbsp;终身质保</span>
+				<div style="background-color: #f2f0f0; height: 105px; position: relative; margin-top: 25px;">
+					<p style="padding-top: 20px;"><span style="padding-left: 20px; ">优惠价格：</span><span class="color_red">￥198元</span><span>累计销售：</span><span class="color_red">1492个</span></p>
+					
+					<div class="Referral_Code"><span>【使用推荐码即可减免￥30元购买】</span></div>
+				</div>
+				<p  class="the_order_details" ><span>运费：免运费</span></p>
+				<a  href="javascript:;" class="button_a" id="toPay">立即购买</a>
+				<!-- id="toPay" href="<?php echo $this->url('index',array('controller'=>'user','action'=>'payment'));?>"-->
+				<div class="Method_of_payment">
+					<span class="fl" style="padding: 9px;">支付方式：</span>
+					<ul id="pay">
+						<li class="wx">微信支付</li>
+						<li class="yl">银联支付</li>
+						<li class="zfb">支付宝支付</li>
+					</ul>
+				</div>
+				
+				<div class="Method_of_payment clear" style="margin-top: 20px;">
+					<span class="fl" style="padding: 9px;">服务承诺：</span>
+					<ul>
+						<li>按时发货</li>
+						<li>3年保修</li>
+						<li>全国联保</li>
+						<li>全国包邮</li>
+					</ul>
+				</div>
+			</div>
+			<!-- 右侧 end -->
+			
+	    	<div class="clear"></div>
+	    	
+			<!-- 产品详情 start -->
+	    	<ul class="product">
+    			<li  class="product_current">产品详情</li>
+    			<li>使用说明</li>
+    			<li>绑定指南</li>
+    			<li>保修协议</li>
+    		</ul>
+	    	<div class="product_details">
+	    		<!-- 产品详情 -->	
+	    		<div class="details">
+	    			<img  src="<?php echo $this->basePath();?>/images/small/details1.png"/>
+	    			<img  src="<?php echo $this->basePath();?>/images/small/details2.png"/>
+	    			<img  src="<?php echo $this->basePath();?>/images/small/details3.png"/>
+	    			<img  src="<?php echo $this->basePath();?>/images/small/details4.png"/>
+	    			<img  src="<?php echo $this->basePath();?>/images/small/details5.png"/>
+	    			<img  src="<?php echo $this->basePath();?>/images/small/details6.png"/>
+	    			<img  src="<?php echo $this->basePath();?>/images/small/details7.png"/>
+	    			<img  src="<?php echo $this->basePath();?>/images/small/details8.png"/>
+	    			<img  src="<?php echo $this->basePath();?>/images/small/details9.png"/>
+	    		</div>
+	    		<!-- 使用说明 -->
+	    		<div class="instructions" style="display:none">
+	    			<h2>快摇名片™使用说明书</h2>
+	    			<p class="p_center">说明书仅适用于快摇名片™，说明中的图片可能和您手中的实物有些不同</p>
+	    			<h4>准备使用：</h4>
+	    			<p>在使用前，请先花几分钟时间熟悉一下您的设备。</p>
+	    			<img  src="<?php echo $this->basePath();?>/images/small/explain.jpg"/>
+	    			<h4>为设备充电：</h4>
+	    			<p>请使用输出电压为5V的充电器为设备充电，充电式您只需将充电线插入充电口，通电后充电指示灯将变成蓝色长亮。充电完毕后（大约3小时），指示灯熄灭，此时请取下充电器。</p>
+	    			<h4>如何使用：</h4>
+	    			<p>1、启动设备：轻触开关按钮，此时LED状态指示灯亮3S后熄灭，进入开机状态。</p>
+	    			<p>2、开启手机蓝牙</p>
+	    			<p>3、微信摇一摇：进入摇一摇页面，等待几秒，当检测到设备时，会出现临时“周边”，此时摇晃手机，将摇出快摇名片中保存的微名片信息。</p>
+	    			<img  src="<?php echo $this->basePath();?>/images/small/explain2.jpg"/>
+	    			<p>4、浏览名片信息：点击摇到的名片可浏览详细的名片信息，在信息最后面可以将名片信息保存在手机通讯录中，也可关注名片人的微信。</p>
+	    			<p>5、关闭设备：再次轻触开关按钮，此时LED状态指示灯亮0.5S后熄灭，进入关机状态。</p>
+	    			<h4>适用人群：</h4>
+	    			<p>本产品适用于中小企业主、个体户、媒体、金融产品从业者、保险从业者、房地产中介、代理商、经销商、销售人员及有需要的商务人士。</p>
+	    			<h4>注意事项：</h4>
+	    			<p>如果打开了蓝牙，微信摇一摇还没有看到“摇一摇周边”入口，请检查：</p>
+					<ul>
+						<li>A.可能是微信版本不支持。请确认iOS微信版本是中国大陆5.4及以上版本，Android微信版本是6.0及以上版本，微信繁体中文6.1版本也支持“摇一摇周边”；</li>
+						<li>B.可能是地域设置有问题。请确认用户的地区设置在中国（设置-通用-多语言环境-区域格式），海外版暂时没有；</li>
+						<li>C.可能是系统版本不支持。请确认iOS手机系统在7.0以上（7.1.2以上会比较稳定，7.1.1偶尔会有bug，需要在手机的“设置-隐私-定位功能”中开关几次微信定位功能，或重启手机）；Android手机系统在4.3以上；</li>
+						<li>D.可能是蓝牙被占用。如果正在使用蓝牙耳机、智能手表或其他可穿戴设备，请先关闭。</li>
+					</ul>
+					<h4>产品参数：</h4>
+					<table>
+						<tr>
+							<th>重量（g）:42</th>
+							<th>外观尺寸（mm）：85.5*54*6</th>
+						</tr>
+						<tr>
+							<th>电池类型：聚合物锂电池</th>
+							<th>电池容量（mAh）：250</th>
+						</tr>
+						<tr>
+							<th>充电电压（v）：5</th>
+							<th>工作温度（℃）：-10-50</th>
+						</tr>
+						<tr>
+							<th>充电时间（小时）：3</th>
+							<th>工作时间（天）：约30</th>
+						</tr>
+						<tr>
+							<th>外壳材质铝合金+ABS</th>
+							<th>工作原理蓝牙4.0</th>
+						</tr>
+					</table>
+	    		</div>
+	    		<!-- 绑定指南 -->
+	    		<div class="binding" style="display:none">
+	    			<h2>快摇名片自助绑定步骤</h2>
+	    			<p>第一步：打开“快摇名片APP”，在“我的”页面【设备状态】，显示：设备未绑定。</p>
+	    			<img class="small" src="<?php echo $this->basePath();?>/images/small/1.jpg"/>
+	    			<p>第二步：点击“设备未绑定”进入扫二维码绑定界面，扫描设备包装盒附带的二维码后，点击确认绑定</p>
+	    			<img  src="<?php echo $this->basePath();?>/images/small/2.png"/>
+	    			<p>第三步：绑定成功后跳回“我的”页面，同时在设备状态栏显示未连接，此时绑定已成功；打开设备并处于开启状态，保证设备在十米以内，手机打开蓝牙，在App点击“立即连接”</p>
+	    			<img  src="<?php echo $this->basePath();?>/images/small/3.png"/>
+	    			<p>最后会提示“连接成功”，在设备状态栏下方显示设备电量</p>
+	    			<img class="small" src="<?php echo $this->basePath();?>/images/small/4.png"/>
+	    		</div>
+	    		<!-- 保修协议 -->
+	    		<div class="warranty" style="display:none">
+	    			<h2>快摇名片™ 一（1）年有限保证</h2>
+					<p class="p_center">仅适用于快摇品牌产品</p>
+
+					<h4>消费者权益保护法与本保证的关系</h4>
+
+					<p>针对中华人民共和国的消费者：本保证中所述权利作为您根据《中华人民共和国消费者权益保护法》及其他相关消费者保护法律和法规（“适用法律”）可享有的法定权利的补充。您有权就重大故障取得更换或退款，以及就任何其他可合理遇见的损失或损害得到赔偿。如果货品未能达到可以接受的质量，而情况不构成重大故障的，您也有权要求修理或者更换货品。修理货品或会导致数据丢失。提交修理的货品可能以同一类型的翻新货品更换，而非予以修理。修理货品时可能使用翻新零部件。</p>
+					<br/>
+					<p>为充分理解您的权利，您应当查询所有适用法律。</p>
+
+					<h4>受限于消费者法律的保证限制</h4>
+
+					<p>除非本保证另有明确规定，在适用法律允许的范围内，本保证及上述救济均为排他，且取代所有其他保证和救济，无论是口头、书面、明示或默示。在适用法律允许的范围内，快摇明确拒绝承担任何以及所有法定或默示保证，包括但不限于，对于适销性及特定适用性的保证，以及针对隐蔽或潜在缺陷的保证。如果根据适用法律,快摇不能放弃默示保证或适用法律规定的保证，则所有该等保证应当限于默示保证或适用法律规定保证的范围内，并应根据适用法律强制适用。快摇经销商、代理人或员工均未被授权对本保证做出任何修改、延期或增添。如果本保证任何条款被裁定为违法或不可执行，剩余条款的合法性和可执行性不受影响或损害。</p>
+					<br />
+					<p>除非本保证明确规定，在适用法律要求的最大范围内，对于因购买或使用产品和/或其附件所造成的直接、特殊、偶发性或衍生性损失，包括但不限于使用损失、收入损失、实际或预期收益损失（包括合同的收益损失）、金钱使用损失、预期节余损失、业务损失、机会损失、商誉损失、名誉损失、数据损坏的损失、损害，或因任何原因造成的间接或衍生性损失或损害（包括设备和财产的更换，恢复、编写或复制快摇产品中存储或使用的任何程序或数据所产生的任何费用，以及未能维持产品中存储信息的保密性），快摇均不承担责任。上述限制不适用于死亡或人身伤害索赔，也不适用于法律规定的因故意或重大过失行为和/或疏忽导致的任何财产损害责任。快摇不做以下声明：其能够维修本保证项下的任何产品或能够更换产品，且不会对程序或数据造成危险或丢失。</p>
+
+					<h4>本保证涵盖的范围是哪些？</h4>
+
+					<p>快摇保证：若按照快摇公布的指南正常使用，自最终使用者购买日期起一（1）年内（“保证期”），原包装中包含的快摇品牌硬件产品及配件（“快摇产品”）不存在材料和工艺缺陷。快摇公布的指南包括但不限于技术说明书、用户手册及服务信息中包含的信息。</p>
+
+					<h4>本保证不涵盖哪些内容？</h4>
+
+					<p>本保证不适用于任何非快摇品牌硬件产品或任何软件（即便与快摇硬件一同包装或出售）。快摇以外的生产商、供应商或出版商可向您提供其各自的保证，请您与其联系以获得进一步的信息。由快摇分销的快摇品牌或非快摇品牌软件（包括但不限于系统软件）不在本保证内，除非该等软件影响快摇产品的正常运行。请阅读软件中所附的许可协议，以详细了解您对软件的使用权利。快摇不保证快摇产品操作时不受干扰或没有错误。对于因未能遵守有关快摇产品使用说明而造成的损害，快摇不承担责任。</p>
+
+					<h4>本保证不适用于：</h4>
+					<ul>
+						<li>(a)消耗零部件，如电池等随时间推移而耗损的零部件，除非是因材料或工艺缺陷而发生的故障；</li>
+						<li>(b)表面损坏，包括但不限于刮痕、凹痕及端口破胶；</li>
+						<li>(c)因与其他产品共同使用导致的损害；</li>
+						<li>(d)因事故、滥用、误用、接触液体、火灾、地震或其他外部原因导致的损害；</li>
+						<li>(e)因未遵守快摇公布的指南操作快摇产品造成的损害；</li>
+						<li>(f)因任何快摇代表或快摇授权服务商以外之人提供服务（包括升级和扩展）而造成的损害；</li>
+						<li>(g)未经快摇书面许可而进行修改以更改其功能或性能的快摇产品；</li>
+						<li>(h)因快摇产品正常磨损或正常老化导致的缺陷.</li>
+					</ul>
+					<h4>有关快摇维修的重大限制</h4>
+
+					<p>快摇可能仅在快摇或其授权分销商最初销售硬件产品的国家/地区提供针对这些设备的保修服务。</p>
+
+					<h4>您的责任</h4>
+
+					<p>您应该定期备份快摇产品存储媒介中包含的信息，以保护该内容并预防可能的操作故障。</p>
+					<br/>
+					<p>在接受保修服务前，快摇或其代理人可能要求您提供在零售购买之日向终端用户客户销售时与快摇产品一同提供的保修凭证，回答旨在帮助诊断潜在问题的提问并遵循快摇程序，以获得保修服务。在您提交需要保修服务的快摇产品前，您应该制作一份该设备存储媒介内容的单独备份副本，清除所有您希望保护的个人信息。</p>
+					<br/>
+					<p>在保修服务期间，存储媒介中的内容将被删除并格式化。对于被维修快摇产品的存储媒介或任何其他部分中包含的任何数据或其他信息的丢失，快摇及其代理人概不负责。</p>
+					<br/>
+					<p>在保修服务之后，您的快摇产品或替换设备将按照您最初购买快摇产品时的配置返还给您，并可能做出相关更新。</p>
+					<br/>
+					<p>重要事项：请勿拆开快摇产品。拆开快摇产品可能导致本保证未涵盖的损害。仅快摇或快摇授权服务商方可为本快摇产品提供服务。</p>
+					<h4>发生违反本保证情形时快摇会怎样做？</h4>
+					<br/>
+					<p>受限于适用法律规定的保证和救济，如果您在保修期内向快摇或快摇授权服务商提交有效索赔，快摇将：（i）维修快摇产品，或（ii）更换快摇产品，或（iii）退还您的购买价款，换回此快摇产品。</p>
+					<br/>
+					<p>快摇可能要求您自己更换用户可自行安装的某些零部件或快摇产品。零部件或快摇产品的更换品，包括用户依照快摇指示已安装好的用户可自行安装的零部件，其保修期为下列期限中的较长者：（i）本保证的剩余期限，（ii）更换或维修之日起九十（90）日，（iii）适用法律规定的期限。在快摇产品或零部件获得更换或退款时，任何更换物品成为您的财产，被更换或退款的物品成为快摇的财产。</p>
+
+
+					<h4>保修服务选项</h4>
+
+					<p>快摇将通过下列一个或多个选项提供保修服务：</p>
+					<ul>
+						<li>
+					(i) 送修服务。您可以向提供送修服务的快摇授权服务商站点返还您的快摇产品。服务将在该地点进行，或者快摇授权服务商可能将您的快摇产品发送至快摇的维修服务站点进行维修。一旦通知您该服务完成，您将及时从快摇授权服务商站点取回快摇产品，或快摇产品将直接从快摇授权服务商站点发送到您的所在地。</li>
+						<li>(ii)直接邮寄服务。如果快摇确定您的快摇产品符合直接邮寄服务的条件，快摇将向您提供预付邮资的运货单及包装材料（如适用），您须依照快摇的指示将您的快摇产品寄送至快摇授权服务商站点。完成维修服务后，快摇授权服务商站点会将快摇产品返还给您。如果您遵照所有指示，快摇将支付快摇产品往返您所在地的运费。</li>
+						<li>(iii) 自行维修零部件服务。自行维修零部件服务可让您自行维修您的快摇产品。如果情况允许自行维修零部件服务，您须遵守下列流程。</li>
+						<li>(a)快摇要求返还被更换的快摇产品或零部件。快摇可能要求提供信用卡授权作为快摇产品或零部件的更换品之零售价及可能产生运费的担保。如果您无法提供信用卡授权，快摇可能无法向您提供自行维修零部件服务，而只能安排其他替代服务。快摇将向您寄送快摇产品或零部件的更换件，同时提供安装指示（如适用），以及对于被更换的快摇产品及零部件的任何返还要求。如果您依照指示，快摇将取消信用卡授权，您将不需要支付快摇产品或零部件的更换品以及往返您所在地的运费。如果您未能依照指示返还被更换的快摇产品或零部件，或返还不符合服务资格的被更换的快摇产品或零部件，快摇将收取您的信用卡授权金额。</li>
+						<li>(b)快摇不要求返还被更换的快摇产品或零部件。快摇将向您免费寄送快摇产品或零部件的更换品及安装指示（如适用），以及对于被更换的快摇产品或零部件的任何处理要求。</li>
+						<li>(c)对于您产生的与自行维修零部件服务相关的任何人工费用，快摇不承担责任。如果您需要进一步的协助，请联系快摇代表以获得帮助。</li>
+					</ul>
+
+					<p>快摇有权变更快摇向您提供保修服务的方式，以及您的快摇产品获得特定服务方式的资格。服务将受限于服务需求国提供的可选项目。根据国家的不同，服务选项、零部件的获得及响应时间可能有所不同。如果快摇产品所在国不能提供保修服务，您可能需要负责运费和手续费。如果您在非原购买国寻求服务，您须遵守所有适用的进出口法律和法规，并负责所有关税、增值税及其他相关税收和费用。如果可以提供国际服务，快摇公司将使用符合当地标准的同等快摇产品和零部件，维修或更换快摇产品和零部件。</p>
+
+
+					<h4>有限责任</h4>
+
+					<p>除本保证规定以外以及在法律允许的最大范围内，任何情况下快摇均无须承担因违反保证或条件、或根据任何其他法学理论所引致的直接的、特殊的、附带的或后果性损害，包括但不限于使用损失；收入损失；实际或预期利润损失（包括合同利润损失）；资金运用损失；未能如期节省的损失；业务损失；机会损失；商誉损失；声誉损失；数据丢失；损坏或毁损；或不论如何导致的任何间接或后果性损失或损害（包括更换设备和财产）、因修复、编写或复制储存于快摇或连同快摇使用的任何程序或数据、或因未能为快摇产品储存的资料保密而产生的任何费用等。</p>
+
+					<p>前述限制不适用于死亡或人身伤害的申索，或对于故意和严重疏忽行为和/或遗漏的任何法定责任。快摇否认曾经陈述其可以修理本保证下任何快摇产品，或在对快摇产品储存资讯毫无风险或丢失的情况下更换快摇产品。</p>
+					<br />
+					<p>有些国家和省不允许排除或限制附带的或后果性损害，因此上述限制或排除可能不适用于您。</p>
+
+					<h4>隐私</h4>
+
+					<p>快摇将根据快摇客户隐私政策维护和使用客户信息。</p>
+
+					<h4>一般条款</h4>
+
+					<p>快摇经销商、代理人或员工均未被授权对本保证做出任何修改、延期或增添。若任何条款被裁定为违法或不可执行，剩余条款的合法性和可执行性不受影响或损害。本保证适用快摇产品购买地国家的法律并据此进行解释。快摇或其权益继受人是本保证项下的保证人。</p>
+
+					<h4>版权所有</h4>
+					<p>© 2015快摇名片™</p>
+	    		</div>
+	    	</div>
+	    	<!-- 产品详情 end -->
+	    </div>	
+	</div>
+
+	<div id="myForm" ></div>
+
+	<div class="boxBg"></div>
+	<div class="attention">
+		<a href="javascript:;">×</a>
+		<img src="<?php echo $this->basePath();?>/images/small/qrcode_for_gh_a3252dc0b3f4_1280.jpg" alt="">
+		<p>系统升级中，暂请在微信公众号购买</p>
+	</div>
+
+<script src="<?php echo $this->basePath();?>/js/jquery-1.8.2.min.js"></script>
+<script src="<?php echo $this->basePath();?>/js/jquery.SuperSlide.2.1.1.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+// 新增图片放大js
+$(document).ready(function(){
+	/*图片左右切换*/
+	jQuery("#imageMenu").slide({mainCell:".discount_img ul",autoPage:true,effect:"left",scroll:1,vis:4,pnLoop:false,autoPlay:false, trigger:"click"});
+	
+	
+	// 解决 ie6 select框 问题
+	$.fn.decorateIframe = function(options) {
+        if ($.browser.msie && $.browser.version < 7) {
+            var opts = $.extend({}, $.fn.decorateIframe.defaults, options);
+            $(this).each(function() {
+                var $myThis = $(this);
+                //创建一个IFRAME
+                var divIframe = $("<iframe />");
+                divIframe.attr("id", opts.iframeId);
+                divIframe.css("position", "absolute");
+                divIframe.css("display", "none");
+                divIframe.css("display", "block");
+                divIframe.css("z-index", opts.iframeZIndex);
+                divIframe.css("border");
+                divIframe.css("top", "0");
+                divIframe.css("left", "0");
+                if (opts.width == 0) {
+                    divIframe.css("width", $myThis.width() + parseInt($myThis.css("padding")) * 2 + "px");
+                }
+                if (opts.height == 0) {
+                    divIframe.css("height", $myThis.height() + parseInt($myThis.css("padding")) * 2 + "px");
+                }
+                divIframe.css("filter", "mask(color=#fff)");
+                $myThis.append(divIframe);
+            });
+        }
+    }
+    $.fn.decorateIframe.defaults = {
+        iframeId: "decorateIframe1",
+        iframeZIndex: -1,
+        width: 0,
+        height: 0
+    }
+    //放大镜视窗
+    $("#bigView").decorateIframe();
+    //点击到中图
+    var midChangeHandler = null;
+    $("#imageMenu li img").bind("click", function(){
+		if ($(this).attr("id") != "onlickImg") {
+			midChange($(this).attr("src").replace("small", "small"));
+			$("#imageMenu li").removeAttr("id");
+			$(this).parent().attr("id", "onlickImg");
+		}
+	}).bind("mouseover", function(){
+		if ($(this).attr("id") != "onlickImg") {
+			window.clearTimeout(midChangeHandler);
+			midChange($(this).attr("src").replace("small", "small"));
+			$(this).css({ "border": "1px solid #c40000" });
+		}
+	}).bind("mouseout", function(){
+		if($(this).attr("id") != "onlickImg"){
+			$(this).removeAttr("style");
+			midChangeHandler = window.setTimeout(function(){
+				midChange($("#onlickImg img").attr("src").replace("small", "small"));
+			}, 1000);
+		}
+	});
+    function midChange(src) {
+        $("#midimg").attr("src", src).load(function() {
+            changeViewImg();
+        });
+    }
+    //大视窗看图
+    function mouseover(e) {
+        if ($("#winSelector").css("display") == "none") {
+            $("#winSelector,#bigView").show();
+        }
+        $("#winSelector").css(fixedPosition(e));
+        e.stopPropagation();
+    }
+    function mouseOut(e) {
+        if ($("#winSelector").css("display") != "none") {
+            $("#winSelector,#bigView").hide();
+        }
+        e.stopPropagation();
+    }
+    $("#midimg").mouseover(mouseover); //中图事件
+    $("#midimg,#winSelector").mousemove(mouseover).mouseout(mouseOut); //选择器事件
+    var $divWidth = $("#winSelector").width(); //选择器宽度
+    var $divHeight = $("#winSelector").height(); //选择器高度
+    var $imgWidth = $("#midimg").width(); //中图宽度
+    var $imgHeight = $("#midimg").height(); //中图高度
+    var $viewImgWidth = $viewImgHeight = $height = null; //IE加载后才能得到 大图宽度 大图高度 大图视窗高度
+    function changeViewImg() {
+        $("#bigView img").attr("src", $("#midimg").attr("src").replace("mid", "big"));
+    }
+    changeViewImg();
+    $("#bigView").scrollLeft(0).scrollTop(0);
+    function fixedPosition(e) {
+        if (e == null) {
+            return;
+        }
+        var $imgLeft = $("#midimg").offset().left; //中图左边距
+        var $imgTop = $("#midimg").offset().top; //中图上边距
+        X = e.pageX - $imgLeft - $divWidth / 2; //selector顶点坐标 X
+        Y = e.pageY - $imgTop - $divHeight / 2; //selector顶点坐标 Y
+        X = X < 0 ? 0 : X;
+        Y = Y < 0 ? 0 : Y;
+        X = X + $divWidth > $imgWidth ? $imgWidth - $divWidth : X;
+        Y = Y + $divHeight > $imgHeight ? $imgHeight - $divHeight : Y;
+        if ($viewImgWidth == null) {
+            $viewImgWidth = $("#bigView img").outerWidth();
+            $viewImgHeight = $("#bigView img").height();
+            if ($viewImgWidth < 200 || $viewImgHeight < 200) {
+                $viewImgWidth = $viewImgHeight = 800;
+            }
+            $height = $divHeight * $viewImgHeight / $imgHeight;
+            $("#bigView").width($divWidth * $viewImgWidth / $imgWidth);
+            $("#bigView").height($height);
+        }
+        var scrollX = X * $viewImgWidth / $imgWidth;
+        var scrollY = Y * $viewImgHeight / $imgHeight;
+        $("#bigView img").css({ "left": scrollX * -1, "top": scrollY * -1 });
+        $("#bigView").css({ "top": 75, "left": $(".preview").offset().left + $(".preview").width() + 15 });
+        return { left: X, top: Y };
+    }
+
+   //  $('#pay li').click(function(){
+   //  $(this).addClass("border_red").siblings().removeClass("border_red");
+   //  var pay = $(this).attr('pay');
+   //   	$('#toPay').attr('pay',pay);
+   //   });
+   //  $('#toPay').click(function(){
+   //  	if (!$(this).attr('pay')) {
+   //  		alert('请选择支付方式！');
+   //  		retuen;
+   //  	}
+   //  	var amount    = 0.02;
+   //  	var order_sn  = Date.parse(new Date())/1000;
+   //  	var pay_type  = $(this).attr('pay');
+   //  	$.post('<?php echo $this->url("index",array('action'=>'buyDetails','controller'=>'user'));?>',
+			// {'amount':amount,'order_sn':order_sn, 'pay_type':pay_type},
+			// function(data){
+			// 	console.log(data);
+			// 	return false;
+			// 	$('#myForm').html(data.content);
+			// 	$('#pay_form').submit();
+			// },
+			// 'json'
+   //      );    
+   //  });
+
+    $(".product li").click(function(){
+    	var i = $(this).index();
+    	$(".product li").removeClass("product_current");
+    	$(this).addClass("product_current");
+    	$('.product_details div').hide().eq(i).show();
+    })
+
+    $(".button_a").click(function(){
+    	$(".attention").show();
+    	$(".boxBg").show();
+    })
+    $(".attention a").click(function(){
+    	$(".attention").hide();
+    	$(".boxBg").hide();
+    })
+});
+</script>

@@ -1,0 +1,231 @@
+<?php echo $this->headScript()->prependFile($this->basePath() . '/js/jq_area_all.js')?>
+<?php echo $this->headScript()->prependFile($this->basePath() . '/js/region.js')?>
+<div class="row">
+	<div class="col-sm-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>活动详细</h3>
+				<div class="panel-options">
+					<a href="#" data-toggle="panel">
+						<span class="collapse-icon">&ndash;</span>
+						<span class="expand-icon">+</span>
+					</a>
+					<a href="#" data-toggle="remove"> &times; </a>
+				</div>
+			</div>
+			<form role="form" class="form-horizontal" action="<?php echo $this->url('admin-ads',array('action'=>'addRelation'))?>"
+					method="post">
+				<div class="panel-body">
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="field-1">开始时间：</label>
+
+						<div class="col-sm-10">
+							<div class="input-group input-group-sm input-group-minimal">
+								<span class="input-group-addon">
+									<i class="fa-clock-o"></i>
+								</span>
+								<input type="text" class="form-control" data-mask="y-m-d h:m:s"
+									name="start_time"
+									value="<?php echo isset($info->start_time) ? $info->start_time : date("Y-m-d H:i:s",strtotime("+1 day"));?>" />
+							</div>
+						</div>
+					</div>
+					<div class="form-group-separator"></div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="field-1">结束时间：</label>
+
+						<div class="col-sm-10">
+							<div class="input-group input-group-sm input-group-minimal">
+								<span class="input-group-addon">
+									<i class="fa-clock-o"></i>
+								</span>
+								<input type="text" class="form-control" name="end_time"
+									data-mask="y-m-d h:m:s"
+									value="<?php echo isset($info->end_time) ? $info->end_time : date("Y-m-d H:i:s",strtotime("+2 day"));?>" />
+							</div>
+						</div>
+					</div>
+					<div class="form-group-separator"></div>
+
+					<div class="form-group">
+						<label class="control-label">广告位：</label>
+
+						<script type="text/javascript">
+										jQuery(document).ready(function($)
+										{
+											$("#sboxit-2").selectBoxIt({
+												showFirstOption: false
+											}).on('open', function()
+											{
+												// Adding Custom Scrollbar
+												$(this).data('selectBoxSelectBoxIt').list.perfectScrollbar();
+											});
+										});
+									</script>
+						<select class="form-control" id="sboxit-2" name="ads_position_id">
+										<?php foreach($ads_position as $v){?>
+							         <option value="<?php echo $v->id;?>"
+								<?php if(isset($info->ads_position_id) && $info->ads_position_id == $v->id){?> selected <?php }?>><?php echo $v->name?>(<?php echo $v->width.'X'.$v->height;?>)</option>
+							         <?php }?>
+									</select>
+					</div>
+					<div class="form-group-separator"></div>
+					<div class="form-group">
+						<label class="control-label">广告物料(图片)：</label>
+
+						<script type="text/javascript">
+										jQuery(document).ready(function($)
+										{
+											$("#ads").selectBoxIt({
+												showFirstOption: false
+											}).on('open', function()
+											{
+												// Adding Custom Scrollbar
+												$(this).data('selectBoxSelectBoxIt').list.perfectScrollbar();
+											});
+										});
+									</script>
+
+						<select class="form-control" name="ads_material_id"
+							onChange="showPic()" id="ads">
+									 <?php foreach($ads as $v){?>
+							         <option value="<?php echo $v->id;?>"
+								pic="<?php echo IMAGE_SERVER.UPLOAD_PATH.$v->path.$v->filename;?>"
+								<?php if(isset($info->ads_material_id) && $info->ads_material_id == $v->id){?> selected <?php }?>><?php echo $v->name?>(<?php echo $v->width.'X'.$v->height;?>)</option>
+							         <?php }?>
+									</select>
+						<img
+							src="<?php echo IMAGE_SERVER.UPLOAD_PATH.$info->path.$info->filename;?>"
+							id="ads_img" style="max-width: 300px; max-height: 100px;">
+					</div>
+
+
+
+					<div class="form-group-separator"></div>
+						<?php if(!isset($info->id)){?>
+						<div class="form-group">
+						<label class="col-sm-2 control-label">精准投放：</label>
+						<div class="col-sm-10">
+							<p>
+								<label class="radio-inline">
+									<input type="radio" name="limit" value="0"
+										<?php if(!isset($info->limit) || isset($info->limit) && $info->limit==1){?>
+										checked="checked" <?php }?> onclick="setOptions(0)">
+									不限
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="limit" value="1"
+										<?php if( isset($info->limit) && $info->limit==2){?>
+										checked="checked" <?php }?> onclick="setOptions(1)">
+									限制学校
+								</label>
+
+								<label class="radio-inline">
+									<input type="radio" name="limit" value="2"
+										<?php if(isset($info->limit) && $info->limit==2){?>
+										checked="checked" <?php }?> onclick="setOptions(2)">
+									限制区域
+								</label>
+							</p>
+						</div>
+					</div>
+					<div class="form-group-separator"></div>
+					<div class="form-group" style="display: none" id="regional">
+						<label class="col-sm-2 control-label">地区：</label>
+						<div class="col-sm-10">
+							<span id="area">
+								<select id="province" name="province_id" style="width: 100px;"
+									onChange="set(1)"></select>
+								<select id="city" name="city_id" style="width: 100px;"
+									onChange="set(2)"></select>
+							</span>
+						</div>
+					</div>
+					<div class="form-group-separator"></div>
+					<div class="form-group" id="school" style="display: none">
+						<label class="col-sm-2 control-label">学校：</label>
+						<div class="col-sm-10" id="region"
+							style="width: 70%; padding-left: 20px;"></div>
+					</div>
+					<?php }?>
+			<div class="form-group-separator"></div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label"></label>
+						<div class="col-sm-10">
+							<input type="hidden" name="id"
+								value="<?php echo isset($info->id) ? $info->id : '';?>" />
+							<input type="submit" class="btn btn-info" name="submit"
+								style="margin-left: 100px" value="保存">
+
+						</div>
+					</div>
+			</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- Imported styles on this page -->
+<link rel="stylesheet" href="<?php echo ROOT_PATH;?>js/daterangepicker/daterangepicker-bs3.css">
+<link rel="stylesheet" href="<?php echo ROOT_PATH;?>js/select2/select2.css">
+<link rel="stylesheet" href="<?php echo ROOT_PATH;?>js/select2/select2-bootstrap.css">
+<link rel="stylesheet" href="<?php echo ROOT_PATH;?>js/multiselect/css/multi-select.css">
+<script src="<?php echo ROOT_PATH;?>js/select2/select2.min.js"></script>
+<script src="<?php echo ROOT_PATH;?>js/jquery-ui/jquery-ui.min.js"></script>
+<script src="<?php echo ROOT_PATH;?>js/selectboxit/jquery.selectBoxIt.min.js"></script>
+<script src="assets/js/tagsinput/bootstrap-tagsinput.min.js"></script>
+<script src="<?php echo ROOT_PATH;?>js/multiselect/js/jquery.multi-select.js"></script>
+<script type="text/javascript">
+$("#area").area({cache:region, p_id:0,ci_id: 0});
+function set(a)
+{   
+	if(a==1)
+	{
+	   var region_id = $("#province").find("option:selected").val();
+	   
+	   
+	}
+	else
+	{
+	   var region_id = $("#city").find("option:selected").val();
+		
+	}
+    if(region_id){
+    	   $.post("<?php echo $this->url('admin-official',array('action'=>'getRegion'))?>", { region_id: region_id},
+			   function(data){
+			     $("#region").html(data);
+			   });
+    }
+}
+
+function setOptions(type)
+{
+    if(type==1)
+    {
+
+    	$("#regional").show();
+        $("#school").show();
+    }
+    else if(type==2)
+    {
+
+    	$("#regional").show();
+        $("#school").hide();
+    }
+    else
+    {
+        $("#regional").hide();
+        $("#school").hide();
+    }
+	
+}
+
+function showPic()
+{
+	var img = $("#ads").find("option:selected").attr("pic");
+	$("#ads_img").attr("src",img);
+}
+</script>
+
+

@@ -1,0 +1,178 @@
+
+<div class="row">
+	<div class="col-sm-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>信息详细</h3>
+			</div>
+			<form role="form" class="form-horizontal">
+			<div class="panel-body">
+				
+				<div class="form-group-separator"></div>				
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="field-1">用户名：</label>
+
+					<div class="col-sm-10">
+					
+						<input type="text" class="form-control" id="field-1" value="<?php echo $name;?>" disabled>
+					</div>
+				</div>
+				
+				<div class="form-group-separator"></div>				
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="field-1">金额：</label>
+
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="field-1" value="<?php echo $financial_info['amount'];?>" disabled>
+					</div>
+				</div>
+				
+				<div class="form-group-separator"></div>				
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="field-1">支付方式：</label>
+
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="field-1" value="<?php if($financial_info['payment_type']==1){echo '用户余额';}elseif($financial_info['payment_type']==2){echo '支付宝';}else if($financial_info['payment_type']==3){echo '微信';}else if($financial_info['payment_type']==4){echo '银行卡';};?>" disabled>
+					</div>
+				</div>
+				
+				<div class="form-group-separator"></div>				
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="field-1">流水号：</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="field-1" value="<?php echo $financial_info['transfer_no'];?>" disabled>
+					</div>
+				</div>
+				
+				<div class="form-group-separator"></div>				
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="field-1">申请时间：</label>
+
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="field-1" value="<?php echo $financial_info['timestamp'];?>" disabled>
+					</div>
+				</div>
+				
+				<?php if($financial_info['card_owner']!=""){?>
+				<div class="form-group-separator"></div>				
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="field-1">开卡人：</label>
+
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="field-1" value="<?php echo $financial_info['card_owner'];?>" disabled>
+					</div>
+				</div>
+				<?php }?>
+				
+				<div class="form-group-separator"></div>				
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="field-1">申请银行：</label>
+
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="field-1" value="<?php foreach($bankList as $key => $val){if($financial_info['bank']==$key){echo $val;}}?>" disabled>
+					</div>
+				</div>
+				
+				<?php if($financial_info['card_number']!=""){?>
+				<div class="form-group-separator"></div>				
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="field-1">银行卡号：</label>
+
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="field-1" value="<?php echo $financial_info['card_number'];?>" disabled>
+					</div>
+				</div>
+				<?php }?>
+				<?php if($financial_info['reason']!="" && $financial_info['status']==2){?>
+				<div class="form-group-separator"></div>				
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="field-1">失败原因：</label>
+
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="field-1" value="<?php echo $financial_info['reason'];?>" disabled>
+					</div>
+				</div>
+				<?php }?>
+				
+				<?php if($financial_info['admin_name']!="" && $financial_info['status']!=3){?>
+				<div class="form-group-separator"></div>				
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="field-1">审批人：</label>
+
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="field-1" value="<?php echo $financial_info['admin_name'];?>" disabled>
+					</div>
+				</div>
+				<?php }?>
+				<div class="form-group-separator"></div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label"></label>
+
+    						<div class="col-sm-10">
+    						<?php if($super!=2){ ?>
+    							   <?php if($financial_info['status'] == 3 && $financial_info['income'] == 2){?>
+    							   <a class="btn btn-setting  btn-warning" data-toggle="modal" data-target="#myModal">不通过</a>
+    							   <a class="btn btn-info" id="pass" >通过</a>
+                                   <?php }?>
+                            <?php } ?>       
+                            </div>
+						</div>
+			</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="false" style='z-index:8888;'>
+	<div class="modal-dialog" >
+		<div class="modal-content" >
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">×</button>
+				<h3>填写原因</h3>
+			</div>
+			<div class="modal-body">
+				<div style="float: reight;width:600px;">
+				<span style="margin-left: 10px;"><textarea  name="rea" id="reason" style="width:500px;height:200px;resize:none;"/></textarea>
+				<input type="hidden"  name="id" value="<?php echo $financial_info['id']?>" id="id"/></span><br>
+				<span style="margin-left: 10px;"><input  class="btn btn-info" type="button" width="100px" length="100px" id="reason_btn" value="提交"></span>
+			</div>
+			<div style="clear: both"></div>
+		</div>
+	</div>
+</div>
+<script>
+     //审核失败
+     $("#reason_btn").click(function(){
+   	     var reason = $("#reason").val();
+   	     if(!reason==""){
+      	        id = $("#id").val();
+    	    	$.post("<?php echo $this->url("admin-financial",array("action"=>"addreason"))?>",{reason:reason,id:id}, function (data) {
+        	    	if(data==1){
+        	    		$("#myModal").hide();
+        	    		alert("提交成功");
+        	    		location.href="<?php echo $this->url("admin-financial",array("action"=>"index","cid"=>"3"))?>";//跳转到列表页
+        	    	}else if(data==0){
+        	    	    alert("操作失败");
+        	    	}
+    	    	});
+   	   	 }
+     });
+     
+     //审核成功
+     $("#pass").click(function(){
+ 	    if(window.confirm("确定通过该审核？")){
+ 	    	id = $("#id").val();
+ 	    	$.post("<?php echo $this->url("admin-financial",array("action"=>"Auditthrough"))?>",{id:id}, function (data) {
+    	    	if(data==1){
+    	    		alert("审核成功");
+    	    		location.href="<?php echo $this->url("admin-financial",array("action"=>"index","cid"=>"3"))?>";
+    	    	}else if(data==0){
+    	    	    alert("操作失败");
+    	    	}
+	    	});
+ 	 	}
+ 	 });
+</script>
+

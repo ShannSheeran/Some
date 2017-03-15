@@ -1,0 +1,287 @@
+      <script>
+        $(function(){
+          daojishi();
+        })
+      </script>
+      <section class="wrap">
+      <div class="wrap clearfix">
+        <div class="trading_center">
+          <h2>交易中心</h2>
+          <div class="instructions">交易时间：每天<span style="color:#c4234c"><?php echo $time_node->node; ?></span>分前所下订单为当天受理的订单，<span style="color:#c4234c"><?php echo $time_node->node; ?></span>后所下订单为第二天受理的订单</div>
+          <div class="surplus_time">剩余订购时间：<span><i id="hours">4</i>小时<i id="minutes">23</i>分<i id="seconds">15</i>秒</span></div>
+          <?php if($type == 1):?>
+          <div class="order clearfix">
+            <a class="btn_order" href="<?php echo $this->url('index' , array('controller' => 'goods' , 'action' => 'shopList','type'=>1))?>">盆栽订购</a>
+            <a class="btn_order materials" href="<?php echo $this->url('index' , array('controller' => 'goods' , 'action' => 'shopList','type'=>2 ))?>">资材订购</a>
+            <a class="supply_plan" href="<?php echo $this->url('index' , array('controller' => 'order' , 'action' => 'SupplyPlan' ))?>">本周供货计划</a>
+          </div>
+          <?php else:?>
+          <div class="order">
+            <a class="btn_order" href="<?php echo $this->url('index' , array('controller' => 'goods' , 'action' => 'releaseGoods' ))?>">发布商品</a>
+            <a class="btn_order materials" style="margin-left:37px;" href="<?php echo $this->url('index' , array('controller' => 'goods' , 'action' => 'shopList','type'=>2 ))?>">资材订购</a>
+          </div>
+          <?php endif;?>
+        </div>
+        <div class="my_order">
+          <div class="my_order_title fl">
+            <ul class="fl">
+            <?php if($type == 2):?>
+              <li class="on">我的商品</li>
+              <li onclick="getOrderList(2)" class="order_2">资材订单</li>
+            <?php else:?>
+              <li class="on">订单中心</li>
+            <?php endif;?>
+            </ul>
+            <?php if($type == 1):?>
+            <a class="all_arrow" href="<?php echo $this->url('index' , array('controller' => 'order' , 'action' => 'index' ))?>">全部>></a>
+            <?php else:?>
+            <a class="all_arrow" href="<?php echo $this->url('index' , array('controller' => 'user' , 'action' => 'myGoods' ))?>">全部>></a>
+            <?php endif;?>
+          </div>
+          <div class="homepage_order_content">
+          <?php if($type == 2):?>
+            <div class="my_goods_content fl">
+              <ul class="content_spread">
+                <li class="item_code">商品编号</li>
+                <li>商品单价</li>
+                <li>当前状态</li>
+                <li class="handle">操作</li>
+              </ul>
+              <ul class="content_details">
+              <?php if(!empty($myGoods)):?>
+              <?php foreach ($myGoods as $v):?>
+                <li>
+                  <div class="item_code"><?php echo $v->goods_sn?></div>
+                  <div><?php echo number_format($v->min_cash,1)?></div>
+                  <?php foreach ($goodsStatus as $n=>$m):?>
+                  <?php if($n == $v->status):?>
+                  <div><?php echo $m?></div>
+                  <?php endif;?>
+                  <?php endforeach;?>
+                  <div class="handle"><a href="<?php echo $this->url('index' , array('controller' => 'user' , 'action' => 'myGoodsDetail','id'=>$v->id ))?>">查看</a></div>
+                </li>
+                <?php endforeach;?>
+                <?php endif;?>
+              </ul>
+            </div>
+            
+            <div class="my_order_content fl none">
+              <ul class="content_spread">
+                <li class="item_code">订单编号</li>
+                <li>订单金额</li>
+                <li>当前状态</li>
+                <li class="handle">操作</li>
+              </ul>
+              <ul class="content_details">
+                <?php if(!empty($orders)):?>
+                <?php foreach ($orders as $v):?>
+                <li>
+                  <div class="item_code"><?php echo $v->order_sn?></div>
+                  <div><?php echo number_format($v->total_cash,1)?></div>
+                  <?php foreach ($orderStatus as $n=>$m):?>
+                  <?php if($n == $v->status):?>
+                  <div><?php echo $m?></div>
+                  <?php endif;?>
+                  <?php endforeach;?>
+                  <div class="handle"><a href="<?php echo $this->url('index' , array('controller' => 'order' , 'action' => 'orderDetail','id'=>$v->id ))?>">查看</a></div>
+                </li>
+                <?php endforeach;?>
+                <?php endif;?>
+              </ul>
+            </div>
+            <?php else:?>
+            <div class="my_goods_content fl">
+              <ul class="content_spread">
+                <li class="item_code">订单编号</li>
+                <li>订单金额</li>
+                <li>当前状态</li>
+                <li class="handle">操作</li>
+              </ul>
+              <ul class="content_details">
+                <?php if(!empty($orders)):?>
+                <?php foreach ($orders as $v):?>
+                <li>
+                  <div class="item_code"><?php echo $v->order_sn?></div>
+                  <div><?php echo number_format($v->total_cash,1)?></div>
+                  <?php foreach ($orderStatus as $n=>$m):?>
+                  <?php if($n == $v->status):?>
+                  <div><?php echo $m?></div>
+                  <?php endif;?>
+                  <?php endforeach;?>
+                  <div class="handle"><a href="<?php echo $this->url('index',array('controller'=>'order','action'=>'orderDetail','id'=>$v->id))?>">查看</a></div>
+                </li>
+                <?php endforeach;?>
+                <?php endif;?>
+               </ul>
+            </div>
+            <?php endif;?>
+          </div>        
+        </div>
+      </div>
+      <div class="clear"></div>
+      <div class="wrap clearfix">
+        <div class="hot">
+          <div class="hot_title">
+            <?php if($type==1):?>
+            <h2>新品上市</h2>
+            <a class="all_arrow" href="<?php echo $this->url('index' , array('controller' => 'goods' , 'action' => 'shopList' , 'sort' => 4))?>">全部>></a>
+            <?php else:?>
+            <h2>最新热销</h2>
+            <a class="all_arrow" href="<?php echo $this->url('index' , array('controller' => 'goods' , 'action' => 'hotSeller' ))?>">全部>></a>
+            <?php endif;?>
+          </div>
+          <div class="hot_content">
+            <ul class="hot_spread">
+              <li class="goods_name">商品名称</li>
+              <li>商品单价</li>
+              <li>销量</li>
+              <li class="operation">操作</li>
+            </ul>
+            <ul class="hot_details">
+            <?php if(!empty($goods)):?>
+            <?php foreach ($goods as $v):?>
+              <li>
+                <div class="name"><?php echo $v->name?></div>
+                <div><?php echo number_format($v->min_cash,1)."-".number_format($v->max_cash,1)?></div>
+                <div><?php echo empty($v->sale_number) ? 0 : $v->sale_number?></div>
+                <?php if($type==1):?>
+                <div class="operation"><a href="<?php echo $this->url('index' , array('controller' => 'goods' , 'action' => 'detail','id'=>$v->id))?>">去购买</a></div>
+                <?php else:?>
+                <div class="operation"><a href="<?php echo $this->url('index' , array('controller' => 'goods' , 'action' => 'releaseGoods','id'=>$v->id ))?>">去发布</a></div>
+                <?php endif;?>
+              </li>
+              <?php endforeach;?>
+              <?php endif;?>
+            </ul>
+          </div>
+        </div>
+        <div class="notice">
+          <div class="notice_title">
+            <h2>最新公告</h2>
+            <a class="all_arrow" href="<?php echo $this->url('index' , array('controller' => 'user' , 'action' => 'notice' ))?>">全部>></a>
+          </div>
+          <div class="notice_content">
+            <ul>
+            <?php if(!empty($articles)):?>
+            <?php foreach ($articles as $v):?>
+              <li>
+                <div class="news"><a href="<?php echo $this->url('index' , array('controller' => 'user' , 'action' => 'noticeDetail' , 'id' => $v->id ))?>"><?php echo $v->title?></a></div>
+                <div class="fr"><?php echo substr($v->timestamp,0,10)?></div>
+              </li>
+              <?php endforeach;?>
+              <?php endif;?>
+              </ul>
+        </div>
+      </div>
+    </section>
+    <script type="text/javascript">
+    $('.order_content>div').hide();
+    $('.order_content>div:first-child').show();
+    $('.my_order_title ul li').click(function(){
+      $(this).addClass('on').siblings().removeClass('on');
+      if($(this).hasClass('order_2'))
+      {
+  	    $('.my_order_title .all_arrow').attr('href','<?php echo $this->url('index',array('controller'=>'order','action'=>'index'))?>');
+  	    $('.my_order_content').show();
+  	    $('.my_goods_content').hide();
+      }
+      else
+      {
+    	$('.my_order_title .all_arrow').attr('href','<?php echo $this->url('index',array('controller'=>'user','action'=>'myGoods'))?>');
+    	$('.my_order_content').hide();
+  	    $('.my_goods_content').show();
+      }
+      $('.order_content>div').hide();
+      $('.order_content>div').eq($(this).index()).show();
+    })
+    
+    var startTime = '<?php echo strtotime(date('Y-m-d 01:00:00'));?>';
+    var endTime = '<?php echo strtotime(date('Y-m-d '.$time_node->node ));?>';
+    function daojishi()
+    {
+    	var newTime = new Date();
+		var ntp = parseInt(newTime.getTime() / 1000);//现在时间
+		var time = endTime - ntp;//现在离结束时间间隔
+        if((ntp - endTime) < 0&&(ntp - startTime) > 0)
+        {
+        	var T = self.setInterval("cd()",1000);
+            var hours = parseInt((time%(3600*24)/(60*60)));
+            var minutes = parseInt(((time%(3600*24)%(60*60)/60)));
+            var seconds = parseInt(((time%(3600*24)%(60*60)%60)));
+            if(hours < 10)
+            {
+            	hours = '0' + hours;
+            }
+            if(minutes < 10)
+            {
+            	minutes = '0' + minutes;
+            }
+            if(seconds < 10)
+            {
+            	seconds = '0' + seconds;
+            }
+            $('#hours').html(hours);
+            $('#minutes').html(minutes);
+            $('#seconds').html(seconds);
+        }
+        else
+        {
+        	$('#hours').html("00");
+            $('#minutes').html("00");
+            $('#seconds').html("00");
+            clearInterval(T);
+        }
+     }
+
+    function cd(){
+    	var newTime_past = new Date();
+    	var n_t = newTime_past.getTime()/1000;
+    	if((n_t - endTime) < 0&&(n_t - startTime) > 0)
+    	{
+        	var count = endTime - n_t;
+        	var date = parseInt(count / (24*60*60));
+        	var hour = parseInt((count % (24*60*60)) / (60*60));
+        	var min  = parseInt((count % (60*60)) / 60);
+        	var sec  = parseInt((count % (60*60)) % 60);
+            if(hour < 10)
+            {
+            	$('#hours').html('0' + hour);
+            }
+            else
+            {
+            	$('#hours').html(hour);
+            }
+            
+            if(min < 10)
+            {
+            	$('#minutes').html('0' + min);
+            }
+            else
+            {
+            	$('#minutes').html(min);
+            }
+            
+            if(sec < 10)
+            {
+            	$('#seconds').html('0' +sec);
+            }
+            else
+            {
+            	$('#seconds').html(sec);
+            }
+    	}
+    	else if((n_t - startTime) < 0)
+    	{
+        	/* var count = startTime - n_t;
+        	var date = parseInt(count / (24*60*60));
+        	var hour = parseInt((count % (24*60*60)) / (60*60));
+        	var min  = parseInt((count % (60*60)) / 60);
+        	var sec  = parseInt((count % (60*60)) % 60);
+            $('.endtime2 p').text('距开始 '+date+'天'+hour+'小时'+min+'分'+sec+'秒'); */
+    	}
+    	if(date==0 && hour==0 && min==0 && sec==0)
+    	{
+    		clearInterval(T);
+    	}
+    }
+    </script>

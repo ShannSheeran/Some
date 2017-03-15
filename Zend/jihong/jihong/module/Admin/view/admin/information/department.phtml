@@ -1,0 +1,81 @@
+<style>
+	.dataTables_info{
+		display:none;
+	}
+	.dataTables_paginate{
+		display: none;
+	}
+	.bc-1{display: none;}
+	.col-sm-5{display: none;}
+	.col-sm-7{display:none;}
+	.fl{
+		float:left;
+	}
+</style>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+        <a href="<?php echo $this->url('admin-information' , array('action' => 'platformInformation')) ?>">信息管理 / <a href="<?php echo $this->url('admin-information' , array('action' => 'jhTeam')) ?>">吉宏团队</a> / <a href="">部门管理</a>
+		</h3>
+	</div>
+	
+	<div class="panel-body">
+	    <div class="fl" >
+		    <a class="btn btn-info fl " href="<?php echo $this->url('admin-information' , array('action' => 'departmentOperate')) ?>" >新增部门</a>
+		</div>
+    	<div class="" style="float:right;">
+            <form class="form-horizontal" action="<?php $this->url('admin-information' , array('action' => 'department')) ?>" method="get" style="float: left; margin-left: 20px;">
+			<select style="padding: 5px" name="status">
+			     <option value="0">全部状态</option>
+			     <option value="1" <?php echo isset($status) && $status == 1 ? 'selected' :'';?>>正常</option>
+			     <option value="2" <?php echo isset($status) && $status == 2 ? 'selected' :'';?>>停用</option>
+			</select>
+			<input type="submit"  value="搜索" class="btn btn-info" style="height: 26px; width: 60px; line-height: 26px; padding: 0; margin-left: 10px; margin-top: 5px;" />
+		    </form>
+    	</div>
+    	<div style="clear:both;"></div>
+		<table class="table table-bordered table-striped" id="example-4">
+			<thead>
+				<tr>
+					<th>部门名称</th>
+					<th>排序</th>
+					<th>状态</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			    <?php foreach ($department_list as $value): ?>
+                <tr class="tr_list" valign="middle">
+					<td style="padding-top:18px;"><?php echo $value->name?></td>
+					<td style="padding-top:18px;"><?php echo $value->sort?></td>
+					<td style="padding-top:18px;"><?php echo $value->status == 1 ? '正常' : '停用'; ?></td>
+					<td>
+					   <a href="<?php echo $this->url('admin-information' , array('action' => 'departmentOperate' , 'id' => $value->id)) ?>" class="btn btn-info">编辑</a>
+					   <?php if($value->status == 1) : ?>
+					   <a href="#" class="btn btn-danger" onclick="show_confirm('<?php echo $this->url('admin-information' , array('action' => 'editDepartmentStatus' ,'id' => $value->id , 'status' => 2)) ?>','停用')">停用</a>
+					   <?php elseif ($value->status == 2): ?>
+					   <a href="#" class="btn btn-info"  onclick="show_confirm('<?php echo $this->url('admin-information' , array('action' => 'editDepartmentStatus' ,'id' => $value->id , 'status' => 1)) ?>','启用')" >启用</a>
+					   <?php endif; ?>
+					   <a href="#"  class="btn btn-info" onclick="show_confirm('<?php echo $this->url('admin-information' , array('action' => 'deleteDepartment' ,'id' => $value->id )) ?>','删除')" >删除</a>
+					 </td>
+				</tr>
+				<?php endforeach; ?>
+            </tbody>
+		</table>
+        <?php echo $this->paginationControl($paginator, 'Sliding', 'page',array('route' =>'admin-information','condition'=>$condition));?>       
+        </div>
+</div>
+
+<script>
+function show_confirm(url,description)
+{
+	if(confirm('确认'+ description +'该部门？'))
+	{
+		location.href = url;
+	}
+	else
+	{
+		return false;
+	}
+}
+</script>

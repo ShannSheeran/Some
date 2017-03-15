@@ -1,0 +1,68 @@
+/* 
+* @Author: Marte
+* @Date:   2016-06-27 12:17:08
+* @Last Modified by:   Marte
+* @Last Modified time: 2016-06-30 14:42:10
+*/
+.border-b {
+    border-bottom: 1px solid #c4234c;
+}
+.main {
+    padding-top: 32px;
+}
+.main .article {
+    width: 800px;
+    margin: 0 auto;
+}
+.main .article h2 {
+    line-height: 77px;
+    text-align: center;
+    text-overflow:ellipsis;
+overflow: hidden;
+white-space:nowrap;
+}
+.main .article>p {
+    line-height: 31px;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+}
+.main .main_text {
+    padding-top: 19px;
+}
+.main .main_text p {
+    line-height: 25px;
+    padding:0 18px 0 30px;
+}
+.main .main_text .pic {
+    margin: 32px 0 29px 100px;
+
+}
+.mt77{
+    margin-top: 77px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

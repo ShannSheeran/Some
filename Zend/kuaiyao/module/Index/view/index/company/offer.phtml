@@ -1,0 +1,49 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,inital-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-status-bar-style" content="block" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>我能提供</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        ul{
+            padding:10px 15px 0 15px;
+            overflow: hidden;
+            border-bottom: 1px solid #dedede;
+        }
+        ul li{
+            float: left;
+            list-style: none;
+            padding: 2px 5px;
+            background: #868e99;
+            border-radius: 3px;
+            color: #fff;
+            margin: 0 10px 10px 0;
+        }
+        main{
+            padding:15px;
+            color:#666;
+        }
+        main img{
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <ul>
+        <?php foreach($info as $v){?>
+            <li><?php echo $v;?></li>
+        <?php }?>
+    </ul>
+    <?php if($company){?>
+    <main>
+        <?php echo $company['provide'];?>
+    </main>
+   <?php }?>
+</body>
+</html>

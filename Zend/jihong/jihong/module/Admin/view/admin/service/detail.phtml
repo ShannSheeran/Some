@@ -1,0 +1,160 @@
+<style>
+    .tl{text-align: right;}
+    .main-nody{padding:5px 20px 0 20px;}
+    .main-nody h5{float: left;}
+    .tp{margin-top: 30px;}
+    .bc-1{display: none;}
+    .fl{float: left;}
+</style>
+<div class="panel panel-default">
+   <div class="panel-heading">
+       <div calss="row">
+           <div class="col-sm-6">
+              <a href="<?php echo $this->url('admin-service' , array('action' => 'index')); ?>">售后留言管理 / <a href="<?php echo $this->url('admin-service' , array('action' => 'index')); ?>">售后管理</a> / <a href="">售后详情</a>
+           </div>
+       </div>
+   </div>
+    <div class="pannel-body main-nody">
+        <div class="row">
+            <div class="col-lg-12">
+                <h5>订单信息</h5>
+            </div>
+            <div class="col-lg-12">
+                <table class="table table-striped" id="example-4" >
+                    <tbody>
+                        <tr>
+                            <td width="10%">订单编号</td>
+                            <td><?php echo $viewService->order_sn?></td>
+                        </tr>
+                        <tr width="10%">
+                            <td>下单时间</td>
+                            <td><?php echo $viewService->order_timestamp?></td>
+                        </tr>
+                        <tr width="10%">
+                            <td>申请售后时间</td>
+                            <td><?php echo $viewService->customer_service_apply_timestamp?></td>
+                        </tr>
+                        <tr width="10%">
+                            <td> 处理状态</td>
+                            <?php foreach ($serviceStatus as $k=>$v){?>
+                            <?php if($k==$viewService->status){?>
+                            <td><span style="color:red"><?php echo $v?></span></td>
+                            <?php }?>
+                            <?php }?>
+                        </tr>
+                        <?php if($viewService->status == 2 || $viewService->status == 3): ?>
+                        <tr width="10%">
+                            <td> 处理时间</td>
+                            <td><?php echo $viewService->timestamp_update ?></td>
+                        </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row tp">
+            <div class="col-lg-12">
+                <h5>商品信息</h5>
+            </div>
+            <div class="col-lg-12">
+                <table class="table table-striped" id="example-4" >
+                    <thead>
+                        <tr>
+                            <th>商品简码</th>
+                            <th>商品名称</th>
+                            <th>规格等级</th>
+                            <th>型号</th>
+                            <th>购买数量</th>
+                            <th>单价</th>
+                            <th>金额</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php if(isset($order_goods_arr) && $order_goods_arr){?>
+                    <?php $price_cash_total=0;$cash_total=0;?>
+                    <?php foreach ($order_goods_arr as $v){?>
+                    <?php $price_cash_total += $v->price_cash;?>
+                    <?php $cash_total += $v->cash;?>
+                        <tr>
+                            <td><?php echo $v->code?></td>
+                            <td><?php echo $v->name?></td>
+                            <td><?php echo $v->size?></td>
+                            <td><?php echo $v->model?></td>
+                            <td><?php echo $v->number?></td>
+                            <td><?php echo $v->price_cash?></td>
+                            <td><?php echo $v->cash?></td>
+                        </tr>
+                    <?php }?>
+                    <?php }?>
+                        <tr>
+                            <td colspan="5"></td>
+                            <td>合计</td>
+                            <td>总金额：<?php echo isset($cash_total) ? number_format($cash_total,1) : '0'?></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div class="row tp">
+            <div class="col-lg-12">
+                <h5>售后信息</h5>
+            </div>
+            <div class="col-lg-12">
+                <table class="table table-striped" id="example-4">
+                    <tbody>
+                        <tr>
+                            <td>售后类型</td>
+                            <?php foreach ($serviceType as $k=>$v){?>
+                            <?php if($k == $viewService->customer_service_apply_type){?>
+                            <td><?php echo $v?></td>
+                            <?php }?>
+                            <?php }?>
+                        </tr>
+                        <tr>
+                            <td> 问题描述</td>
+                            <td><?php echo $viewService->reason?></td>
+                        </tr>
+                        <tr>
+                            <td>商品图片</td>
+                            <td>
+                            <?php if(isset($service_goods_images)&&$service_goods_images){?>
+                            <?php foreach ($service_goods_images as $v){?>
+                                <img width="200px" height="200px" src="<?php echo $v['image_path']?>">
+                            <?php }?>
+                            <?php }?>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        
+        <div class="row">
+            <div class="col-lg-12">
+                <h5></h5>
+            </div>
+            <div class="col-lg-12">
+            <form action="<?php echo $this->url('admin-service',array('action'=>'changeServiceStatus'))?>" method="post">
+            <input type="hidden" name="id" value="<?php echo isset($id)&&$id ? $id : ''?>"/>
+                <table class="table table-striped" id="example-4">
+                    <tbody>
+                        <tr>
+                            <td>
+                            <?php if($viewService->status == '1'){?>
+                                <input type="submit" name="deal" value="处理完成" class="btn btn-info" >
+                                <input type="submit" name="invalid" value="无效申请" class="btn btn-info" >
+                            <?php }?>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,143 @@
+<!-- Responsive Table -->
+<!-- Table exporting -->
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			<a
+				href="<?php echo $this->url('admin-user',array('action'=>'addUser'))?>"
+				style="float: right; margin-left: 20px;"">
+				<button class="btn btn-large btn-info">新增运营用户</button>
+			</a>
+			<a
+				href="<?php echo $this->url('admin-user',array('action'=>'operateUser','cid'=>1))?>">
+				<button class="btn btn-large <?php if($cid==1){?>btn-info<?php }?>">全部</button>
+			</a>
+			<a
+				href="<?php echo $this->url('admin-user',array('action'=>'operateUser','cid'=>3))?>">
+				<button class="btn btn-large <?php if($cid==3){?>btn-info<?php }?>">未提交认证</button>
+			</a>
+			<a
+				href="<?php echo $this->url('admin-user',array('action'=>'operateUser','cid'=>2))?>">
+				<button class="btn btn-large <?php if($cid==2){?>btn-info<?php }?>">已停用</button>
+			</a>
+			<a
+				href="<?php echo $this->url('admin-user',array('action'=>'operateUser','cid'=>4))?>">
+				<button class="btn btn-large <?php if($cid==4){?>btn-info<?php }?>">已认证</button>
+			</a>
+			<form class="form-horizontal"
+				action="<?php echo $this->url('admin-user',array('action'=>'operateUser','cid'=>$cid,'page'=>1))?>"
+				method="post" style="float: right; margin-left: 20px;">
+				<span style="font-weight: bold; font-size: 16px;"> 搜索全表</span>
+				：
+				<input type="text" name="keyword" value="<?php echo $keyword?>"
+					placeholder="搜索 ID、手机、昵称">
+				<input type="submit" name="submit" value="搜索" class="btn btn-info"
+					style="height: 25px; width: 60px; line-height: 25px; padding: 0; margin-left: 10px; margin-top: 5px;" />
+			</form>
+
+		</h3>
+
+		<div class="panel-options">
+
+			<a href="#" data-toggle="panel">
+				<span class="collapse-icon">&ndash;</span>
+				<span class="expand-icon">+</span>
+			</a>
+			<a href="#" data-toggle="remove"> &times; </a>
+		</div>
+	</div>
+	<div class="panel-body">
+		<table class="table table-bordered table-striped" id="example-4">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>手机</th>
+					<th>昵称</th>
+					<th>姓名</th>
+					<th>性别</th>
+					<th>学校</th>
+					<th>快应币</th>
+					<th>冻结币</th>
+					<th>发布任务/活动数</th>
+					<th>参加任务/活动数</th>
+					<th>积分</th>
+					<th>推荐人</th>
+					<th>认证状态</th>
+					<th>状态</th>
+					<th>最近登录时间</th>
+					<th>注册时间</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+						  <?php if($list){?>
+						 <?php foreach($list as $user):?>
+						 			   
+							<tr>
+					<td><?php echo $user->id?></td>
+					<td><?php echo $user->mobile?></td>
+					<td><?php echo $user->nickname?></td>
+					<td style="text-align: left"><?php echo $user->id_name?></td>
+					<td><?php $sex = $user->sex; if($sex==1){echo '男';}elseif($sex==2){ echo '女';}else{ echo '';}?></td>
+					<td><?php echo isset($school[$user->school_id]['name']) ? $school[$user->school_id]['name'] : '';?></td>
+					<td>
+						<a
+							href="<?php echo $this->url('admin-user',array('action'=>'wallet','id'=>$user->id));?>"><?php echo $user->stat_money?></a>
+					</td>
+					<td><?php echo $user->stat_money_freeze?></td>
+					<td>
+						<a
+							href="<?php echo $this->url('admin-task',array('action'=>'userTask','id'=>$user->id,'cid'=>1));?>"><?php echo $user->stat_task?></a>
+					</td>
+					<td><?php echo $user->stat_join?></td>
+					<td>
+						<a
+							href="<?php echo $this->url('admin-user',array('action'=>'point','id'=>$user->id));?>"><?php echo $user->stat_point?></a>
+					</td>
+
+					<td>
+						<a
+							href="<?php echo $this->url('admin-user',array('action'=>'recommended','id'=>$user->id));?>"><?php echo $user->stat_referrer?></a>
+					</td>
+					<td><?php $auth_status = $user->audit_status; if($auth_status==1){ echo '<span style="color:#DD5600">待认证</span>';}elseif($auth_status==2){ echo '<span style="color:#369BD7">已认证</span>';}elseif($auth_status==3){ echo '<span style="color:red">未通过</span>';}else{echo '<span style="color:#DD5600">未提交</span>';}?></td>
+
+					<td><?php $status = $user->status; if($status==1){ echo '正常';}elseif($status==2){ echo '停用';}elseif($status==3){ echo '未激活';}else{echo '未知';}?></td>
+					<td><?php echo $user->last_login_time == '0000-00-00 00:00:00'? ' ' : date("Y-m-d H:i",strtotime($user->last_login_time));?></td>
+					<td><?php echo $user->timestamp == '0000-00-00 00:00:00'? ' ' : date("Y-m-d H:i",strtotime($user->timestamp));?></td>
+					<td>
+
+						<a class="btn btn-info" <?php if($user->delete==0){?>
+							href="<?php echo $this->url('admin-user',array('action'=>'addUser','id'=>$user->id))?>"
+							<?php }else{?> disabled <?php }?>> 查看 </a>
+									<?php $status = $this->escapehtml($user->status)?>
+									<?php if($status==2){?>
+									<a class="btn" <?php if($user->delete==0){?>
+							href="<?php  echo $this->url('admin-user',array('action'=>'status','page'=>$status,'id'=>$user->id));?>"
+							<?php }else{?> disabled <?php }?>> 启用 </a>
+									<?php }else{?>
+									 <a class="btn btn-warning" <?php if($user->delete==0){?>
+							href="<?php  echo $this->url('admin-user',array('action'=>'status','page'=> $status==0 ? 1 : $status,'id'=>$user->id));?>"
+							<?php }else{?> disabled <?php }?>> 停用 </a>  
+									<?php }?>
+									<?php if($_SESSION['super'] == 1){?>
+									<a class="btn btn-success" <?php if($user->delete==0){?>
+							href="<?php  echo $this->url('admin-user',array('action'=>'recharge','id'=>$user->id,'page'=>$page));?>"
+							<?php }else{?> disabled <?php }?>>充值 </a> 
+									<?php }?>								
+									<a class="btn btn-danger" <?php if($user->delete==0){?>
+							onclick="show_confirm('<?php echo $this->url('admin-user',array('action'=>'delete','id'=>$user->id));?>')"
+							href="#" <?php }else{?> disabled <?php }?>> 删除 </a>
+					</td>
+				</tr>
+							<?php endforeach;?>
+							<?php }?>						
+						  </tbody>
+		</table>
+					  
+					  
+					   
+						  <?php   echo $this->paginationControl($paginator, 'Sliding', 'page',array('route' =>'admin-user','condition'=>$condition));?> 
+						
+					              
+					</div>
+</div>

@@ -1,0 +1,220 @@
+@charset "gb2312";
+/* CSS Document */
+
+* {
+	-webkit-transition-timing-function: ease-in-out;
+	-moz-transition-timing-function: ease-in-out;
+	-ms-transition-timing-function: ease-in-out;
+	-o-transition-timing-function: ease-in-out;
+	transition-timing-function: ease-in-out;
+	padding:0;
+	margin:0;
+}
+html {
+	overflow: hidden;
+	font-size: 16px;
+	height:100%;
+}
+body {
+	position: relative;
+	font-family: "Î¢ÈíÑÅºÚ";
+	max-width: 640px;
+	margin: 0 auto;
+	overflow: hidden;
+	background: #efeff4;
+}
+img {
+	border: 0;
+	-ms-interpolation-mode: bicubic;
+	display: block;
+}
+p {
+	margin: 0;
+	padding: 0
+}
+.clearfix:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden
+}
+.clearfix {
+	display: inline-block
+}
+* html .clearfix {
+	height: 1%
+}
+
+.A1001_chenggong{
+	margin-top:15px;
+	display:inline-block;
+	background:#fff;
+	width:100%;
+	padding:40px 0;
+	text-align:center;}
+.A2001_gsjs {
+	padding:3%;
+	line-height:150%;}
+
+
+.B2001-container{
+	padding:15px 0 75px 0;}
+.B2001-container h1{
+	position:relative;}
+.B2001-container h1 div.face{
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:2;}
+.B2001-container h1 dl.name{
+	font-family:Î¢ÈíÑÅºÚ;
+	position:absolute;
+	z-index:3;
+	left:0;
+	top:0;
+	padding:5% 30%;}
+.B2001-container h1 dl.name dt{
+	font-size:22px;
+	color:#333;}
+.B2001-container h1 dl.name dd{
+	font-size:20px;
+	color:#666;}
+.B2001-container .jianjie{
+	padding:15px;
+	background:#fff;
+	border-top:#efeff4 solid 1px;
+	line-height:150%;
+	color:#999;}
+
+.B2001-container .btn_01 dd{
+	width:42.5%;
+	float:left;
+	margin:5% 0 5% 5%;
+	}
+.B2001-container .btn_01 dd a{
+	color:#fff;
+	display:block;
+	height:40px;
+	line-height:40px;
+	width:60%;
+	background-size:25px;
+	padding:0 0 0 40%;
+	background:#ff5f2d url(../images/img04.png) no-repeat 22% center;
+	border-radius:5px;
+	text-decoration:none;}
+	
+.B2001-container .btn_01 dd a.wxgz{
+	background:#366afe url(../images/img05.png) no-repeat 22% center;}
+.B2001-container .contact dl{
+	background:#fff;
+	padding:0 15px;}
+.B2001-container .contact dl dd{
+	border-bottom:1px solid #dddddd;
+	height:40px;
+	font-size:16px;
+	font-family:Tahoma, Geneva, sans-serif;
+	color:#898989;
+	line-height:40px;
+	padding:10px 0;
+	position:relative;}
+.B2001-container .contact dl dd img{
+	float:left;
+	position:relative;
+	top:2px;
+	margin:0 5% 0 0;
+	display:block;}
+.B2001-container .contact dl dd a{
+	position:absolute;
+	right:0;
+	top:0;
+	height:60px;
+	width:20%;
+	background:#366afe;
+	line-height:60px;
+	text-align:center;
+	text-decoration:none;
+	color:#fff;
+	}
+
+.B2001-container .contact h2{
+	padding:2% 5%;
+	color:#636363;
+	font-size:18px;}
+
+.B2001-container .about h2{
+	padding:3% 5% 2%;
+	color:#636363;
+	font-size:18px;}
+.B2001-container .about h3{
+	padding:8% 5%;
+	color:#666666;
+	font-size:16px;
+	font-weight:normal;
+	line-height:150%;}
+.B2001-container .about h3 span{
+	font-size:15px;}
+.B2001-container .about h3 img{
+		float:left;
+		display:block;
+		margin:0 10px 0 0;
+		position:relative;
+		top:-8px;}
+.B2001-container .about dl{
+	background:#fff;}
+.B2001-container .about dl dd{
+	border-bottom:1px solid #dddddd;
+	height:40px;
+	font-size:16px;
+	font-family:Tahoma, Geneva, sans-serif;
+	color:#333333;
+	line-height:40px;
+	padding:10px 0;}
+	
+	
+
+.B2001-container .about dl dt{
+	padding:0 0 2%;
+	display:inline-block;
+	border-bottom:1px solid #dddddd;
+	width:100%;}
+.B2001-container .about dl dt a{
+	color:#fff;
+	display:block;
+	float:left;
+	height:40px;
+	line-height:40px;
+	width:26%;
+	background-size:25px;
+	margin:0 0 5% 5%;
+	padding:0 0 0 16.5%;
+	background:#ff5f2d url(../images/img13.png) no-repeat 22% center;
+	border-radius:5px;
+	text-decoration:none;}
+
+
+.B2001-container .about dl dt a.wxgz{
+	background:#366afe url(../images/img14.png) no-repeat 22% center;}
+
+.B2001-d-app{
+	width:100%;
+	padding:0 5%;
+	display:inline-block;
+	position:fixed;
+	bottom:0;
+	left:0;
+	background:#fff;
+	border-top:1px solid #d6d6d6;
+	height:60px;}
+
+.B2001-d-app a{
+	width:90%;
+	color:#fff;
+	background:#366afe;
+	height:40px;
+	margin:10px 0;
+	display:block;
+	line-height:40px;
+	text-align:center;
+	text-decoration:none;
+	border-radius:5px;}

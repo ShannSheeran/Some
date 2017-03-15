@@ -1,0 +1,370 @@
+@charset 'utf-8';
+*{
+  color:#fff;
+}
+/*提示*/
+.hint{
+  width:100%;
+  position: fixed;
+  top:48px;
+  left: 0;
+  text-align: center;
+  height: 30px;
+  line-height: 30px;
+  background: rgba(000, 000, 000, 0.3);
+  z-index: 10000;
+}
+/*头像、姓名、英文名、个性签名*/
+header{
+  width: 100%;
+  text-align: center;
+}
+.headerTop{
+  position: relative;
+  width:80px;
+  height: 80px;
+  border-radius: 80px;
+  border:2px solid #ccc;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+}
+.headerImg{
+  width:80px;
+  height: 80px;
+  border-radius: 80px;
+  overflow: hidden;
+  background: url(../../images/app/img_headportrait.png) no-repeat center center;
+  background-size: cover;
+}
+.headerImg img{
+  width:100%;
+  height:auto;
+}
+.headerTop .authentication{
+  position: relative;
+  display: inline-block;
+}
+.authentication .remind{
+  font-size:0.9rem;
+  width:225px;
+  height: 50px;
+  line-height: 55px;
+  background: url(../../images/app/not_authenticate_popup.png) no-repeat center center;
+  background-size: 100%;
+  position: absolute;
+  color:#333;
+  top:15px;
+  left:-140px;
+  display: none;
+  text-align: center;
+}
+.headerTop .icon{
+  width:115px;
+  position: absolute;
+  bottom:-5px;
+  text-align: left;
+}
+.headerTop .icon img{
+  height:17px;
+  margin-right: 2px;
+}
+.headerTop .icon span{
+  display: inline-block;
+}
+.headerName{
+  display: inline-block;
+}
+.headerName b{
+  font-size:1.3rem;
+}
+.companyBg{
+  display: inline-block;
+  background: rgba(000, 000, 000, 0.3);
+  border-radius: 3px;
+  padding:0 2px;
+}
+.signature p{
+  padding:5px 15px;
+  line-height: 20px;
+  background: rgba(000, 000, 000, 0.3);
+  border-radius: 3px;
+}
+
+/*联系方式*/
+.cardContact ul{
+  margin-bottom: 10px;
+  padding-left: 15px;
+  background: rgba(000, 000, 000, 0.3);
+}
+.cardContact ul li{
+  border-bottom:1px solid #a8a8ab;
+  overflow:hidden;
+   padding:10px 0;
+}
+.cardContact ul li:last-child{
+  border-bottom:0px;
+}
+.cardContact ul li .fl{
+  width:75%;
+}
+.cardContact ul li .fl p{
+  line-height: 30px;
+  padding-left: 30px;
+}
+.cardContact ul li .fr{
+  width:25%;
+  text-align: center;
+}
+.cardContact ul li .fr img{
+  width: 30px;
+}
+.cardContact #mobile{
+  background: url(../../images/app/white_iphone.png) no-repeat center left;
+  background-size: 25px;
+}
+.cardContact #email{
+  background: url(../../images/app/white_mail.png) no-repeat center left;
+  background-size: 25px;
+}
+.cardContact #qq{
+  background: url(../../images/app/white_qq.png) no-repeat center left;
+  background-size: 25px;
+}
+/*公司信息*/
+.cardCompany{
+  background: rgba(000, 000, 000, 0.3);
+}
+.cardCompany .logoName{
+  padding:15px;
+}
+.cardCompany .logoName .logoImg{
+  float: left;
+  width: 80px;
+  height: 60px;
+  border:1px solid #ccc;
+  margin-right: 10px;
+}
+.cardCompany .logoName .companyBase li{
+  height: 20px;
+  line-height: 20px;
+}
+.companyName{
+  margin-bottom: 5px;
+}
+.companyName span{
+  display: inline-block;
+  overflow: hidden;
+  height: 20px;
+  font-size: 1.2rem;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+.companyzhiwei{
+  padding:10px 0 10px 15px;
+  overflow: hidden;
+  border-top:1px solid #a8a8ab;
+  border-bottom: 1px solid #a8a8a8;
+}
+.companyzhiwei div{
+  float: left;
+}
+.companyzhiweiLeft{
+  width:75%;
+}
+.companyzhiwei .companyzhiwei_wzand,.companyzhiwei .companyzhiwei_wzios{
+  width: 30px;
+}
+.companyzhiwei_adr{
+  width:86%;
+  line-height: 20px;
+}
+.companyzhiwei .place{
+  width:25px;
+}
+.companyzhiwei .a1and,.companyzhiwei .a1ios{
+  text-align: center;
+  width:24%;
+  border-left:1px solid #a8a8ab;
+}
+.companyzhiwei .a1and img,.companyzhiwei .a1ios img{
+  width: 30px;
+}
+.settings{
+  padding:15px;
+  background: #fff;
+  margin-top: 10px;
+}
+.settings div{
+  width:100%;
+  height: 40px;
+  line-height: 40px;
+  background: #007aff;
+  border-radius: 5px;
+  text-align: center;
+}
+.companyIcon{
+  padding:8px 15px;
+}
+.companyIcon img{
+  height: 15px;
+  margin-left: 5px;
+}
+.companyIcon .iconVip{
+  width:18px;
+  height: 18px;
+  margin-top: 2px;
+}
+footer{
+  width: 100%;
+  height: 56px;
+  background:#fff;
+  position: fixed;
+  bottom:0;
+  left: 0;
+}
+footer .icon{
+  width:40px;
+  margin:9px 10px 0 10px;
+  height: 40px;
+  float: left;
+}
+footer div{
+  float: left;
+  margin-top: 8px;
+}
+footer div p{
+  color: #666;
+} 
+footer .logo{
+  width:70px;
+  margin-top: 4px;
+}
+footer a{
+  display: inline-block;
+  float: right;
+  margin:13px 10px 0 0;
+  background: #008df1;
+  color:#fff;
+  width:100px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
+}
+
+/*遮罩层*/
+.qrcBg{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:#101010;
+  opacity:0.5;
+  z-index:888;
+  display:none;
+}
+.qrcBox{
+  z-index:999;
+  display:none;
+  position:fixed;
+  left:50%;
+  top:10%;
+  margin-left:-140px;
+  width:280px;
+ }
+.qrcBox div{
+  width:260px;
+  margin:10% auto;
+  padding:10px;
+  background-color: #fff;
+  border-radius:10px;
+  z-index: 1111;
+  display:block;
+  text-align:center;
+  position:relative;
+}
+.qrcBox div b{
+  display:block;
+  text-align:center;
+  padding:30px 0 15px;
+  font-size:160%;
+  width:100%;
+  color:#000;
+}
+.qrcBox div img{
+  width:100%;
+}
+.qrcBox div i{
+  position:absolute;
+  top:0px;
+  right:10px;
+  color:#000;
+  font-size: 3rem;
+  font-weight: bold;
+  font-style: normal;
+}
+/*收藏名片、微信关注*/
+.cardOperation{
+  padding:20px;
+  overflow:hidden;
+  margin-bottom: 50px;
+}
+.cardOperation a{
+  border-radius:10px;
+  text-align:center;
+  padding:8px 0;
+  font-size:120%;
+  width:48%;
+ }
+.cardOperation i{
+  margin-right:5px;
+}
+.cardOperation .fl{
+  background:#ff5f2d;
+  color:#fff;
+}
+.cardOperation .fr{
+  background:#366afe;
+  color:#fff;
+}
+.friend_ios,.friend_and{
+  display: none;
+}
+.friend{
+  background: rgba(000,000,000,0.3);
+  margin-bottom: 10px;
+}
+.friend div{
+  height: 40px;
+  line-height: 40px;
+  margin-left: 15px;
+  padding-left: 30px; 
+}
+.friend div span{
+  float: right;
+  background: url(../../images/app/left_down.png) no-repeat center right;
+  background-size: 18px;
+}
+.friend .common{
+  border-bottom: 1px solid #a8a8ab;
+  background: url(../../images/app/white_common_friends.png) no-repeat center left;
+  background-size: 25px; 
+  padding-right: 15px;
+}
+.friend .common span{
+  display: inline-block;
+  width: 18px;
+  height: 40px;
+}
+.friend .dynamic{
+  background: url(../../images/app/white_his_dynamics.png) no-repeat center left;
+  background-size: 25px;
+  margin-right: 15px;
+}
+.friend .dynamic span{
+  padding-right: 20px;
+}

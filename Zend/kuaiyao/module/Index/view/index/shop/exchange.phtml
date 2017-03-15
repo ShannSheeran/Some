@@ -1,0 +1,111 @@
+<?php echo $this->headTitle('兑换'. $this->translate(''))->setSeparator(' - ')->setAutoEscape(false);?>
+<?php echo $this->headMeta()->setName('description','猫王联盟——以“吃喝玩乐购”生活服务类打造实体店的免费O2O平台。为实体店搭建线上线下一体化平台；为消费者提供全国通积通用通兑积分平台，积分可线上兑换商品，线下抵现消费。服务热线4008-333-133')->setName('keywords','通用积分联盟,通用积分平台,通用积分商城,o2o积分联盟,o2o积分联盟网站,积分联盟商,生活服务'); ?>
+<script>$(function(){showmenu();});</script>
+<script>$("body").removeClass("bg_f4f4f4");</script>
+		<div class="header w990 bc pt10">
+			<div class="clearfix">
+				<div class="logo fl mr15"></div>
+			</div>
+		</div>
+		<div class="content w990 bc mt30 clearfix bor pr">
+			<h2 class="border_b lh25px pt5 pb5 f16 bg_f4f4f4 f_color_gray pl10">核对兑换信息</h2>
+			<div class="selected">
+			<p class="pl20 mt20 f14 mb10 address">收货地址</p>
+			<?php foreach($ContactList as $k=>$v){if($k==1)break;?>
+			<ul class="pl30 border_b mb20 pb10">
+				<li class="lh25px">收货人：<span><?php echo $v['name']?></span></li>
+				<li class="lh25px">联系号码：<span><?php echo $v['mobile']?></span></li>
+				<li class="lh25px">收货地址：<span><?php echo $v['address']?></span></li>
+				<li class="lh25px">邮编：<span><?php echo $v['postcode']?></span></li>
+			</ul>
+			</div>
+			<form id="form" name="form" method="post" action="<?php echo $this->url('index',array('controller'=>'shop','action'=>'exchangeCheck'));?>" >
+				<input type="hidden" name="cid" value="<?php echo $v['id']?>"/>
+				<input type="hidden" name="gid" value="<?php echo $GoodsDetail['id']?>"/>
+				<input type="hidden" name="number" value="<?php echo $number;?>" />
+			</form>
+			<?php }?>
+			
+			<div class="address_array none" >
+				<p class="pl20 mt20 f14 mb10 f_color_red">选择收货地址</p>
+			<?php foreach($ContactList as $k=>$v){if($k>=5)break;?>
+				<div class="border_b mt10"> 
+					<ul class="pl30  pb10">
+						<li class="lh25px">收货人：<span><?php echo $v['name']?></span></li>
+						<li class="lh25px">联系号码：<span><?php echo $v['mobile']?></span></li>
+						<li class="lh25px">收货地址：<span><?php echo $v['address']?></span></li>
+						<li class="lh25px">邮编：<span><?php echo $v['postcode']?></span></li>
+					</ul>
+					<div class="select ml30 mb20" i="<?php echo $v['id']?>"><a href="javascript:void(0);">选定</a></div>
+				</div>
+			<?php }?>
+			</div>
+			<div class="change pa"><a href="javascript:void(0);" class="f_color_red">修改收货地址</a></div>
+			<p class="pl20 mt20 f14 mb10">商品信息</p>
+			<table class="shopping_list bc mb30">
+				<thead class="bg_f4f4f4">
+					<tr>
+						<th class="w350">商品</th>
+						<th class="w350">价格</th>
+						<th class="w200">库存</th>
+						<th class="w200">购买</th>
+					</tr>
+				</thead>
+				<tbody >
+					<tr>
+						<td class="border_b pb10 pt10">
+							<div class="clearfix">
+								<div class="pro_img fl mr5"><img src="<?php echo $GoodsDetail['image']?>" /></div>
+								<div class="pro_text fl mt10">
+									<p class="lh150"><a href="<?php echo $this->url('index',array('controller'=>'shop','action'=>'detail','id'=>$GoodsDetail['id'])) ?>" class="f15"><?php echo mb_strlen($GoodsDetail['name'])>12 ? mb_substr($GoodsDetail['name'],0,12).'...' : $GoodsDetail['name']?></a></p>
+									<p class="lh150"><?php echo mb_strlen($GoodsDetail['description'])>18 ? mb_substr($GoodsDetail['description'],0,18).'...' : $GoodsDetail['description']?></p>
+								</div>
+							</div>
+						</td>
+						<td class="border_b tc pb10 pt10">
+						<?php if($GoodsDetail['golden_cat']>0){?>
+							<p class="lh150">金猫<span><?php echo $GoodsDetail['golden_cat']?></span></p>
+						<?php }?>
+						<?php if($GoodsDetail['silver_cat']>0){?>
+							<p class="lh150">银猫<span><?php echo $GoodsDetail['silver_cat']?></span></p>
+						<?php }?>
+						</td>
+						<td class="border_b tc pb10 pt10"><?php echo $GoodsDetail['number']?></td>
+						<td class="border_b tc pb10 pt10"><?php echo $number;?></td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="bg_f4f4f4 f14 tr">
+					兑换金额:&nbsp;
+					<?php if($GoodsDetail['golden_cat']>0){?>
+					<span class="f_color_red f18 bold"><?php echo $GoodsDetail['golden_cat'] * $number?></span>&nbsp;
+					<?php }?>
+					<?php if($GoodsDetail['golden_cat']>0 && $GoodsDetail['silver_cat']>0){?>
+					<span class="f_color_red f18 bold">+</span>&nbsp;
+					<?php }?>
+					<?php if($GoodsDetail['silver_cat']>0){?>
+					<span class="f_color_red f18 bold"><?php echo $GoodsDetail['silver_cat'] * $number?></span>
+					<?php }?>
+					<input type="button" value="确认兑换" class="sub_btn" onclick="Check()" />
+			</div>
+		</div>
+<script>
+function Check(){
+	if(confirm('确定要兑换“<?php echo $GoodsDetail['name']?>”吗')){
+		$("#form").submit();
+	}
+}
+$('.change').click(function(){
+	$('.address_array').show();
+	$(this).hide();
+	$('.selected').hide();
+});
+$('.select').click(function(){
+	$("input[name=cid]").val( $(this).attr('i') );
+	$('.selected').find('ul').children().remove();
+	$('.selected').find('ul').append($(this).parent().find('ul').html());
+	$('.address_array').hide();
+	$('.change').show();
+	$('.selected').show();
+});
+</script>

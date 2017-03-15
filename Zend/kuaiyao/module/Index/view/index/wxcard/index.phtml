@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-status-bar-style" content="block" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>填写个人信息</title>
+
+    <!-- 公用样式 -->
+    <link rel="stylesheet" type="text/css" href="<?php echo ROOT_PATH?>css/kuaiyao/common.css">
+    <!-- 微信页面样式 -->
+    <link rel="stylesheet" type="text/css" href="<?php echo ROOT_PATH?>css/kuaiyao/weixin.css">
+    <!--只兼容移动端，所以直接使用jQuery 2.1.4-->
+    <script type="text/javascript" src="<?php echo ROOT_PATH?>lib/jquery.2.1.4.min.js"></script>
+    <?php echo $this->headScript()->offsetSetFile(10, $this->basePath() . '/js/ajaxfileupload.js') ?>
+    <script type="text/javascript" src="<?php echo $this->basePath();?>/js/public.js"></script>
+    <script type="text/javascript">
+        var url = '<?php echo $this->url('admin-common',array('action'=>'getAdminFile'));?>';//图片上传地址
+        var url_two = '<?php echo $this->url('admin-common',array('action'=>'getAdminFileTwo'));?>';//图片上传地址
+    </script>
+</head
+<body>
+    <form action="<?php echo $this->url('index',array('controller'=>'WeixinCard','action'=>'index'))?>" method="post" enctype="multipart/form-data" class="amend" id="save">
+        <!-- 头像，姓名，英文名，职位 -->
+        <div class="bg_white pl15 pr15 pt10 border_bottom">
+            <div class="am_avatars">
+                <!--上传头像-->
+                <img src="<?php if($head_icon){echo ROOT_PATH.UPLOAD_PATH.$head_icon['path'].$head_icon['filename'];}else{echo ROOT_PATH.'images/img_headportrait@2x.png';}?>" id="preview" alt="" style="width:60px;height:60px;">
+                <input type="file" class="up_file" id="file0" multiple name="head_icon">
+                <input type="hidden" name="image" value="<?php echo $info['head_icon']?>" />
+
+            </div>
+            <ul class="am_name">
+                <?php if($info['name']){?>
+                <li><input id="name" name="realName" disabled type="text" value="<?php echo $info['name']?>" placeholder="真实姓名（不可修改）"></li>
+                    <li><input id="name" name="realName" type="hidden" value="<?php echo $info['name']?>" placeholder="真实姓名（不可修改）"></li>
+                <?php }else{?>
+                <li><input id="name" name="realName" type="text" value="<?php echo $info['name']?>" placeholder="真实姓名（不可修改）"></li>
+                <?php }?>
+                <li><input type="text" name="englishName" value="<?php echo $info['englist_name']?>" placeholder="英文名"></li>
+                <li><input class="bn" type="text" value="<?php echo $info['position']?>" name="position" placeholder="职位"></li>
+            </ul>
+        </div>
+        <div class="clear"></div>
+        <!-- 联系方式 号码 邮箱 QQ -->
+        <div class="am_contact">
+            <p>联系方式</p>
+            <ul class="bg_white pl15 pr15">
+                <li class="phone border_bottom"><input type="text" name="mobile" disabled  id="mobile" value="<?php echo $info['mobile']?>"></li>
+                <li class="email border_bottom"><input type="text" name="email" value="<?php echo $info['email']?>" placeholder="请输入您的邮箱"></li>
+                <li class="qq"><input type="text" name="qq" value="<?php echo $info['qq']?>" placeholder="请输入您的QQ"></li>
+            </ul>
+        </div>
+        <!-- 上传微信二维码 -->
+        <div class="am_code bg_white">
+            <div class="code_img">
+                <img src="<?php if($wx_code){echo ROOT_PATH.UPLOAD_PATH.$wx_code['path'].$wx_code['filename'];}else{echo ROOT_PATH.'images/code.png';}?>" alt="" style="width:50px;height:50px;">
+                <input type="file" class="wx_code" id="file0" multiple name="wx_code">
+                <input type="hidden" name="wx_code" value="<?php echo $info['wx_code']?>" />
+            </div>
+            <span>上传微信二维码</span>
+        </div>
+        <div class="code_text">
+            <p>请上传微信二维码，否则您的朋友将关注不到您的微信</p>
+            <p>如何寻找微信二维码：</p>
+            <p>打开微信>我>个人信息>我的二维码，截图即可</p>
+        </div>
+        <input type="hidden" name="page_id" value="<?php echo $page_id;?>">
+        <!-- 公司名称 -->
+        <div class="am_company">
+            <p>公司信息</p>
+            <div class="bg_white pl15 pr15 pt10 pb10 border_bottom border_top">
+                <input type="text" class="pt10 pb10" value="<?php echo $info['company']?>" name="companyName" placeholder="请输入您的公司名称">
+            </div>
+        </div>
+        <input type="submit" value="保存">
+    </form>    
+    <!-- 弹框提示 -->
+    <div class="avatars_hint">请上传头像</div>
+    <div class="name_hint">请输入姓名</div>
+    <div class="phone_hint">请输入电话号码</div>
+
+    <script type="text/javascript">
+        $("#save").submit(function(){
+        if($("#name").val()==''){
+            $(".name_hint").fadeIn();
+            $(".name_hint").fadeOut(5000);
+            return false;
+        }
+
+        if($("#mobile").val()==''){
+             $(".phone_hint").fadeIn();
+            $(".phone_hint").fadeOut(5000);
+            return false;
+        }
+     })
+
+
+        /*上传头像信息预览*/
+        $(".up_file").change(function(){
+            var objUrl = getObjectURL(this.files[0]) ;
+            console.log("objUrl = "+objUrl) ;
+            if (objUrl) {
+                $(".am_avatars img").attr("src", objUrl) ;
+            }
+        }) ;
+
+        /*上传微信二维码预览*/
+        $(".wx_code").change(function(){
+            var objUrl = getObjectURL(this.files[0]) ;
+            console.log("objUrl = "+objUrl) ;
+            if (objUrl) {
+                $(".code_img img").attr("src", objUrl) ;
+            }
+        }) ;
+        //建立一個可存取到該file的url
+        function getObjectURL(file) {
+            var url = null ;
+            if (window.createObjectURL!=undefined) { // basic
+                url = window.createObjectURL(file) ;
+            } else if (window.URL!=undefined) { // mozilla(firefox)
+                url = window.URL.createObjectURL(file) ;
+            } else if (window.webkitURL!=undefined) { // webkit or chrome
+                url = window.webkitURL.createObjectURL(file) ;
+            }
+            return url ;
+        }
+       /* /!*上传图片 end*!/*/
+    </script>
+</body>
+</html>

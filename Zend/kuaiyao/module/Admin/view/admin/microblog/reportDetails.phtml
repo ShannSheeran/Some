@@ -1,0 +1,241 @@
+<div class="row">
+	<div class="col-sm-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>微博详细</h3>
+				<div class="panel-options">
+					<a href="#" data-toggle="panel">
+						<span class="collapse-icon">&ndash;</span>
+						<span class="expand-icon">+</span>
+					</a>
+					<a href="#" data-toggle="remove"> &times; </a>
+				</div>
+			</div>
+						<form role="form" class="form-horizontal">
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="field-1">内容原文：</label>
+
+					<div class="col-sm-10">
+						<textarea id="emoji-content" class="autogrow" style="width: 50%"
+							disabled><?php echo $info->content;?></textarea>
+					</div>
+				</div>
+				<div class="form-group-separator"></div>
+
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="field-1">内容转换：</label>
+
+					<div class="col-sm-10">
+						<textarea id="emoji-change" disabled  class="autogrow"><?php echo emoji_unified_to_html($info->content);?></textarea>
+					</div>
+				</div>
+				<div class="form-group-separator"></div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="field-1">发布人：</label>
+
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="field-1"
+							placeholder="<?php echo $info->nickname;?>" disabled>
+					</div>
+				</div>
+				<div class="form-group-separator"></div>
+
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="field-1">微博图片：</label>
+
+					<div class="col-sm-10">
+							  <?php foreach($images as $v){?> 
+    				
+							<a
+							href='<?php echo  $v['path'] ? $v['path'] : ROOT_PATH.'adminStyle/img/no_pic.gif';?>'
+							target="_blank">
+							<img
+								src="<?php echo  $v['path'] ?  $v['path'] : ROOT_PATH.'adminStyle/img/no_pic.gif';?>"
+								width="280" height="210" style="padding-top: 5px;" />
+						</a>
+					
+                    		<?php }?>	
+    					
+						</div>
+				</div>
+				<div class="form-group-separator"></div>
+			</div>
+			</form>
+		</div>
+	</div>
+
+	<div class="col-sm-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>举报详细</h3>
+				<div class="panel-options">
+					<a href="#" data-toggle="panel">
+						<span class="collapse-icon">&ndash;</span>
+						<span class="expand-icon">+</span>
+					</a>
+					<a href="#" data-toggle="remove"> &times; </a>
+				</div>
+			</div>
+			<form role="form" class="form-horizontal">
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-sm-2 control-label">举报类型：</label>
+					<div class="col-sm-10">
+						<p>
+							<label class="radio-inline">
+								<input type="radio" name="radio" value="1" <?php if($info->type == 1){ echo "checked";} ?> disabled>
+								虚假信息
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="type" value="2" <?php if($info->type == 2){ echo "checked";} ?> disabled>
+								违法信息
+							</label>
+						</p>
+					</div>
+				</div>
+
+				<div class="form-group-separator"></div>
+
+
+			
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="field-1">举报人：</label>
+
+					<div class="col-sm-10">
+							<a
+				href="<?php echo $this->url("admin-user",array('action'=>'details','id'=>$info->ru_user_id))?>">
+					
+						<input type="text" class="form-control" id="field-1"
+							placeholder="<?php echo $info->ru_nickname ? $info->ru_nickname : $info->ru_mobile;?>" disabled></a>
+					</div>
+				</div>
+				<div class="form-group-separator"></div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="field-1">发布人：</label>
+
+					<div class="col-sm-10">
+						<a href="<?php echo $this->url("admin-user",array('action'=>'details','id'=>$info->user_id))?>">
+						<input type="text" class="form-control" id="field-1"
+							placeholder="<?php echo $info->nickname ? $info->nickname : $info->mobile;?>" disabled></a>
+					</div>
+				</div>
+				<div class="form-group-separator"></div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="field-1">举报描述：</label>
+
+					<div class="col-sm-10">
+						<textarea id="emoji-change" disabled  class="autogrow"><?php echo isset($info->description) ? emoji_unified_to_html($info->description) : '';?></textarea>
+					</div>
+				</div>
+				<div class="form-group-separator"></div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="field-1"></label>
+
+					<div class="col-sm-10">
+							<div>
+								状态：
+								<span style="color: red;"><?php $status = $info->status; if($status==1){ echo '处理中';}elseif($status==2){ echo '举报被确认';}elseif($status==3){ echo '举报被撤销';}else{echo '待处理';}?></span>
+							</div>
+							<br />
+												   <?php if($info->status==1 || $info->status==0){?>
+							<span class="btn btn-setting1 btn-warning" data-toggle="modal"
+							data-target="#myModal1"><?php echo  '确认举报'; ?></span>
+							<span class="btn btn-setting btn-info" data-toggle="modal"
+							data-target="#myModal"><?php echo '撤销举报';?></span>
+								<?php }?>	 
+    						
+						</div>
+				</div>
+				<div class="form-group-separator"></div>
+			</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="false" style='z-index:8888;'>
+			<div class="modal-dialog" >
+		<div class="modal-content" >
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">×</button>
+		<h3>填写撤销原因</h3>
+	</div>
+	<div class="modal-body">
+		<p>请输入撤销原因:</p>
+		<textarea class="autogrow" style="height: 80px; width: 400px;"
+			id="reason"></textarea>
+	</div>
+	<div class="modal-footer">
+		<a href="#" class="btn" data-dismiss="modal">取消</a>
+		<a href="javascript:returns()" class="btn btn-primary">确定</a>
+	</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="false" style='z-index:8888;'>
+			<div class="modal-dialog" >
+		<div class="modal-content" >
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">×</button>
+		<h3>填写判定原因</h3>
+	</div>
+	<div class="modal-body">
+		<p>请输入判定原因:</p>
+		<textarea class="autogrow" style="height: 80px; width: 400px;"
+			id="note"></textarea>
+	</div>
+
+	<div class="modal-footer">
+		<a href="#" class="btn" data-dismiss="modal">取消</a>
+		<a href="javascript:refusal()" class="btn btn-primary">确定</a>
+	</div>
+</div>
+</div>
+</div>
+<script type="text/javascript">
+function refusal(){
+    var content=$("#note").val();  
+    if(!content){
+             alert('判定原因不能为空！');          
+        }else{
+     	     $.post("<?php echo $this->url('admin-microblog',array('action'=>'through','id'=>$info->id));?>",{content:content},
+   	    		    function(data){	    		   
+                         if(data==1){
+                      	         alert('操作成功！');
+                        	      location.reload(true);                      	          
+                            }else if(data==2){
+                            	 alert('操作失败！');
+                           	     location.reload(true);
+                            }
+                });
+        } 
+}
+
+function returns(){
+    var content=$("#reason").val();
+    if(!content){
+             alert('撤销原因不能为空！');          
+        }else{
+        	 $.post("<?php echo $this->url('admin-microblog',array('action'=>'refused','id'=>$info->id));?>",{content:content},
+   	    		    function(data){	    		   
+                         if(data==1){
+                      	         alert('操作成功！');
+                        	      location.reload(true);                      	          
+                            }else if(data==2){
+                            	 alert('操作失败！');
+                           	     location.reload(true);
+                            }
+                });
+        } 
+}
+
+</script>

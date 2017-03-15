@@ -1,0 +1,592 @@
+<?php echo $this->headScript()->prependFile($this->basePath() . '/js/admin/jq_area.js') ?>
+<?php echo $this->headScript()->prependFile($this->basePath() . '/js/admin/region.js') ?>
+
+    <div class="Receiving_infor wrap">
+        <div class="Receiving clearfix">
+            <h2 class="fl font16 color3">收货信息</h2>
+            <div class="amend">
+                <a class="once colorrose">新增收货地址</a>
+            </div>
+        </div>
+        <div class="fist_addr"> 
+        <?php 
+            if(!empty($contacts_list)):
+                for($i = 0 ; $i < count($contacts_list) ; $i++):
+        ?>
+            <div class="contact_way clearfix mb20 <?php if($i != 0){ echo 'none'; }elseif ($contacts_list[$i]->type == 1){ echo 'on'; }; ?>" id="name0<?php echo $i+1; ?>"  contact_id=<?php echo $contacts_list[$i]->id ?> >
+                <span class="surname fl <?php if($contacts_list[$i]->type == 1) echo 'onsurname'; ?>"><?php echo $contacts_list[$i]->name; ?></span>
+                <p class="telephone fl"><?php echo substr($contacts_list[$i]->mobile, 0 , 3).'****'.substr($contacts_list[$i]->mobile, -4) ; ?></p>
+                <p class="fl contactAddr"><?php echo $contacts_list[$i]->address; ?></p>
+                <div class="revise"  style="display:<?php if($contacts_list[$i]->type == 1){ echo 'block'; } ?>">
+                    <a class="colorrose default_addr <?php if($contacts_list[$i]->type == 1) echo 'none'?>" onclick="changeContactType(<?php echo $contacts_list[$i]->id; ?>)">设为默认地址</a>
+                    <a class="colorrose edit"  contact_id=<?php echo $contacts_list[$i]->id ?>>编辑</a>
+                    <a class="colorrose del"  contact_id=<?php echo $contacts_list[$i]->id ?>>删除</a>
+                </div>
+            </div>
+        <?php  endfor; ?>
+        </div>
+        <div class="more_addr" >更多地址</div>
+         <?php  else:  ?>	
+    		<div class="contact_way clearfix mb20 " id="name01">
+                <p style="text-align:center">暂无收货地址；请<a style="color:#c4234c" class="once colorrose"  href="#">新增收货地址</a>再确认订单</p>
+            </div>
+        </div>    
+        <?php endif;?>
+        <div class="pay_ways">
+            <h2>付款方式</h2>
+            <div class="pay_way clearfix">
+                <a class="btn_giro on" pay_type="2" >转账支付</a>
+                <a class="btn_balance" pay_type="1" >余额支付</a>
+            </div>
+            <p>通过支付宝或银行卡线下转账的方式支付订单</p>
+        </div>
+    </div>
+    
+    <?php if(isset($goods_list)): ?>
+    
+    <div class="order_infor wrap clearfix">
+        <h2 class="fl font16 color3">确认订单</h2>
+        <div class="order_infor_r">
+            <div class="infor_tittle">
+                <ul class="clearfix">
+                    <li>商品</li>
+                    <li>单价</li>
+                    <li>数量</li>
+                    <li>金额</li>
+                </ul>
+            </div>
+            <?php 
+            $total_cash = 0;
+            foreach ($goods_list as $key => $value): 
+            ?>
+            <div>
+                <?php 
+                    $item_cash = 0;
+                    $item_number = 0;
+                    $i = 1;
+                    foreach($value as $item): 
+                        $image_ids = array();
+                        if(isset($item->image))
+                        {
+                            $image_ids = explode(',', trim($item->image , ','));
+                        }
+                ?>
+                <div class="">
+                    <?php if($i == 1){ ?><p class="company">供应商 ： <?php echo !empty($goods_info->company_name) ? $goods_info->company_name : '吉宏园艺自营'; ?></p><?php } ?>
+                    <ul class="goods_box clearfix">
+                        <li class="clearfix li01">
+                            <div class="pic fl"><img src="<?php echo !empty($image) && !empty($image_ids) ? ROOT_PATH.UPLOAD_PATH.'thumb/110X110X3/'.$image[$image_ids[0]]['path'].$image[$image_ids[0]]['filename'] : ROOT_PATH.'images/no_pic.gif' ?>" alt="" /></div>
+                            <div class="pic_infor">
+                                <p class="font16"><?php echo $item->g_name; ?></p>
+                                <p>规格：   <?php echo $item->s_size; ?></p>
+                                <p>型号：   <?php echo $item->s_model; ?></p>
+                            </div>
+                        </li>
+                        <li class="li02"><?php echo $item->s_cash; ?></li>
+                        <li class="li03"><?php echo $item->cart_number; ?></li>
+                        <li class="colorrose li04"><?php echo $item->s_cash * $item->cart_number; ?></li>
+                    </ul>
+                </div>
+                <?php 
+                    $i++;
+                    $total_cash += $item->s_cash * $item->cart_number;
+                    $item_cash += $item->s_cash * $item->cart_number;
+                    $item_number += $item->cart_number;
+                    endforeach; 
+                 ?>
+            </div>
+            <div class="message clearfix">
+                <p class="order_form fl font16">订单留言：</p>
+                <input class="form_box fl font16 orderMessage" type="text" merchant_id="<?php echo $key; ?>" placeholder="请输入您对货品/物流等的要求" />
+                <p class="tote fl font16">商品数：<span><?php echo $item_number;?></span></p>
+                <p class="aggregate fl font16">总金额：<span><?php echo $item_cash; ?>元</span></p>
+            </div>
+            <?php endforeach;?>
+        </div>
+    </div>
+    
+    <?php  elseif(isset($goods_info)): ?>
+    
+    <div class="order_infor wrap clearfix">
+        <h2 class="fl font16 color3">确认订单</h2>
+        <div class="order_infor_r">
+            <div class="infor_tittle">
+                <ul class="clearfix">
+                    <li>商品</li>
+                    <li>单价</li>
+                    <li>数量</li>
+                    <li>金额</li>
+                </ul>
+            </div>
+            <?php 
+                        $image_ids = array();
+                        if(isset($goods_info->image))
+                        {
+                            $image_ids = explode(',', trim($goods_info->image , ','));
+                        }
+                        $total_cash = $specification_info->cash * $number;
+             ?>
+            <div>
+                <div class="">
+                    <p class="company">供应商 ： <?php echo !empty($goods_info->company_name) ? $goods_info->company_name : '吉宏园艺自营'; ?></p>
+                    <ul class="goods_box clearfix">
+                        <li class="clearfix li01">
+                            <div class="pic fl"><img src="<?php echo !empty($image) && !empty($image_ids) ? ROOT_PATH.UPLOAD_PATH.'thumb/110X110X3/'.$image[$image_ids[0]]['path'].$image[$image_ids[0]]['filename'] : ROOT_PATH.'images/no_pic.gif' ?>" alt="" /></div>
+                            <div class="pic_infor">
+                                <p class="font16"><?php echo $goods_info->name; ?></p>
+                                <p>规格：   <?php echo $specification_info->size; ?></p>
+                                <p>型号：   <?php echo $specification_info->model; ?></p>
+                            </div>
+                        </li>
+                        <li class="li02"><?php echo $specification_info->cash; ?></li>
+                        <li class="li03"><?php echo $number; ?></li>
+                        <li class="colorrose li04"><?php echo $total_cash; ?></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="message clearfix">
+                <p class="order_form fl font16">订单留言：</p>
+                <input class="form_box fl font16 orderMessage" type="text" merchant_id="<?php echo $goods_info->user_id; ?>" placeholder="请输入您对货品/物流等的要求" />
+                <p class="tote fl font16">商品数：<span><?php echo $number;?></span></p>
+                <p class="aggregate fl font16">总金额：<span><?php echo $total_cash; ?>元</span></p>
+            </div>
+        </div>
+    </div>
+    
+    <?php elseif(isset($order_goods_list)): ?>
+    
+    <div class="order_infor wrap clearfix">
+        <h2 class="fl font16 color3">确认订单</h2>
+        <div class="order_infor_r">
+            <div class="infor_tittle">
+                <ul class="clearfix">
+                    <li>商品</li>
+                    <li>单价</li>
+                    <li>数量</li>
+                    <li>金额</li>
+                </ul>
+            </div>
+            <div>
+                <?php 
+                    $total_cash = 0;
+                    $total_number = 0;
+                    $i = 1;
+                    $image_ids = array();
+                    foreach ($order_goods_list as $key => $value):
+                    if(isset($value->image))
+                    {
+                        $image_ids = explode(',', trim($value->image , ','));
+                    }
+                ?>
+                <div class="">
+                    <?php if($i == 1): ?><p class="company">供应商 ：<?php echo !empty($goods_info->company_name) ? $goods_info->company_name : '吉宏园艺自营'; ?></p><?php endif; ?>
+                    <ul class="goods_box clearfix">
+                        <li class="clearfix li01">
+                            <div class="pic fl"><img src="<?php echo !empty($image) && !empty($image_ids) ? ROOT_PATH.UPLOAD_PATH.'thumb/110X110X3/'.$image[$image_ids[0]]['path'].$image[$image_ids[0]]['filename'] : ROOT_PATH.'images/no_pic.gif' ?>" alt="" /></div>
+                            <div class="pic_infor">
+                                <p class="font16"><?php echo $value->name; ?></p>
+                                <p>规格：   <?php echo $value->size; ?></p>
+                                <p>型号：   <?php echo $value->model; ?></p>
+                            </div>
+                        </li>
+                        <li class="li02"><?php echo ($value->number > 0) ? $value->cash / $value->number : 0; ?></li>
+                        <li class="li03"><?php echo $value->number; ?></li>
+                        <li class="colorrose li04"><?php echo $value->cash; ?></li>
+                    </ul>
+                </div>
+                <?php
+                    $i++; 
+                    $total_cash += $value->cash;
+                    $total_number += $value->number;
+                    endforeach;
+                 ?>
+            </div>
+            <div class="message clearfix">
+                <p class="order_form fl font16">订单留言：</p>
+                <input class="form_box fl font16 orderMessage" type="text" merchant_id="<?php echo $order_goods_info->user_id ; ?>" placeholder="请输入您对货品/物流等的要求" />
+                <p class="tote fl font16">商品数：<span><?php echo $total_number;?></span></p>
+                <p class="aggregate fl font16">总金额：<span><?php echo $total_cash; ?>元</span></p>
+            </div>
+        </div>
+    </div>
+    
+    <?php endif; ?>
+    
+    <div class="service_infor wrap">
+        <p>应付总额：<span class="colorrose">￥<?php echo $total_cash; ?></span>元</p>
+        <p id="deliverDddress">
+        <?php 
+            if(!empty($contacts_list)):
+                foreach ($contacts_list as $value):
+                    if($value->type == 1):
+        ?>
+        寄送至： <?php echo $value->address?> 收货人：<?php echo $value->name?> <?php echo substr($value->mobile, 0 , 3).'****'.substr($value->mobile, -4) ; ?></p>
+        <?php 
+                    endif;
+                endforeach;
+            endif;
+        ?>
+        </p>
+    </div>
+    <div class="btns wrap">
+        <a href="<?php echo $this->url('index' , array('controller' => 'user' , 'action' => 'cart'))?>" class="return">返回购物车</a>
+        <a class="place_order"  onclick="orderSubmit()">提交订单</a>
+    </div>
+    <!-- 地址的弹窗 -->
+    <div class="pop_newaddress_bj"></div>
+    <div class="pop_newaddress under_cover02">
+        <h3 class="pop_tittle">
+            新增收货地址
+            <div class="cancel"></div>
+        </h3>
+        <div class="pop_newad_main">
+            <div class="receiver clearfix mb10">
+                <span class="font16 tit fl">收货人：</span>
+                <input class="compellation" type="text"  name="name" />
+            </div>
+            <div class="district clearfix mb10">
+                <span class="font16 tit fl">所在地区：</span>
+                <div class="select_box" id="area">
+                    <select id="province" name="province"  class="dis_infor fl"></select>
+                    <select id="city" name="city" class="dis_infor no_border"></select>
+                </div>
+            </div>
+            <div class="amply clearfix mb10">
+                <span class="font16 tit fl">详细地址：</span>
+                <input class="compellation" type="text"  name="street"/>
+            </div>
+            <div class="phonecode clearfix">
+                <span class="font16 tit fl">手机号：</span>
+                <input class="compellation" type="text" name="mobile" maxlength="11" />
+            </div>
+            <div class="default clearfix">
+                <div class="choose fl">
+                </div>
+                <p>设为默认地址</p>
+            </div>
+            <div class="pop_new_btns clearfix">
+                <input class="remove fl" type="button" value="取消" />
+                <input class="keep current" type="button"  contact_id="" value="保存收货人"  onclick="addAddress()" />
+            </div>
+        </div>
+    </div>
+    <!-- 删除地址弹窗 -->
+    <div class="del_addr">
+        <h3>删除地址</h3>
+        <p>是否确认要删除选择的地址？</p>
+        <div class="pop_shopc_btns">
+            <a class="fl no">取消</a>
+            <a class="fl yeah current" contact_id="" onclick="deleteContact(this)">确定</a>
+        </div>
+    </div>
+
+<script type="text/javascript">
+var selected_contact_id;
+var goods_id = "<?php echo isset($goods_info->id) ? $goods_info->id : ''?>";
+var goods_number = "<?php echo isset($number) ? $number : ''?>";
+var goods_specificationId = "<?php echo isset($specificationId) ? $specificationId : ''?>";
+var pay_type = 2;
+$(function(){
+    if($('.contact_way').eq(0).hasClass('on'))
+    {
+    	selected_contact_id = $('.contact_way').eq(0).attr('contact_id');
+    }
+    
+    $('.pay_ways .pay_way a').click(function(){
+        pay_type = $(this).attr('pay_type');
+        $(this).addClass('on').siblings().removeClass('on');
+        if(pay_type == 1)
+        {
+            $('.pay_ways p').addClass('none');
+        }
+        else
+        {
+        	$('.pay_ways p').removeClass('none');
+        }
+    })
+	
+	$("#area").area({
+	    cache: region,
+	    p_id: 440000,
+	    ci_id: 440100,
+	});
+
+
+	$('.more_addr').click(function(event) {
+	    $(this).toggleClass('on');
+	    for(var i = 1 ; i < $('.contact_way').length ; i++)
+	    {
+	        number = i + 1;
+	    	$('#name0' + number).slideToggle();
+	    }
+	 });
+
+	$(".contact_way").click(function(){
+		selected_contact_id = $(this).attr('contact_id');
+	    $(this).addClass('on').siblings().removeClass('on');
+	    $(this).find(".surname").addClass('onsurname').siblings(".revise").show();
+	    $(this).siblings().find(".surname").removeClass("onsurname").siblings(".revise").hide();		
+	    $('#deliverDddress').html( '寄送至： ' + $(this).find(".contactAddr").html() + ' 收货人：' + $(this).find(".surname").html() + ' ' + $(this).find(".telephone").html());
+	 }) 
+	 
+	  //删除地址的弹窗
+	$('.revise .del').click(function(event) {
+	    $('.del_addr').show();
+	    $('.pop_newaddress_bj').show();
+	    $('.yeah').attr( "contact_id" ,$(this).attr('contact_id'));
+	});
+	 $('.del_addr .no').click(function(event) {
+	     $('.del_addr').hide();
+	     $('.pop_newaddress_bj').hide();
+	 });
+
+	 // 弹窗中商品选中点击事件
+	 $('.choose').click(function(event) {
+	     $(this).toggleClass('onchoose');
+	 });
+
+	// 弹窗内容关闭
+	$('.pop_newaddress .cancel,.pop_newad_main .remove').click(function(event) {
+	  $('.pop_newaddress').hide();
+	  $('.pop_newaddress_bj').hide();
+	});
+})
+
+ 
+var actAddAddress = true;
+//弹窗
+$('.once,.edit').click(function(event) {
+	if($(this).hasClass('edit'))
+	{
+		if(!actAddAddress)
+		{
+			return false;
+		}
+		contact_id = $(this).attr('contact_id');
+		actAddAddress = false;
+		$.post('<?php echo $this->url('index' , array('controller' => 'user' , 'action' => 'contactDetail')); ?>' , {"contact_id" : contact_id} , function(data){
+		    console.log(data);
+		    actAddAddress = true;
+		    if(data.status == 0)
+		    {
+		    	$('.under_cover02').show();
+		        $('.pop_newaddress_bj').show();
+		        detail = data.detail;
+		        $('input[name="name"]').val(detail.name);
+		    	$('input[name="mobile"]').val(detail.mobile);
+		    	$('input[name="street"]').val(detail.street);
+		    	$("#area").area({cache:region, p_id:detail.address_info.province.id,ci_id:detail.address_info.city.id});
+		    	if(detail.type != '0')
+		    	{
+		    		$('div.default>div.choose').addClass('onchoose');
+		    	}
+		    	else
+		    	{
+		    		$('div.default>div.choose').removeClass('onchoose');
+		    	}
+		    	$('.keep').attr('contact_id' , detail.id);
+		    }
+		},"json");
+	}
+	else
+	{
+		$('.under_cover02').show();
+        $('.pop_newaddress_bj').show();
+	}
+});
+ 
+function addAddress()
+{
+	if(!actAddAddress)
+	{
+		return false;
+	}
+
+	var name = $('input[name="name"]').val();
+	var mobile = $('input[name="mobile"]').val();
+	var regionId = $('#city').val();
+	var street = $('input[name="street"]').val();
+	if(!regionId)
+	{
+		return false;
+	}
+
+	if(!name)
+	{
+		$('input[name="name"]').css("border", "1px solid red");
+		return false;
+	}
+	else
+	{
+		$('input[name="name"]').css("border", "1px solid #ccc");
+	}
+	
+	if(!street)
+	{
+		$('input[name="street"]').css("border", "1px solid red");
+		return false;
+	}
+	else
+	{
+		$('input[name="street"]').css("border", "1px solid #ccc");
+	}
+
+	if(!isMobile(mobile))
+	{
+		$('input[name="mobile"]').css("border", "1px solid red");
+		return false;
+	}
+	else
+	{
+		$('input[name="mobile"]').css("border", "1px solid #ccc");
+	}
+   
+	actAddAddress = false;
+	type = 0;
+	if($('div.default>div.choose').hasClass('onchoose'))
+	{
+		type = 1;
+	}
+	var json = GetJson('AddressSubmit');
+	json.q.address = new Object;
+	json.q.address.id = $('.keep').attr('contact_id');
+	json.q.address.name = name;
+	json.q.address.mobile = mobile ;
+	json.q.address.type = type;
+	json.q.address.regionId = regionId;
+	json.q.address.street = street;
+    json.json = JSON.stringify(json);
+    $.post('<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'getJson'))?>' , json , function(data){
+        if(data.q.s == 0)
+        {
+            window.location.reload();
+        }
+        actAddAddress = true;
+    },"json");
+}
+
+function changeContactType(id)
+{
+	if(!actAddAddress)
+	{
+		return false;
+	}
+	actAddAddress = false;
+	$.post('<?php echo $this->url('index' , array('controller' => 'user' , 'action' => 'changeContactType')); ?>' , {"contact_id" : id} , function(data){
+		actAddAddress = true;
+		if(data.status == 0)
+        {
+            window.location.reload();
+        }
+	},"json");
+}
+
+function deleteContact(evt)
+{
+	if(!actAddAddress)
+	{
+		return false;
+	}
+	$id = $(evt).attr('contact_id');
+	if($id)
+	{
+		actAddAddress = false;
+		var json = GetJson('DeleteAction');
+		json.q.a = 2;
+		json.q.id = $id;
+		json.json = JSON.stringify(json);
+		$.post('<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'getJson')); ?>' , json , function(data){
+			actAddAddress = true;
+			if(data.q.s == 0)
+			{
+				window.location.reload();
+			}
+		},"json");
+	}
+}
+
+var actOrderSubmit = true;
+function orderSubmit()
+{
+	if(!actOrderSubmit)
+	{
+		return false;
+	}
+
+	if(!selected_contact_id)
+	{
+	    alert('选择收货地址');
+		return false;
+	}
+	
+	var goods_id = '<?php echo isset($goods_info->id) ? $goods_info->id : ''?>';
+	var order_id = '<?php echo isset($order_id) ? $order_id : ''?>';
+
+	var messages = new Object;
+	for(var i = 0 ; i < $('.orderMessage').length ; i++)
+	{
+		value = new Object;
+		value.id = $('.orderMessage').eq(i).attr('merchant_id');
+		value.content = $('.orderMessage').eq(i).val();
+		item = new Object;
+		item.message = value;
+	    messages[i] = item;
+	}
+
+	var cartIds = '<?php echo isset($cart_ids) && !empty($cart_ids) ? $cart_ids :'' ?>';
+	var cart_ids_array = new Array;
+	cartIds = cartIds.replace(/(\[|\]|\")/g,'').split(',');
+	for(var i = 0 ; i < cartIds.length ; i++)
+	{
+		cart_ids_array.push(cartIds[i]);
+	}
+
+	console.log(goods_id);
+	var json = GetJson('OrderSubmit');
+	if(order_id)
+	{
+		json.q.a = 3;
+		json.q.orderId = order_id;
+	}
+	else if(goods_id)
+	{
+		json.q.a = 2;
+		json.q.id = goods_id;
+		json.q.specificationId = '<?php echo isset($specificationId) ? $specificationId : ''?>';
+		json.q.number = '<?php echo isset($number) ? $number : ''?>';
+	}
+	else if(cart_ids_array)
+	{
+		json.q.a = 1;
+		json.q.cartIds = cart_ids_array;
+	}
+	
+	json.q.contactsId = selected_contact_id;
+	json.q.messages = messages;
+	json.q.payType = pay_type;
+	json.json = JSON.stringify(json);
+	actOrderSubmit = false;
+	$.post('<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'getJson')); ?>' , json , function(data){
+		console.log(data);
+		actOrderSubmit = true;
+		if(data.q.s == 0)
+		{
+			var id = data.q.id;
+			if(pay_type == 1)
+			{
+				location.replace("<?php echo $this->url('index' , array('controller' => 'order' , 'action' => 'payResult'));?>?id=" + id); 
+				event.returnValue=false;
+			}
+			else if(pay_type == 2)
+			{
+				location.replace("<?php echo $this->url('index' , array('controller' => 'order' , 'action' => 'payment'));?>?orderId=" + id ); 
+				event.returnValue=false;
+			}
+		}
+		else
+		{
+			alert(data.q.d);
+		}
+	},"json");
+}
+</script>

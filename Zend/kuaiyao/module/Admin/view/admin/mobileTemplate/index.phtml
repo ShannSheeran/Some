@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width,inital-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-status-bar-style" content="block" />
+	<meta name="fromat-detecition" content="telephone=no" />
+	<title><?php echo isset($info->name)?$info->name:''; ?>-快摇名片</title>
+    <link rel="stylesheet" type="text/css" href="<?php echo ROOT_PATH; ?>css/templet_<?php echo isset($info->template)?$info->template:'zero';?>.css?v=<?php echo time() ?>" />
+    <!--样式图标库-->
+    <link rel="stylesheet" type="text/css" href="<?php echo ROOT_PATH; ?>css/font-awesome.min.css?v=<?php echo time() ?>" />
+    <!--只兼容移动端，所以直接使用jQuery 2.1.4-->
+    <script type="text/javascript" src="<?php echo ROOT_PATH; ?>lib/jquery-2.1.4.min.js"></script>
+    <!--调用微信js-->
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+</head>
+<body onload="getJssdk()">
+<!--头像、姓名、英文名-->
+<header>
+	<ul>
+    	<li class="headerImg">
+        	<img src="<?php echo isset($info->head_icon)?$head_icon[$info->head_icon]['path']:''; ?>">
+       	</li>
+        <li class="headerName">
+        	<b><?php echo isset($info->name)?$info->name:''; ?></b>
+            <p><?php if(isset($info->position)){$pos = explode(",",$info->position);echo $pos[0];}else{echo '';} ?></p>
+        </li>
+    </ul>
+</header>
+<div class="signature">
+	<p><?php echo $info->signature?$info->signature:'暂无资料'?></p>
+</div>
+<!--收藏名片、微信关注-->
+<div class="cardOperation">
+	<a href="javascript:qrc_show('qrc_card')" id="qrc_save" class="fl"><i class="fa fa-download fa-lg"></i>保存到通讯录</a>
+    <a href="javascript:qrc_show('qrc_wx')" id="qrc_guanzhu" class="fr"><i class="fa fa-weixin fa-lg"></i>微信关注</a>
+</div>
+<!--联系方式-->
+<div class="cardContact">
+<h3>联系方式</h3>
+<ul id="contactList" class="notouchmove">
+	<!--固话（如有多个，请重复这列）-->
+    <?php foreach(explode(",",$info->mobile) as $v){?>
+	<li>
+    	<dt class="fl" onClick="javascript:void(0)">
+        	<i class="fa fa-phone fa-lg"></i>
+            <?php echo $v; ?>
+        </dt>
+        <dt class="fr">
+        	<a href="javascript:touchTel('<?php echo $v; ?>')">
+        	联系TA
+            </a>
+        </dt>
+    </li>
+    <?php } ?>
+    <!--移动电话（如有多个，请重复这列）-->
+    
+   <!-- <li>
+    	<dt class="fl" onClick="javascript:void(0)">
+        	<i class="fa fa-mobile fa-lg"></i>
+            111111
+        </dt>
+        <dt class="fr">
+        	<a href="javascript:touchTel('1111')">
+        	联系TA
+            </a>
+        </dt>
+    </li>-->
+    
+    <!--地址-->
+    <li class="contactAddress">
+    	<dt class="fl">
+        	<dl class="fl">
+        		<i class="fa fa-location-arrow fa-lg"></i>
+            </dl>
+            <dl class="fl addressName">
+            	<p><?php echo $info->address?$info->address:'';?></p>
+            </dl>
+        </dt>
+         <dt class="fr">
+            <a href="javascript:openlocation()">
+        	位置
+            </a>
+        </dt>
+    </li>
+    <!--邮件-->
+    <?php if($info->email){ $email = explode(",",$info->email) ?>
+    <li>
+    	<dt class="fl">
+        	<i class="fa fa-envelope-o fa-lg"></i>
+            <?php echo $info->email?$email[0]:''; ?>
+        </dt> 
+    </li>
+    <?php } ?>
+    <!--QQ-->
+    <?php if($info->qq){ $qq = explode(",",$info->qq)?>
+    <li>
+    	<dt class="fl">
+        	<i class="fa fa-qq fa-lg"></i>
+            1234567
+        </dt>
+    </li>
+    <?php } ?>
+    <!--微博-->
+   <!-- <li>
+    	<a href="#" class="fl">
+        	<i class="fa fa-weibo fa-lg"></i>
+            http://124567854
+        </a> 
+    </li>-->
+</ul>
+</div>
+<!--公司信息-->
+<div class="cardCompany">
+<h3>公司信息</h3>
+<ul>
+	<li class="companyBase">
+    	<dt class="logoName">
+        	<dl class="fl logoImg"><img src="<?php echo ROOT_PATH; ?>images/logo.png"></dl>
+            <dl class="fl companyName"><?php echo isset($info->company)?$info->company:''; ?></dl>
+        </dt>
+        <dt class="companyOther">
+        	<a  href="http://www.kuaiyao.name"  class="fl"><i class="fa fa-book fa-lg"></i>公司介绍</a>
+   			<a  href="http://www.kuaiyao.name"  class="fr"><i class="fa fa-reorder fa-lg"></i>经营项目</a>
+        </dt>
+    </li>
+   <!-- <li class="companyData"><i class="fl">行业</i><p class="fl">请选择行业</p></li>-->
+    <?php if($info->web_address){ $web_address = explode(",",$info->web_address) ?>
+    <li class="companyData"><i class="fl">网址</i><a class="fl" href="<?php echo $info->web_address?$web_address[0]:''; ?>"><?php echo $info->web_address?$web_address[0]:''; ?></a></li>
+    <?php } ?>
+</ul>
+</div>
+<!--其他链接-->
+<!--<div class="cardOther">
+<h3>更多链接</h3>
+<ul>
+	<li><a href="#">我的天猫店</a></li>
+    <li><a href="#">我的天猫店</a></li>
+    <li><a href="#">我的天猫店</a></li>
+</ul>
+</div>-->
+<!--底部浮动的下载APP提醒-->
+<!--<footer>
+	<a href="#" title="下载快摇名片APP,快速获取您的个性名片">下载快摇名片APP,快速获取您的个性名片</a>
+</footer>-->
+<footer>
+	<a href="http://www.kuaiyao.name" title="点击这里，让您了解快摇名片！">点击这里，让您了解快摇名片！</a>
+</footer>
+
+<!--遮罩层-->
+<div id='qrc_bg' class='qrcBg'></div>
+<!--弹出二维码-->
+<div id="qrc_card" class="qrcBox">
+	<div>
+		<b>长按二维码进行识别</b>
+    	<img src="<?php echo $head_icon[$vcf_id]['path']; ?>">
+        <i class="fa fa-close fa-2x" onClick="qrc_hide('qrc_card')"></i>
+    </div>
+</div>
+<div id="qrc_wx" class="qrcBox">
+	<div>
+		<b>长按二维码进行识别</b>
+    	<img src="<?php echo isset($head_icon[$info['wx_code']]['path']) ? $head_icon[$info['wx_code']]['path'] : ''; ?>">
+        <i class="fa fa-close fa-2x" onClick="qrc_hide('qrc_wx')"></i>
+    </div>
+</div>
+
+
+</body>
+</html>
+<script type="text/javascript">
+	var user=(navigator.userAgent).toLocaleLowerCase(),isWeixin=false,ht="",hta="",addressObj,shareData,touchState=true;
+	<?php $html_url = 'http://'.$_SERVER['HTTP_HOST'].'/static_html/'.$info->html.'.html';?>
+	function getJssdk()
+    {
+		/*判断是否在微信打开*/
+		if(user.indexOf('micromessenger')!==-1)
+		{
+			isWeixin=true;
+			/*异步获取Token*/
+			$.post("<?php echo $this->url('admin-user',array('action'=>'getJssdk')); ?>",'',function(data){
+				data = $.parseJSON(data);
+				console.log(data);
+				if(data)
+				{
+					hta=data.url;
+					ht=data.htt;
+					wx.config({
+						debug: false,
+						appId: data.appId,
+						timestamp: data.timestamp,
+						nonceStr: data.nonceStr,
+						signature: data.signature,
+						jsApiList: [
+							'checkJsApi',
+							'onMenuShareTimeline',
+							'onMenuShareAppMessage',
+							'onMenuShareQQ',
+							'onMenuShareWeibo',
+							'openLocation'
+						]
+					});
+					
+				}
+			});
+			wx.ready(function () {
+				/*设定微信分享内容*/
+				shareData = {title: '<?php echo isset($info->name)?$info->name:''; ?>/<?php if(isset($info->position)){$pos = explode(",",$info->position);echo $pos[0];}else{echo '';} ?>',desc: '<?php echo $info->profile?$info->profile:''?>',link: '<?php echo $html_url;?>',imgUrl: '<?php echo isset($info->head_icon)?$head_icon[$info->head_icon]['path']:''; ?>'};
+				/*设定微信地址导航*/
+				addressObj={latitude: <?php echo isset($info->latitude)?$info->latitude:''; ?>,longitude: <?php echo isset($info->longitude)?$info->longitude:''; ?>,name: '<?php echo isset($info->company)?$info->company:''; ?>',address: '<?php echo $info->address?$info->address:'';?>',scale: 14,infoUrl: '<?php echo $html_url;?>'};
+				wx.onMenuShareAppMessage(shareData);
+				wx.onMenuShareTimeline(shareData);
+				wx.onMenuShareQQ(shareData);
+				wx.onMenuShareWeibo(shareData);
+			});	
+			
+			$("#qrc_save,#qrc_guanzhu").css("width","48%");
+			
+		}
+		else{
+			isWeixin=false;
+			console.log("this isn't weixin");
+			$("#qrc_save").css("width","100%");
+			$("#qrc_guanzhu").hide();
+		}
+    }
+	/*拨打电话*/
+	function touchTel(telnum){window.location.href="tel:"+telnum;}
+	/*查看位置*/
+	function openlocation(){if(isWeixin){wx.openLocation(addressObj);}else{alert("请在微信中打开名片才能定位")}}
+	/*弹出二维码*/
+	function qrc_show(qrc){
+		if(isWeixin){$("#"+qrc).css('top','0px').show();$("#qrc_bg").show();}
+		else{if(qrc=="qrc_card"){window.location.href="http://www.kuaiyao.name"/*vcard路径*/;}}
+		}
+	/*隐藏二维码*/
+	function qrc_hide(qrc){$("#"+qrc).css('top','100%').hide();$("#qrc_bg").hide();}
+	$(documnet).ready(function(e) {
+		/*绑定在滑动界面时候不会触发点击事件*/
+		$('.notouchmove').bind({touchstart:function(e){touchState=true;},touchmove:function(e){touchState=false;}});
+	});
+</script>

@@ -1,0 +1,206 @@
+/*了解快摇名片APP*/
+@charset "utf-8";
+/*第一个模块*/
+.main .main_one{
+	background: url(../images/a_bg1.jpg) no-repeat center center;
+	background-size: 100% 100%;
+}
+.main .main_one .o_text{
+	position: absolute;
+	top:12%;
+	left: 50%;
+	margin-left: -322px;
+}
+/*第二个模块*/
+.main .main_two .two_bg{
+	width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: url(../images/a_bg2.jpg) no-repeat center center;
+    visibility: visible;
+    background-size: cover;
+}
+.main .main_two .move{
+	position: absolute;
+	top:30%;
+	left: 50%;
+	margin-left: -160px;
+}
+/*第三个模块*/
+.main .main_three{
+	background: #1d7ee0;
+}
+.main .main_three .t_content{
+	width: 1200px;
+	height: 100%;
+	margin:0 auto;
+	position: relative;
+}
+.main .main_three .t_content img{
+	position: absolute;
+}
+.main .main_three .t_content .t_text{
+	bottom:60%;
+	left: 50%;
+	margin-left: -270px;
+}
+.main .main_three .t_content .t_map{
+	bottom: 8%;
+	left: 50%;
+	margin-left: -445px;
+}
+.main .main_three .t_content .location{
+	left: 49%;
+	bottom:25%;
+}
+.main .main_three .t_content .t_phone{
+	right: 0;
+	bottom:20%;
+}
+/*第四个模块*/
+.main .main_four{
+	background: url(../images/a_bg4.jpg) no-repeat center center;
+}
+/*第五个模块*/
+.main .main_five .f_content{
+	width: 1200px;
+	height: 100%;
+	margin:0 auto;
+	position: relative;
+}
+.main .main_five .f_content img{
+	position: absolute;
+}
+.main .main_five .f_content .f_phone{
+	top:15%;
+	left: 0;
+}
+.main .main_five .f_content .f_text{
+	top:20%;
+	right:160px;
+}
+.main .main_five .f_content .f_re{
+	position: absolute;
+	right: 0;
+	top:45%;
+}
+.main .main_five .f_content .f_map{
+	position: relative;
+	width:891px;
+	height: 331px;
+	background: url(../images/map.png);
+	background-size: 100% 100%;
+}
+.main .main_five .f_content .coord1{
+	top:25%;
+	left:19%;
+}
+.main .main_five .f_content .coord2{
+	left:40%;
+	top:3%;
+}
+.main .main_five .f_content .coord3{
+	bottom:39%;
+	left:54%;
+}
+.main .main_five .f_content .coord4{
+	top:10%;
+	right:31%;
+}
+.main .main_five .f_content .coord5{
+	bottom:30%;
+	right: 13%;
+}
+.main .main_five .footer_text{
+	position: absolute;
+	bottom:15px;
+	left: 50%;
+	margin-left: -264px;
+	font-size: 12px;
+}
+.main .indexb{
+	position: absolute;
+	bottom:30px;
+	left: 50%;
+	margin-left: -91px;
+	color:#05a3d9;
+	font-size: 20px;
+}
+/*当屏幕小于1600*/
+@media (max-width: 1600px){
+	.main .main_one .o_text{
+		width: 550px;
+		margin-left: -275px;
+
+	}
+}
+/*当屏幕小于1450*/
+@media (max-width: 1450px){
+	.main .main_one .o_text{
+		width: 480px;
+		margin-left: -240px;
+	}
+	.main .main_three .t_content .t_text{
+		width:550px;
+		margin-left: -275px;
+	}
+	.main .main_three .t_content .t_map{
+		width: 800px;
+		margin-left: -400px;
+	}
+	.main .main_three .t_content .t_phone{
+		width: 350px;
+	}
+	.main .main_four{
+		background-size:650px;
+		background-position: center 78px;
+	}
+}
+/*当屏幕小于1200*/
+@media (max-width: 1200px){
+	.main .main_one .o_text{
+		width: 450px;
+		margin-left: -225px;
+	}
+	.main .main_three .t_content{
+		width: 1000px;
+	}
+	.main .main_three .t_content .t_text{
+		width:450px;
+		margin-left: -225px;
+	}
+	.main .main_three .t_content .t_map{
+		width: 700px;
+		margin-left: -350px;
+	}
+	.main .main_three .t_content .location{
+		left: 49%;
+		bottom:25%;
+	}
+	.main .main_three .t_content .t_phone{
+		width: 300px;
+	}
+	.main .main_four{
+		background-size:530px;
+	}
+	.main .main_five .f_content .f_re {
+		right:5%;
+	}
+	.main .main_five .f_content{
+		width: 1000px;
+	}
+	.main .main_five .f_content .f_phone{
+		width:200px;
+		left:5%;
+	}
+	.main .main_five .f_content .f_text{
+		width:415px;
+		right:15%;
+	}
+	.main .main_five .f_content .f_map{
+		width:670px;
+		height: 235px;
+	}
+}

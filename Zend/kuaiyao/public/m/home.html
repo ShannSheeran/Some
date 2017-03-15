@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="UTF-8">
+<meta name="Keywords" content="快摇名片" />
+<meta name="Description" content="快摇名片" />
+<title>快摇名片</title>
+<meta name="viewport" content="width=device-width,inital-scale=1.0,minimum-scale=1.0,maximum-scale=1.0" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="stylesheet" type="text/css" href="css/home.css?=212" />
+<script type="text/javascript" src="js/jquery.min.js"></script>
+</head>
+<body>
+<?php
+$url = "http://" . (isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : "");
+?>
+<div class="header">
+	<div class="logo"><img  src="images/logo.png" alt=""/></div>
+	<ul class="nav">
+		<li><a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.aiitec.shakecard">APP下载</a></li>
+		<li class="down"><a href="aboutUs.html">公司介绍</a></li>
+	</ul>
+</div>
+<div class="main">
+	<div class="main_bg"><img id="img_text" src="images/homebg.jpg" alt=""></div>
+	<div class="h_text"><img src="images/wenzi.png" alt=""></div>
+	<div class="video">
+		<img src="images/bofang.png" alt="">
+	</div>
+	<div class="h_input">
+		<a href="equipment.html"><img src="images/shebei.png" alt=""></a>
+		<a href="app.html"><img src="images/app.png" alt=""></a>
+	</div>
+	<div class="h_code"><img src="images/iphone.png" alt=""></div>
+</div>
+
+<div class="mp4">
+	<div class="close">×</div>
+	<video width="100%" height="240" controls="controls">
+	  	<source src="../images/small/kuaiyao.ogg" type="video/ogg">
+	  	<source src="../images/small/kuaiyao.mp4" type="video/mp4">
+		Your browser does not support the video tag.
+	</video>
+</div>
+
+<style>
+	/*横屏幕提示*/
+
+	@-webkit-keyframes rotation {
+		10% { transform: rotate(90deg); -webkit-transform: rotate(90deg) }
+		50%, 60% { transform: rotate(0deg); -webkit-transform: rotate(0deg) }
+		90% { transform: rotate(90deg); -webkit-transform: rotate(90deg) }
+		100% { transform: rotate(90deg); -webkit-transform: rotate(90deg) }
+	}
+	@keyframes rotation {
+		10% { transform: rotate(90deg); -webkit-transform: rotate(90deg) }
+		50%, 60% { transform: rotate(0deg); -webkit-transform: rotate(0deg) }
+		90% { transform: rotate(90deg); -webkit-transform: rotate(90deg) }
+		100% { transform: rotate(90deg); -webkit-transform: rotate(90deg) }
+	}
+	#orientLayer { display: none; }
+	@media screen and (min-aspect-ratio: 13/9) { #orientLayer { display: block; } }
+	.mod-orient-layer { display: none; position: fixed; height: 100%; width: 100%; left: 0; top: 0; right: 0; bottom: 0; background: #000; z-index: 9997 }
+	.mod-orient-layer__content { position: absolute; width: 100%; top: 45%; margin-top: -75px; text-align: center }
+	.mod-orient-layer__icon-orient { display: inline-block; width: 67px; height: 109px; background-image:url(images/phone.png);
+		transform: rotate(90deg); -webkit-transform: rotate(90deg); -webkit-animation: rotation infinite 1.5s ease-in-out; animation: rotation infinite 1.5s ease-in-out; -webkit-background-size: 67px; background-size: 67px }
+	.mod-orient-layer__desc { margin-top: 20px; font-size: 15px; color: #fff }
+	.mod-orient-layer__desc { margin-top: 20px; font-size: 15px; color: #fff }
+</style>
+<div id="orientLayer" class="mod-orient-layer">
+<div class="mod-orient-layer__content"> <i class="icon mod-orient-layer__icon-orient"></i>
+  <div class="mod-orient-layer__desc">为了更好的体验，请使用竖屏浏览</div>
+</div>
+</div>
+
+<script type="text/javascript">
+	/*背景图片动画*/
+	var _img = document.getElementById("img_text");
+	var fist = true;
+	var time = 9000;
+
+	setTimeout(function(){
+		zhixing();
+	});
+	setInterval(function(){
+		zhixing();
+	}, time);
+	
+	function a(){
+		$('.main_bg').stop().animate({
+					'left':- document.body.clientWidth,
+			},time);
+		fist = false;
+	}
+	function b(){
+		$('.main_bg').stop().animate({
+					'left': '0px',
+			},time);
+		fist = true;
+	}
+	function zhixing(){
+		if(fist){
+		 	a();
+		}else{
+		    b();
+		}
+	}
+
+	// 播放视频
+	$(".video").click(function(){
+		$(".mp4").show();
+	})
+	$(".mp4 .close").click(function(){
+		$(".mp4").hide();
+		$('video').trigger('pause');
+	})
+</script>
+	
+</body>
+</html>

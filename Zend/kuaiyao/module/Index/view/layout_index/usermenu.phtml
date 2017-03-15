@@ -1,0 +1,36 @@
+<script>$(function(){showmenu();});</script>
+<script>$("body").addClass("bg_f4f4f4");</script>
+<style>
+.f14{font-weight:bold;}
+.btn input{border:0;}
+</style>
+					<div class="left_menu fl">
+						<h3 class="f_color_red f15 bg_white pt10  pl20">个人资料</h3>
+						<ul class="pl20 bg_white pt10 pb10">
+							<li><a <?php echo $type=='info' ? 'class="on"' : ''?> href="<?php echo $this->url('index',array('controller'=>'user','action'=>'info'));?>">个人信息</a></li>
+							<li><a <?php echo $type=='message' ? 'class="on"' : ''?> href="<?php echo $this->url('index',array('controller'=>'user','action'=>'message'));?>">消息中心</a></li>
+							<li><a <?php echo $type=='record' ? 'class="on"' : ''?> href="<?php echo $this->url('index',array('controller'=>'user','action'=>'record','type'=>2));?>">消费记录</a></li>
+							<li><a <?php echo $type=='integral' ? 'class="on"' : ''?> href="<?php echo $this->url('index',array('controller'=>'user','action'=>'integral'));?>">积分记录</a></li>
+							<li><a <?php echo $type=='exchange' ? 'class="on"' : ''?> href="<?php echo $this->url('index',array('controller'=>'user','action'=>'exchange'));?>">兑换金猫</a></li>
+                            <li><a <?php echo $type=='mySeckill' ? 'class="on"' : ''?> href="<?php echo $this->url('index',array('controller'=>'user','action'=>'mySeckillList','type'=>2));?>">我的秒杀</a></li>
+                            <li><a <?php echo $type=='myLottery' ? 'class="on"' : ''?> href="<?php echo $this->url('index',array('controller'=>'user','action'=>'mySeckillList','type'=>3));?>">我的抽奖</a></li>
+						    <li><a <?php echo $type=='rechargeSilver' ? 'class="on"' : ''?> href="<?php echo $this->url('index',array('controller'=>'user','action'=>'rechargeSilver','type'=>2));?>">银猫充值</a></li>
+						</ul>
+						<h3 class="f_color_red f15 bg_white pt10 pl20">安全设置</h3>
+						<ul class="pl20 bg_white pt10 pb10">
+							<li><a <?php echo $type=='password' ? 'class="on"' : ''?> href="<?php echo $this->url('index',array('controller'=>'user','action'=>'passwordUpdate'));?>">修改密码</a></li>
+							<li><a <?php echo $type=='mobile' ? 'class="on"' : ''?> href="<?php echo $this->url('index',array('controller'=>'user','action'=>'mobileUpdate'));?>">更换手机号</a></li>
+							<li><a <?php echo $type=='address' ? 'class="on"' : ''?> href="<?php echo $this->url('index',array('controller'=>'user','action'=>'address'));?>">收货地址管理</a></li>
+							<li><a <?php echo $type=='encrypted' ? 'class="on"' : ''?> href="<?php echo $this->url('index',array('controller'=>'user','action'=>'encrypted'));?>">账户安全问题</a></li>
+						</ul>
+						
+						
+						<div class="user_banner_img bg_red mt10 none">
+							<a href="<?php echo ADS_15;?>"><img src="<?php echo ADS_15;?>" /></a>
+						</div>
+					</div>
+<?php foreach($ads_15 as $v){
+	define('ADS_15' , $v['path']);
+	define('ADS_15_LINK' , $v['link']);
+	break;
+}?>

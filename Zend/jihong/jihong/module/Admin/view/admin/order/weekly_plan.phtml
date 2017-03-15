@@ -1,0 +1,59 @@
+<style>
+	.dataTables_info{
+		display:none;
+	}
+	.dataTables_paginate{
+		display: none;
+	}
+	.bc-1{display: none;}
+	.col-sm-5{display: none;}
+	.col-sm-7{display:none;}
+</style>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+        <a href="<?php echo $this->url('admin-order' , array('action' => 'index')); ?>">订单管理 / <a href="<?php echo $this->url('admin-order' , array('action' => 'weeklyPlan')); ?>">周计划管理</a>
+		</h3>
+	</div>
+	
+	<div class="panel-body">
+    	<div class="" style="float:right;">
+            <form class="form-horizontal" action="<?php $this->url('admin-order' , array('action' => 'index')) ?>" method="get" style="float: left; margin-left: 20px;">
+			<span style="font-weight: bold; font-size: 14px;"> 关键词 :</span>
+			<input type="text" name="keyword" value="<?php echo isset($keyword) ? $keyword : ''?>" placeholder="请输入订单号/企业名称搜索" style="line-height: 26px" >
+			<input type="submit"  value="搜索" class="btn btn-info" style="height: 26px; width: 60px; line-height: 26px; padding: 0; margin-left: 10px; margin-top: 5px;" />
+		    </form>
+    	</div>
+    	<div style="clear:both;"></div>
+		<table class="table table-bordered table-striped" id="example-4">
+			<thead>
+				<tr>
+					<th>订单编号</th>
+					<th>企业名称</th>
+					<th>购买数量</th>
+					<th>已供应数</th>
+					<th>未供应数</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			    <?php 
+			         if($order_list):
+			             foreach ($order_list as $value): 
+			     ?>
+                <tr class="tr_list" valign="middle">
+					<td style="padding-top:18px;"><?php echo $value->order_sn ?></td>
+					<td style="padding-top:18px;"><?php echo $value->user_name ?></td>
+					<td style="padding-top:18px;"><?php echo $value->total_number ?></td>
+					<td style="padding-top:18px;"><?php echo $value->total_number - $value->total_supply_number; ?></td><!-- 这里你去吐槽建数据库的人吧 -->
+					<td style="padding-top:18px;"><?php echo $value->total_supply_number ?></td>
+					<td><a href="<?php echo $this->url('admin-order' , array('action' => 'planDetail' , 'id' => $value->id )); ?>" class="btn btn-info">查看</a></td>
+				</tr>
+				<?php 
+				        endforeach;
+				    endif;
+				?>
+            </tbody>
+		</table>
+        <?php echo $this->paginationControl($paginator, 'Sliding', 'page',array('route' =>'admin-order','condition'=>$condition));?>       </div>
+</div>

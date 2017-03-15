@@ -1,0 +1,317 @@
+<?php echo $this->headScript()->prependFile($this->basePath() . '/js/admin/jq_area.js') ?>
+<?php echo $this->headScript()->prependFile($this->basePath() . '/js/admin/region.js') ?>
+<style>
+    .tl{text-align: right;}
+    .main-nody{padding:5px 20px 0 20px;}
+    .main-nody h5{float: left;}
+    .tp{margin-top: 30px;}
+    .bc-1{display: none;}
+    .fl{float: left;}
+    .pd5{
+    	padding:5px;
+    }
+    .fc{
+    	color:red;
+    }
+</style>
+<div class="panel panel-default">
+   <div class="panel-heading">
+       <div calss="row">
+           <div class="col-sm-6">
+              <a href="<?php echo $this->url('admin-user' , array('action' => 'index')); ?>">会员管理 / <a href="<?php echo $this->url('admin-user' , array('action' => 'applicationList')); ?>">审核申请</a> / <a href="">申请详情</a>
+           </div>
+       </div>
+   </div>
+    <div class="pannel-body main-nody">
+        <form class="form-horizontal" action="<?php echo $this->url('admin-user' , array('action' => 'dealUserApplication')); ?>" method="post" >
+        <div class="row">
+            <div class="col-lg-12">
+                <h5>企业信息</h5>
+            </div>
+            <div class="col-lg-12">
+                <table class="table table-striped" id="example-4" >
+                    <tbody>
+                        <tr>
+                            <td>企业名称</td>
+                            <td>
+                                <input type="text" name="company_name" value="<?php echo $user_info->company_name; ?>" class="pd5">
+                                <span class="fc"> * 务必是实体企业名称(3-20个汉字或英文字符)</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> 企业类型</td>
+                            <td>
+                                <select class="pd5" name="type" style="width:163px;">
+                                    <?php foreach ($enterpris_type as $key => $item):?>
+                                    <option value="<?php echo $key;?>" <?php echo $user_info->type == $key ? 'selected' : ''?>><?php echo $item; ?></option>
+                                    <?php endforeach;?>
+                                </select>
+                                <span class="fc"> * </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>联系人</td>
+                            <td>
+                                <input type="text" name="contacts_name" value="<?php echo $user_info->contacts_name; ?>" class="pd5">
+                                <span class="fc"> *  请填写店主的真实姓名，方便联系</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>联系电话</td>
+                            <td>
+                                <input type="text" name="mobile" value="<?php echo $user_info->mobile; ?>" class="pd5">
+                                <span class="fc"> *请填上区号，如：075723316056</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>企业传真</td>
+                            <td>
+                                <input type="text" name="fax" value="<?php echo $user_info->fax; ?>" class="pd5">
+                                <span class="fc"> * </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>QQ号码</td>
+                            <td>
+                                <input type="text" name="qq" value="<?php echo $user_info->qq; ?>" class="pd5">
+                                <span class="fc"> * QQ号码方便在线沟通、接收开通帐号和密码</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> E-mail</td>
+                            <td>
+                                <input type="text" name="email" value="<?php echo $user_info->email; ?>" class="pd5">
+                                <span class="fc"> * 如果企业没填，要询问有没有，若有则要帮填</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>  所在区域</td>
+                            <td>
+                            <span id="area">
+                                <select id="province" name="province" style="width: 100px;padding:5px;"></select>
+                                 <select id="city" name="city" style="width: 100px;padding:5px;"></select>
+                            </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>  详细地址</td>
+                            <td>
+                                <input type="text" name="street" value="<?php echo $user_info->street; ?>" class="pd5">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>企业描述</td>
+                            <td>
+                                <textarea name="description"><?php echo $user_info->description; ?></textarea>
+                            </td>
+                        </tr>
+                        <?php if($user_info->register_status == 4): ?>
+                        <tr>
+                            <td>审核人</td>
+                            <td>
+                                <input type="text" name="" value="<?php echo $user_info->auditor;?>" class="pd5" >
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>审核时间</td>
+                            <td>
+                                <input type="text" name="" value="<?php echo $user_info->audit_time;?>" class="pd5" >
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>不通过原因</td>
+                            <td>
+                                <input type="text" name="" value="<?php echo $user_info->refuse_reason;?>" class="pd5" >
+                            </td>
+                        </tr>
+                        <?php endif;?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <?php if(in_array($user_info->register_status, array(1,2,3))): ?>
+        <div class="row">
+            <div class="col-lg-12">
+                <h5>
+                    账号信息
+                    <?php if(in_array($user_info->register_status, array(1,2))): ?>
+                    （若审核不通过，可不填写）
+                    <?php endif; ?>
+                 </h5>
+            </div>
+            <div class="col-lg-12">
+                <table class="table table-striped" id="example-4" >
+                    <tbody>
+                        <tr>
+                            <td>登录账号</td>
+                            <td>
+                                <input type="text" name="name" value="<?php if($user_info->register_status == 3){echo $user_info->name; } ?>" class="pd5" maxlengh="20"  id="name" >
+                                <span class="fc"> * 可采用企业名称拼音缩写最多20字符(不支持中文，临时保存不保存账号)</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>登录密码</td>
+                            <td>
+                                <input type="password" name="password" value="<?php if($user_info->register_status == 3){echo $user_info->password; } ?>" class="pd5" maxlength="20" minlength="6">
+                                <span class="fc"> * 6-20个英文或数据(临时保存不保存密码)</span>
+                            </td>
+                        </tr>
+                        <?php if($user_info->register_status == 1 || $user_info->register_status == 2): ?>
+                        <tr>
+                            <td>重复登录密码</td>
+                            <td>
+                                <input type="password" name="confirm_password" value="" class="pd5" maxlength="20" minlength="6">
+                                <span class="fc"> * 请再输入一次上面的密码 </span>
+                            </td>
+                        </tr>
+                        <?php endif;?>
+                        <tr>
+                            <td>会员类型</td>
+                            <td>
+                                <select class="pd5" name="label_id" style="width:163px;">
+                                    <option value="0">请选择会员类型</option>
+                                    <?php foreach ($user_label as $item):?>
+                                    <option value="<?php echo $item->id;?>" <?php echo $user_info->label_id == $item->id ? 'selected' : ''?> ><?php echo $item->name; ?></option>
+                                    <?php endforeach;?>
+                                </select>
+                                <span class="fc"> * </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> 绑定业务员</td>
+                            <td>
+                                <select class="pd5" name="admin_id" style="width:163px;" id="admin_id" onchange="getContract(this)">
+                                    <option value="0">请选择业务员</option>
+                                    <?php foreach ($admin_list as $item):?>
+                                    <option value="<?php echo $item->id;?>" <?php echo $user_info->admin_id == $item->id ? 'selected' : ''?> ><?php echo $item->name; ?></option>
+                                    <?php endforeach;?>
+                                </select>
+                                <span class="fc"> * </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> 业务员QQ</td>
+                            <td>
+                                <input type="text" name="admin_qq" value="" class="pd5" id="admin_qq" disabled>
+                                <span class="fc"> * </span>
+                            </td>
+                        </tr>
+                        <?php if($user_info->register_status == 3): ?>
+                        <tr>
+                            <td>审核人</td>
+                            <td>
+                                <input type="text" name="" value="<?php echo $user_info->auditor;?>" class="pd5" >
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>审核时间</td>
+                            <td>
+                                <input type="text" name="" value="<?php echo $user_info->audit_time;?>" class="pd5" >
+                            </td>
+                        </tr>
+                        <?php endif;?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <?php endif;?>
+        
+        <div class="row" id="refuse_reason" style="display:none">
+            <div class="col-lg-12">
+                <h5>审核不通过原因</h5>
+            </div>
+            <div class="col-lg-12">
+                <table class="table table-striped" id="example-4">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <textarea rows="" cols=""></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="button" name="nopass" id="confirm" value="确定" class="btn btn-info" >
+                                <input type="button" id="cancel" value="取消" class="btn btn-info" >
+                             </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="row" >
+            <div class="col-lg-12">
+                <h5></h5>
+            </div>
+            <div class="col-lg-12">
+                <table class="table table-striped" id="example-4">
+                    <tbody>
+                        <?php if($user_info->register_status == 1 || $user_info->register_status == 2): ?>
+                        <tr>
+                            <td>
+                                <input type="hidden" name="id" value="<?php echo isset($id) ? $id : '';?>">
+                                <button type="submit" name="pass" id="pass" value="审核通过" class="btn btn-info" >审核通过</button>
+                                <button type="submit" name="save" value="临时保存" class="btn btn-info" >临时保存</button>
+                                <button type="button" class="btn btn-setting  btn-warning" data-toggle="modal" data-target="#myModal" >审核不通过</button>
+                            </td>
+                        </tr>
+                        <?php endif;?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style='z-index:8888;'>
+        	<div class="modal-dialog" >
+        		<div class="modal-content" >
+        			<div class="modal-header">
+        				<button type="button" class="close" data-dismiss="modal">×</button>
+        				<h3>审核不通过理由</h3>
+        			</div>
+        			<div class="modal-body">
+        			     <textarea id="refuse_content"  name="refuse_content"></textarea>
+        			     <button type="submit" name="nopass" value="审核不通过" id="nopass" class="btn btn-info">确定</button>
+        			     <input type="button" value="取消" class="btn btn-info">
+        			</div>
+        			<div style="clear: both"></div>
+        		</div>
+        	</div>
+        </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+<script>
+
+$("#area").area({
+    cache: region,
+    p_id:<?php echo isset($address_info[0]['region']['id']) ? $address_info[0]['region']['id'] : 440000;?>,
+    ci_id:<?php echo isset($address_info[1]['region']['id']) ? $address_info[1]['region']['id'] : 440100;?>,
+});
+
+getContract('#admin_id');
+function getContract(evt)
+{
+	var id = $(evt).val();
+    $.post('<?php echo $this->url('admin-user' , array('action' => 'getAdminContacts'))?>' , {'id' : id} , function(data){
+        data =  jQuery.parseJSON(data);
+    	$('#admin_qq').val(data.qq);
+    });
+}
+
+$('#name').blur(function(){
+    var name = $(this).val();
+    var re = /[\u4e00-\u9fa5]/; 
+    if(re.test(name))
+    {
+        alert('登录帐号不能出现中文');
+    	return false; 
+    } 
+    return true;  
+})
+
+</script>

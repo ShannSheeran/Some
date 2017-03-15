@@ -1,0 +1,83 @@
+<style>
+	.dataTables_info{
+		display:none;
+	}
+	.dataTables_paginate{
+		display: none;
+	}
+	.bc-1{display: none;}
+	.col-sm-5{display: none;}
+	.col-sm-7{display:none;}
+	.fl{
+		float:left;
+	}
+</style>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+        <a href="<?php echo $this->url('admin-information' , array('action' => 'platform')) ?>">信息管理 / <a href="">吉宏团队</a>
+		</h3>
+	</div>
+	
+	<div class="panel-body">
+	    <div class="fl" >
+		    <a class="btn btn-info fl " href="<?php echo $this->url('admin-information' , array('action' => 'jhTeamOperate')) ?>" >添加员工</a>
+		    <a class="btn btn-info fl " href="<?php echo $this->url('admin-information' , array('action' => 'department')) ?>" >团队管理</a>
+		</div>
+    	<div class="" style="float:right;">
+            <form class="form-horizontal" action="<?php $this->url('admin-order' , array('action' => 'index')) ?>" method="get" style="float: left; margin-left: 20px;">
+			<select style="padding: 5px" name="department_id">
+			     <option value="0">全部部门</option>
+			     <?php foreach ($department_list as $key => $value):?>
+			     <option value="<?php echo $key?>" <?php if(isset($department_id) && $department_id == $key){ echo 'selected';} ?>><?php echo $value->name; ?></option>
+			     <?php endforeach;?>
+			</select>
+			<input type="submit"  value="搜索" class="btn btn-info" style="height: 26px; width: 60px; line-height: 26px; padding: 0; margin-left: 10px; margin-top: 5px;" />
+		    </form>
+    	</div>
+    	<div style="clear:both;"></div>
+		<table class="table table-bordered table-striped" id="example-4">
+			<thead>
+				<tr>
+					<th>姓名</th>
+					<th>头像</th>
+					<th>部门</th>
+					<th>职位</th>
+					<th>座右铭</th>
+					<th>排序</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			     <?php foreach ($staff_list as $value): ?>
+                <tr class="tr_list" valign="middle">
+					<td style="padding-top:18px;"><?php echo $value->name; ?></td>
+					<td style="padding-top:18px;"><img src="<?php echo ROOT_PATH.'uploadfiles/'.$value->path . $value->filename; ?>"></td>
+					<td style="padding-top:18px;"><?php echo $department_list[$value->department_id]->name; ?></td>
+					<td style="padding-top:18px;"><?php echo $value->position; ?></td>
+					<td style="padding-top:18px;"><?php echo $value->description; ?></td>
+					<td style="padding-top:18px;"><?php echo $value->sort; ?></td>
+					<td>
+					   <a href="<?php echo $this->url('admin-information' , array('action' => 'jhTeamOperate' , 'id' => $value->id)) ?>" class="btn btn-info">编辑</a>
+					   <a href="#" onclick="show_confirm('<?php echo $this->url('admin-information' , array('action' => 'deleteStaff' , 'id' => $value->id)); ?>')" class="btn btn-info">删除</a>
+					 </td>
+				</tr>
+				<?php endforeach;?>
+            </tbody>
+		</table>
+        <?php echo $this->paginationControl($paginator, 'Sliding', 'page',array('route' =>'admin-information','condition'=>$condition));?>       </div>
+</div>
+
+<script>
+function show_confirm(url)
+{
+	if(confirm('确认删除？'))
+	{
+		location.href = url;
+	}
+	else
+	{
+		return false;
+	}
+}
+</script>

@@ -1,0 +1,114 @@
+                <script type="text/javascript">
+                $(function(){
+                    $('.user_center ul li').click(function(){
+                        $(this).addClass('on').siblings().removeClass('on');
+                    })
+                    $('.quality_text ul li:first-child').addClass('selected');
+                    $('.quality_text ul li').click(function(){
+                      $(this).addClass('selected').siblings().removeClass('selected');
+                    })
+                    $('.only_sure').click(function(){
+                        $('.prompt').hide();
+                        window.location.reload();
+                    })
+                })
+                </script>
+                <div class="user_content_right">
+                  <h2>发布留言</h2>
+                  <ul class="quality_message leave_message">
+                    <li>
+                      <div class="quality_label">留言类型：</div>
+                      <div class="quality_text">
+                        <ul>
+                          <li id="type_1">商品咨询</li>
+                          <li>普通留言</li>
+                        </ul>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="quality_label">留言内容：</div>
+                      <div class="quality_text">
+                        <textarea id="content" maxlength="100"></textarea>
+                      </div>
+                    </li>
+                    <li>
+                        <div class="clear"></div>
+                        <a class="btn_submit">提交</a>
+                        <!-- 遮罩层 -->
+                        <div class="page_strong top2"></div>
+                        <!-- 弹窗 -->
+                        <div class="prompt dialog">
+                          <h3 class="pt15">提交成功</h3>
+                          <p class="pt5">您的留言已提交成功，我们将尽快回复</p>  
+                          <span class="only_sure" onclick="hideDialog()">确定</span>
+                        </div>
+                    </li>
+                    </ul>
+                  </ul>
+                  <div class="clear"></div>
+                  <div class="leave_message">
+                    <h2>我的留言</h2>
+                    <div class="leave_message_content fl">
+                      <ul class="leave_message_label">
+                        <li class="leave_message_type">留言类型</li>
+                        <li class="leave_message_time">留言时间</li>
+                        <li class="leave_message_word">留言内容</li>
+                        <li class="leave_message_restore">管理员回复</li>
+                      </ul>
+                      <ul class="leave_message_details">
+                      <?php if(!empty($messages)){?>
+                      <?php foreach ($messages as $v){?>
+                        <li>
+                          <div class="leave_message_type">
+                          <?php foreach ($messageType as $n=>$m){?>
+                          <?php if($v->type == $n){?>
+                          <?php echo $m?>
+                          <?php }?>
+                          <?php }?>
+                          </div>
+                          <div class="leave_message_time"><?php echo $v->timestamp?></div>
+                          <div class="leave_message_word"><?php echo mb_substr($v->content, 0,100,'utf8')?></div>
+                          <div class="leave_message_restore"><?php echo $v->reply?></div>
+                        </li>
+                      <?php }?>
+                      <?php }?>
+                      </ul>
+                    </div>
+                    <div class="clear"></div>
+                    <?php echo $this->paginationControl($paginator, 'Sliding', 'layout_index/page',array('route' =>'index','condition'=>$condition));?>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+        var btnSubmit = true;
+        $(".btn_submit").click(function(){
+            if(btnSubmit){
+            if($.trim($("#content").val()).length<=0){
+                alert("请输入留言内容");
+                return false;
+            }
+            if($("#type_1").hasClass('selected')){
+                var type = 1;
+            }else{
+                var type = 2;
+            }
+            var content = $("#content").val();
+            btnSubmit = false;
+            var json = new Object();
+            json.n = "MessageSubmit";
+            json.q = new Object();
+            json.q.message = new Object();
+            json.q.message.type = type;
+            json.q.message.content = content;
+            $.post('<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'getJson'))?>' ,  {request: json} , function(data){
+            	btnSubmit = true;
+                if(data.q.s=='0')
+          	    {
+                	$('.prompt').show();
+                	$('.page_strong').css('display','block');
+                }
+            },"json");
+            }
+            });
+        </script>

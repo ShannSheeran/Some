@@ -1,0 +1,803 @@
+@charset "gb2312";
+/* CSS Document */
+
+/*** main ***/
+.main {
+	padding:19px 0 0 0;
+	background:#f4f4f4 url(../images/login_main_bg.jpg) left top repeat-x;
+}
+.main .container {
+	width:100%;
+	background:#fff;
+	margin:0 0 30px 0;
+	display:inline-block;
+	padding:0 0 26px 0;
+	min-height: 400px;
+}
+.main .container dl.tab {
+	height:47px;
+	width:100%;
+	background:url(../images/login_01.jpg) left top repeat-x;
+	border-bottom:1px #f8f8f8 solid;
+}
+.main .container dl.tab dd {
+	float:left;
+	width:100px;
+	height:42px;
+	border-top:3px solid #ffffff;
+}
+.main .container dl.tab dd:hover, .main .container dl.tab dd.cur {
+	border-top:3px solid #266afe;
+}
+.main .container dl.tab dd a {
+	width:100px;
+	height:42px;
+	display:block;
+	line-height:42px;
+	color:#333333;
+	text-align:center;
+	font-size:14px;
+	border-right:#f6f6f6 1px solid;
+}
+.main .container dl.tab dd a:hover, .main .container dl.tab dd.cur a {
+	color:#266afe;
+}
+.main .container table.nr_1, .main .container table.nr_2 {
+	width:100%;
+}
+.main .container table.nr_1 tr td, .main .container table.nr_1 tr th, .main .container table.nr_2 tr td.nr_2td, .main .container table.nr_2 tr th.nr_2th {
+	border-bottom:1px solid #f6f6f6;
+	height:59px;
+}
+.main .container table.nr_1 tr td.up {
+	border-right:1px solid #f6f6f6;
+}
+.main .container table.nr_1 tr td span {
+	color:#999999;
+	padding:5px 0 0 5px;
+	display:inline-block;
+}
+.main .container table.nr_1 tr th,.main .container table.nr_2 tr th.nr_2th {
+	color:#333;
+	text-align:right;
+	font-size:14px;
+	padding:0 26px 0 0;
+}
+.main .container table.nr_1 tr td input.text,.main .container table.nr_2 tr td.nr_2td input.text {
+	height:32px;
+	border:1px solid #ededed;
+	padding:0 10px;
+	font-size:14px;
+	font-family:�垄�铆��潞�;
+	color:#999999;
+}
+.main .container table.nr_2 tr td.nr_2td textarea.textarea {
+	margin:20px 0;
+}
+.main .container table.nr_1 tr td input.submit,.main .container table.nr_2 tr td.nr_2td input.submit {
+	height:40px;
+	width:130px;
+	background:url(../images/login_btn.jpg) no-repeat;
+	border:none;
+	text-align:center;
+	line-height:40px;
+	display:block;
+	font-size:18px;
+	font-family:�垄�铆��潞�;
+	color:#fff;
+	cursor:pointer;
+	margin:25px 0;
+}
+.main .container table.nr_1 tr .bordernone,.main .container table.nr_2 tr td.bordernone {
+	border:none;
+}
+.main .container table.nr_1 tr td dl {
+	display:inline-block;
+	text-align:center;
+	width:100%;
+}
+.main .container table.nr_1 tr td dl dd {
+	position:relative;
+}
+.up_btn {
+	text-align:center;
+	font-size:12px;
+	width: 100px;
+	background:url(../images/up_btn.png) no-repeat;
+	height:30px;
+	left:58px;
+	top: 16px;
+	position: absolute;
+	color:#fff;
+	display:block;
+	line-height:30px;
+	cursor: pointer;
+}
+.up_file {
+	width: 100px;
+	height: 30px;
+	cursor: pointer;
+	outline: medium none;
+	position: absolute;
+	filter:alpha(opacity=0);
+	-moz-opacity:0;
+	opacity:0;
+	left:58px;
+	top: 16px;
+	overflow:hidden;
+	display:block;
+}
+/*����宠������ss*/
+.main .wrap .container .nor .nor_top{
+	width:100%;
+	height: 70px;
+	border-bottom:1px solid #eee;
+	
+	}
+.main .wrap .container .nor .nor_top .nor_top_p{
+	font-size:24px;
+	margin-top: 18px;
+    margin-left: 30px;
+	
+	}
+.main .wrap .container .nor .nor_top_left{
+	width:110px;
+	height:50px;
+	border-right:1px solid #eee;
+	margin-top:10px;
+	
+	}
+.main .wrap .container .nor .nor_top_left p{
+	font-size:16px;
+	line-height: 49px;
+    padding-left: 33px;
+	
+	}
+	
+	
+	
+.main .wrap .container .nor .nor_ad{
+	width:100%;
+	height:55px;
+	border-bottom:1px solid #eee;
+	
+	}
+.main .wrap .container .nor .nor_ad .nor_ad_text{
+	clear:both;
+	height:30px;
+	line-height: 52px;
+    margin-left: 30px;
+	
+	}
+.main .wrap .container .nor .nor_ad .nor_ad_text_p{
+	font-size:16px;
+	
+	}
+.main .wrap .container .nor .nor_ad .nor_ad_text i{
+	width:16px;
+	height:23px;
+	background:url(../index_files/light.png) no-repeat;
+	display:block;
+	margin-top: 15px;
+	
+	}
+.main .wrap .container .nor .nor_rmb{
+	width:100%;
+	height:135px;
+	border-bottom:1px solid #eee;
+	font-size:18px;
+	color:#aaa;
+	
+	}
+.main .wrap .container .nor .nor_rmb_bd{
+
+
+	}
+.main .wrap .container .nor .nor_rmb_er{
+	clear:both;
+	margin-left: 43px;
+	}
+.main .wrap .container .nor .nor_rmb_look{
+	clear:both;
+	margin-left: 187px;
+
+	}
+.main .wrap .container .nor .nor_rmb_look i{
+	width:12px;
+	height:12px;
+	background:url(../images/look.png) no-repeat;
+	display:block;
+	float:left;
+	margin-top: 2px;
+
+	}
+.main .wrap .container .nor .nor_atm_look{
+	margin-left: 127px;
+	clear: both;
+
+}
+.main .wrap .container .nor .nor_atm_look i{
+	width:12px;
+	height:12px;
+	background:url(../images/look.png) no-repeat;
+	display:block;
+	float:left;
+	margin-top: 2px;
+	}
+.main .wrap .container .nor .nor_atm{
+	width:100%;
+	height:480px;
+	font-size:18px;
+	color:#aaa;
+	
+	}
+.main .wrap .container .nor .nor_atm .nor_atm_name{
+	width:480px;
+	height:60px;
+	clear:both;
+	margin-left: 60px;
+    margin-top: 40px;
+	
+	}
+.main .wrap .container .nor .nor_atm .nor_atm_atm{
+	clear: both;
+	
+	}
+.main .wrap .container .nor .nor_atm .nor_atm_atm_li{
+	width:511px;
+	height:155px;
+	margin-left: 21px;
+	font-size: 12px;
+	color: black;
+	margin-top: 4px;
+	}
+.main .wrap .container .nor .nor_atm .nor_atm_atm_li_ul{
+	clear: both;
+}
+.main .wrap .container .nor .nor_atm .nor_atm_number{
+	width: 697px;
+	height: 77px;
+	clear: both;
+    margin-left: 60px;
+    padding-top: 0px;
+}
+.main .wrap .container .nor .nor_atm .nor_atm_number .nor_atm_number_look{
+	clear: both;
+}
+.main .wrap .container .nor .nor_atm .nor_atm_number .nor_atm_number_look i{
+	width:12px;
+	height:12px;
+	background:url(../images/look.png) no-repeat;
+	display:block;
+	float:left;
+	margin-top: 2px;
+
+}
+ .main .wrap .container .nor .nor_atm .nor_atm_number_p{
+	font-size: 18px;
+    color: #aaa;
+    margin-top: 3px;
+    margin-right: 21px;
+}
+.main .wrap .container .nor .nor_atm .nor_atm_number_input input{
+	width: 250px;
+	height: 30px;
+	text-indent:10px;
+	font-size:18px;
+}
+.main .wrap .container .nor .nor_atm .nor_atm_phone {
+	clear: both;
+	margin-left: 62px;
+    padding-top: 0px;
+	    width: 380px;
+	    height: 66px;
+    margin-top: -15px;
+
+}
+.main .wrap .container .nor .nor_atm .nor_atm_phone .nor_atm_phone_look{
+	clear: both;
+	margin-left: 128px;
+}
+.main .wrap .container .nor .nor_atm .nor_atm_phone .nor_atm_phone_look i{
+    width:12px;
+	height:12px;
+	background:url(../images/look.png) no-repeat;
+	display:block;
+	float:left;
+	margin-top: 2px;
+}
+.main .wrap .container .nor .nor_atm .nor_atm_phone_p{
+    margin-right: 21px;
+    margin-top: 3px;
+
+
+}
+.main .wrap .container .nor .nor_atm .nor_atm_phone_style input{
+	width: 100px;
+	height: 30px;
+	float: left;
+	text-indent:10px;
+	font-size:18px;
+
+}
+.main .wrap .container .nor .nor_atm .nor_atm_phone_style .nor_yanzhengma_look{
+	clear: both;
+	margin-left:126px;
+}
+.main .wrap .container .nor .nor_atm .nor_atm_phone_style .nor_yanzhengma_look i{
+	 width:12px;
+	height:12px;
+	background:url(../images/look.png) no-repeat;
+	display:block;
+	float:left;
+	margin-top: 2px;
+}
+.main .wrap .container .nor .nor_atm .nor_atm_phone_style button{
+   height: 32px;
+   width: 122px;
+   background: #ff9600;
+   margin-left: 253px;
+   border-radius: 6px;
+   border: none;
+   color:white;
+   font-size:14px;
+   margin-left: 20px;
+   line-height: 32px;"
+
+}
+.main .wrap .container .nor .nor_atm .nor_atm_tb{
+   margin-left: 63px;
+
+}
+.main .wrap .container .nor .nor_atm .nor_atm_tb button{
+	width: 140px;
+	height: 40px;
+	color: white;
+	font-size: 14px;
+	background: #266afe;
+	border: none;
+	border-radius: 6px;
+}
+.on_input{
+	border: 1px solid #ff7070;
+}
+/*.li_h{
+	margin-bottom: 17px;
+}*/
+/*�惰��炬�*/
+.main .wrap .container .nor .nor_atm .nor_atm_atm_li_ul .nor_atm_atm_li_gs{
+	width:18px;
+	height:18px;
+	display: block;
+	background: url(../index_files/gongshang.png) no-repeat;
+	margin-right: 8px;
+    margin-left: 8px;
+    margin-top: 6px;
+	}
+.main .wrap .container .nor .nor_atm .nor_atm_atm_li_ul .nor_atm_atm_li_ny{
+	width:18px;
+	height:18px;
+	display: block;
+	background: url(../index_files/nongye.png) no-repeat;
+	margin-left: 8px;
+	margin-right: 8px;
+    margin-top: 6px;
+}
+.main .wrap .container .nor .nor_atm .nor_atm_atm_li_ul .nor_atm_atm_li_zs{
+	width:18px;
+	height:18px;
+	display: block;
+	background: url(../index_files/zhaoshang.png) no-repeat;
+	margin-right: 8px;
+    margin-left: 8px;
+    margin-top: 6px;
+}
+.main .wrap .container .nor .nor_atm .nor_atm_atm_li_ul .nor_atm_atm_li_js{
+	width:18px;
+	height:18px;
+	display: block;
+	background: url(../index_files/jianshe.png) no-repeat;
+    margin-right: 8px;
+    margin-left: 8px;
+    margin-top: 6px;
+}
+.main .wrap .container .nor .nor_atm .nor_atm_atm_li_ul .nor_atm_atm_li_zg{
+	width:18px;
+	height:18px;
+	display: block;
+	background: url(../index_files/zhongguo.png) no-repeat;
+    margin-right: 8px;
+    margin-left: 8px;
+    margin-top: 6px;
+}
+.main .wrap .container .nor .nor_atm .nor_atm_atm_li_ul .nor_atm_atm_li_pf{
+	width:18px;
+	height:18px;
+	display: block;
+	background: 
+	background: url(../index_files/pufa.png) no-repeat;
+	margin-right: 8px;
+    margin-left: 8px;
+    margin-top: 6px;
+}
+.main .wrap .container .nor .nor_atm .nor_atm_atm_li_ul .nor_atm_atm_li_gf{
+	width:18px;
+	height:18px;
+	display: block;
+	background: url(../index_files/guangfa.png) no-repeat;
+	margin-right: 8px;
+    margin-left: 8px;
+    margin-top: 6px;
+}
+.main .wrap .container .nor .nor_atm .nor_atm_atm_li_ul .nor_atm_atm_li_ms{
+	width:18px;
+	height:18px;
+	display: block;
+	background: url(../index_files/minsheng.png) no-repeat;
+	margin-right: 8px;
+    margin-left: 8px;
+    margin-top: 6px;
+}
+.main .wrap .container .nor .nor_atm .nor_atm_atm_li_ul .nor_atm_atm_li_pa{
+	width:18px;
+	height:18px;
+	display: block;
+	background: url(../index_files/pingan.png) no-repeat;
+	margin-right: 8px;
+    margin-left: 8px;
+    margin-top: 6px;
+}
+.main .wrap .container .nor .nor_atm .nor_atm_atm_li_ul .nor_atm_atm_li_gd{
+	width:18px;
+	height:18px;
+	display: block;
+	background: url(../index_files/guangda.png) no-repeat;
+	margin-right: 8px;
+    margin-left: 8px;
+    margin-top: 6px;
+}
+.main .wrap .container .nor .nor_atm .nor_atm_atm_li_ul .nor_atm_atm_li_xy{
+	width:18px;
+	height:18px;
+	display: block;
+	background: url(../index_files/xingye.png) no-repeat;
+	margin-right: 8px;
+    margin-left: 8px;
+    margin-top: 6px;
+}
+.main .wrap .container .nor .nor_atm .nor_atm_atm_li_ul .nor_atm_atm_li_zx{
+	width:18px;
+	height:18px;
+	display: block;
+	background: url(../index_files/zhongxin.png) no-repeat;
+	margin-right: 8px;
+    margin-left: 8px;
+    margin-top: 6px;
+}
+.main .wrap .container .nor .nor_atm .nor_atm_atm_li_ul .nor_atm_atm_li_jt{
+	width:18px;
+	height:18px;
+	display: block;
+	background: url(../index_files/jiaotong.png) no-repeat;
+	margin-right: 8px;
+    margin-left: 8px;
+    margin-top: 6px;
+}
+.main .wrap .container .nor .nor_atm .nor_atm_atm_li_ul .nor_atm_atm_li_sh{
+	width:18px;
+	height:18px;
+	display: block;
+	background: url(../index_files/shanghai.png) no-repeat;
+	margin-right: 8px;
+    margin-left: 8px;
+    margin-top: 6px;
+}
+.main .wrap .container .nor .nor_atm .nor_atm_atm_li_ul .nor_atm_atm_li_shns{
+	width:18px;
+	height:18px;
+	display: block;
+	background: url(../index_files/shanghains.png) no-repeat;
+	margin-right: 8px;
+    margin-left: 8px;
+    margin-top: 6px;
+}
+.main .wrap .container .nor .nor_atm .nor_atm_atm_li_ul .nor_atm_atm_li_ny1{
+	width:18px;
+	height:18px;
+	display: block;
+	background: url(../index_files/nanyue.png) no-repeat;
+	margin-right: 8px;
+    margin-left: 8px;
+    margin-top: 6px;
+}
+.main .wrap .container .nor .nor_atm .nor_atm_atm_li_ul .nor_atm_atm_li_nb{
+	width:18px;
+	height:18px;
+	display: block;
+	background: url(../index_files/ningbo.png) no-repeat;
+	margin-right: 8px;
+    margin-left: 8px;
+    margin-top: 6px;
+}
+.main .wrap .container .nor .nor_atm .nor_atm_atm_li_ul .nor_atm_atm_li_hr{
+	width:18px;
+	height:18px;
+	display: block;
+	background: url(../index_files/huarun.png) no-repeat;
+	margin-right: 8px;
+    margin-left: 8px;
+    margin-top: 6px;
+}
+.main .wrap .container .nor .nor_atm .nor_atm_atm_li_ul .nor_atm_atm_li_hx{
+	width:18px;
+	height:18px;
+	display: block;
+	background: url(../index_files/huaxia.png) no-repeat;
+	margin-right: 8px;
+    margin-left: 8px;
+    margin-top: 6px;
+}
+.main .wrap .container .nor .nor_atm .nor_atm_atm_li_ul .nor_atm_atm_li_bj{
+	width:18px;
+	height:18px;
+	display: block;
+	background: url(../index_files/beijing.png) no-repeat;
+	margin-right: 8px;
+    margin-left: 8px;
+    margin-top: 6px;
+}
+.main .wrap .container .nor .nor_atm .nor_atm_atm_li_ul .nor_atm_atm_li_js1{
+	width:18px;
+	height:18px;
+	display: block;
+	background: url(../index_files/jiangsu.png) no-repeat;
+	margin-right: 8px;
+    margin-left: 8px;
+    margin-top: 6px;
+}
+.main .wrap .container .nor .nor_atm .nor_atm_atm_li_ul .nor_atm_atm_li_nj{
+	width:18px;
+	height:18px;
+	display: block;
+	background: url(../index_files/nanjing.png) no-repeat;
+	margin-right: 8px;
+    margin-left: 8px;
+    margin-top: 6px;
+}
+.style{
+	border: 1px solid white;
+	width: 100px;
+	height: 30px;
+	cursor: pointer;
+	clear: both;
+}
+.atm_on{
+	border:1px solid #6787a3;
+}
+<!--mycss for 2015/8/28-->
+.main .container .mdb {
+	width: 100%;
+	height: 750px;
+}
+.main .container .mdb .mdb_top {
+	height: 130px;
+}
+.main .container .mdb .mdb_top_left {
+	height: 100px;
+	width: 200px;
+	border-right: 1px solid #eee;
+	margin-top: 13px;
+}
+.main .container .mdb .mdb_top_left_style {
+	margin-top: 18px;
+	margin-left: 40px;
+	line-height: 30px;
+}
+.main .container .mdb .mdb_top_left_a {
+	font-size: 16px;
+}
+.main .container .mdb .mdb_top_left_b {
+	font-size: 26px;
+	font-weight: bold;
+	font-family: Arial, "瀹��";
+}
+.main .container .mdb .mdb_top_left_b_style {
+	font-size: 12px;
+	font-weight: normal;
+}
+.main .container .mdb .mdb_top_center {
+	height: 100px;
+	width: 200px;
+	border-right: 1px solid #eee;
+	margin-top: 13px;
+}
+.main .container .mdb .mdb_top_center_style {
+	margin-top: 18px;
+	margin-left: 40px;
+	line-height: 30px;
+}
+.main .container .mdb .mdb_top_center_a {
+	font-size: 16px;
+}
+.main .container .mdb .mdb_top_center_b {
+	font-size: 26px;
+	font-weight: bold;
+	font-family: Arial, "瀹��";
+}
+.main .container .mdb .mdb_top_center_b_style {
+	font-size: 12px;
+	font-weight: normal;
+}
+.main .container .mdb .mdb_top_right {
+	height: 100px;
+	width: 594px;
+}
+.main .container .mdb .mdb_top_right_n {
+	width: 300px;
+	height: 45px;
+	margin-top:16px;
+}
+.main .container .mdb .mdb_top_right_s {
+	width: 444px;
+	height: 90px;
+	margin-left: 40px;
+    margin-top: 30px;
+}
+.main .container .mdb .mdb_top_right_a {
+	font-size: 18px;
+}
+.main .container .mdb .mdb_top_right_button {
+	background: #ffa32d;
+	color: #FFF;
+	width: 120px;
+	height: 40px;
+	border: none;
+	border-radius: 5px;
+	font-size: 18px;
+	margin-right:10px;
+}
+.main .container .mdb .mdb_center {
+	height: 50px;
+}
+.main .container .mdb .mdb_center_body {
+	width:98%;
+	height: 50px;
+	border-top:1px solid #eee;
+	border-bottom:1px solid #eee;
+	margin:0 auto;
+}
+.main .container .mdb .mdb_center_body ul{
+	line-height: 48px;
+    padding-left: 22px;
+
+}
+.main .container .mdb .mdb_center_body ul li{
+	font-size:14px;
+}
+.main .container .mdb .mdb_center_body ul li p{
+	width:111px;
+	height:70px;
+	cursor:pointer;
+}
+.main .container .mdb .mdb_bottom {
+	height: 570px;
+	width:100%;
+}
+.main .container .mdb .mdb_bottom_body {
+  margin: 0 auto;
+  width: 100%;
+  margin-top: 30px;
+  margin-left: 24px;
+  clear:both;
+  height: 100%;
+	
+}
+.main .container .mdb .mdb_bottom_body_two {
+	width:98%;
+	height:570px;
+	margin:0 auto;
+	margin-top: -549px;
+	margin-left:29px;
+	position: relative;
+	
+}
+.main .container .mdb .mdb_bottom_body_two_bottom {
+	width:96%;
+	height:50px;
+	background:#fafafa;
+	position: absolute;
+    bottom: -25px;
+	
+}
+.main .container .mdb .mdb_bottom_body ul li{
+	float:left;
+	margin-right:30px;
+	margin-bottom:20px;
+	
+}
+.main .container .mdb .mdb_bottom_body ul li p{
+  width: 122px;
+  height: 48px;
+  border: 1px solid #b1c9ff;
+  padding-left: 10px;
+  line-height: 45px;
+  cursor:pointer;
+  
+}
+.main .container .mdb .mdb_bottom_body ul li .useon{
+	color:#d1d1d1;
+	border:1px solid #d1d1d1;
+}
+
+.pon{
+	background:url(../images/pon.png) no-repeat;
+	background-position: 27px 42px;;
+	}
+.pon1{
+	background:url(../images/pon.png) no-repeat;
+	background-position: 35px 42px;;
+	}
+
+
+
+
+/*success*/
+.main .wrap .container .nor{
+	height: 717px;
+	}
+.main .wrap .container .nor .nor_top{
+	width:100%;
+	height: 70px;
+	border-bottom:1px solid #eee;
+	}
+.main .wrap .container .nor .nor_top .nor_top_p{
+	font-size:24px;
+	margin-top: 18px;
+    margin-left: 30px;
+	}
+.main .wrap .container .nor .nor_top_left{
+	width:110px;
+	height:50px;
+	border-right:1px solid #eee;
+	margin-top:10px;
+	}
+.main .wrap .container .nor .nor_top_left p{
+	font-size:16px;
+	line-height: 49px;
+    padding-left: 33px;
+	}
+.main .wrap .container .nor .nor_ad{
+	width:100%;
+	height:55px;
+	border-bottom:1px solid #eee;
+	}
+.main .wrap .container .nor .nor_ad .nor_ad_text{
+	clear:both;
+	height:30px;
+	line-height: 52px;
+    margin-left: 30px;
+	}
+.main .wrap .container .nor .nor_ad .nor_ad_text_p{
+	font-size:16px;
+	}
+.main .wrap .container .nor .nor_ad .nor_ad_text i{
+	width:16px;
+	height:23px;
+	background:url(../images/light.png) no-repeat;
+	display:block;
+	margin-top: 15px;
+	}
+.main .wrap .container .nor .nor_rmb_two{
+   margin-left: 35px;
+   font-size: 24px;
+   color: black;
+   margin-top: 26px;
+	}
+.tanchu{
+	width:100px;
+	height:100px;
+	background:red;
+}
+.on_red{
+	border:1px solid #ff7070;
+}

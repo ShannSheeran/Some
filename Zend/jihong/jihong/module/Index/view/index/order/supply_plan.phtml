@@ -1,0 +1,127 @@
+    <div class="wrap supply clearfix">
+        <form action="" method="get">
+      <div class="goods_classify">
+        <div class="classity_content">
+          <h2>第<?php echo date('W');?>周供货计划(<?php echo $show_start_time ?>-<?php echo $show_end_time ?>)</h2>
+          <span>商品分类：</span>
+          <div class="select_out">
+            <select onchange="goodsCategoryLinkage(this);selectWeekPlanByFirst(this)" name="firstCategory" id="firstCategory">
+              <option value="0">请选择商品分类</option>
+              <?php foreach ($goods_category as $value): ?>
+              <option <?php echo ($value->id == $first_category) ? 'selected':''?> category_type="<?php echo $value->type ?>" value="<?php echo $value->id?>"><?php echo $value->name?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+          <div class="select_out">
+            <select id="secondCategory" name="secondCategory" onchange="selectWeekPlanBySecond(this)">
+              <option value="0">请选择商品分类</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="supply_search fr">
+        <div class="clearfix search_box">
+          <div class="fl">
+            <input type="text" name="keyword" class="search_input" placeholder="请输商品名称/订单号搜索" value="<?php echo isset($keyword) ? $keyword:''?>" onfocus=";">
+          </div>
+          <div class="fr"><input type="submit" class="supply_search_btn" value="搜索"></div>
+        </div>
+      </div>
+      </form>
+    </div>
+    <div class="clear"></div>
+    <div class="wrap supply_content">
+      <table>
+        <thead>
+          <td class="name">商品名称</td>
+          <td class="spec">规格/等级</td>
+          <td class="model">型号</td>
+          <td class="unit">单位</td>
+          <td class="total">总计</td>
+          <td class="date">星期一</td>
+          <td class="date">星期二</td>
+          <td class="date">星期三</td>
+          <td class="date">星期四</td>
+          <td class="date">星期五</td>
+          <td class="date">星期六</td>
+          <td class="date">星期日</td>
+        </thead>
+        <tbody>
+            <?php
+            if(!empty($week_plan)) :
+                foreach ($week_plan as $value): ?>
+          <tr>
+            <td class="name"><?php echo $value['goods_name']?></td>
+            <td class="spec"><?php echo $value['size']?></td>
+            <td class="model"><?php echo $value['model']?></td>
+            <td class="unit"><?php echo $value['unit_name']?></td>
+            <td class="total"><?php echo $value['total_supply']?></td>
+            <td class="date"><?php echo isset($value[1]->number) ? $value[1]->number :0 ?></td>
+            <td class="date"><?php echo isset($value[2]->number) ? $value[2]->number :0 ?></td>
+            <td class="date"><?php echo isset($value[3]->number) ? $value[3]->number :0 ?></td>
+            <td class="date"><?php echo isset($value[4]->number) ? $value[4]->number :0 ?></td>
+            <td class="date"><?php echo isset($value[5]->number) ? $value[5]->number :0 ?></td>
+            <td class="date"><?php echo isset($value[6]->number) ? $value[6]->number :0 ?></td>
+            <td class="date"><?php echo isset($value[7]->number) ? $value[7]->number :0 ?></td>
+          </tr>
+          <?php 
+                    endforeach;
+                endif;
+            ?>
+        </tbody>
+      </table>
+<script>
+var first_category = '<?php echo isset($first_category)? $first_category:""?>';
+if(first_category)
+{
+	goodsCategoryLinkage('#firstCategory');
+}
+
+      //商品分类联动
+function goodsCategoryLinkage(obj){
+	var pid = $(obj).children('option:selected').val();
+	var type = $(obj).children('option:selected').attr('category_type');
+	$.ajax({
+	    url:'<?php echo $this->url('index',array('controller' => 'goods','action'=>'goodsCategoryLinkage'))?>',
+	    type:'post',
+	    data:{'pid':pid , 'type':type},
+	    dataType:'json',
+	    success:function(data){
+		    if(data.code == '1'){
+			    var second_category = '<?php echo isset($second_category) ? $second_category : ''; ?>';
+			    var html = "<option value='0'>请选择商品分类</option>";
+		    	$.each(data.categorys,function(i,v){
+		    		if(second_category == v.id)
+		    		{
+		    			html += "<option selected value='"+v.id+"'>"+v.name+"</option>";
+		    		}
+		    		else
+		    		{
+		    			html += "<option value='"+v.id+"'>"+v.name+"</option>";
+		    		}
+			    	
+				});
+		    	$("#secondCategory").empty();
+		    	$("#secondCategory").append(html)    
+			}else{
+				var html = "<option value='0'>请选择商品分类</option>";
+				$("#secondCategory").empty();
+				$("#secondCategory").append(html) 
+			}
+		},
+	});
+}
+
+function selectWeekPlanByFirst(evt)
+{
+	var firstCat = $(evt).val();
+	location.href = "<?php echo $this->url('index' , array('controller' => 'order' , 'action' => 'supplyPlan'))?>?firstCategory=" + firstCat;
+}
+
+function selectWeekPlanBySecond(evt)
+{
+	var firstCat = $(evt).parents('div.select_out').siblings('div.select_out').find('select').val();
+	var secondCat = $(evt).val();
+	location.href = "<?php echo $this->url('index' , array('controller' => 'order' , 'action' => 'supplyPlan'))?>?firstCategory=" + firstCat + "&secondCategory=" + secondCat;
+}
+</script>

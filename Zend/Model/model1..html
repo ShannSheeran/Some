@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="mode1.js" charset="UTF-8"></script>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+    <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="model.css" rel="stylesheet">
+</head>
+<body ng-app="myApp">
+<div class="container"  ng-controller="test">
+    <div class="from-group">
+        <input type="text" name="name" ng-model="myname">
+        <p>your name is {{myname}}</p>
+    </div>
+
+    <div class="from-group">
+        <input type="text" name="name" value="{{myname}}" disabled>
+    </div>
+
+    <div class="from-group">
+        <p ng-init="myfirst='Hello World'">Hello World</p>
+        <div ng-bind="myfirst"></div>
+    </div>
+
+    <div class="from-group">
+        <div>{{10+10}}</div>
+    </div>
+
+    <div class="from-group">
+        <input type="text" ng-model="firstName">
+        <input type="text" ng-model="lastName">
+        <p>姓名:{{firstName+" "+lastName}}</p>
+    </div>
+
+    <form name="myForm">
+        Email:
+        <input type="url" name="myAddress" ng-model="text">
+        <span ng-show="myForm.myAddress.$error.url">不是一个合法的URL</span>
+    </form>
+
+    <div class="from-group" >
+        <ul ng-repeat="key in data">
+            <li>{{key.id}}</li>
+            <li>{{key.name}}</li>
+            <li>{{key.mobile}}</li>
+        </ul>
+
+        <ul ng-repeat="(k,v) in data">
+            <li>{{v.id}}</li>
+            <li>{{v.name}}</li>
+            <li>{{v.mobile}}</li>
+        </ul>
+    </div>
+
+</div>
+</body>
+</html>
+<script>
+var app=angular.module('myApp',[]);
+    app.controller('test', function($scope,$http) {
+        $http.post("http://www.space.com/Model/test.php").success(function (response) {
+            $scope.data = response
+        });
+        $scope.lastName= "Doe";
+    });
+
+</script>

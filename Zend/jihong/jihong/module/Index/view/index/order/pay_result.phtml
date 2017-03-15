@@ -1,0 +1,57 @@
+        <div class="pay_access">
+            <div class="pay_prompt">
+                <?php if(!empty($order_info)): ?>
+                <div class="pay_prompt_access">
+                    订单支付成功，确认订单后将尽快给您发货。
+                </div>
+                <div class="order_num_money">
+                    <span class="order_num">订单号：<?php echo $order_info->order_sn; ?></span>
+                    <span class="order_money">已付金额： <i><?php echo $order_info->total_cash; ?></i> 元</span>
+                </div>
+                <?php else: ?>
+                <div class="pay_prompt_access">
+                    网络出现问题，订单支付失败，请联系客服人员。
+                </div>
+                <div class="order_num_money">
+                    <span class="order_num"> </span>
+                    <span class="order_money"> </span>
+                </div>
+                <?php endif; ?>
+                <div class="youcan">您可以：<a href="<?php echo $this->url('index' , array('controller' => 'order' , 'action' => 'index')) ?>">查看订单详情</a><a href="<?php echo $this->url('index' , array('controller' => 'goods' , 'action' => 'shopList')); ?>">继续购物</a><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=<?php echo $qq ?>&site=qq&menu=yes" class="QQ">联系业务员</a>
+                </div>
+            </div>
+        </div>
+        <div class="foryou">
+            <h2>为您推荐</h2>
+            <div class="groom_content">
+                <ul>
+                   <?php
+                    if($goods_list) :
+                        foreach ($goods_list as $value): 
+                            $image_ids = array();
+                            if(isset($value->image))
+                            {
+                                $image_ids = explode(',', trim($value->image , ','));
+                            }
+                    ?>
+                  <li>
+                    <a href="<?php echo $this->url('index' , array('controller' => 'goods' , 'action' => 'detail' , 'id' => $value->id))?>">
+                        <div class="goods_img">
+                            <img src="<?php echo !empty($image) && !empty($image_ids) ? ROOT_PATH.UPLOAD_PATH.'thumb/140X140X3/'.$image[$image_ids[0]]['path'].$image[$image_ids[0]]['filename'] : ROOT_PATH.'images/no_pic.gif' ?>">
+                        </div>
+                        <div class="goods_text">
+                            <div class="goods_name">
+                              <?php echo $value->name; ?>
+                          </div>
+                          <div class="price_num">
+                              <span class="goods_price">￥<?php echo $value->min_cash?></span>
+                              <span class="seller_num tr">销量：<?php echo $value->sale_number?></span>
+                          </div>
+                      </a>
+                  </li>
+                  <?php 
+                        endforeach;
+                    endif;
+                  ?>
+                </ul>
+          </div>

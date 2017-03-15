@@ -1,0 +1,115 @@
+<script src="<?php echo $this->basePath();?>/js/admin/jedate.min.js"></script>
+<style>
+	.dataTables_info{
+		display:none;
+	}
+	.dataTables_paginate{
+		display: none;
+	}
+	.bc-1{display: none;}
+	.col-sm-5{display: none;}
+	.col-sm-7{display:none;}
+</style>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+        <a href="<?php echo $this->url('admin-service' , array('action' => 'message')); ?>">售后留言管理/ <a href="">留言管理</a>
+		</h3>
+	</div>
+	
+	<div class="panel-body">
+    	<div class="" style="float:right;">
+            <form class="form-horizontal" action="<?php $this->url('admin-service' , array('action' => 'message')) ?>" method="get" style="float: left; margin-left: 20px;">
+            <span style="font-weight: bold; font-size: 14px;">提交日期：</span>
+            <input type="text"  style="line-height: 22px"  name="start_time" readonly id="start_time" class="datainp" placeholder="请选择" value="<?php echo isset($start_time) ? $start_time :''?>"/>
+            <span style="font-weight: bold; font-size: 14px;">到：</span>
+			<input type="text"  style="line-height: 22px"  name="end_time"  readonly id="end_time"  class="datainp" placeholder="请选择" value="<?php echo isset($end_time) ? $end_time :''?>"/>
+			<span style="font-weight: bold; font-size: 14px;"> 关键词 :</span>
+			<input type="text" name="keyword" value="<?php echo isset($keyword) ? $keyword :''?>" placeholder="请输入企业名称搜索" style="line-height: 26px" >
+			<select style="padding: 5px" name="is_read">
+			     <option value="0">全部状态</option>
+			     <?php foreach ($message_is_read as $k=>$v){?>
+			     <option value="<?php echo $k?>" <?php echo isset($is_read)&&$is_read == $k ? "selected" : ''?>><?php echo $v?></option>
+			     <?php }?>
+			</select>
+			<select style="padding: 5px" name="type">
+			     <option value="0">全部类型</option>
+			     <?php foreach ($messageType as $k=>$v){?>
+			     <?php if($k != 3): ?>
+			     <option value="<?php echo $k?>" <?php echo isset($type)&&$type==$k ? "selected" : ''?>><?php echo $v?></option>
+			     <?php endif; ?>
+			     <?php }?>
+			</select>
+			<input type="submit"  value="搜索" class="btn btn-info" style="height: 26px; width: 60px; line-height: 26px; padding: 0; margin-left: 10px; margin-top: 5px;" />
+		    </form>
+    	</div>
+    	<div style="clear:both;"></div>
+		<table class="table table-bordered table-striped" id="example-4">
+			<thead>
+				<tr>
+					<th>留言时间</th>
+					<th>企业名称</th>
+					<th>留言类型</th>
+					<th>留言内容</th>
+					<th>处理状态</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?php if(!empty($message)){?>
+			<?php foreach ($message as $k=>$v){?>
+                <tr class="tr_list" valign="middle">
+					<td style="padding-top:18px;"><?php echo $v->timestamp?></td>
+					<td style="padding-top:18px;"><?php echo $v->company_name?></td>
+					<?php foreach ($messageType as $m=>$n){?>
+					<?php if($m == $v->message_type){?>
+					<td style="padding-top:18px;"><?php echo $n?></td>
+					<?php }?>
+				    <?php }?>
+					<td style="padding-top:18px;"><?php echo mb_substr($v->content, 0,15),mb_strlen($v->content)>15?'...':''?></td>
+					<?php foreach ($message_is_read as $m=>$n){?>
+					<?php if($m == $v->is_read){?>
+					<td style="padding-top:18px;"><?php echo $n?></td>
+					<?php }?>
+				    <?php }?>
+					<td>
+					<?php if($v->is_read == '2'){?>
+					   <a href="<?php echo $this->url('admin-service' , array('action' => 'reply' ,'id'=>$v->id)); ?>" class="btn btn-info">查看</a>
+					<?php }else{?>
+					   <a href="<?php echo $this->url('admin-service' , array('action' => 'reply' ,'id'=>$v->id)); ?>" class="btn btn-info">回复</a>
+					<?php }?>
+					</td>
+				</tr>
+			<?php }?>
+			<?php }?>
+            </tbody>
+		</table>
+        <?php echo $this->paginationControl($paginator, 'Sliding', 'page',array('route' =>'admin-service','condition'=>$condition));?>      
+         </div>
+</div>
+<script type="text/javascript">
+var start ={
+		dateCell:"#start_time",
+		format:"YYYY-MM-DD hh:mm:ss",
+		isinitVal:false,
+		isTime:true, 
+		maxDate: jeDate.now(0),
+		minDate:"1970-01-01 00:00:00",
+		choosefun: function(datas){
+			end.minDate = datas;
+	    }
+	};
+var end ={
+	dateCell:"#end_time",
+	format:"YYYY-MM-DD hh:mm:ss",
+	isinitVal:false,
+	isTime:true,
+	minDate:"1970-01-01 00:00:00",
+	maxDate: jeDate.now(0),
+	choosefun: function(datas){
+        start.maxDate = datas;
+    }
+}
+jeDate(start);
+jeDate(end);
+</script>

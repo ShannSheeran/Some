@@ -1,0 +1,101 @@
+<style type="text/css">
+    .form-control{width:110px;}
+    #form{float:left;margin-right:5px;}
+    #sure{width:55px;float:left;margin-right:3px;background:#ccc;}
+    .panel-heading{margin-left:100px;}
+    .condition{margin-left:1170px;}
+    .is_top{text-align: center;}
+    .logo{width:60px;height: 60px;margin:0;float: left;border-radius: 10px;}
+    .info{float:left;}
+    .coporation_info{width:250px;height:60px;float: left;}
+    .fla{width:80px;height:25px;display: block;float:left;text-align: center;}
+    .applac{float: left;display: block;}
+    #suu{margin-left: 1330px;}
+    #fls1{width:2px;height:25px;}
+</style>
+<div class="panel panel-default">
+    <!--<div class="panel-heading">
+        <h3 class="panel-title">
+            <span class="applac">员工申请加入</span>
+            <a class="fla" id="suu" style="color:blue;" href="<?php /*echo $this->url('admin-company',array('action'=>'index'))*/?>">公司名片</a>
+            <span class="fla" id="fls1">|</span>
+            <a style="color:blue;" href="<?php /*echo $this->url('admin-company',array('action'=>'companydetails','id'=>$id))*/?>" class="fla">名片详情</a>
+            <span class="fla" style="color:black;">|员工管理</span>
+        </h3>
+        <div  class="bst">
+
+        </div>
+        <div class="panel-options">
+
+
+            <a href="#" data-toggle="panel"> <span class="collapse-icon">&ndash;</span>
+                <span class="expand-icon">+</span>
+            </a> <a href="#" data-toggle="remove"> &times; </a>
+        </div>
+    </div>-->
+
+    <div class="panel-body">
+        <div class="" style="margin-bottom:50px;"></div>
+        <div style="clear:both;"></div>
+        <table class="table table-bordered table-striped" id="example-4">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>姓名</th>
+                <th>个人信息</th>
+                <th>申请时间</th>
+                <th>操作</th>
+                <th>状态</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach($info['list'] as $k=>$v){?>
+
+                    <tr>
+                        <td><?php echo $v['id']?></td>
+                        <td><?php echo $v['name']?></td>
+                        <td>
+                            <div class="card_info">
+                                <img class="logo" src="<?php if(isset($v['logo'])){echo ROOT_PATH.UPLOAD_PATH.$v['logo'];}else{echo ROOT_PATH.'images/img_logo@2x.png';}?>"/>
+                                <div class="coporation_info">
+                                    <span>公司：<?php echo $v['company'];?></span><br>
+                                    <span>职位：<?php echo $v['position'];?></span><br>
+                                    <span>电话：<?php echo $v['mobile'];?></span>
+                                </div>
+                            </div>
+                        </td>
+                        <td><?php echo $v['timestamp']?></td>
+                        <td>
+                            <?php if($v['company_status']==1 || $v['company_status']==2){?>
+                            <a class="btn btn-info fl mr10" onclick="audit(3,<?php echo $v['id']?>,<?php echo $company_id;?>)">通过</a>
+                            <a class="btn btn-info fl mr10" onclick="audit(4,<?php echo $v['id']?>,<?php echo $company_id;?>)">拒绝</a>
+                            <?php }else{?>
+                            <span class="btn btn-info fl mr10" >已审核</span>
+                            <?php }?>
+                        </td>
+                        <td>
+                            <?php if($v['company_status']==1){echo '未加入';}else if($v['company_status']==2){echo '审核中';}else if($v['company_status']==3){echo '审核通过';}else if($v['company_status']==4){echo '审核不通过';}?>
+                        </td>
+                    </tr>
+
+            <?php }?>
+            </tbody>
+        </table>
+        <?php //echo $this->paginationControl($paginator, 'Sliding', 'page',array('route' =>'admin-company','condition'=>$condition));?>       </div>
+</div>
+<script>
+    function audit(val,id,cId){
+        var status=val;
+        var id=id;
+        var companyId=cId;
+        $.post('<?php echo $this->url('admin-company',array('action'=>'updateStatu'))?>',{status:status,id:id,companyId:companyId},function(data){
+            if(data==1){
+                alert('审核成功');
+                location.reload();
+            }else{
+                alert('审核失败');
+            }
+        });
+
+    }
+</script>

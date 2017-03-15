@@ -1,0 +1,379 @@
+@charset "gb2312";
+html,body{
+	width: 100%;
+	height: 100%;
+}
+.main{
+	width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    max-width: 420px;
+    margin:0 auto;
+}
+.main .main_bg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.main .main_bg img{
+	height: 100%;
+}
+.main .h_text{
+	position: absolute;
+	top:110px;
+	left: 0;
+	width:90%;
+	padding: 0 5%;
+}
+.main .video{
+	width: 100%;
+	text-align: center;
+	position: absolute;
+	top:220px;
+}
+.main .video img{
+	display: inline-block;
+	width:100px;
+
+}
+.main .h_text img{
+	width:100%;
+}
+.main .h_input{
+	width:45%;
+	padding-left:3%;
+	position: absolute;
+	bottom:20px;
+	left: 0px;
+}
+.main .h_input img{
+	width:100%;
+	margin-top: 15px;
+}
+.main .h_code{
+	width:45%;
+	padding-right:3%;
+	position: absolute;
+	bottom:0;
+	right:0px;
+}
+.main .h_code img{
+	width:100%;
+}
+.mp4{
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom:0;
+	background: #000;
+	z-index: 200;
+	display: none;
+}
+.mp4 .close{
+	color: #fff;
+	font-size: 2.4rem;
+	position: absolute;
+	right: 15px;
+	top:5px;
+}
+.mp4 video{
+	position: absolute;
+	top:50%;
+	margin-top: -120px;
+}
+
+/*了解快摇名片APP*/
+.section{
+	width: 100%;
+	height: 100%;
+	position: relative;
+	max-width: 420px;
+    margin:0 auto;
+}
+.section div{
+	position: absolute;
+}
+.section .down{
+	width:20px;
+	bottom:5px;
+	left: 50%;
+	margin-left: -10px;
+	animation:myfirst 1s linear 1s infinite;
+	-webkit-animation:myfirst 1s linear 1s infinite;
+	-moz-animation:myfirst 1s linear 1s infinite;
+	-o-animation:myfirst 1s linear 1s infinite;
+}
+@keyframes myfirst{
+	from{bottom:10px;}
+	to{bottom:5px;}
+}
+@-webkit-keyframes myfirst{
+	from{bottom:10px;}
+	to{bottom:5px;}
+}
+@-moz-keyframes myfirst{
+	from{bottom:10px;}
+	to{bottom:5px;}
+}
+@-o-keyframes myfirst{
+	from{bottom:10px;}
+	to{bottom:5px;}
+}
+.app img{
+	width: 100%;
+}
+/*第一个模块*/
+.app .app_one{
+	background: url(../images/a_iphone.jpg)no-repeat center 95%;
+	background-size: 95%;
+}
+.app .app_one .one_head{
+	width:70%;
+	top:12%;
+	left:15%;
+}
+.app .app_one .one_text{
+	width:80%;
+	left: 10%;
+	top:20%;
+}
+.app .app_one .one_img{
+	width:96%;
+	left: 2%;
+	top:40%;
+}
+/*第二个模块*/
+.app .app_two .two_head{
+	width:70%;
+	left: 15%;
+	top:12%;
+}
+.app .app_two .two_text{
+	width:66%;
+	left: 17%;
+	top:20%;
+}
+.app .app_two .two_icon{
+	width:66%;
+	left: 17%;
+	top:30%;
+}
+.app .app_two .two_img{
+	width:80%;
+	left: 10%;
+	top:41%;
+}
+/*第三个模块*/
+.app .app_three{
+	background: #1d7edf;
+}
+.app .app_three .three_head{
+	width:70%;
+	left: 15%;
+	top:12%;
+}
+.app .app_three .three_text{
+	width:50%;
+	left: 25%;
+	top:20%;
+}
+.app .app_three .three_img{
+	width:90%;
+	left: 5%;
+	top:70%;
+}
+.app .app_three .three_phone{
+	width:40%;
+	right:5%;
+	top:40%;
+}
+.app .app_three .three_move{
+	width:26px;
+	left: 50%;
+	margin-left: -11px;
+	top:72%;
+}
+/*第四个模块*/
+.app .app_four .four_head{
+	width:70%;
+	left: 15%;
+	top:12%;
+}
+.app .app_four .four_text{
+	width:80%;
+	left: 10%;
+	top:20%;
+}
+.app .app_four .four_img{
+	width:86%;
+	left: 7%;
+	top:40%;
+}
+/*第五个模块*/
+.app .app_five{
+	background: #f4f5f5;
+}
+.app .app_five .five_head{
+	width:70%;
+	left: 15%;
+	top:12%;
+}
+.app .app_five .five_text{
+	width:90%;
+	left: 5%;
+	top:18%;
+}
+.app .app_five .five_phone{
+	width:30%;
+	left: 35%;
+	top:28%;
+}
+.app .app_five .five_img{
+	width:86%;
+	left: 8%;
+	top:72%;
+}
+.app .app_five .five_img .f_map{
+	width:100%;
+	position: relative;
+}
+.app .app_five .five_img .f_map .coord1{
+	width:20px;
+	top:25%;
+	left:19%;
+}
+.app .app_five .five_img .f_map .coord2{
+	width:12px;
+	left:40%;
+	top:3%;
+}
+.app .app_five .five_img .f_map .coord3{
+	width: 25px;
+	bottom:39%;
+	left:54%;
+}
+.app .app_five .five_img .f_map .coord4{
+	width:10px;
+	top:10%;
+	right:31%;
+}
+.app .app_five .five_img .f_map .coord5{
+	width:20px;
+	bottom:30%;
+	right: 13%;
+}
+.app .app_five .footer_text{
+	position: absolute;
+	bottom:15px;
+	left: 50%;
+	margin-left: -264px;
+	font-size: 12px;
+}
+.app .indexb{
+	position: absolute;
+	bottom:30px;
+	left: 50%;
+	margin-left: -91px;
+	color:#05a3d9;
+	font-size: 20px;
+}
+/*了解快摇名片设备*/
+.equipment{
+	width: 100%;
+	height: 100%;
+}
+.equipment img{
+	width: 100%;
+}
+/*第一个模块*/
+.equipment .eq_one .e_bgright{
+	width: 40%;
+	top:0;
+	right:0;
+}
+.equipment .eq_one .e_bgleft{
+	width: 58%;
+	top:30%;
+	left: 0;
+}
+.equipment .eq_one .one_img{
+	bottom: 16%;
+	width:76%;
+	left: 12% ;
+}
+.equipment .eq_one .one_text{
+	bottom: 10%;
+	width:80%;
+	left: 10% ;
+}
+/*第二个模块*/
+.equipment .eq_two .two_head{
+	width:70%;
+	top:10%;
+	left: 15%;
+}
+.equipment .eq_two .two_text{
+	width:94%;
+	left: 3%;
+	top:18%;
+}
+.equipment .eq_two .two_icon{
+	width:66%;
+	left: 12%;
+	top:33%;
+}
+.equipment .eq_two .two_img{
+	width:40%;
+	left: 35%;
+	top:45%;
+}
+.equipment .eq_two .two_move{
+	width:40%;
+	left: 20%;
+	top:50%;
+}
+/*第三个模块*/
+.equipment .eq_three{
+	background: #b0e0f1;
+}
+.equipment .eq_three .three_head{
+	width:70%;
+	top:12%;
+	left:15%;
+}
+.equipment .eq_three .three_text{
+	width:94%;
+	left:3%;
+	top:22%;
+}
+.equipment .eq_three .three_move{
+	width:80%;
+	top:50%;
+	right: -80%;
+}
+.equipment .eq_three .three_img{
+	width:70%;
+	left:15%;
+	top:85%;
+}
+/*第四个模块*/
+.equipment .eq_four .four_head{
+	width:70%;
+	top:12%;
+	left:15%;
+}
+.equipment .eq_four .four_text{
+	width:80%;
+	left:10%;
+	top:22%;
+}
+.equipment .eq_four .four_img{
+	width:50%;
+	left:25%;
+	top:40%;
+}
+

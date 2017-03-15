@@ -1,0 +1,433 @@
+<!-- 地址选择 -->
+<?php echo $this->headScript()->prependFile($this->basePath() . '/js/jq_area.js') ?>
+<?php echo $this->headScript()->prependFile($this->basePath() . '/js/region.js') ?>
+<style type="text/css">
+*{
+	color:#666;
+}
+body{
+	background: #ededed;
+}
+input{
+	font-size: 14px;
+}
+.payTop{
+	width:1100px;
+	margin:0 auto;
+	height: 50px;
+	line-height: 50px;
+}
+.payTop h2{
+	float: left;
+	margin-left: 45px;
+}
+.payTop a{
+	float: right;
+	margin-right: 45px;
+	color:#ff7143;
+}
+form .main{
+	width:1010px;
+	margin:0 auto;
+	background: #fff;
+	padding:0 45px;
+}
+form  .main h3{
+	line-height: 40px;
+	margin-bottom: 15px;
+}
+.main .information,.main .coupon,.main .invoice,.main .payment{
+	border-bottom: 1px solid #eee;
+	padding:15px 0;
+}
+.main .information input{
+	margin-right: 10px;
+	padding:5px;
+	border-radius: 5px;
+	border:1px solid #ddd;
+	margin-bottom: 10px;
+}
+.main .information .name{
+	width:100px;
+}
+.main .information .mobile{
+	width:150px;
+}
+.main .information .site{
+	width:530px;
+}
+.main .merchandise{
+	padding:20px 0 15px 0;
+	border-bottom: 1px solid #eee;
+	overflow: hidden;
+}
+.main .merchandise img{
+	float: left;
+	width:120px;
+	height: 120px;
+	border:1px solid #e2e2e2;
+	margin-right: 40px;
+}
+.main .merchandise div{
+	float: left;
+}
+.main .merchandise div p{
+	font-size: 24px;
+	color:#333;
+	margin-bottom: 10px;
+}
+.main .merchandise div i{
+	color: #fe0000;
+	font-size: 36px;
+	font-weight: bold;
+	font-style: normal;
+}
+.main .merchandise div ul{
+	width:120px;
+	border:1px solid #ff7143;
+	overflow: hidden;
+	margin-top:9px;
+}
+.main .merchandise div ul li{
+	float: left;
+	text-align: center;
+
+}
+.main .merchandise div ul li a{
+	display: inline-block;
+	width: 28px;
+	color: #ff7143;
+	font-size: 32px;
+	line-height: 30px;
+}
+.main .merchandise div ul li input{
+	width: 60px;
+	border:none;
+	border-right: 1px solid #ff7143;
+	border-left: 1px solid #ff7143;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	color: #ff7143;
+	font-size: 20px;
+}
+.main .coupon h3{
+	background: url(<?php echo $this->basePath();?>/images/small/tuijian.png) no-repeat 90px center;
+}
+.main .coupon div{
+	margin-left: 25px;
+	margin-bottom: 5px;
+}
+.main .coupon div input{
+	border:1px solid #ddd;
+	padding:5px;
+	border-radius: 5px;
+	text-align: center;
+	margin:0 10px;
+	margin-right: 45px;
+}
+.main .coupon div .add{
+	color:#0000fe;
+	display: none;
+}
+.main .coupon div .delete{
+	color:#fc0000;
+	display: none;
+}
+.main .coupon .yes{
+	background: url(<?php echo $this->basePath();?>/images/small/gou.png) no-repeat 270px center;)
+}
+.no{
+	background: url(<?php echo $this->basePath();?>/images/small/cha.png) no-repeat 270px center;)
+}
+.main .invoice h3{
+	width:100px;
+	background: url(<?php echo $this->basePath();?>/images/small/dui2.png) no-repeat center left;
+	padding-left: 30px;
+	cursor:pointer;
+}
+.main .invoice .bill{
+	background: url(<?php echo $this->basePath();?>/images/small/dui.png) no-repeat center left;
+}
+.main .invoice div{
+	margin-left: 25px;
+	display: none;
+}
+.main .invoice div span{
+	border:1px solid #ddd;
+	float: left;
+	display: inline-block;
+	padding:5px 20px;
+	border-radius: 2px;
+}
+.main .invoice div .checked{
+	border:1px solid #ff7143;
+	color: #ff7143;
+}
+.main .invoice div input{
+	width: 270px;
+	border:1px solid #ddd;
+	padding:10px;
+	border-radius: 5px;
+	text-align: center;
+	display: block;
+	margin-top:15px;
+}
+.payoff{
+	width:1100px;
+	margin:25px auto 30px auto;
+	overflow: hidden;
+}
+.payoff div{
+	float: right;
+}
+.payoff div input{
+	width:200px;
+	height: 55px;
+	background: #ff7143;
+	color: #fff;
+	border:none;
+	font-size: 22px;
+}
+.form-control{
+	margin-right: 10px;
+	padding: 5px;
+	border-radius: 5px;
+	border: 1px solid #ddd;
+	margin-bottom: 10px;
+}
+.main .payment{
+	overflow: hidden;
+}
+.main .payment ul{
+	margin-left: 25px;
+}
+.main .payment ul li{
+	float: left;
+	margin-right: 40px;
+	cursor: pointer;
+}
+.main .payment ul li img{
+	opacity: 0.5;
+}
+
+</style>
+	<?php /*echo "<pre>";print_r($region_info);*/?>
+	<div class="payTop">
+		<h2>填写订单信息</h2>
+		<a href="<?php echo $this->url('index',array('controller'=>'user','action'=>'buyDetails'));?>">查看产品详情</a>
+	</div>
+	<div class="clear"></div>
+	<form style="height:775px;" action="<?php echo $this->url('index',array('controller' => 'user', 'action' =>'orderSubmit'));?>" method="post">
+		<div class="main">
+			<div class="information">
+				<!--<h3>收货人信息</h3>-->
+				<ul>
+					<li>
+						<label for="">收货人姓名：</label>
+						<input class="name" name="name" type="text" required="required"  value="<?php echo isset($region_info['name']) ? $region_info['name'] : '';?>" />
+					</li>
+					<li>
+						<label for="">所在地区：</label>
+						<span id="area">
+							<select class="form-control" id="province" name="province_id"></select>
+							<select class="form-control" id="city" name="city_id"></select>
+							<select class="form-control" id="county" name="county"></select>
+						</span>
+						<input type="hidden" name="region_id" value="<?php isset($region_info['id']) ? $region_info['id'] : '' ;?>">
+					</li>
+					<li>
+						<label for="">详细地址：</label>
+						<input type="text" name="street" value="<?php echo isset($region_info['street']) ? $region_info['street'] : '';?>" required>
+					</li>
+					<li>
+						<label for="">联系电话：</label>
+						<input type="text" name="mobile" value="<?php echo isset($region_info['telephone']) ? $region_info['telephone'] : '';?>" required>
+					</li>
+				</ul>
+			</div>
+			<div class="merchandise">
+				<img src="<?php echo $this->basePath();?>/images/small/tupian.png" alt="" />
+				<div>
+					<p>快摇名片-蓝牙4.0设备支持微信摇一摇物联网名片</p>
+					<i>￥198</i>
+					<ul>
+						<li><a class="subtract" href="javascript:void(0)">-</a></li>
+						<li><input class="number" name="buy_num" type="text" value="1" readonly="readonly" /></li>
+						<li><a class="addition"  href="javascript:void(0)">+</a></li>
+
+					</ul>
+				</div>
+			</div>
+			<div class="coupon">
+				<h3>使用推荐码</h3>
+				<div class="tuijian">
+					<span>推荐码</span>
+					<input onkeyup="examineReferral(this)" type="text" maxlength="6" name="code[]"/>
+					<a onclick="addReferral(this)" class="add" href="javascript:;">添加</a>
+					<a onclick="deleteReferral(this)" class="delete" href="javascript:;">删除</a><span class="dsa"></span>
+				</div>
+			</div>
+			<div class="invoice">
+				<h3 onclick="invoice(1)">开具发票</h3>
+				<div>
+					<span onclick="type(1)" class="individual checked">个人</span>
+					<span onclick="type(2)" class="corporate">公司</span>
+					<div class="clear"></div>
+					<input name="input_name" type="text"  placeholder="请输入名称"/>
+					<input type="hidden" value="0" name="invoice_status" class="invoice_status">
+					<input type="hidden" value="0" name="invoice_type" class="invoice_type">
+				</div>
+
+			</div>
+			<div class="payment" style="display: none">
+				<h3>支付方式</h3>
+				<ul>
+					<li><img onclick="paymentType(1)" src="<?php echo $this->basePath();?>/images/small/zhifubao.png" alt="" /></li>
+					<li><img onclick="paymentType(2)" src="<?php echo $this->basePath();?>/images/small/weixinzhifu.png" alt="" /></li>
+					<li><img onclick="paymentType(3)" src="<?php echo $this->basePath();?>/images/small/yinlianzhifu.png" alt="" /></li>
+				</ul>
+				<input type="hidden" value="1" name="payment_type" class="payment_type">
+			</div>
+		</div>	
+		<div class="payoff">
+			<div>
+				<input type="submit" value="提交订单" />
+			</div>
+		</div>
+	</form>
+
+<script>
+
+	var referralHtml = '<div class="tuijian"><span style="margin-right:4px;">推荐码</span><input onkeyup="examineReferral(this)" type="text" maxlength="6" name="code[]"/><a onclick="addReferral(this)" class="add" href="javascript:;" style="margin-left:4px;">添加</a><a  onclick="deleteReferral(this)" class="delete" href="javascript:; style="margin-left:4px;"">删除</a></div>';
+    function addReferral (e) {
+    	if ($(".number").val() > $(".tuijian").length) {
+    		$(e).hide();
+    		$(e).next().show();
+    		$('.coupon').append(referralHtml);
+    	} else {
+			alert('已经添加了'+$(".number").val()+'个推荐码了');
+		}
+    }
+
+    function deleteReferral (e) {
+    	$(e).parent().remove();
+    }
+
+    function examineReferral (e) {
+		var testValue = $(e).val();
+		var codeArray = $('input[name="code[]"]');
+		index = $(e).parent().index()-1;
+		console.log(index);
+		console.log(codeArray);
+		console.log($(e));
+		$.each(codeArray, function(k, v){
+			if (index != k) {
+				if (testValue == $(v).val()) {
+					alert('不能和其他推荐码一致！');
+					$(e).val('');	//清空
+					return;
+				}
+			}
+		});
+		$.post('<?php echo $this->url('index',array('controller' => 'user', 'action' => 'checkCode'));?>',{code: $(e).val()},function(data){
+			if(data==1){
+				$(e).parent().addClass("yes");
+				$(e).parent().removeClass("no");
+				if ($(e).next().next().is(":hidden")) {
+					$(e).next('.add').show();
+				}
+				$('.dsa').html('');
+			}else{
+				$(e).next('.add').hide();
+				$(e).parent().addClass("no");
+				$(e).parent().removeClass("yes");
+				$('.dsa').html('请输入正确的验证码');
+			}
+		});
+
+    }
+
+	$(function(){
+		// 数量加减
+	    $(".addition").click(function(){
+	        var n=$(".number").val();
+	        var number=parseInt(n)+1;
+	        $(".number").val(number);
+			/*var aa=$(".tuijian").length;
+			alert(aa);*/
+	        var price = $(".number").val()*198;
+	    	$(".payoff div span strong").html("￥"+price);
+	    });
+	    $(".subtract").click(function(){
+	        var n=$(".number").val();
+	        var number=parseInt(n)-1;
+	        if(number<1){return}
+	        $(".number").val(number);
+			/*var aa=$(".tuijian input").length;
+			alert(aa);*/
+	    	var price = $(".number").val()*198;
+	    	$(".payoff div span strong").html("￥"+price);
+	    })
+
+	    // 开具发票
+	    $(".invoice h3").click(function(){
+	    	if($(".invoice h3").hasClass("bill")){
+	    		$(this).removeClass("bill");
+	    		$(".invoice div").hide();
+	    	}else{
+	    		$(this).addClass("bill");
+	    		$(".invoice div").show();
+	    	}
+	    }) 
+
+	    //个人公司切换
+	    $(".invoice div span").click(function(){
+	    	$(".invoice div span").removeClass("checked");
+	    	$(this).addClass("checked");
+	    	$(this).siblings().removeClass("checked")
+	    })
+
+	    // 选择支付方式
+	    $(".payment ul li img").click(function(){
+	    	$(".payment ul li img").css("opacity","0.5")
+	    	$(this).css("opacity","1");
+	    })
+
+	})
+
+	function invoice(obj){
+		if($('.invoice .invoice_status').val()==0){
+			$('.invoice .invoice_status').val(obj);
+			$('.invoice .invoice_type').val(obj);
+		}else{
+			$(".invoice_type").val(0);
+			$('.invoice .invoice_status').val(0)
+		}
+
+		event.stopPropagation();
+	}
+	function type(type){
+		$(".invoice_type").val(type);
+		event.stopPropagation();
+	}
+	function paymentType(obj){
+		$('.payment .payment_type').val(obj);
+		event.stopPropagation();
+	}
+	
+</script>
+<?php if($region_info){$region_info = json_decode($region_info['region_info'],true);}else{$region_info='';}?>
+<script>
+	// 地址选择
+	$(function(){
+		$("#area").area({
+			cache: region,
+			p_id:<?php echo isset($region_info['0']['region']['id']) ? $region_info['0']['region']['id'] : 440000;?>,
+			ci_id:<?php echo isset($region_info['1']['region']['id']) ? $region_info['1']['region']['id'] : 440100;?>,
+			co_id:<?php echo isset($region_info['2']['region']['id']) ? $region_info['2']['region']['id'] : 440103;?>
+		});
+	});
+
+
+</script>

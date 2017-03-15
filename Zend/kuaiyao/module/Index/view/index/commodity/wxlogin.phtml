@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,inital-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-status-bar-style" content="block" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>快摇名片</title>
+    <!-- 公用样式 -->
+    <link rel="stylesheet" type="text/css" href="<?php echo ROOT_PATH?>css/kuaiyao/common.css">
+    <!-- 微信页面样式 -->
+    <link rel="stylesheet" type="text/css" href="<?php echo ROOT_PATH?>css/kuaiyao/weixin.css">
+	<!--只兼容移动端，所以直接使用jQuery 2.1.4-->
+	<script type="text/javascript" src="<?php echo ROOT_PATH?>lib/jquery.2.1.4.min.js"></script>
+	<!--调用微信js-->
+	<script type="text/javascript" src="<?php echo ROOT_PATH?>lib/jweixin-1.0.0.js"></script>
+    <!--只兼容移动端，所以直接使用jQuery 2.1.4-->
+    <script type="text/javascript" src="<?php echo ROOT_PATH?>lib/jquery.2.1.4.min.js"></script>
+</head>
+<body>
+    <div class="lg_logo">
+        <img src="<?php echo ROOT_PATH?>images/img_signlogo@3x.png" alt="">
+    </div>
+        <input class="lg_import border_bottom" name="mobile" id="mobile" type="text"  placeholder="请输入手机号码">
+        <div class="pt_r">
+            <input class="lg_import" id="mobile_code" name="code" type="text" placeholder="请输入验证码">
+            <input class="captcha" type="button" id="button_code" value="获取验证码" onclick="smscodes(1)"/>
+        </div>
+        <input class="lg_submit submit" type="button" name="submit_login" value="立即绑定" onclick="smscodes(2)" >
+	<script>
+		//登录,注册
+		//var smscode_type = 2;
+		function smscodes(action)
+		{
+			var smscode_type = 2;
+			if (action != 1 && action != 2) {
+				alert("请求参数不完整");
+				return false;
+			}
+			// 短信验证码
+			var mobile = $("#mobile").val();
+			var code = $("#mobile_code").val();
+			if(mobile=="") {
+				alert("手机号码不能为空");
+				return false;
+			}
+			if (mobile.length != 11) {
+				alert("输入正确的手机号码");
+				return false;
+			}
+			$.post("<?php echo $this->url("index",array('controller'=>'commodity','action'=>'smscode'));?>", {mobile : mobile, action : action, code: code},
+				function(data){
+					if (action == 1) {
+						if(data.status==0) {
+							setTimeout("startCounts(60)", 1000 );
+						}
+					}
+					if(action==2){
+						if(data.status==0){
+							window.location.href="<?php echo $this->url('index',array('controller'=>'user','action'=>'cardDetails'))?>?cid=2&id="+data.page;
+						}else{
+							alert('验证码错误');
+						}
+					}
+				},"json");
+			return true;
+		}
+
+		var time1;
+		function startCounts(num) {
+			document.getElementById('button_code').value= num + '秒';
+			document.getElementById('button_code').disabled=true;
+			num=num-1;
+			if(num<=0)
+			{
+				document.getElementById('button_code').value='重新获取验证码';
+				document.getElementById('button_code').disabled=false;
+				clearTimeout(i1);
+				return false;
+			}
+			time1 = setTimeout("startCounts("+num+")",1000);
+		}
+
+	</script>
+</body>
+</html>

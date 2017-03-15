@@ -1,0 +1,62 @@
+<style>
+    .fl{
+    	float: left;
+    }
+	.dataTables_info{
+		display:none;
+	}
+	.dataTables_paginate{
+		display: none;
+	}
+	.bc-1{display: none;}
+	.col-sm-5{display: none;}
+	.col-sm-7{display:none;}
+	.pl10{
+		padding-left:10px;
+	}
+	.lh60{
+		line-height:60px;
+	}
+</style>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+		<a href="">平台管理 </a> / <a href="">系统设置</a>        
+		</h3>
+	</div>
+
+<div class="panel panel-default">
+   <div class="panel-heading">
+       <div calss="row">
+           <div class="col-sm-6">
+               <span> 系统设置：</span>
+           </div>
+       </div>
+   </div>
+    <div class="pannel-body main-nody">
+        <div class="row">
+            <div class="col-lg-12">
+                <h5></h5>
+            </div>
+            <div class="col-lg-12">
+                <table class="table table-striped" id="example-4" >
+                    <tbody>
+                        <?php foreach ($setting_list as $value): ?>
+                        <tr>
+                            <td><?php echo $value->value ?></td>
+                            <td>
+                                <input type="hidden" name="id"  value="<?php echo $value->id; ?>">
+                                <input type="text" name="value"  value="<?php echo $value->text; ?>" style="width:300px;padding:5px;text-indent:5px;border-radius:5px;">
+                            </td>
+                            <td>
+                                <input type="submit" class="btn btn-info" name="submit"  value="修改">
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>

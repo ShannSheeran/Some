@@ -1,0 +1,200 @@
+/* 
+* @Author: Marte
+* @Date:   2016-06-24 10:34:23
+* @Last Modified by:   Marte
+* @Last Modified time: 2016-07-15 12:00:02
+*/
+.banner {
+    height: 400px;
+    background:#0abf6c url(../images/tradingbanner_02.jpg) no-repeat center center;
+    position: relative;
+}
+.tra-btn {
+    position: absolute;
+    top:256px;
+    left:45%;
+    width: 396px;
+    height: 48px;
+}
+.platform,.download {
+    height: 48px;
+    width: 180px;
+    text-align: center;
+    line-height: 48px;
+    background:url(../images/tra-btn.png) no-repeat left top;
+    cursor: pointer;
+    color:#fff;
+}
+.main {
+    margin-top: 25px;
+}
+.main .Platintr_title {
+    height: 55px;
+    background: url(../images/line.jpg) no-repeat left bottom;
+}
+.main h2 {
+    line-height: 51px;
+    width: 182px;
+    text-align: center;
+    font-size: 22px;
+    color: #d04f70;
+    border-bottom: 4px solid #d04f70;
+}
+.Platform_intro .content {
+    padding-top: 23px;
+}
+.Platform_intro .content .txt {
+    width: 800px;
+}
+.Platform_intro .content .txt p {
+    line-height: 28px;
+    text-indent: 2em;
+}
+.Platform_intro .content .pic {
+    width: 160px;
+    height: 160px;
+    margin:8px 0 0 40px;
+}
+.promise {
+    padding-top: 25px;
+}
+.promise h2 {
+    width: 92px;
+}
+.promise_con {
+    padding-top: 40px;
+}
+.promise_con .promise_con_l {
+    width: 450px;
+    text-align: right;
+}
+.btn {
+    display:inline-block;
+    width: 110px;
+    height: 42px;
+    line-height: 42px;
+    text-align: center;
+    background:#81c45d;
+    border-radius: 4px;
+    background:url(../images/trad-plat-bj2.png) no-repeat\9;
+}
+.promise_con_l ul li,.promise_con_r ul li {
+    line-height: 37px;
+}
+.promise_con_m {
+    width: 1px;
+    height: 195px;
+    background:url(../images/platdashed_03.jpg) repeat-y;
+    margin:83px 50px 0 50px;
+}
+.main .difference {
+    padding-top: 56px;
+}
+.Platintr_title h2 {
+    width: 184px;
+}
+.main .difference .difference_con {
+    padding-top: 37px;
+}
+.main .difference .difference_con .jh {
+    width: 364px;
+    text-align: right;
+}
+.main .difference .difference_con .convention {
+    width: 207px;
+}
+.main .difference .difference_con .line {
+    width: 228px;
+    height: 16px;
+    margin:0 20px;
+    border-bottom: 2px solid #c4234c;
+    position: relative;
+}
+.difference_con .line .pic {
+    width: 67px;
+    height: 32px;
+    position: absolute;
+    left: 80px;
+    top:0;
+    background:#fff url(../images/pk_03.jpg) no-repeat 10px 0;
+}
+.difference_con .tit {
+    height: 34px;
+    margin-bottom: 27px;
+}
+.differ_list {
+    width: 642px;
+    height: 527px;
+    margin: 0 auto;
+}
+.differ_list_jh {
+    width: 252px;
+    margin-right: 35px;
+}
+.differ_list_jh ul li,.differ_list_ct ul li {
+    width: 252px;
+    height: 88px;
+    line-height: 88px;
+    text-align: center;
+    margin-bottom: 24px;
+    background:url(../images/platjh_03.png) no-repeat;
+}
+.differ_list_title {
+    padding-top: 18px;
+}
+.differ_list_title p {
+    line-height: 20px;
+
+}
+.differ_list_title ul li {
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
+    text-align: center;
+    border-radius: 50%;
+    background:#81c45d;
+    margin-bottom: 40px;
+    background:url(../images/trad-plat-bj.png) no-repeat\9;
+}
+.differ_list_title ul li>div {
+    padding-top: 16px;
+}
+.differ_list_ct {
+    margin-left: 33px;
+}
+.differ_list_ct ul li {
+    background:url(../images/platct_03.png) no-repeat;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

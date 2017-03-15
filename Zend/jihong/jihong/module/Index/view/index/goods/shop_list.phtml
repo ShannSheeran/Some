@@ -1,0 +1,155 @@
+    <script type="text/javascript">
+    var bc = '<?php echo $bc;?>';
+    var sc = '<?php echo $sc;?>';
+    $(function(){
+      $('.goods_bigclass .more,.goods_smallclass .more').click(function(){
+        $(this).prev().height(($(this).prev().height()==46)? "auto":"46");
+      })
+      if(bc != 0)
+      {
+    	$(".more").eq(0).trigger('click');
+      }
+    	if(sc != 0)
+      {
+    	$(".more").eq(1).trigger('click');
+      }
+      $('.select_list ul li').click(function(){
+        $(this).addClass('on').siblings().removeClass('on');
+      })
+      var cart_Num = parseInt($("#cart_Num").html());
+      if(cart_Num > 99)
+      {
+    	  $(".order .btn_cart .cart_num").css({"width":"31px","border-radius":"38%"});
+      }
+    })
+    </script>
+        
+      <div class="order wrap clearfix">
+        <div class="material_search">
+          <div class="clearfix search_box pr">
+          <form action="" method="get">
+            <div class="fl">
+              <input type="text" name="keyword" class="search_input" placeholder="请输商品名称搜索" value="<?php echo isset($search) ? $search : '' ?>" onfocus=";">
+            </div>
+            <div class="fl"><input type="submit" class="material_search_btn " value="搜索" onclick="Search()"></div>
+          </form>
+          </div>
+        </div>
+        <div class="btn_cart"><a href="<?php echo $this->url('index' , array('controller'=> 'user' , 'action' => 'cart'))?>?cartType=<?php echo $cart_type?>">购物车</a><?php echo isset($carNumber)&&$carNumber ? '<span class="cart_num" id="cart_Num">'.$carNumber.'</span>' : ''?></div>
+      </div>
+      <div class="clear"></div>
+      <div class="wrap">
+        <p class="order_map map_nav">
+          <a>供应信息</a>
+          <?php if(isset($small_category_info)&&$small_category_info){?>
+          <i>&gt;</i>
+          <a><?php echo $big_category_info->name?></a>
+          <i>&gt;</i>
+          <a><?php echo $small_category_info->name?></a>
+          <?php }elseif(isset($big_category_info)&&$big_category_info){?>
+          <i>&gt;</i>
+          <a><?php echo $big_category_info->name?></a>
+          <?php }?>
+        </p>
+      </div>
+      <div class="wrap clearfix"> 
+        <div class="goods_bigclass">
+          <div class="select_label">商品大类：</div>
+          <ul>
+            <li><a class="<?php if(isset($bc)&&$bc==='0')echo 'selecton'?>" href="<?php echo $this->url('index',array('controller' => 'goods' , 'action'=>'shopList' ,'type'=>$type))?>">全部</a></li>
+            <?php if(isset($firstCategory)&&!empty($firstCategory)):?>
+            <?php foreach ($firstCategory as $k=>$v){?>
+            <li><a class="<?php if(isset($bc)&&$bc==$v->id)echo 'selecton'?>" href="<?php echo $this->url('index',array('controller' => 'goods' , 'action'=>'shopList','bc'=>$v->id,'type'=>$type))?>"><?php echo $v->name?></a></li>
+            <?php }?>
+            <?php endif;?>
+          </ul>
+          <div class="more">更多</div>
+        </div>
+        <div class="goods_smallclass">
+          <div class="select_label">商品小类：</div>
+          <ul>
+            <li><a class="<?php if(isset($sc)&&$sc==='0')echo 'selecton'?>" href="<?php echo $this->url('index',array('controller' => 'goods' , 'action'=>'shopList','bc'=>$big_category,'sc'=>'0','type'=>$type))?>">全部</a></li>
+            <?php if(isset($secondCategory)&&!empty($secondCategory)):?>
+            <?php foreach ($secondCategory as $k=>$v){?>
+            <li><a class="<?php if(isset($sc)&&$sc==$v->id)echo 'selecton'?>" href="<?php echo $this->url('index',array('controller' => 'goods' , 'action'=>'shopList','bc'=>$big_category,'sc'=>$v->id,'type'=>$type))?>"><?php echo $v->name?></a></li>
+            <?php }?>
+            <?php endif;?>
+          </ul>
+          <div class="more">更多</div>
+        </div>
+      </div>
+      <div class="clear"></div>
+      <div class="material_content clearfix">
+        <div class="new_goods">
+          <h2>新货上市</h2>
+          <ul>
+          <?php if(isset($goods_new)&&!empty($goods_new)){?>
+          <?php foreach ($goods_new as $v){?>
+            <li><a href="<?php echo $this->url('index',array('controller' => 'goods','action'=>'detail','id'=>$v->id))?>">
+              <div class="goods_img">
+                <img width="183px" height="183px" src="<?php echo isset($v->image_path)? $v->image_path : ""?>">
+              </div>
+              <div class="goods_text">
+                <div class="goods_name">
+                 <?php echo $v->name?>
+                </div>
+                <div class="price_num">
+                  <span class="goods_price"><b class="price_sign">￥</b><?php echo floatval($v->min_cash);?></span>
+                  <span class="seller_num tr" style="display:none;">销量：<?php echo $v->sale_number ? $v->sale_number : 0?></span>
+                </div>
+              </div></a>
+            </li>
+            <?php }?>
+            <?php }?>
+          </ul>
+        </div>
+        <div class="goods_content">
+          <div class="select_list">
+            <ul>
+              <li <?php echo isset($sort)&&$sort == '1' ? "class='on'" : ''?>><a style="display: inline-block;width:inherit;height:inherit" href="<?php echo $this->url('index',array('controller' => 'goods' , 'action'=>'shopList','bc'=>$big_category,'sc'=>$small_category,'type'=>$type,'sort'=>1))?>">默认</a></li>
+              <li <?php echo isset($sort)&&$sort == '2' ? "class='on'" : ''?>><a style="display: inline-block;width:inherit;height:inherit" href="<?php echo $this->url('index',array('controller' => 'goods' , 'action'=>'shopList','bc'=>$big_category,'sc'=>$small_category,'type'=>$type,'sort'=>2))?>">销量</a></li>
+              <li <?php echo isset($sort)&&$sort == '3' ? "class='on'" : ''?>><a style="display: inline-block;width:inherit;height:inherit" href="<?php echo $this->url('index',array('controller' => 'goods' , 'action'=>'shopList','bc'=>$big_category,'sc'=>$small_category,'type'=>$type,'sort'=>3))?>">价格</a></li>
+              <li <?php echo isset($sort)&&$sort == '4' ? "class='on'" : ''?>><a style="display: inline-block;width:inherit;height:inherit" href="<?php echo $this->url('index',array('controller' => 'goods' , 'action'=>'shopList','bc'=>$big_category,'sc'=>$small_category,'type'=>$type,'sort'=>4))?>">新品</a></li>
+            </ul>
+            <div class="pagers">
+              <ul class="items">                              
+                <li class="item"><span class="current"><?php echo $page?></span>/<?php echo $page_count == 0 ? 1 : $page_count?></li>
+                <li class="item">
+                  <a class="link" href="<?php echo $this->url('index',array('controller' => 'goods' , 'action'=>'shopList','bc'=>$big_category,'sc'=>$small_category,'sort'=>$sort,'type'=>$type,'page'=>max(1,$page-1),'search'=>$search))?>" title="上一页">
+                    <span class="icon icon_btn_prev_2"></span>
+                  </a>
+                </li>
+                <li class="item">
+                  <a class="link icon_tag" href="<?php echo $this->url('index',array('controller' => 'goods' , 'action'=>'shopList','bc'=>$big_category,'sc'=>$small_category,'sort'=>$sort,'type'=>$type,'page'=>min($page+1,$page_count == 0 ? 1 : $page_count),'search'=>$search))?>" title="下一页">
+                    <span class="icon icon_btn_next_2"></span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="clear"></div>
+          <div class="goods_center">
+             <ul id="list">
+             <?php if(isset($goods_list)&&!empty($goods_list)){?>
+             <?php foreach ($goods_list as $v){?>
+              <li><a href="<?php echo $this->url('index',array('controller' => 'goods','action'=>'detail','id'=>$v->id))?>">
+              <div class="goods_img">
+                <img src="<?php echo $v->image_path?>">
+              </div>
+              <div class="goods_text">
+                <div class="goods_name">
+                 <?php echo $v->name?>
+                </div>
+                <div class="price_num">
+                  <span class="goods_price"><b class="price_sign">￥</b><?php //echo $v->max_cash == $v->min_cash ? $v->min_cash : $v->min_cash."-".$v->max_cash?> <?php  echo floatval($v->min_cash); ?></span>
+                  <span class="seller_num tr" style="font-size:12px;">销量：<?php echo $v->sale_number ? $v->sale_number : 0?></span>
+                </div></div></a>
+              </li>
+              <?php }?>
+              <?php }?>
+              </ul>
+          </div>
+          <div class="clearfix"></div>
+          <?php echo $this->paginationControl($paginator, 'Sliding', 'layout_index/page',array('route' =>'index','condition'=>$condition));?>
+        </div>
+        

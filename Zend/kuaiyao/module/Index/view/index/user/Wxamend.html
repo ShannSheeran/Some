@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,inital-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-status-bar-style" content="block" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>填写个人信息</title>
+    <!-- 公用样式 -->
+    <link rel="stylesheet" type="text/css" href="../../../../../public/css/kuaiyao/common.css">
+    <!-- 微信页面样式 -->
+    <link rel="stylesheet" type="text/css" href="../../../../../public/css/kuaiyao/weixin.css">
+    <!--只兼容移动端，所以直接使用jQuery 2.1.4-->
+    <script type="text/javascript" src="../../../../../public/lib/jquery.2.1.4.min.js"></script>
+</head>
+<body>
+    <form action="" class="amend" id="save">
+        <!-- 头像，姓名，英文名，职位 -->
+        <div class="bg_white pl15 pr15 pt10 border_bottom">
+            <div class="am_avatars">
+                <img src="../../../../../public/images/img_headportrait@2x.png" id="preview" alt="">
+                <input type="file" id="fileId" multiple onchange="preview()" accept=".png,.jpg,.gif">
+            </div>
+            <ul class="am_name">
+                <li><input id="name" type="text" placeholder="真实姓名（不可修改）"></li>
+                <li><input type="text" placeholder="英文名"></li>
+                <li><input class="bn" type="text" placeholder="职位"></li>
+            </ul>
+        </div>
+        <div class="clear"></div>
+        <!-- 联系方式 号码 邮箱 QQ -->
+        <div class="am_contact">
+            <p>联系方式</p>
+            <ul class="bg_white pl15 pr15">
+                <li class="phone border_bottom"><input type="text" id="mobile" value="13888888888"></li>
+                <li class="email border_bottom"><input type="text" placeholder="请输入您的邮箱"></li>
+                <li class="qq"><input type="text" placeholder="请输入您的QQ"></li>
+            </ul>
+        </div>
+        <!-- 上传微信二维码 -->
+        <div class="am_code bg_white">
+            <div class="code_img">
+                <img src="../../../../../public/images/code.png" alt="">
+                <input type="file">
+            </div>
+            <span>上传微信二维码</span>
+        </div>
+        <div class="code_text">
+            <p>请上传微信二维码，否则您的朋友将关注不到您的微信</p>
+            <p>如何寻找微信二维码：</p>
+            <p>打开微信>我>个人信息>我的二维码，截图即可</p>
+        </div>
+        <!-- 公司名称 -->
+        <div class="am_company">
+            <p>公司信息</p>
+            <div class="bg_white pl15 pr15 pt10 pb10 border_bottom border_top">
+                <input type="text" class="pt10 pb10" placeholder="请输入您的公司名称">
+            </div>
+        </div>
+        <input type="submit" value="保存">
+    </form>    
+    <!-- 弹框提示 -->
+    <div class="avatars_hint">请上传头像</div>
+    <div class="name_hint">请输入姓名</div>
+    <div class="phone_hint">请输入电话号码</div>
+
+    <script type="text/javascript">
+        function preview(){
+            var imgFile = document.getElementById('fileId');    //获取上传框元素
+            var previewDiv = document.getElementById('preview');    //获取图片展示div元素
+            var fileURL = window.URL || window.webkitURL;       //实例化接口
+            var imgUrl = fileURL.createObjectURL(imgFile.files[0]); //获取上传图片的预览地址
+            console.log(imgFile.files);
+            var img = document.createElement("img");    //创建元素
+            img.src = imgUrl;   //添加图片url
+
+            previewDiv.appendChild(img);    //预览图片
+        }
+       
+        $("#save").submit(function(){
+        if($("#name").val()==''){
+            $(".name_hint").fadeIn();
+            $(".name_hint").fadeOut(5000);
+            return false;
+        }
+
+        if($("#mobile").val()==''){
+             $(".phone_hint").fadeIn();
+            $(".phone_hint").fadeOut(5000);
+            return false;
+        }
+     })
+    </script>
+</body>
+</html>

@@ -1,0 +1,427 @@
+<?php 
+$menu = array(
+	array(
+	'class'=>'fa-home',
+	'name'=>'主页',
+	'authority' =>'index',	
+	'route'=>$this->url('admin-index'),
+	'sub'=>array(
+			array(
+			'controller'=>'index',
+			'route'=>$this->url('admin-index'),
+			'name'=>'数据统计',
+			'other'=>'',
+			'authority' =>'indexDataStatistics',
+			'class' => 'fa-line-chart'		
+			)
+		)
+	),
+	array(
+			'class'=>'linecons-user',
+			'name'=>'用户管理',
+			'authority' =>'user',
+			'route'=>$this->url('admin-user',array('cid'=>1)),
+			'sub'=>array(
+			)
+	),
+	array(
+	'class'=>'linecons-user',
+	'name'=>'名片管理',
+	'authority' =>'user',
+	'route'=>$this->url('admin-company'),
+	'sub'=>array(
+    	    array(
+    	        'controller'=>'index',
+    	        'route'=>$this->url('admin-company'),
+    	        'name'=>'公司名片',
+    	        'other'=>'',
+    	        'authority' =>'indexDataStatistics',
+    	        'class' => 'fa-line-chart'
+    	    ),
+    	    array(
+    	        'controller'=>'index',
+    	        'route'=>$this->url('admin-card'),
+    	        'name'=>'个人名片',
+    	        'other'=>'',
+    	        'authority' =>'indexDataStatistics',
+    	        'class' => 'fa-line-chart'
+    	    )
+		)
+	),
+	array(
+			'class'=>'fa-calculator',
+			'name'=>'设备管理',
+			'authority' =>'user',
+			'route'=>$this->url('admin-device'),
+			'sub'=>array(
+			)
+	),
+	/* array(
+	'class'=>'linecons-note',
+	'name'=>'页面管理',
+	'route'=>$this->url('admin-page'),
+	'authority' =>'labela',
+	'sub'=>array(
+		)
+	), */
+	array(
+			'class'=>'linecons-note',
+			'name'=>'推荐码管理',
+			'route'=>$this->url('admin-invitation'),
+			'authority' =>'invitation',
+			'sub'=>array(
+			)
+	),
+	
+	array(
+	'class'=>'linecons-globe',
+	'name'=>'官方',
+	'authority' =>'official',
+	'route'=> $this->url('admin-notification'),
+	'sub'=>array(
+			array(
+			'controller'=>'notification',
+			'route'=>$this->url('admin-notification',array('id'=>0)),
+			'name'=>'信息推送',
+			'other'=>'',
+			'authority' =>'officialNotificationLook',
+			'class' => ' fa-rss'		
+			),
+		array(
+			'controller'=>'notification',
+			'route'=>$this->url('admin-notification',array('action'=>'experience')),
+			'name'=>'用户体验群',
+			'other'=>'',
+			'authority' =>'officialNotificationLook',
+			'class' => ' fa-rss'
+		),
+
+
+		)	
+	),
+    /* 
+	array(
+	'class'=>'linecons-sound',
+	'name'=>'广告',
+	'authority' =>'ads',
+	'route'=> $this->url('admin-ads',array('action'=>'position')),
+	'sub'=>array(
+			array(
+			'controller'=>'position',
+			'route'=> $this->url('admin-ads',array('action'=>'position')),
+			'name'=>'广告位',
+			'other'=>'',
+			'authority' =>'adsPositionLook',
+			'class'=>'linecons-sound',
+			),
+			array(
+			'controller'=>'material',
+			'route'=>$this->url('admin-ads',array('action'=>'material')),
+			'name'=>'广告物料',
+			'other'=>'',
+			'authority' =>'adsMaterialLook',
+			'class'=>'linecons-sound',
+			),
+			array(
+			'controller'=>'adsRelation',
+			'route'=>$this->url('admin-ads',array('action'=>'relation')),
+			'name'=>'广告投放策略',
+			'other'=>'',
+			'authority' =>'adsRelationLook',
+			'class'=>'linecons-sound',
+			),
+			array(
+			'controller'=>'target',
+			'route'=>$this->url('admin-ads',array('action'=>'target')),
+			'name'=>'广告精准投放',
+			'other'=>'',
+			'authority' =>'adsTargetLook',
+			'class'=>'linecons-sound',
+			),
+		)	
+	), */
+	array(
+	'class'=>'fa-cog',
+	'name'=>'站点信息',
+	'authority' =>'config',
+	'route'=>$this->url('admin-config'),
+	'sub'=>array(
+			
+			array(
+			'controller'=>'setting',
+			'route'=>$this->url('admin-config',array('action'=>'setting')),
+			'name'=>'系统设置',
+			'other'=>'',
+			'authority' =>'configSettingLook',
+			'class' => 'fa-cog'
+			),
+			array(
+			'controller'=>'config',
+			'route'=> $this->url('admin-config'),
+			'name'=>'管理员',
+			'other'=>'',
+			'authority' =>'configAdminLook',
+			'class' => 'fa-user'
+			),
+    	    array(
+    	        'controller'=>'sensitiveWords',
+    	        'route'=>$this->url('admin-config',array('action'=>'sensitiveWords')),
+    	        'name'=>'敏感词管理',
+    	        'other'=>'',
+    	        'authority' =>'configSensitiveWordsLook',
+    	        'class' => 'fa-unlock'
+    	    ),
+			array(
+				'controller'=>'config',
+				'route'=>$this->url('admin-config',array('action'=>'personal')),
+				'name'=>'个性化背景图片',
+				'other'=>'',
+				'authority' =>'configSensitiveWordsLook',
+				'class' => 'fa-unlock'
+			),
+	    array(
+	        'controller'=>'sensitiveWords',
+	        'route'=>$this->url('admin-user',array('action'=>'applicationList','cid'=>1)),
+	        'name'=>'用户申请列表',
+	        'other'=>'',
+	        'authority' =>'configSensitiveWordsLook',
+	        'class' => 'linecons-user'
+	    ),
+			
+		)
+	),
+	array(
+	'class'=>'fa-weixin',
+	'name'=>'发现',
+	'authority' =>'school',
+	'route'=> $this->url('admin-microblog'),
+	'sub'=>array(
+			array(
+    			'controller'=>'weiBo',
+    			'route'=> $this->url('admin-microblog'),
+    			'name'=>'人脉圈',
+    			'other'=>'',
+    			'authority' =>'schoolMicroblogLook',
+    			'class'=>'fa-weibo'
+			),
+    	    array(
+    	        'controller'=>'activity',
+    	        'route'=> $this->url('admin-activity',array('action'=>'index')),
+    	        'name'=>'商业圈',
+    	        'other'=>'',
+    	        'authority' =>'schoolMicroblogLook',
+    	        'class'=>'fa-weibo'
+    	    ),
+		)
+	),
+    array(
+        'class'=>'fa-list',
+        'name'=>'设备购买',
+        'authority' =>'order',
+        'route'=> $this->url('admin-order'),
+        'sub'=>array(
+			array(
+                'controller'=>'weiBo',
+                'route'=> $this->url('admin-order', array('cid' => 1)),
+                'name'=>'订单',
+                'other'=>'',
+                'authority' =>'order',
+                'class'=>'fa-money'
+            ),
+            array(
+                'controller'=>'weiBo',
+                'route'=> $this->url('admin-financial', array('cid' => 1)),
+                'name'=>'财务',
+                'other'=>'',
+                'authority' =>'financial',
+                'class'=>'fa-money'
+            ),
+            
+        )
+    ),
+);
+$action_list = array('all');//默认有所有权限
+
+?>
+<div class="settings-pane">
+			
+		<a href="#" data-toggle="settings-pane" data-animate="true">
+			&times;
+		</a>
+	
+</div>
+	<nav class="navbar horizontal-menu navbar-fixed-top"><!-- set fixed position by adding class "navbar-fixed-top" -->
+		
+		<div class="navbar-inner">
+		
+			<!-- Navbar Brand -->
+			<div class="navbar-brand" style="height:80px;width:80px;">
+				<a href="<?php echo $this->url('admin');?>" class="logo" style="height:80px;width:80px;">
+					<img src="<?php echo ROOT_PATH;?>images/logo20.png" width="80" alt="" class="hidden-xs" />
+					<img src="<?php echo ROOT_PATH;?>images/logo20.png" width="80" alt="" class="visible-xs" />
+				</a>
+<!--				<a href="#" data-toggle="settings-pane" data-animate="true">-->
+<!--					<i class="linecons-cog"></i>-->
+<!--				</a>-->
+			</div>
+				
+			<!-- Mobile Toggles Links -->
+			<div class="nav navbar-mobile">
+			
+				<!-- This will toggle the mobile menu and will be visible only on mobile devices -->
+				<div class="mobile-menu-toggle">
+					<!-- This will open the popup with user profile settings, you can use for any purpose, just be creative -->
+					<!-- data-toggle="mobile-menu-horizontal" will show horizontal menu links only -->
+					<!-- data-toggle="mobile-menu" will show sidebar menu links only -->
+					<!-- data-toggle="mobile-menu-both" will show sidebar and horizontal menu links -->
+					<a href="#" data-toggle="mobile-menu-horizontal">
+						<i class="fa-bars"></i>
+					</a>
+				</div>
+				
+			</div>
+			
+			<div class="navbar-mobile-clear"></div>
+			
+		
+			<!-- main menu -->
+				
+			<ul class="navbar-nav">
+				 <?php foreach ($menu as $v){?>
+                <?php if(in_array($v['authority'],$action_list ) || $action_list[0]=='all'){?>
+				<li><!-- class="opened active" -->
+					<a href="<?php echo $v['route']?>">
+						<i class="<?php echo $v['class']?>"></i>
+						<span class="title"><?php echo $v['name'];?></span>
+					</a>
+					<ul>
+						<?php foreach ($v['sub'] as $val){?>
+						<li <?php if($controller==$val['controller']){ ?> class="active" <?php }?>>
+							<a href="<?php echo $val['route'];?>">
+							<i class="<?php echo $val['class']?>"></i>
+								<span class="title"><?php echo $val['name']?></span>
+								<?php if($val['other']){?>
+								<span class="label label-warning pull-right"><?php echo $val['other'];?></span>
+								<?php }?>
+							</a>
+						</li>
+						<?php }?>
+					
+					</ul>
+				</li>
+					<?php }?>
+				<?php }?>
+			</ul>
+					
+			
+			<!-- notifications and other links -->
+			<ul class="nav nav-userinfo navbar-right">
+				<li class="dropdown user-profile">
+					<a href="#" data-toggle="dropdown" style="height: 85px;display: block;float: right;">
+						<img src="<?php echo ROOT_PATH;?>images/user-1.png" alt="user-image" class="img-circle img-inline" style="top:5px;display: block;height: 40px;" />
+						<div style="display: block;height: 30px;line-height: 30px;"><?php echo $_SESSION['admin_name']?><i class="fa-angle-down"></i></div>
+					</a>
+
+					<ul class="dropdown-menu user-profile-menu list-unstyled">
+
+						<li class="last">
+							<a href="<?php echo $this->url('admin-index',array('action'=>'logout'));?>">
+								<i class="fa-lock"></i>
+								退出登录
+							</a>
+						</li>
+					</ul>
+				</li>
+
+
+
+			</ul>
+	
+		</div>
+		
+	</nav>
+	
+	<div class="page-container"><!-- add class "sidebar-collapsed" to close sidebar by default, "chat-visible" to make chat appear always -->
+			<!-- add class "sidebar-collapsed" to close sidebar by default, "chat-visible" to make chat appear always -->
+		<!-- Add "fixed" class to make the sidebar fixed always to the browser viewport. -->
+		<!-- Adding class "toggle-others" will keep only one menu item open at a time. -->
+		<!-- Adding class "collapsed" collapse sidebar root elements and show only icons. -->
+		<div class="collapsed" style="background: #cccccc;width: 0;display: table-cell;">
+		</div>
+		<div class="main-content">
+		
+		<div class="page-title">
+		<div class="title-env">
+			<h1 class="title">
+			<?php  $breadcrumb_num = count($breadcrumb)-1; ?>
+				<font class="OUTFOX_JTR_TRANS_NODE" id="OUTFOX_JTR_TRANS_NODE-168"
+					rel="168"><?php echo isset($breadcrumb[$breadcrumb_num]['title']) ? $breadcrumb[$breadcrumb_num]['title'] : '';?> </font>
+			</h1>
+		</div>
+	
+		<div class="breadcrumb-env">
+			<ol class="breadcrumb bc-1">
+			<?php foreach ($breadcrumb as $k=>$v){?>
+				<li <?php if($breadcrumb_num == $k){?>class="active"<?php }?>>
+					<?php if(isset($v['url']) && $v['url']){?><a href="<?php echo $v['url']?>"><?php }?>
+						<?php if($k==0){?><i class="fa-home"></i><?php }?>
+						<font class="OUTFOX_JTR_TRANS_NODE" id="OUTFOX_JTR_TRANS_NODE-17<?php echo $k;?>" 
+							rel="170"><?php echo $v['title']?></font>
+					<?php if(isset($v['url']) && $v['url']){?></a><?php }?>
+				</li>
+				<?php }?>
+			</ol>
+	
+		</div>
+	</div>
+				<?php echo $this->main;?>
+	<script>
+	jQuery(document).ready(function($)
+	{
+		$('a[href="#layout-variants"]').on('click', function(ev)
+		{
+			ev.preventDefault();
+			
+			var win = {top: $(window).scrollTop(), toTop: $("#layout-variants").offset().top - 15};
+			
+			TweenLite.to(win, .3, {top: win.toTop, roundProps: ["top"], ease: Sine.easeInOut, onUpdate: function()
+				{
+					$(window).scrollTop(win.top);
+				}
+			});
+		});
+	});
+	</script>
+	
+	<!-- Main Footer -->
+	<!-- Choose between footer styles: "footer-type-1" or "footer-type-2" -->
+	<!-- Add class "sticky" to  always stick the footer to the end of page (if page contents is small) -->
+	<!-- Or class "fixed" to  always fix the footer to the end of page -->
+	<footer class="main-footer sticky footer-type-1">
+		<div class="footer-inner">
+		
+			<!-- Add your copyright text here -->
+			<div class="footer-text">
+				&copy; 2015
+				<strong>快摇后台管理</strong> 
+				Powered by: <a href="http://www.aiitec.com/" target="_blank" title="爱特安为">爱特安为</a> 
+			</div>
+			
+			
+			<!-- Go to Top Link, just add rel="go-top" to any link to add this functionality -->
+			<div class="go-up">
+			
+				<a href="#" rel="go-top">
+					<i class="fa-angle-up"></i>
+				</a>
+				
+			</div>
+			
+		</div>
+		
+	</footer>
+		</div>
+		
+	</div>
+	
+	

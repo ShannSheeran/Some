@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="../js/jquery-1.7.2.min.js"></script>
+    <script src="../js/jquery.SuperSlide.js"></script>
+    <script src="../js/base.js"></script>
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/content.css" />
+    <link rel="stylesheet" href="../css/user.css" />
+    <script type="text/javascript">
+    $(function(){
+        $('.user_center ul li').click(function(){
+            $(this).addClass('on').siblings().removeClass('on');
+        })
+        $('.quality_text ul li:first-child').addClass('selected');
+        $('.quality_text ul li').click(function(){
+          $(this).addClass('selected').siblings().removeClass('selected');
+        })
+        $('.leave_message a.btn_submit').click(function(){
+            $('.prompt').show();
+        })
+        $('.only_sure').click(function(){
+            $('.prompt').hide();
+        })
+    })
+    </script>
+</head>
+<body>
+    <header class="">
+      <div class="wrap">
+        <div class="logo">
+          <a></a>
+        </div>
+        <div class="explain">全方位中国花卉交易平台</div>
+        <div class="header_phone">联系电话：400-0650-750</div>
+      </div>
+      <div class="clear"></div>
+      <div class="header_bottom">
+        <div class="wrap">
+          <div class="account">
+            <span>账户：7729<a href="" class="quit">[退出]</a></span>
+          </div>
+          <nav>
+            <a>首页</a>
+            <a class="">资材订购</a>
+            <a>市场反馈</a>
+            <a>对账单</a>
+            <a>会员中心</a>
+            <a>最新热销</a>
+          </nav>
+        </div>
+    </header>
+    <section>
+        <div class="wrap">
+            <div class="user_content">
+                <div class="user_content_left">
+                    <div class="user_center">
+                        <h2>会员中心</h2>
+                        <ul>
+                            <li class="on">我的商品</li>
+                            <li>发布商品</li>
+                            <li>资材订单</li>
+                            <li>我的售后</li>
+                            <li>市场反馈</li>
+                            <li>对账单查询</li>
+                            <li>会员信息</li>
+                            <li>修改密码</li>
+                        </ul>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="contact_us">
+                        <h2>会员中心</h2>
+                        <p>客服：4000-650-750</p>
+                        <p>传真：020-81413138</p>
+                        <p>E-mail : xiejing@ji-hong.cn</p>
+                        <p>http://gd.ji-hong.com.cn</p>
+                    </div>
+                </div>
+                <div class="user_content_right">
+                  <h2>发布留言</h2>
+                  <ul class="quality_message leave_message">
+                    <li>
+                      <div class="quality_label">留言类型：</div>
+                      <div class="quality_text">
+                        <ul>
+                          <li>商品咨询</li>
+                          <li>普通留言</li>
+                        </ul>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="quality_label">留言内容：</div>
+                      <div class="quality_text">
+                        <textarea></textarea>
+                      </div>
+                    </li>
+                    <li>
+                        <div class="clear"></div>
+                        <a class="btn_submit" onclick="showDialog()">提交</a>
+                        <!-- 遮罩层 -->
+                        <div class="page_strong top2"></div>
+                        <!-- 弹窗 -->
+                        <div class="prompt dialog">
+                          <h3 class="pt15">提交成功</h3>
+                          <p class="pt5">您的留言已提交成功，我们将尽快回复</p>  
+                          <span class="only_sure" onclick="hideDialog()">确定</span>
+                        </div>
+                    </li>
+                    </ul>
+                  </ul>
+                  <div class="clear"></div>
+                  <div class="leave_message">
+                    <h2>我的留言</h2>
+                    <div class="leave_message_content fl">
+                      <ul class="leave_message_label">
+                        <li class="leave_message_type">留言类型</li>
+                        <li class="leave_message_time">留言时间</li>
+                        <li class="leave_message_word">留言内容</li>
+                        <li class="leave_message_restore">管理员回复</li>
+                      </ul>
+                      <ul class="leave_message_details">
+                        <li>
+                          <div class="leave_message_type">    
+                            商品咨询
+                          </div>
+                          <div class="leave_message_time">2016-06-13 12:12:12</div>
+                          <div class="leave_message_word">尊敬 的吉宏经销商，供应商：首先，衷心的感谢您们长期以来对吉宏园艺盆栽业务的大力支持！</div>
+                          <div class="leave_message_restore">尊敬 的吉宏经销商，供应商：首先，衷心的感谢您们长期以来对吉宏园艺盆栽业务的大力支持！</div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

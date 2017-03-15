@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,inital-scale=1.0,minimum-scale=1.0,maximum-scale=1.0" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-status-bar-style" content="black" />
+		<meta name="format-detection" content="telephone=no" />
+		<title><?php echo $info->title; ?></title>
+		<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/platform/base.css">
+		<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/platform/index.css">
+		<script src="<?php echo $this->basePath();?>/js/jquery-1.7.2.min.js"></script>
+	</head>
+	<body class="bg_gray mwhome">
+<!--		<header class="app_head">
+			<div class="app_head_content app_wrap">
+				<div class="go_back" onclick="window.history.go(-1)">
+					<div class="icon_goback"></div>
+				</div>
+ 				<div class="title">
+					<p>资讯详情</p>
+				</div>
+				<div class="share">
+					<div class="btn_share" onclick="">
+					</div>
+				</div>
+			</div> 
+		</header>-->
+		<section class="app_section">
+		      
+			<div class="app_article_title">
+				<?php echo $info->title; ?>
+			</div>
+			<div class="app_article_theme clearfix">
+			     <?php if(isset($info->article_category_id) && !in_array($info->article_category_id, array(3,4)) && $type == 1): ?>
+				<span class="article_time"><?php echo substr($info->timestamp, 0 , 10); ?></span>
+				<span class="article_readnum"><?php echo $info->read_number; ?></span>
+				<span class="article_source"><?php echo $info->category_name; ?></span>
+				<?php endif; ?>
+			</div>
+			<div class="article_content clearfix">
+				<?php echo $info->detail; ?>
+			</div>
+		</section>
+	</body>
+</html>
+
+	<script>
+	window.onload = function(){
+		var w=$(window).width()*3/4;
+		console.log(w);
+		$('.article_content img').each(function(){
+			console.log($(this).width());
+		    if($(this).width() >= w)
+		    {
+		    	$(this).width(w);
+		    }
+	    })
+	}
+	
+	</script>

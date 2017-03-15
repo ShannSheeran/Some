@@ -1,0 +1,138 @@
+
+<div class="row">
+	<div class="col-sm-12">
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>管理员详细</h3>
+				<div class="panel-options">
+					<a href="#" data-toggle="panel">
+						<span class="collapse-icon">&ndash;</span>
+						<span class="expand-icon">+</span>
+					</a>
+					<a href="#" data-toggle="remove"> &times; </a>
+				</div>
+			</div>
+			<form role="form" class="form-horizontal"
+					action="<?php echo $this->url('admin-config',array('action'=>'adminedit','id'=>$admin['id']));?>" method="post">
+					
+					<div class="panel-body">
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="field-1">用户名：</label>
+						<div class="col-sm-10">
+							<input class="input-xlarge disabled" id="disabledInput"
+									type="text" value="<?php echo $admin['name'];?>" disabled>
+						</div>
+					</div>
+					<div class="form-group-separator"></div>
+					
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="field-1">所属角色：</label>
+						<div class="col-sm-10">					
+								<select name="super" <!--disabled-->>
+									<option value="1" <?php if($admin['super']==1){?>
+										selected <?php }?>>超级管理员</option>
+									<option value="2" 
+										<?php if($admin['super']==2 || $admin['super']==0){?>
+										selected<?php }?>>普通管理员</option>
+									<option value="3" <?php if($admin['super'] == 3){?>
+										selected<?php }?>>运营管理员</option>
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group-separator"></div>
+
+						<div class="form-group">
+						<label class="col-sm-2 control-label" for="field-1">新密码：</label>
+						<div class="col-sm-10">		
+						
+								<input class="input-xlarge disabled" name="password"
+									id="disabledInput" type="password" value="">
+							</div>
+						</div>
+						<div class="form-group-separator"></div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="field-1"></label>
+						<div class="col-sm-10">		
+
+							<input type="submit" name="submit" value="提交"
+								class="btn btn-success">
+							<a class="btn btn-danger"
+								href="<?php echo $this->url('admin-config',array('action'=>'index')); ?>">返回</a>
+						</div>
+					</div>
+				</form>
+
+			</div>
+		</div>
+
+<script>
+function checkAll_2(frm, checkbox)
+{
+/*  for (i = 0; i < frm.elements.length; i++)
+  {
+    if (frm.elements[i].name == 'action_code[]' || frm.elements[i].name == 'chkGroup')
+    {
+      frm.elements[i].checked = checkbox.checked;
+    }
+  }
+	  */
+  var dom = document.getElementById("list-table");
+  var tabs = dom.getElementsByTagName("input");
+  var checked = checkbox.checked;
+
+  for (i = 0; i < tabs.length; i++)
+    {
+        tabs[i].checked = checked;
+        if(checked) {
+            $(tabs[i]).parent().addClass("checked");
+        }else{
+        	$(tabs[i]).parent().removeClass("checked");
+        }
+    }
+}
+
+function check(list, obj)
+{
+  var frm = obj.form;
+
+    for (i = 0; i < frm.elements.length; i++)
+    {
+      if (frm.elements[i].name == "action_code[]")
+      {
+          var regx = new RegExp(frm.elements[i].value + "(?!_)", "i");
+
+          if (list.search(regx) > -1) {frm.elements[i].checked = obj.checked;
+          if(obj.checked) {
+              $(frm.elements[i]).parent().addClass("checked");
+          }else{
+          	$(frm.elements[i]).parent().removeClass("checked");
+          }
+          }
+      }
+    }
+}
+
+function checkrelevance(relevance, priv_list)
+{
+  if(document.getElementById(priv_list).checked && relevance != '')
+  {
+    document.getElementById(relevance).checked=true;
+  }
+  else
+  {
+    var ts=document.getElementsByTagName("input");
+    
+    for (var i=0; i<ts.length;i++)
+    {
+      var text=ts[i].getAttribute("title");
+
+      if( text == priv_list) 
+      {
+        document.getElementById(ts[i].value).checked = false;
+      }
+    }
+  }
+}
+</script>

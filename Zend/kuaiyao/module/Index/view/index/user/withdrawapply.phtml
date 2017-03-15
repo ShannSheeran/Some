@@ -1,0 +1,319 @@
+<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/pc/css/login.css" />
+<script type="text/javascript" src="<?php echo $this->basePath();?>/pc/ckeditor/ckeditor.js"></script>
+<?php echo $this->headScript()->offsetSetFile(10, $this->basePath() . '/js/ajaxfileupload.js') ?>
+<script type="text/javascript" src="<?php echo $this->basePath();?>/js/public.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath();?>/js/myjs.js"></script>
+<script type="text/javascript">
+var url = '<?php echo $this->url('admin-common',array('action'=>'getAdminFile'));?>';//图片上传地址
+var url_two = '<?php echo $this->url('admin-common',array('action'=>'getAdminFileTwo'));?>';//图片上传地址
+</script>
+
+<!--  main -->
+<div class="main">
+        <from method="post" action="<?php echo $this->url('index',array('controller'=>'user','action'=>'withdrawapply'))?>">
+		<div class="wrap">
+			<div class="container clearfix">
+				<dl class="tab">
+					<dd>
+						<a href="<?php echo $this->url('index',array('controller'=>'user','action'=>'Details'))?>">基本资料</a>
+					</dd>
+					<dd>
+						<a href="<?php echo $this->url('index',array('controller'=>'user','action'=>'DetailsTwo'))?>">公司信息</a>
+					</dd>
+					<dd>
+						<a href="<?php echo $this->url('index',array('controller'=>'user','action'=>'order'))?>">订单列表</a>
+					</dd>
+					<dd class="cur">
+						<a href="javascript:void(0);">推荐码/提现</a>
+					</dd>
+				</dl>
+			
+				<!--body-->
+
+				<div class="nor" style="height:837px;">
+
+					<div class="nor_top">
+						<div class="nor_top_left fl">
+							<a href="<?php echo $this->url('index',array('controller'=>'user','action'=>'withdraw'))?>">
+								<p>
+									<返回</p></a>
+								</div>
+								<p class="nor_top_p fl">申请提现</p>
+							</div>
+							<div class="nor_ad">
+								<div class="nor_ad_text"> <i class="fl"></i>
+									<p class="nor_ad_text_p fl">申请提现后您的款项将在5个工作日内转至您的账户。</p>
+								</div>
+
+							</div>
+							
+							<div class="nor_rmb">
+								<div class="nor_rmb_db">
+									<p style="line-height:80px;margin-left:60px;">可提现金额：&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $user['money'];?>元</p>
+									<div class="nor_rmb_er">
+										<p class="fl" style="margin-top: 4px">本次提现金额：</p>
+										<div style="margin-left: 146px;">
+											<input class="fl" style="width:130px; height:30px;text-indent:10px;font-size:18px;" type="text" name="money" id="money"/>
+											&nbsp;&nbsp;元
+										</div>
+									</div>
+									<div class="nor_rmb_look" style="display:none;" id="money_check"> <i></i>
+										<p style="font-size:12px; color:#ff7070; float:left;">您的余额只有<?php echo $user['money'];?>元。</p>
+									</div>
+									<div class="nor_rmb_look" style="display:none;" id="money_none"> <i></i>
+										<p style="font-size:12px; color:#ff7070; float:left;" id="msg">请输入提现金额</p>
+									</div>
+									
+								</div>
+							</div>
+							<div class="nor_atm">
+								<div class="nor_atm_name">
+									<p class="fl" style="margin-top: 4px">开户人姓名：</p>
+									<input style="width:130px; height:30px; float:left; margin-left:21px;text-indent:10px;font-size:18px;" type="text" name="card_owner" id="card_owner"/>
+									<div class="nor_atm_look" style="display: none;" id="name_check">
+										<i></i>
+										<p style="font-size:12px; color:#ff7070; float:left;">请正确输入姓名。</p>
+									</div>
+								</div>
+
+								<div class="nor_atm_atm">
+									<p class="fl" style="margin-left: 60px;">请选择银行：</p>
+									<div class="nor_atm_atm_li fl">										
+									<ul class="nor_atm_atm_li_ul">
+										
+										<?php foreach($bankList as $key => $val){?>
+											<li class="fl">
+												<div class="style atm" onclick="setBank('<?php echo $key;?>');">
+													<img src="<?php echo ROOT_PATH.'images/bank_'.$key.'.png';?>" style="float:left;margin-top: 6px; margin-left: 8px;"></i>
+													<span class="fl" style="margin-top: 6px;padding-left: 7px;"><?php echo $val;?></span>
+												</div>
+											</li>
+										<?php } ?>	
+										
+										</ul>
+									</div>
+								</div>
+								<!-- 银行number开始 -->
+								<div class="nor_atm_number" style="padding-top: 62px;">
+									<p class="nor_atm_number_p fl">储蓄卡卡号：</p>
+									<div class="nor_atm_number_input fl">
+										<input type="text" name="card_number" id="card_number"/>
+										<div class="nor_atm_number_look" style="display:none;" id="card_check">
+											<i></i>
+											<p style="font-size:12px; color:#ff7070; float:left;">请输入银行卡卡号。</p>
+										</div>
+									</div>
+								</div>
+								<!-- 银行number结束 -->
+
+								<div class="nor_atm_number" style="padding-top: 0px;">
+
+									<p class="nor_atm_number_p fl" style="margin-left: 18px;">手机号码：</p>
+									<div class="nor_atm_number_input fl">
+										<input type="text" name="phone" value="<?php echo $_COOKIE["mobile"];?>" id="mobiles" disabled/>
+										<div class="nor_atm_number_look" style="display:none;" id="phone_check">
+											<i></i>
+											<p style="font-size:12px; color:#ff7070; float:left;">请输入手机号码。</p>
+										</div>
+									</div>
+								</div>
+								
+								<div class="nor_atm_phone clear">
+									<p class="nor_atm_phone_p fl">手机验证码：</p>
+									<div id="ds1" class="nor_atm_phone_style">
+										<input style="font-size:14px;" type="text" class="text code" placeholder="输入验证码" name="codes" id="codes"/>
+			
+									
+										<input style="margin-left: 20px; margin-top: 2px;width: 120px;height: 30px;font-size: 14px;color: white;background-color: #ff9600; border: none;border-radius: 4px;" type="button" class="submit hq_code" onclick="withdrawChecks()" value="获取验证码" id="hq" />
+										<div class="nor_yanzhengma_look clearfix" style="display:none;" id="yanzhengma_check">
+										<i></i>
+										<p style="font-size:12px; color:#ff7070; float:left;" id="codeMsg"></p>
+									    </div>
+									</div>																		
+								</div>
+								<div class="nor_atm_tb">
+								<input type="hidden" value="" name="bank" id="bank">
+									<button id="withdraw">提交申请</button>
+								</div>									
+                            
+							</div>
+
+						</div>
+                        
+					</div>
+				</div>
+			</div>
+		</div>
+		</form>
+		<!--  contact -->
+	       
+<div class="contact">
+  <div class="wrap">
+    <dl>
+      <dd><img src="<?php echo $this->basePath();?>/pc/images/contact_tel.jpg" />4008383765</dd>
+      <dd><img src="<?php echo $this->basePath();?>/pc/images/contact_email.jpg"  /><a href="mailto:kefu@kuaiyao.name">kefu@kuaiyao.name</a></dd>
+      <dd><img src="<?php echo $this->basePath();?>/pc/images/qq.jpg"  /><a target="blank" href="http://wpa.qq.com/msgrd?V=3&uin=3209147449&Site=QQ交谈&Menu=yes"><img border="0" SRC="http://wpa.qq.com/pa?p=1:3209147449:7" alt="点击这里给我发消息"></a></dd>
+    </dl>
+  </div>
+</div>
+<script type="text/javascript">
+//点击地址代码
+ $(document).ready(function(){
+	//点击地址代码
+    $(".style").click(function(){
+		$(".style").removeClass("atm_on");
+		$(this).addClass("atm_on");
+	   });
+	
+	
+})
+/**
+ * 登陆获取
+ */
+
+
+function withdrawChecks()
+{
+	var id = $("#mobiles").val();
+	if(id=="")
+	{
+	    alert("手机号码不能为空");
+	    return false;
+	}
+	
+	$.post("<?php echo $this->url("index",array('action'=>'resgiterCheck','controller'=>'user'));?>", {phone:id},
+			function(data){
+		console.log(data.q);
+		if(data.q.s==0)
+		{
+			setTimeout("startCount(60)", 1000 );
+			
+			 //alert("获取成功,请在手机查看验证码");
+		}
+		else {
+			alert(data.q.d);
+		}
+	},"json");
+}
+var i1;
+function startCount(num) {
+	//console.log(num);
+    document.getElementById('hq').value= num + '秒';
+    $("#hq").addClass("hq_code_cur");
+    document.getElementById('hq').disabled=true;
+    num=num-1;
+    if(num<0)
+    {
+    	document.getElementById('hq').value='重新获取验证码';
+    	$("#hq").removeClass("hq_code_cur");
+ 	    document.getElementById('hq').disabled=false;
+  	    clearTimeout(i1);
+  	    return false;
+    }
+    i1 = setTimeout("startCount("+num+")",1000);
+}
+
+
+
+
+function setBank(type)
+{
+      $("#bank").val(type);                  	
+}
+
+$("#withdraw").click(function(){
+	if($("#money").val()==""){
+		$("#money_none").show();
+		 $("#money_check").hide();
+		$("#money").addClass("on_red");
+		return false;
+	}
+	if($("#money").val() > <?php echo $user['money']?>){
+	    $("#money_check").show();
+	    $("#money_none").hide();
+	    return false;
+	}
+	else
+	{
+		 $("#money_check").hide();
+		 $("#money_none").hide();
+		 $("#money").removeClass("on_red");
+	}
+	if($("#money").val()==""){
+	    $("#money_none").show();
+	    $("#money_check").hide();
+	    return false;
+	}
+	if($("#money").val()<=0){
+	    $("#msg").text("提现金额不能小于0！");
+	    $("#money_none").show();
+	    $("#money_check").hide();
+	    return false;
+	}
+
+	if($("#card_owner").val()==""){
+		$("#name_check").show();
+		$("#card_owner").addClass("on_red");
+		return false;
+	}
+	else
+	{
+		$("#name_check").hide();
+		$("#card_owner").removeClass("on_red");
+	}
+
+	if($("#card_number").val()==""){
+		$("#card_check").show();
+		$("#card_number").addClass("on_red");
+		return false;
+	}
+	else
+	{
+		$("#card_check").hide();
+		$("#card_number").removeClass("on_red");
+	}
+
+	if($("#phone").val()==""){
+		$("#phone_check").show();
+		$("#phone").addClass("on_red");
+		return false;
+	}
+	
+	if($("#codes").val()==""){
+		$("#yanzhengma_check").show();
+		$("#codeMsg").text("请输入验证码。");
+// 		$("#yanzhengma_check").addClass("on_red");
+		return false;
+	}else{
+		$("#yanzhengma_check").hide();
+		$("#yanzhengma_check").removeClass("on_red");
+		}
+
+    if($("#bank").val()==""){
+        alert("请选择交易的银行");
+    	return false;
+    }
+    
+    var bank = $("#bank").val();
+	var money = $("#money").val();
+	var card_owner = $("#card_owner").val();
+	var card_number = $("#card_number").val();
+	var codes = $("#codes").val();
+// 	alert(codes);
+	var phone = $("#phone").val();
+	$.post("<?php echo $this->url('index',array('controller'=>'user','action'=>'withdrawinsert'))?>",{money:money,card_owner:card_owner,card_number:card_number,phone:phone,bank:bank,codes:codes}, function (msg) {
+    	    	if(msg==1){
+    	    	    alert("提交成功");
+    	    	    location.href="<?php echo $this->url('index',array('controller'=>'user','action'=>'withdrawsuccess'))?>";
+    	    	}else if(msg==0){
+    	    	    alert("操作失败");
+    	    	}else if(msg==3){
+    	    	    alert("验证码不能为空");
+    	    	}else if(msg==4){
+    	    		$("#codeMsg").text("验证码错误！");
+    	    		$("#yanzhengma_check").show();
+    	    	}
+	    	});
+});
+                    
+</script>

@@ -1,0 +1,331 @@
+<style>
+.selectedSpe{
+	color: #c4234c;
+	border: 1px solid #c4234c !important;
+}
+</style>
+      <div class="order wrap">
+        <div class="material_search">
+          <div class="clearfix search_box pr">
+          <form method="get" action="<?php echo $this->url('index' , array('controller' => 'goods' , 'action' => 'shopList'))?>">
+            <div class="fl">
+                <input type="text" name="keyword" class="search_input" placeholder="请输商品名称搜索" value="" onfocus=";">
+            </div>
+            <div class="fl"><input type="submit" class="material_search_btn " value="搜索" ></div>
+          </form>
+          </div>
+        </div>
+        <a href="<?php echo $this->url('index' , array('controller'=> 'user' , 'action' => 'cart'))?>?cartType=<?php echo $action; ?>"><div class="btn_cart">购物车
+        <span id="cart_Num" class="cart_num <?php echo isset($carNumber) && $carNumber ? '' : 'none' ?>"><?php echo isset($carNumber) && $carNumber ? $carNumber : 0 ?></span>
+        </div>
+        </a>
+      </div>
+      <div class="clear"></div>
+      <div class="goods_detail wrap">
+        <p class="map_nav">
+          <a>供应信息</a>
+          <i>></i>
+          <a id="info_cate_name">多肉</a>
+        </p>
+      </div>
+      <div class="wrap clearfix bg_white mt25">
+        <div class="detail_img fl mt25">
+          <div id="preview" class="spec-preview"> 
+            <span class="jqzoom"><img jqimg="" src="" width="330px" height="330" /></span>
+          </div>
+          <div class="spec-scroll">
+            <a class="prev"><img src="<?php echo ROOT_PATH?>images/left.png" height="65" width="13" alt="" /></a>
+            <a class="next"><img src="<?php echo ROOT_PATH?>images/right.png" height="65" width="13" alt="" /></a>
+            <div class="items">
+              <ul>
+              </ul>
+             </div>
+           </div>
+           <div class="store_name">爱特安为网络科技有限公司</div>
+        </div>
+        <div class="detail_text fr">
+          <h2 class="goods_name" id="goods_name"></h2>
+          <div class="price">价格 : <span>￥</span></div>
+          <div class="all_seller">总销量：</div>
+          <div class="classify">分类：</div>
+          <div class="text none">
+            <p></p>
+            <a class="btn_release none">发布此商品</a>
+          </div> 
+          <div class="detail_cart_content">
+            <ul class="fl swfet3">
+              <li>
+                <div class="fl mb10">
+                  <div class="choose-version fl"  id="size">
+                    <div class="dt">规格：</div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="fl mb10">
+                  <div class="choose-version fl" id="model">
+                    <div class="dt">型号：</div>
+                  </div>
+                </div>
+              </li>
+              <li class="choose-num">
+                <div class="dt">数量：</div>
+                <div class="dd">
+                  <span style="font-size:0;">
+                    <a id="redu">-</a>
+                    <input type="number" class="numb tc" name="number" min="1" max="439" step="0" value="1" id="goods_count">
+                    <a id="add">+</a>
+                  </span>
+                  <span class="stock">库存：<i id="storage">0</i></span>
+                </div>
+              </li>
+            </ul>
+            <a class="buy_now">立即购买</a>
+            <a class="buy_cart" >加入购物车</a>
+            <!-- 弹窗 -->
+            <div class="page_strong top2"></div>
+            <div class="add_cart_access_popup">
+              <h2>添加成功</h2>
+              <span class="close" onclick="hideDialog();closeDialog();"></span>
+              <div class="message">
+                <h3>商品已成功加入购物车！</h2>
+                  <p>当前购物车共<i id="cartNumber"></i>件商品</p>
+                  <a href="<?php echo $this->url('index' , array('controller'=> 'user' , 'action' => 'cart'))?>" class="go_balance">去结算</a><a onclick="hideDialog();closeDialog();">继续购物</a>
+                </div>
+                <div class="fell_interest">
+                  <h4>你可能也感兴趣</h4>
+                  <ul>
+                    <?php
+                    if($goods_list) :
+                        foreach ($goods_list as $value): 
+                            $image_ids = array();
+                            if(isset($value->image))
+                            {
+                                $image_ids = explode(',', trim($value->image , ','));
+                            }
+                    ?>
+                    <li>
+                       <a href="<?php echo $this->url('index',array('controller' => 'goods','action'=>'detail','id'=>$value->id))?>">
+                      <div class="goods_img">
+                        <img src="<?php echo !empty($image) && !empty($image_ids) ? ROOT_PATH.UPLOAD_PATH.'thumb/108X108X3/'.$image[$image_ids[0]]['path'].$image[$image_ids[0]]['filename'] : ROOT_PATH.'images/no_pic.gif' ?>">
+                      </div>
+                      <div class="goods_text">
+                        <div class="goods_name">
+                          <?php echo $value->name?>
+                        </div>
+                        <div class="price_num">
+                          <span class="goods_price">￥<?php echo $value->min_cash?></span>
+                        </div>
+                      </div>
+                      </a>
+                    </li>
+                    <?php 
+                            endforeach;
+                        endif; 
+                     ?>
+                  </ul>
+                </div>
+              </div>
+              <!-- 弹窗 -->
+            </div>        
+          </div>
+      </div>
+      <div class="clear"></div>
+      <div class="wrap commodity_introduction">
+        <h2>商品介绍</h2>
+        <p id="description"></p>
+      </div>
+<script type="text/javascript">
+var goods_id  = "<?php echo isset($id) ? $id : ''?>";
+var specification_id = '';
+var global_spec = '';
+$(function(){
+  var cart_Num = parseInt($("#cart_Num").html());
+  if(cart_Num > 99)
+  {
+	  $(".order .btn_cart .cart_num").css({"width":"31px","border-radius":"38%"});
+  }
+
+  var root_path = "<?php echo ROOT_PATH . UPLOAD_PATH?>";
+  var id = goods_id;
+  var json = new Object();
+  json.n = "GoodsDetails";
+  json.q =new Object();
+  json.q.a = 1;
+  json.q.id = id;
+  $.post('<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'getJson'))?>' ,  {request: json} , function(data){
+      console.log(data);
+      if(data.q.s=='0')
+	  {
+    	global_spec = data.q.goods.specifications;
+    	saleNumber = (data.q.goods.saleNumber)? data.q.goods.saleNumber : 0
+  	    $("#info_cate_name").html(data.q.goods.categoryName);
+  	    $("#goods_name").html(data.q.goods.name);
+  	    $(".all_seller").html("总销量："+ saleNumber);
+    	$(".classify").html("分类："+data.q.goods.categoryName);
+    	$(".store_name").html(data.q.goods.merchantName);
+    	$(".jqzoom img").attr('src',root_path + "thumb/330X330X3/" + data.q.goods.images[0].image.path);
+    	$(".jqzoom img").attr('jqimg',root_path+data.q.goods.images[0].image.path);
+    	$(".price").html("价格 : <span>￥"+data.q.goods.cashRange+"</span>");
+    	$("#description").html(data.q.goods.description);
+        $('#storage').html(data.q.goods.number);
+    	
+    	var html = '';
+    	$.each(data.q.goods.images,function(index,item){
+    	    html += '<li><img alt="吉宏" bimg="'+root_path+item.image.path+'" src="'+root_path + "thumb/330X330X3/" +item.image.path+'" height="330" onmousemove="preview(this);"></li>'
+        	});
+    	$('.items ul').empty();
+    	$('.items ul').append(html);
+
+        var size = new Array();
+        var spec_html = "<div class='dt'>规格：</div><div class='dd clearfix'>";
+    	$.each(data.q.goods.specifications,function(index,item){
+ 		       if($.inArray(item.specification.size,size) == -1){
+		    	        size.push(item.specification.size)
+		    	        spec_html += "<div class='spec' id='specon' onclick='selectModel(\""+item.specification.size+"\");specOn(this)'>"+item.specification.size+"</div>"
+  		        }
+        });
+    	$('#size').empty();
+    	$('#size').append(spec_html);
+    	$('.spec').eq(0).trigger('click');
+    	$('.model').eq(0).trigger('click');
+
+    	scrollDiv();
+      }
+  },"json");
+})
+
+$('.small_img_box ul li').click(function(){
+  $(this).addClass('select_on').siblings().removeClass('select_on');
+}); 
+
+//添加购物车
+var cart_submit = true; 
+$('.detail_cart_content .buy_cart').click(function(){
+    if(!specification_id || !cart_submit)
+    {
+        return false;
+    }
+	var json = GetJson('CartSubmit');
+	json.q.goodsId =  goods_id;
+	json.q.specificationId =  specification_id;
+	json.q.number = $('#goods_count').val();
+	json.json = JSON.stringify(json);
+	cart_submit = false;
+	console.log(json);
+	$.post('<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'getJson'))?>' , json , function(data){
+    	console.log(data);
+		cart_submit = true; 
+	    if(data.q.s == 0)
+	    {
+	    	$('.add_cart_access_popup').show(); 
+	    	showDialog();
+	    	var json = GetJson('UserDetails');
+	    	json.json = JSON.stringify(json);
+	    	$.post('<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'getJson'))?>' , json , function(data){
+		    	if(data.q.s == 0)
+		    	{
+			    	$('#cartNumber').html(data.q.user.cartGoodsNumber);
+			    	$('.cart_num').html(data.q.user.cartGoodsNumber);
+			    	$('.cart_num').show();
+			    	if(data.q.user.cartGoodsNumber > 99)
+			    	{
+			    		$(".order .btn_cart .cart_num").css({"width":"31px","border-radius":"38%"});
+				    }
+		    	}
+	    	},"json");
+	    }
+	    else
+	    {
+		    alert(data.q.d);
+	    }
+    },"json");
+})
+
+var actOrderNow = true;
+$(".buy_now").click(function(){
+	var number = $('#goods_count').val();
+	var storage = parseInt($('#storage').html());
+	
+	if(!specification_id || !actOrderNow || !number || !storage)
+    {
+        return false;
+    }
+
+	if(number > storage)
+    {
+    	return false;
+    }
+    
+	actOrderNow = false;
+    location.href = "<?php echo $this->url('index' , array('controller' => 'order' , 'action' => 'confirmOrder')) ?>?goodsId=" + goods_id + "&specificationId=" + specification_id + "&number=" + number;
+})
+
+
+$('.add_cart_access_popup .close').click(function(){
+  
+})
+
+function closeDialog()
+{
+	$('.add_cart_access_popup').hide(); 
+}
+
+$('#goods_count').blur(function(){
+    if($('#goods_count').val() < 0)
+    {
+    	$('#goods_count').val(1);
+    }
+
+    if($('#goods_count').val() > parseInt($('#storage').html()))
+    {
+    	$('#goods_count').val(parseInt($('#storage').html()));
+    }
+})
+
+$('#redu').click(function(event) {//点击增加数量
+    var num = $('#goods_count').val();
+    if(num>1){
+        num--;
+        $('#goods_count').val(num);
+    }
+});
+
+$('#add').click(function(event) { //点击删减数量
+    var num = $('#goods_count').val();
+    if(num < parseInt($('#storage').html()))
+    {
+    	num++;
+        $('#goods_count').val(num);
+    }
+});
+
+function selectModel(param_size){
+//      alert("Sdfs");
+     var model_html = "<div class='dt'>型号：</div><div class='dd clearfix'>";
+     var model = new Array();
+     $.each(global_spec,function(index,item){
+         if(item.specification.size == param_size){
+             model.push(item.specification.model)
+             model_html += "<div class='model'  id='modelon' spec_id='"+item.specification.id+"' onclick='modelOn(this,"+ item.specification.id +","+ item.specification.number + " , "+item.specification.cash+")'>"+item.specification.model+"</div>"
+         }
+     });
+     $('#model').empty();
+     $('#model').append(model_html);
+     $('.model').eq(0).trigger('click');
+     $('#model').css('display','');
+}
+
+function specOn(evt) {
+    //给页面元素添加样式
+    $(evt).addClass('selectedSpe');
+    $(evt).siblings().removeClass('selectedSpe');
+}
+function modelOn(evt ,id , number , price) {
+	$(evt).addClass('selectedSpe');
+    $(evt).siblings().removeClass('selectedSpe');
+    specification_id = id;
+    $('#storage').html(number);
+    $(".price").html("价格 : <span>￥"+price+"</span>");
+}
+</script>

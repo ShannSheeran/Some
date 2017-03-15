@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<!-- saved from url=(0084)http://www.kuaiyao.name/user/pageDetails/128.html?from=groupmessage&isappinstalled=0 -->
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,inital-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-status-bar-style" content="block" />
+    <meta name="format-detection" content="telephone=no" />
+    <title><?php echo isset($card['title']) ? $card['title'] : "";?>-快摇名片</title>
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/kuaiyao/common.css?v=<?php echo time() ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/kuaiyao/AppDetails.css?v=<?php echo time() ?>">
+    <!--只兼容移动端，所以直接使用jQuery 2.1.4-->
+    <script type="text/javascript" src="<?php echo $this->basePath();?>/js/jquery-1.8.2.min.js"></script>
+    <script>window["_GOOG_TRANS_EXT_VER"] = "1";</script>
+    <style>
+        body:before{
+          content: ' ';
+          position: fixed;
+          width: 100%;
+          height: 100%;
+          z-index: -1;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background-image: url(<?php if($bg){echo ROOT_PATH.UPLOAD_PATH.$bg["path"].$bg["filename"];}else{echo ROOT_PATH."images/app/bg1.jpg";}?>);
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position :center;
+          color: #fff;
+        }
+        /*.magnify{
+            position: fixed;
+            top:0;
+            left: 0;
+            right:0;
+            bottom:0;
+            background: #000;
+            display: none;
+
+        }
+        .magnify div{
+        	display: table-cell;
+			vertical-align:middle;
+			text-align:center;
+        }
+        .magnify img{
+            width: 100%;
+            vertical-align:middle;
+            max-width: 450px;
+        }*/
+    </style>
+</head>
+<body>
+    <div class="main">
+    <!-- 二维码提示 -->
+    <?php if($type && ($card['wx_code']=='' || $card['wx_code']==0)){?>
+    <div class="hint dn">请上传微信二维码，否则您的朋友将关注不到您的微信</div>
+    <?php }?>
+    <!--头像、姓名、职位-->
+    <header>
+        <!--
+        //英文名
+        <span id="englist_name"><?php echo isset($card['englist_name']) ? $card['englist_name'] : "";?> </span>
+        -->
+        <div class="headerTop">
+            <div class="headerImg" onclick="magnify()">
+                <img id="headerImage" src="<?php echo $card['head_icon'] ? $this->basePath() . '/' . UPLOAD_PATH . $head_icon : $this->basePath(). '/images/app/img_headportrait.png';?>">
+            </div>
+            <div class="icon">
+            	<!-- 设备认证 -->
+	            <?php if($device){?>
+	                <span>
+	                    <img src="<?php echo ROOT_PATH.'images/app/personal_authentication2.png'?>" alt="">
+	                </span>
+	            <?php }?>
+                <?php if(isset($newCompany) && $newCompany){?>
+                    <!-- 通过员工审核 -->
+                    <?php if($card['card_status']==3){?>
+                        <span>
+                            <img src="<?php echo ROOT_PATH.'images/app/equipment_certification_selected.png'?>" alt="">
+                        </span>
+                    <?php }?>
+                    <!-- 没通过员工审核 -->
+                    <div class="authentication">
+                        <?php if($card['card_status']!=3){?>
+                            <img src="<?php echo ROOT_PATH.'images/app/equipment_certification__normal.png'?>" alt="">
+                        <?php }?>
+                        <div class="remind">请联系贵公司管理员通过您的加入申请</div>
+                    </div>
+                <?php }?>
+                <span class="degree">
+                <?php if($degree==1){?>
+                    <img class="once" src="<?php echo ROOT_PATH.'images/app/1du.png'?>" alt="">
+                <?php }else if($degree==2){?>
+                    <img class="bis" src="<?php echo ROOT_PATH.'images/app/2du.png'?>" alt="">
+                 <?php }?>
+                </span>
+            </div>
+        </div>
+        <div class="headerName">
+            <b id="title"><?php echo isset($card['name']) ? $card['name'] : "";?></b>
+        </div><br/>
+        <div class="companyBg mt10">
+        <?php if(isset($newCompany['name']) && $newCompany['name']){?>
+            <span class="companyName"><?php echo isset($newCompany['name']) ? $newCompany['name'] : "";?> | </span>
+        <?php }?>
+            <span class=""><?php echo $card['position'] ? $card['position'] : "未填写职位"?></span>
+        </div><br/>
+
+        <div class="companyBg mt5 mb10">
+            <?php if($p_region!==''){?>
+            <?php $location = strpos($p_region,'市');?>
+            <span class="city"><?php if($location!==false){echo str_replace('市','',$p_region);}?></span>
+            <?php }?>
+            <?php if($card['c_category_id'] && $card['c_category_id']!=0){?> |
+            <?php foreach($category as $k=>$v){?>
+            <span class="industry"><?php if($card['c_category_id']==$k){echo $v;}?></span>
+            <?php }?>
+            <?php }?>
+        </div>
+
+        <?php if(!$card['signature']==''){?>
+        <div class="signature mb10">
+            <p id="signature"><?php echo $card['signature']?></p>
+        </div>
+        <?php }?>
+    </header>
+
+    <div class="friend friend_and">
+        <div class="common" onclick="window.Interactive.common();"><?php echo $common;?>个共同好友<span> </span></div>
+        <div class="dynamic" onclick="window.Interactive.dynamic();">TA的动态 <span><?php echo $total;?>条</span></div>
+    </div>
+    <div class="friend friend_ios">
+        <div class="common" onclick="common()"><?php echo $common;?>个共同好友<span> </span></div>
+        <div class="dynamic" onclick="dynamic()">TA的动态 <span><?php echo $total;?>条</span></div>
+    </div>
+
+    <!--联系方式-->
+    <div class="cardContact">
+        <ul id="contactList" class="notouchmove">
+            <!--手机号码-->
+            <li>
+                <div class="fl mobileHide">
+                    <p id="mobile" style="border-right:1px solid #a8a8ab;color:#fff!important;"><?php echo $card['mobile']?></p>
+                </div>
+                <div class="connect fr" >
+                    <a class="a1and" onclick="window.Interactive.call('<?php echo $card['mobile']?>')">
+                        <!-- javascript:touchTel('<?php echo $card['mobile']?>') -->
+                        <img class="fa-tel" src="<?php echo ROOT_PATH.'images/app/white_dial_phone.png'?>" alt="">
+                    </a>
+                    <a class="a1ios" onclick="fn_call()">
+                        <!-- javascript:touchTel('<?php echo $card['mobile']?>') -->
+                        <img class="fa-tel" src="<?php echo ROOT_PATH.'images/app/white_dial_phone.png'?>" alt="">
+                    </a>
+                </div>
+            </li>
+            <!--邮件-->
+            <?php if($card['email']){?>
+            <li>
+                <div class="fl">
+                    <p id="email" style="border-right:1px solid #a8a8ab;">
+                        <?php if(!$card['email']){echo '';}else{echo $card['email'];}?>
+                    </p>
+                </div>
+                <div class="connect fr" >
+                    <a class="emand" href="javascript:void(0);" onclick="window.Interactive.sendEmail('<?php echo $card['email']?>')">
+                        <img src="<?php echo ROOT_PATH.'images/app/white_send_emails.png'?>" alt="">
+                    </a>
+                    <a class="emios" href="javascript:void(0);" onclick="fn_email()">
+                        <img src="<?php echo ROOT_PATH.'images/app/white_send_emails.png'?>" alt="">
+                    </a>
+                </div>
+            </li>
+            <?php }?>
+            <!--QQ-->
+            <?php if($card['qq']){?>
+            <li>
+                <div class="fl">
+                    <p id="qq" style="color:#fff;"><?php if(!$card['qq']){echo ' ';}else{echo $card['qq'];}?></p>
+                </div>
+            </li>
+            <?php }?>
+        </ul>
+    </div>
+
+    <!--公司信息-->
+    <div class="cardCompany">
+        <?php if($newCompany){?>
+        <div class="logoName and">
+            <a href="<?php echo $this->url('index', array('controller' => 'company', 'action' => 'pageContent', 'id' => $company['id'], 'alert' => '1'));?>">
+            <div class="logoImg" style="background:url(<?php if($newCompany['logo']){echo ROOT_PATH.UPLOAD_PATH.$newCompany['logo'];}else{echo ROOT_PATH."/images/app/img_logo.png";}?>) no-repeat center center;background-size:cover">
+            </div>
+            </a>
+            <ul class="companyBase" onclick="window.Interactive.company(<?php echo $newCompany['id']?>);">
+                <li class="companyName">
+                    <?php echo isset($newCompany['name']) ? $newCompany['name'] : "";?>
+                </li>
+                <li>
+                    <?php if($newCompany['city']!==''){?>
+                    <span class="city"><?php echo $newCompany['city'];?></span>| 
+                    <?php }?>
+
+                    <?php if($newCompany['category']!==''){?>
+                    <?php foreach($category as $k=>$v){?>
+                    <span class="industry"><?php if($newCompany['category']==$k){echo $v;}?></span>
+                    <?php }?> |  
+                    <?php }?>
+
+                    <?php foreach($scale as $k=>$v){?>
+                    <span class="scale"><?php if($newCompany['scale']==$k){echo $v;}?></span>
+                    <?php }?>
+                </li>
+                <li><?php echo $newCompany['web'];?></li>
+            </ul>
+        </div>
+        <div class="logoName ios">
+            <a href="<?php echo $this->url('index', array('controller' => 'company', 'action' => 'pageContent', 'id' => $company['id'], 'alert' => '1'));?>">
+            <div class="logoImg" style="background:url(<?php if($newCompany['logo']){echo ROOT_PATH.UPLOAD_PATH.$newCompany['logo'];}else{echo ROOT_PATH."/images/app/img_logo.png";}?>) no-repeat center center;background-size:cover" >
+            </div>
+            </a>
+            <ul class="companyBase"  onclick="company()">
+                <li class="companyName">
+                    <span><?php echo isset($card['company']) ? $card['company'] : "";?></span>
+                </li>
+                <li>
+                    <span class="city"><?php echo $newCompany['city'];?></span> |
+                    <?php foreach($category as $k=>$v){?>
+                        <span class="industry">
+                        <?php if($newCompany['category']==$k){echo $v;}?>
+                    </span>
+                    <?php }?>
+                    |
+                    <?php foreach($scale as $k=>$v){?>
+                        <span class="scale"><?php if($newCompany['scale']==$k){echo $v;}?></span>
+                    <?php }?>
+                </li>
+                <li><?php echo $newCompany['web'];?></li>
+            </ul>
+        </div>
+        <?php }?>
+        <!-- add地址 -->
+        <?php if($newCompany) {?>
+        <div class="companyzhiwei" >
+            <div class="companyzhiweiLeft wzand" onclick="window.Interactive.getLocation('<?php echo $newCompany['address'].$newCompany['street']?>');">
+                <div class="companyzhiwei_wzand">
+                    <img class="place" src="<?php echo ROOT_PATH.'images/app/white_location.png'?>" alt="">
+                </div>
+                <div class="companyzhiwei_adr">
+                    <span id="com_addre"><?php echo  $newCompany['address'].$newCompany['street'];?></span>
+                </div>
+            </div>
+            <div class="companyzhiweiLeft wzios" onclick="fn_location();">
+                <div class="companyzhiwei_wzios">
+                    <img class="place" src="<?php echo ROOT_PATH.'images/app/white_location.png'?>" alt="">
+                </div>
+                <div class="companyzhiwei_adr">
+                    <span id="com_addre"><?php echo  $newCompany['address'].$newCompany['street'];?></span>
+                </div>
+            </div>
+            <div class="a1and"  onclick="window.Interactive.call_company('<?php echo $newCompany['telephone']?>')">
+                <img src="<?php echo ROOT_PATH.'images/app/white_dial_phone.png'?>" alt="">
+            </div>
+            <div class="a1ios" onclick="call_company()">
+                <img src="<?php echo ROOT_PATH.'images/app/white_dial_phone.png'?>" alt="">
+            </div>
+        </div>
+        <?php }?>
+        <?php if(isset($newCompany) && $newCompany){?>
+        <div class="companyIcon">
+            <?php if($newCompany['is_top']==1){?>
+            <img class="iconVip" src="<?php echo ROOT_PATH.'images/app/icon_vip2.png'?>" alt="">
+            <?php }?>
+            <img src="<?php echo ROOT_PATH.'images/app/company_profile_icon.png'?>" alt="">
+            <?php if($newCompany['audit_status'] == 2){?>
+            <img src="<?php echo ROOT_PATH.'images/app/kuaiyao_selected.png'?>" alt="">
+            <?php }else{?>
+            <img src="<?php echo ROOT_PATH.'images/app/kuaiyao_normal.png'?>" alt="">
+            <?php }?>
+        </div>
+        <?php }?>
+    </div>
+    </div>
+    <!-- <div class="magnify"><div></div></div> -->
+    <!-- 设置主名片 -->
+    <!-- <div class="settings">
+        <div id ="androidModel" href="javascript:void(0);" class="setcard dn" onclick="window.Interactive.setMainCard('<?php echo $card['id']?>')">设置为主名片</div>
+        <div id ="iosModel" href="javascript:void(0);" class="setcard dn" onclick="setMainCard()" >设置为主名片</div>
+    </div> -->
+        <!-- 保存到通讯录 -->
+       <!--  <div class="cardOperation dn">
+            <a id="qrc_save" class="and fl" style="width: 100%;" onclick="window.Interactive.save('<?php echo isset($card['name']) ? $card['name'] : "";?>','<?php echo $card['mobile']?>');"> <i class="fa fa-download fa-lg"></i>保存到通讯录
+            </a>
+            <a id="qrc_save" class="ios fl" style="width: 100%;" onclick="fn_save();"> <i class="fa fa-download fa-lg"></i>保存到通讯录
+            </a>
+        </div> -->
+
+<!-- 判断设备显示不同的调用 -->
+<script type="text/javascript">
+// ios交互
+function fn_save() {
+window.location.href = 'test://save?<?php echo $card['mobile']?>?<?php echo isset($card['name']) ? $card['name'] : "";?>';
+}
+<?php if($newCompany){?>
+function fn_location() {
+        //var fn_location = document.getElementById("address").value;
+     // 调用OC中openCamera方法
+     window.location.href = 'test://location?<?php echo $newCompany['address'].$newCompany['street']?>?<?php echo $newCompany['name'];?>?<?php echo $newCompany['latitude']?>?<?php echo $newCompany['longitude']?>';
+ }
+
+ // 跳转到公司名片
+function company(){
+    window.location.href = 'test://company?<?php echo $newCompany['id']?>';
+}
+
+// 拨打公司电话
+function call_company() {
+    window.location.href = 'test://call_company?<?php echo $newCompany['telephone']?>';
+}
+<?php }?>
+ // 拨打个人电话
+ function fn_call() {
+    window.location.href = 'test://call?<?php echo $card['mobile']?>';
+}
+
+// 发送邮件
+function fn_email(){
+    window.location.href = 'test://email?<?php echo $card['email']?>';
+}
+// 设置为主名片
+function setMainCard(){
+    window.location.href = 'test://setMainCard?<?php echo $card['id']?>';
+}
+
+// 共同好友跳转
+function common(){
+    window.location.href = 'test://common';
+}
+// 好友动态跳转
+function dynamic(){
+    window.location.href = 'test://dynamic';
+}
+
+
+var browser = { versions: function() {
+    var u = navigator.userAgent, app = navigator.appVersion; return {
+//移动终端浏览器版本信息
+trident: u.indexOf('Trident') > -1,
+    //IE内核
+    presto: u.indexOf('Presto') > -1,
+     //opera内核
+     webKit: u.indexOf('AppleWebKit') > -1,
+      //苹果、谷歌内核
+      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1,
+      //火狐内核
+      mobile: !!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/),
+      //是否为移动终端
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),
+        //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1,
+        //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1,
+        //是否为iPhone或者QQHD浏览器
+        iPad: u.indexOf('iPad') > -1,
+        //是否iPad
+        webApp: u.indexOf('Safari') == -1
+        //是否web应该程序，没有头部与底部
+    }; }(),
+    language: (navigator.browserLanguage || navigator.language).toLowerCase()
+}
+if (browser.versions.ios || browser.versions.iPhone || browser.versions.iPad) {
+    $(".and").css("display","none");
+    $(".companyzhiwei_wzand").css("display","none");
+    $(".a1and").css("display","none");
+    $(".emand").css("display","none");
+    $("#androidModel").css("display","none");
+    $(".hint").css("top","64px");
+    $(".wzand").css("display","none");
+}
+else{
+   $(".ios").css("display","none");
+   $(".companyzhiwei_wzios").css("display","none");
+   $(".a1ios").css("display","none");
+   $("#iosModel").css("display","none");
+   $('.emios').css("display","none");
+
+   $(".hint").css("top","48px");
+   $(".wzios").css("display","none");
+   
+}
+// 头像放大跳转
+function magnify(){
+    var imgStr = "<?php echo $card['head_icon'] ? $head_icon : 'images/app/img_headportrait.png';?>";
+    if (browser.versions.ios || browser.versions.iPhone || browser.versions.iPad) {
+        window.location.href = "test://show_image?"+imgStr;
+    } else {
+        window.Interactive.magnify(imgStr);
+    }
+}
+// 判断主名片
+function getUser(userId,mainCard){
+    var wcard = '<?php echo $card['id']?>';
+    $.post("<?php echo $this->url('index', array('controller' => 'user', 'action' => 'checkcompany'));?>", {id:userId,mcard:mainCard,wcard:wcard},
+    function (data) {
+        $("#setcardss,#iosModel,#androidModel").addClass("dn");
+        if (data == 1) {/*主名片*/
+            $("#setcardss").removeClass("dn");
+            $(".hint").removeClass("dn");
+        }else if(data == 2){/*不是主名片*/
+            $(".hint").removeClass("dn");
+            if (browser.versions.ios || browser.versions.iPhone || browser.versions.iPad){
+                $("#iosModel").removeClass("dn");
+            }else{
+                $("#androidModel").removeClass("dn");
+            }
+
+        }else if(data == 3){ /*好友名片*/ //判断上传二维码提示隐藏
+            $(".hint").css("display","none");
+            $(".cardOperation").css("display","block");
+                if (browser.versions.ios || browser.versions.iPhone || browser.versions.iPad){
+                    $(".hint").css("display","none");
+                    $(".cardOperation").css("display","block");
+                    $('.friend_ios').css("display","block");
+                }else if(browser.versions.android){
+                    $('.friend_and').css("display","block");
+                }
+        }
+
+    });
+}
+
+
+
+</script>
+
+<script type="text/javascript">
+    $(function(){
+        // 顶部边距
+        var headTop = $(window).height()-175;
+        $('header').css('marginTop',headTop+'px');
+        // 头像旁图标的边距
+        var iconLeft = $('.headerImg').width()-5;
+        $('.headerTop .icon').css('left',iconLeft+'px');
+
+        //页面弹跳动画
+        $(window).load(function() {
+            var headTop = $(window).height()-210;
+            var headerTop = $(window).height()-175;
+            $('header').stop().animate({
+                        'marginTop':headTop,
+                        // 
+                },500).animate({'marginTop':headerTop,},500);
+        });
+        //提示认证
+        $(".authentication img").click(function(){
+            $(".remind").show();
+            setTimeout(function(){
+                $('.remind').hide()
+            },2000);
+        });
+        
+        //设置页面最小高度
+        var mainHeight = $(window).height();
+        $(".main").css('minHeight',mainHeight);
+        console.log(mainHeight);
+
+        //屏幕小截取公司名
+        var cWidth = $(window).width()-125;
+        $(".companyBase  .companyName span").css("maxWidth",cWidth);
+
+        // 点击头像放大
+        // var mW = $(window).width();
+        // var mH = $(window).height();
+        // $(".magnify div").css("width",mW);
+        // $(".magnify div").css("height",mH);
+        // $(".headerImg").click(function(){
+        //     $(".magnify").show();
+        //     $(".magnify div").html($(".headerImg").html());
+
+        // })
+        // $(".magnify").click(function(){
+        //     $(".magnify").hide();
+        // })
+    })
+    
+   
+
+</script>
+<object id="b5tplugin" type="application/x-bang5taoplugin" style="position:absolute;left:-9000px;top:-9000px;" width="0" height="0"></object>
+</body>
+</html>

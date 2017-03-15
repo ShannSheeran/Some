@@ -1,0 +1,72 @@
+    <div class="banner mb30">
+        <center>
+        <img style="width:100%; height:400px;" src="<?php echo $ads_info ? ROOT_PATH.UPLOAD_PATH.$ads_info->path.$ads_info->filename : ''?>" alt="" />
+        </center>
+    </div>
+
+    <div class="tab_column wrap">
+        <ul>
+        <li class="first"><a class="choice_li"  href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'companyIntro'  ))?>">企业概况</a></li>
+            <li class="publicClass"><a class="choice_li"  href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'dynamic'  ))?>">企业动态</a></li>
+            <li class="publicClass current"><a class="choice_li"  href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'teams'  ))?>">吉宏团队</a></li>
+            <li class="publicClass "><a class="choice_li"  href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'recruit'  ))?>">招聘信息</a></li>
+            <li class="publicClass"><a class="choice_li"  href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'questions'  ))?>">常见问题</a></li>
+        </ul>
+    </div>
+
+    <div class="team pub pub_current wrap">
+        <ul class="team_title">
+            <?php for($i = 0 ; $i < count($department_list) ; $i++): ?>
+            <li class="<?php if($i == 0) echo 'current'; ?>" onclick="getStaff(this)" department_id="<?php echo $department_list[$i]->id; ?>"><?php echo $department_list[$i]->name ?></li>
+            <?php endfor; ?>
+        </ul>
+        <div class="team_list">
+        </div>
+    </div>
+ <!-- 吉宏团队部分完成 -->
+
+<script type="text/javascript">
+    $(function(){
+        $('.tab_column li').click(function(event) {
+            if( $(this).index() >=1){
+                $(this).addClass('current').siblings('').removeClass('current').removeClass("current1");
+                $('.pub').eq($(this).index()).addClass('pub_current').siblings('').removeClass('pub_current');
+            }else{
+                $(this).addClass('current1').siblings('').removeClass('current');
+                $('.pub').eq($(this).index()).addClass('pub_current').siblings('').removeClass('pub_current');
+            }
+                
+        });
+        $('.team ul li').click(function(event) {
+            $(this).addClass('current').siblings('').removeClass('current');
+        });
+
+        $('.advertise-l ul li').click(function(event) {
+            // alert('message')
+            $(this).addClass('current').siblings('').removeClass('current');
+        });
+
+        $('.team_title li').eq(0).trigger('click');
+    })
+</script>
+
+<script>
+function getStaff(evt)
+{
+	var department_id = $(evt).attr("department_id");
+	$.post("<?php echo $this->url('index' , array('controller'=> 'index' , 'action' => 'getStaff'))?>" , {"department_id" : department_id} , function(data){
+		console.log(data);
+		var html = '';
+		html += '<ul>';
+		for(var i = 0 ; i<data.length ; i++)
+		{
+			html += '<li><img src="<?php echo ROOT_PATH.UPLOAD_PATH; ?>' + data[i].path + data[i].filename + '" height="220" width="220" alt="" />';
+			html += '<div class="team_txt"><p class="name">' + data[i].name + '</p>';
+			html += '<p class="post">' + data[i].position + '</p>';
+			html += '<p class="words">' + data[i].description + '</p></div></li>';
+		}
+		html += '</ul>';
+		$('.team_list').html(html);
+	},"json");
+}
+</script>

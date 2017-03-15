@@ -1,0 +1,95 @@
+
+<!-- Responsive Table -->
+<!-- Table exporting -->
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			<a
+				href="<?php echo $this->url('admin-microblog',array('action'=>'report','cid'=>0))?>">
+				<button class="btn btn-large <?php if($cid==0){?>btn-info<?php }?>">待处理</button>
+			</a>
+			<a
+				href="<?php echo $this->url('admin-microblog',array('action'=>'report','cid'=>2))?>">
+				<button class="btn btn-large <?php if($cid==2){?>btn-info<?php }?>">举报被确认</button>
+			</a>
+			<a
+				href="<?php echo $this->url('admin-microblog',array('action'=>'report','cid'=>3))?>">
+				<button class="btn btn-large <?php if($cid==3){?>btn-info<?php }?>">举报被撤销</button>
+			</a>
+			<form class="form-horizontal"
+				action="<?php echo $this->url('admin-microblog',array('action'=>'report','cid'=>$cid))?>"
+				method="post" style="float: right; margin-left: 20px;">
+				<span style="font-weight: bold; font-size: 16px;"> 搜索全表</span>
+				：
+				<input type="text" name="keyword" value="<?php echo $keyword?>"
+					placeholder="搜索 ID、发布人、 举报人">
+				<input type="submit" name="submit" value="搜索" class="btn btn-info"
+					style="height: 25px; width: 60px; line-height: 25px; padding: 0; margin-left: 10px; margin-top: 5px;" />
+			</form>
+		</h3>
+
+		<div class="panel-options">
+
+			<a href="#" data-toggle="panel">
+				<span class="collapse-icon">&ndash;</span>
+				<span class="expand-icon">+</span>
+			</a>
+			<a href="#" data-toggle="remove"> &times; </a>
+		</div>
+	</div>
+	<div class="panel-body">
+		<table class="table table-bordered table-striped" id="example-4">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>举报类型</th>
+					<th>举报内容</th>
+					<th>举报人</th>
+					<th>发布人</th>
+					<th>内容</th>
+					<th>转发</th>
+					<th>评论</th>
+					<th>赞</th>
+					<th>状态</th>
+					<th>举报时间</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+						  <?php foreach ($list as $v){?>
+
+							<tr>
+					<td><?php echo $v->id?></td>
+					<td><?php echo $v->type == 1 ? '虚假信息' : '违法信息'?></td>
+					<td><?php echo emoji_unified_to_html(mb_substr($v->description, 0, 25, 'UTF-8'));?></td>
+					<td>
+						<a
+							href="<?php echo $this->url("admin-user",array('action'=>'details','id'=>$v->ru_user_id))?>"><?php echo $v->ru_nickname;?></a>
+					</td>
+					<td>
+						<a
+							href="<?php echo $this->url("admin-user",array('action'=>'details','id'=>$v->user_id))?>"><?php echo $v->nickname;?></a>
+					</td>
+					<td><?php echo mb_substr($v->content, 0, 25, 'UTF-8');?></td>
+					<td><?php echo $v->stat_repost?></td>
+					<td><?php echo $v->stat_comment?></td>
+					<td><?php echo $v->stat_praise?></td>
+					<td>
+						<span style="color: red;"><?php $status = $v->status;if($status==1){echo '处理中';}elseif($status==2){echo '举报被确认';}elseif($status==3){echo '举报被撤销';}else{echo '待处理';}?></span>
+					</td>
+					<td><?php echo date("Y-m-d H:i",strtotime($v['timestamp']));?></td>
+					<td>
+						<a class="btn btn-success"
+							href="<?php echo $this->url("admin-microblog",array("action"=>"reportDetails","id"=>$v->id))?>">查看</a>
+					</td>
+				</tr>
+
+							<?PHP }?>
+							
+						  </tbody>
+		</table>
+
+						<?php    echo $this->paginationControl($paginator, 'Sliding', 'page',array('route' =>'new-admin-microblog','condition'=>$condition));?> 
+						</div>
+
+</div>

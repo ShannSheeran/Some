@@ -1,0 +1,64 @@
+<!-- Responsive Table -->
+<!-- Table exporting -->
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			<a
+				href="<?php echo $this->url('admin-ads',array('action'=>'positionDetails'))?>">
+				<button class="btn btn-large btn-info">
+					<i class="icon-edit icon-white"></i>
+					新增广告位
+				</button>
+			</a>
+			<form class="form-horizontal"
+				action="<?php echo $this->url('admin-ads',array('action'=>'position'))?>"
+				method="post" style="float: right; margin-left: 20px;">
+				<span style="font-weight: bold; font-size: 16px;"> 搜索全表：</span>
+				<input type="text" name="keyword" value="<?php echo $keyword?>"
+					placeholder="搜索 广告位名">
+				<input type="submit" name="submit" value="搜索"
+					class="btn btn-large btn-info"
+					style="height: 25px; width: 60px; line-height: 25px; padding: 0; margin-left: 10px; margin-top: 5px;" />
+			</form>
+		</h3>
+
+		<div class="panel-options">
+
+			<a href="#" data-toggle="panel">
+				<span class="collapse-icon">&ndash;</span>
+				<span class="expand-icon">+</span>
+			</a>
+			<a href="#" data-toggle="remove"> &times; </a>
+		</div>
+	</div>
+	<div class="panel-body">
+		<table class="table table-bordered table-striped" id="example-4">
+					<thead>
+						<tr>
+
+							<th>广告位名字</th>
+							<th>广告位宽(px)</th>
+							<th>广告位高(px)</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						  <?php foreach ($list as $v):?>
+							<tr>
+
+							<td><?php echo $v['name']?></td>
+							<td><?php echo $v['width']?></td>
+							<td><?php echo $v['height']?></td>
+							<td>
+								<a class="btn btn-success"
+									href="<?php echo $this->url('admin-ads',array('action'=>'positionDetails','id' => $v['id'])); ?>">查看</a>
+								<!-- <a class="btn btn-danger" href="#" onclick="show_confirm('<?php echo $this->url('admin-ads',array('action'=>'positionDelet','id' => $v['id'])); ?>')">删除</a> -->
+							</td>
+						</tr>
+							<?php endforeach;?>
+						  </tbody>
+				</table>
+					  
+					       <?php    echo $this->paginationControl($paginator, 'Sliding', 'page',array('route' =>'new-admin-ads','condition'=>$condition));?>        
+					</div>
+		</div>

@@ -1,0 +1,120 @@
+<script src="<?php echo $this->basePath();?>/js/admin/ajaxfileupload.js"></script><!-- //上传JS -->
+<script src="<?php echo $this->basePath();?>/js/admin/jedate.min.js"></script>
+<script type="text/javascript">
+var url = '<?php echo $this->url('admin-common',array('action'=>'getAdminFile')) ;?>';
+</script>
+<style>
+    .tl{text-align: right;}
+    .main-nody{padding:5px 20px 0 20px;}
+    .main-nody h5{float: left;}
+    .tp{margin-top: 30px;}
+    .bc-1{display: none;}
+    .fl{float: left;}
+    .pd5{
+        padding:5px;	
+    }
+    .w450{
+	   width:450px;
+    }
+</style>
+<script src="<?php echo $this->basePath();?>/kindeditor/kindeditor.js"></script>
+<div class="panel panel-default">
+   <div class="panel-heading">
+       <div calss="row">
+           <div class="col-sm-6">
+               <a href="<?php echo $this->url('admin-information' , array('action' => 'platform'));?>">信息管理 </a> 
+               / <a href="<?php echo $this->url('admin-information' , array('action' => 'platform'));?>">资讯管理</a>
+               /
+               <?php if(isset($id) && $id): ?> 
+               <a href="">编辑资讯</a>    
+               <?php else: ?>
+               <a href="">新增资讯</a>    
+               <?php endif;?>
+           </div>
+       </div>
+   </div>
+    <div class="pannel-body main-nody">
+            <?php if($id){ ?>
+            <form class="form-horizontal" action="<?php echo $this->url('admin-information' , array('action' =>'editInformation')); ?>" method="post" >
+            <?php }else{ ?>
+            <form class="form-horizontal" action="<?php echo $this->url('admin-information' , array('action' =>'addInformation')); ?>" method="post" >
+            <?php } ?>
+            <div class="row">
+                <div class="col-lg-12">
+                   <?php if(isset($id) && $id): ?> 
+                   <h5>编辑资讯</h5>
+                   <?php else: ?>
+                   <h5>新增资讯</h5>
+                   <?php endif;?>
+                </div>
+                <div class="col-lg-12">
+                
+                    <table class="table table-striped" id="example-4" >
+                        <tbody>
+                            <tr>
+                                <td>资讯栏目</td>
+                                <td>
+                                     <select class="pd5" id="category" name="column_id" required>
+                                    <?php foreach ($column_list as $key =>  $item): ?>
+                                    <option value="<?php echo $key; ?>" <?php if( !empty($information_info) && $key == $information_info->article_category_id){ echo 'selected'; } ?> ><?php echo $item->name; ?></option>
+                                    <?php endforeach;?>
+                                </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>资讯标题</td>
+                                <td>
+                                    <input type="text" name="title" value="<?php echo isset($information_info->title)? $information_info->title :'' ?>" class="pd5 w450"  required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>广告封面</td>
+                                <td>
+                                    <input type="file" id="img0" name="Filedata" onchange="return ajaxFileUpload('0');" />
+                                    <input type="hidden" name="image" value="<?php echo isset($image) ? $image['id'] : ''?>" id="img_id_0" /> <br />
+                                    <span style="clear: both;">
+        							     <img src="<?php if($image){echo ROOT_PATH.UPLOAD_PATH.$image['path'].$image['filename'];}else{echo ROOT_PATH .  'images/no_pic.gif'; } //ROOT_PATH . 'adminStyle/img/no_pic.gif';}?>" width="200" height="200" id="img_0" />
+        							</span>
+                                    <!-- </div> -->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>资讯内容</td>
+                                <td>
+                                    <textarea id="editor_id" name="content" style="width:700px;height:300px;"><?php echo isset($information_info->content)? $information_info->content :''; ?></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>APP端资讯内容</td>
+                                <td>
+                                    <textarea id="app_editor_id" name="app_content" style="width:700px;height:300px;"><?php echo isset($information_info->app_content)? $information_info->app_content :''; ?></textarea>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="row tp">
+                <div class="col-lg-12">
+                    <h5>
+                        <input type="hidden" value="<?php echo isset($id)? $id : ''; ?>" name="id" >
+                        <button type="submit" name="submit" value="提交"  class="btn btn-info btn-large">提交</button>
+                     </h5>
+                </div>
+            </div>
+        </form>
+    </div>
+</div> 
+<script>
+    KindEditor.ready(function(K) {
+        window.editor = K.create('#editor_id', {
+            filterMode: false,//是否开启过滤模式
+        });
+    });
+    KindEditor.ready(function(K) {
+        window.editor = K.create('#app_editor_id', {
+            filterMode: false,//是否开启过滤模式
+        });
+    });
+</script>

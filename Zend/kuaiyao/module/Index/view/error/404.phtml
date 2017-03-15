@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>首页</title>
+		<style type="text/css">
+		*
+		{
+			margin: 0px;
+			padding: 0px;
+		}
+		.wran_box
+		{
+			background: url(<?php echo ROOT_PATH?>images/wran_1.png) no-repeat center top;
+			position: relative;
+		}
+		.wran_code
+		{
+			font-size: 50px;
+			color: white;
+			left: 50%;
+			top: 100px;
+			padding-top: 111px;
+			padding-bottom: 200px;
+			text-align: center;
+		}
+		.wran_info,.behavior
+		{
+			font-size: 18px;
+			text-align: center;
+			padding: 5px 0px;
+		}
+		.wran_cat
+		{
+			width: 447px;
+			height: 295px;
+			position: absolute;
+			left: 50%;
+			margin-left: 50px;
+			top: 384px;
+			background: url(<?php echo ROOT_PATH?>images/wran_2.png) no-repeat left top;
+		}
+		</style>
+	</head>
+	<body>
+		<div class="wran_box">
+			<p class="wran_code">404</p>
+			<p class="wran_info">哦哟...页面错误</p>
+			<p class="behavior"><a href="javascript:history.go(-1);">返回上一页</a>，让我们重新来过</p>
+			<div class="wran_cat"></div>
+		</div>
+	</body>
+</html>

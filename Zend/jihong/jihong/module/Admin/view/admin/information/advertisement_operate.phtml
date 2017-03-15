@@ -1,0 +1,149 @@
+<?php //echo $this->headLink()->appendStylesheet($this->basePath() . '/css/admin/uploadify.css');?>
+<!-- <script src="<?php //echo $this->basePath();?>/js/admin/jquery.uploadify-3.1.min.js"></script>
+<script src="<?php //echo $this->basePath();?>/js/admin/Uploads.js"></script> -->
+<script src="<?php echo $this->basePath();?>/js/admin/ajaxfileupload.js"></script><!-- //上传JS -->
+<script src="<?php echo $this->basePath();?>/js/admin/jedate.min.js"></script>
+<script type="text/javascript">
+//var swf ='<?php //echo $this->basePath() . '/js/admin/uploadify.swf'?>';
+var url = '<?php echo $this->url('admin-common',array('action'=>'getAdminFile')) ;?>';
+</script>
+<!-- 图片上传样式 -->
+<style>
+<style>
+    .tl{text-align: right;}
+    .main-nody{padding:5px 20px 0 20px;}
+    .main-nody h5{float: left;}
+    .tp{margin-top: 30px;}
+    .bc-1{display: none;}
+    .fl{float: left;}
+    .pd5{
+        padding:5px;	
+    }
+</style>
+<script src="<?php echo $this->basePath();?>/kindeditor/kindeditor.js"></script>
+<div class="panel panel-default">
+   <div class="panel-heading">
+       <div calss="row">
+           <div class="col-sm-6">
+               <a href="<?php echo $this->url('admin-information' , array('action' => 'platformInformation'));?>">信息管理 </a> 
+               / <a href="<?php echo $this->url('admin-information' , array('action' => 'advertisementPosition'));?>">广告管理</a> 
+               / 
+               <?php if(isset($id) && $id): ?> 
+               <a href="">编辑广告</a>    
+               <?php else: ?>
+               <a href="">新增广告</a>    
+               <?php endif;?>
+           </div>
+       </div>
+   </div>
+    <div class="pannel-body main-nody">
+        <?php if($id){ ?>
+        <form class="form-horizontal" action="<?php echo $this->url('admin-information' , array('action' =>'editAdvertisement')); ?>" method="post"  enctype="multipart/form-data">
+        <?php }else{ ?>
+        <form class="form-horizontal" action="<?php echo $this->url('admin-information' , array('action' =>'addAdvertisement')); ?>" method="post"  enctype="multipart/form-data">
+        <?php } ?>
+            <div class="row">
+                <div class="col-lg-12">
+                    <h5>广告信息</h5>
+                </div>
+                <div class="col-lg-12">
+                    <table class="table table-striped" id="example-4" >
+                        <tbody>
+                            <tr>
+                                <td>广告位</td>
+                                <td>
+                                    <select class="pd5" name="position_id">
+                                        <?php foreach ($ads_position_list as $key => $value): ?>
+                                        <option value="<?php echo $key?>" <?php if(isset($advertisement_info->position_id) && $advertisement_info->position_id == $key){ echo  'selected'; }elseif($cid == $key ){echo  'selected'; } ?>><?php echo $value->name; ?></option>
+                                        <?php endforeach;?>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>广告序号</td>
+                                <td>
+                                    <input type="number" name="sort"  min="0" value="<?php echo isset($advertisement_info->sort) ? $advertisement_info->sort :''?>" class="pd5" >
+                                    <span> 编号越小则在同广告位中顺序越靠前</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>开始时间</td>
+                                <td>
+                                    <input class="datainp" id="start_time" type="text" placeholder="请选择"  readonly value="<?php echo isset($advertisement_info->start_time) ? $advertisement_info->start_time :''?>" name="start_time"  style="line-height:22px;width:160px">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>结束时间</td>
+                                <td>
+                                    <input class="datainp" id="end_time" type="text" placeholder="请选择"  readonly value="<?php echo isset($advertisement_info->end_time) ? $advertisement_info->end_time :''?>" name="end_time"  style="line-height:22px;width:160px">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>广告封面</td>
+                                <td>
+                                    <input type="file" id="img0" name="Filedata" onchange="return ajaxFileUpload('0');" />
+                                    <input type="hidden" name="image" value="<?php echo isset($image) ? $image['id'] : ''?>" id="img_id_0" /> <br />
+                                    <span style="clear: both;">
+        							     <img src="<?php if($image){echo ROOT_PATH.UPLOAD_PATH.$image['path'].$image['filename'];}else{echo ROOT_PATH .  'images/no_pic.gif'; } //ROOT_PATH . 'adminStyle/img/no_pic.gif';}?>" width="200" height="200" id="img_0" />
+        							</span>
+                                    <!-- </div> -->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>广告正文</td>
+                                <td>
+                                    <textarea id="editor_id" name="description" style="width:700px;height:300px;"><?php echo isset($advertisement_info->description)? $advertisement_info->description :''; ?></textarea>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="row tp">
+                <div class="col-lg-12">
+                    <h5>
+                        <input type="hidden" value="<?php echo isset($id) ? $id :'';?>" name="id">
+                        <button type="submit" name="submit"  value="提交" class="btn btn-info btn-large">提交</button>
+                     </h5>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    KindEditor.ready(function(K) {
+        window.editor = K.create('#editor_id', {
+            filterMode: false,//是否开启过滤模式
+        });
+    });
+</script>
+
+<script type="text/javascript">	
+var start ={
+	dateCell:"#start_time",
+	format:"YYYY-MM-DD hh:mm:ss",
+	isinitVal:false,
+	isTime:true, 
+	//maxDate: jeDate.now(0),
+	minDate:"1970-01-01 00:00:00",
+	choosefun: function(datas){
+		end.minDate = datas;
+    }
+};
+var end ={
+	dateCell:"#end_time",
+	format:"YYYY-MM-DD hh:mm:ss",
+	isinitVal:false,
+	isTime:true,
+	minDate:"1970-01-01 00:00:00",
+	//maxDate: jeDate.now(0),
+	choosefun: function(datas){
+        start.maxDate = datas;
+    }
+}
+jeDate(start);
+jeDate(end);
+</script>

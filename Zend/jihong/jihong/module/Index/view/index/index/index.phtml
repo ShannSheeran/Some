@@ -1,0 +1,339 @@
+<script type="text/javascript" src="<?php echo $this->basePath();?>/js/index.js"></script>
+    <div class="fullSlide">
+            <div class="bd">
+                <ul>
+                    <?php for ($i = 0 ; $i < count($ads_list) ; $i++ ): ?>
+                    <li class="li0<?php echo ($i + 1);?>">
+                        <a href="#">
+                            <center>
+                                <img src="<?php echo ROOT_PATH.UPLOAD_PATH.$ads_list[$i]['path'].$ads_list[$i]['filename']; ?>">
+                            </center>
+                        </a>
+                    </li>
+                    <?php endfor; ?>
+                </ul>
+            </div>
+            <div class="hd">
+                <ul>
+                    <?php for ($i = 0 ; $i < count($ads_list) ; $i++ ): ?>
+                    <li><?php echo $i + 1;?></li>
+                    <?php endfor;?>
+                </ul>
+            </div>
+    </div>
+    <script type="text/javascript">jQuery(".fullSlide").slide({ titCell:".hd ul", mainCell:".bd ul", effect:"fold",  autoPlay:true, autoPage:true, trigger:"click" });</script>
+    <div class="main wrap clearfix">
+        <div class="main_l fl">
+            <?php if(empty($user_info)): ?>
+            <div class="login_box mb4">
+                <div class="txt mb">
+                    <h2 class="fl supplier current" enterpris_type="1">经销商</h2>
+                    <h2 class="fr agency" enterpris_type="2">供应商</h2>
+                </div>
+                <div class="account_bd current">
+                        <p style="position:absolute;top:700px;color:#c4234c;" id="errorTip"></p>
+                        <input type="hidden" value="1" name="type" id="enterprisType">
+                        <div class="account clearfix mb">
+                            <div class="fl account_l"></div>
+                            <input class="fl account_r" type="text" name="name" placeholder="请输入账号" id="user_name" />
+                        </div>
+                        <div class="account clearfix mb">
+                            <div class="fl pass_word"></div>
+                            <input class="fl pass_word_r" type="password" name="password" placeholder="请输入密码"  id="user_password" />
+                        </div>
+                        <div class="test clearfix mb">
+                            <input class="fl test_txt" style="display:<?php echo (isset($_SESSION['login_number']) && $_SESSION['login_number'] > 2) ? '' :'none' ?>" type="text" name="captcha" placeholder="请输入验证码"  id="code" />
+                            <div class="fl" id="captchaImg" style="display:<?php echo (isset($_SESSION['login_number']) && $_SESSION['login_number'] > 2) ? '' :'none' ?>">
+                                <img id="Captcha" src="" onclick="onvdcodeFocus()"  class="test_word" >
+                            </div>
+                        </div>
+                        <div>
+                            <input class="loging bfcorosered" type="button" onclick="login()" name="submit"  value="登录" />
+                        </div>
+                    <div class="version clearfix">
+                        <a class="fl corgray6 font14" href="<?php echo $this->url('index' , array('controller' => 'login' , 'action' => 'forgetPassword'))?>">忘记密码<!-- <span class="fl corgray6 font14">忘记密码</span> --></a>
+                        <a class="fr corblue font14" href="<?php echo $this->url('index' , array('controller' => 'login' , 'action' => 'register'))?>">注册账号>><!-- <span class="fr corblue font14">注册账号>></span> --></a>
+                    </div>
+                </div>
+            </div>
+            <?php else: ?>
+            <div class="login_box mb4">
+                <div class="top clearfix">
+                    <div class="top-l fl">
+                        <div class="top_l_con font16 corgrayf">
+                        <?php if($user_info->type == 1): ?>
+                            经销商
+                         <?php elseif ($user_info->type == 2): ?>
+                            供应商
+                         <?php endif; ?>
+                        </div>
+                    </div>
+                    <div class="top_r fl">
+                        <h3 class="font18 corosered conpany"><?php echo $user_info->company_name; ?></h3>
+                        <p class="fl heart"><a class="corgray6" href="<?php echo $this->url('index' , array('controller' => 'user' , 'action' => 'user'))?>">会员中心</a></p>
+                        <p class="fl logout"><a class="corgray6" href="<?php echo $this->url('index' , array('controller' => 'login' , 'action' => 'logout')) ?>">安全退出</a></p>
+                    </div>
+                </div>
+                <?php if ($user_info->type == 2): ?>
+                <div class="supplier_con">
+                    <p class="clearfix">
+                        <span class="fl font16 corgray6">商品订单：<i><?php echo $goods_count ?></i></span>
+                        <a class="fr font16 corblue" href="<?php echo $this->url('index' , array('controller' => 'user' , 'action' => 'myGoods'))?>">查看</a>
+                    </p>
+                    <p class="clearfix">
+                        <span class="fl font16 corgray6">资材订单：<i><?php echo $equipment_count ?></i></span>
+                        <a class="fr font16 corblue" href="<?php echo $this->url('index' , array('controller' => 'order' , 'action' => 'index'))?>">查看</a>
+                    </p>
+                    <p class="clearfix">
+                        <span class="fl font16 corgray6">市场反馈：<i><?php echo $market_feekback_count ?></i></span>
+                        <a class="fr font16 corblue" href="<?php echo $this->url('index' , array('controller' => 'service' , 'action' => 'marketFeedback'))?>">查看</a>
+                    </p>
+                    <p class="clearfix">
+                        <span class="fl font16 corgray6">最近热销：<i><?php echo $hot_sale_count ?></i></span>
+                        <a class="fr font16 corblue" href="<?php echo $this->url('index' , array('controller' => 'goods' , 'action' => 'hotSeller'))?>">查看</a>
+                    </p>
+                </div>
+                <div class="bottom">
+                    <ul class="clearfix">
+                        <li class="fl">
+                            <a href="<?php echo $this->url('index' , array('controller' => 'goods' , 'action' => 'releaseGoods'))?>" class="font16 corosered">发布商品</a>
+                        </li>
+                        <li class="fl">
+                            <a href="<?php echo $this->url('index' , array('controller' => 'goods' , 'action' => 'shopList' , 'type' => 2))?>" class="font16 corosered second">资材订购</a>
+                        </li>
+                    </ul>
+                </div>
+                <?php elseif ($user_info->type == 1): ?>
+                <div class="supplier_con">
+                    <p class="clearfix">
+                        <span class="fl font16 corgray6">我的订单：<i><?php echo $order_count; ?></i></span>
+                        <a class="fr font16 corblue" href="<?php echo $this->url('index' , array('controller' => 'order' , 'action' => 'index'))?>">查看</a>
+                    </p>
+                    <p class="clearfix">
+                        <span class="fl font16 corgray6">待付订单：<i><?php echo $pay_order_count; ?></i></span>
+                        <a class="fr font16 corblue" href="<?php echo $this->url('index' , array('controller' => 'order' , 'action' => 'index' , 'id' =>1 , 'status'=>1))?>">查看</a>
+                    </p>
+                    <p class="clearfix">
+                        <span class="fl font16 corgray6">本周供应：<i><?php echo $weekly_plan_supply_number; ?></i></span>
+                        <a class="fr font16 corblue" href="<?php echo $this->url('index' , array('controller' => 'order' , 'action' => 'supplyPlan' ))?>">查看</a>
+                    </p>
+                    <p class="clearfix">
+                        <span class="fl font16 corgray6">新货上市：<i><?php echo $new_goods_count; ?></i></span>
+                        <a class="fr font16 corblue" href="<?php echo $this->url('index' , array('controller' => 'goods' , 'action' => 'shopList' ,'sort' =>4 ))?>">查看</a>
+                    </p>
+                </div>
+                <div class="bottom">
+                    <ul class="clearfix">
+                        <li class="fl">
+                            <a href="<?php echo $this->url('index' , array('controller' => 'goods' , 'action' => 'shopList' , 'type' => 1))?>" class="font16 corosered">盆栽订购</a>
+                        </li>
+                        <li class="fl">
+                            <a href="<?php echo $this->url('index' , array('controller' => 'goods' , 'action' => 'shopList' , 'type' => 2))?>" class="font16 corosered second">资材订购</a>
+                        </li>
+                    </ul>
+                </div>
+                <?php endif; ?>
+            </div>
+            <?php endif; ?>
+            <div class="contactus">
+                <h3 class="title bfcorosered">联系我们</h3>
+                <div class="contact_box corgray6">
+                    <p>客服热线：<?php echo $setting[2]->text ?></p>
+                    <p>传真：<?php echo $setting[3]->text ?></p>
+                    <p>E-mail：<?php echo $setting[4]->text ?></p>
+                    <p style="width:282px;word-break:break-all">地址：<?php echo $setting[1]->text ?></p>
+                    <!-- <p>园艺西街18号（510375）</p> -->
+                </div>
+            </div>
+        </div>
+        <div class="main_r fl">
+            <div class="introduction">
+                <div class="intro_txt clearfix">
+                    <p class="fl font18">企业概况</p>
+                    <a class="fr corosered" href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'companyIntro'  ))?>">更多>></a>
+                </div>         
+            </div>
+            <div class="intro_txt_bd clearfix">
+                    <div class="pic fl">
+                        <img src="<?php echo isset($company_intro_image) ? ROOT_PATH.UPLOAD_PATH.$company_intro_image->path.$company_intro_image->filename : '' ?>" height="161" width="160" alt="" />
+                    </div>
+                    <div class="content corgray6 fl" style="overflow: hidden">
+                    <?php echo $company_intro->content ?>
+                    </div>
+            </div>
+
+            <div class="introduction">
+                <div class="intro_txt clearfix">
+                    <p class="fl font18">企业动态</p>
+                    <a class="fr corosered" href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'dynamic'  ))?>">更多>></a>
+                </div>         
+            </div>
+            <div class="dynamic">
+                <?php foreach($platform_informaion_list as $value): ?>
+                <a class="corgray6"  href="">
+                    <p class="clearfix">
+                        <a class="fl font14 corgray3" href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'articleDetail' , 'id' =>  $value->id ,'cid' => 1 ))?>"><?php echo $value->title; ?></a>
+                        <span class="fr font14"><?php echo substr($value->timestamp , 0 , 10); ?></span>
+                    </p>
+                </a>
+                <?php endforeach; ?>
+            </div>
+            <div class="introduction mt31">
+                <div class="intro_txt clearfix">
+                    <p class="fl font18">热销产品</p>
+                    <a class="fr corosered" href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'supplyList'  ))?>">更多>></a>
+                </div>         
+            </div>
+            <div class="picScroll mt16">
+                <ul>
+                    <?php 
+                        foreach($hotsale_goods_list as $value): 
+                            $img_id = $value->image ? explode(',', trim($value->image,",")) : array();
+                    ?>
+                    <li>
+                        <a href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'supplyDetail'  , 'id' => $value->id ))?>">
+                            <center>
+                                <img src="<?php echo (isset($img_id[0]) && isset($images[$img_id[0]]['path'])) ? ROOT_PATH.UPLOAD_PATH.'thumb/150X150X3/'.$images[$img_id[0]]['path'].$images[$img_id[0]]['filename'] : '';?>" height="150" width="150" alt="" />
+                            </center>
+                            <p class="corgray3"><?php echo $value->name; ?></p>
+                        </a>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+            <script type="text/javascript">jQuery(".picScroll").slide({ mainCell:"ul", effect:"leftMarquee", vis:4, autoPlay:true, interTime:50, switchLoad:"_src" });</script>
+        </div> 
+    </div>
+    
+<script type="text/javascript">
+$(document).ready(function(){
+   // 供应商、经销商登陆切换
+   $('.login_box .txt h2').click(function(event) {
+       $(this).addClass('current').siblings('').removeClass('current');
+       //$('.login_box .account_bd').eq($(this).index()).addClass('current').siblings('').removeClass('current');
+
+       $('#user_name').val('');
+       $('#user_password').val('');
+       $('#code').val('');
+       $('#enterprisType').val($(this).attr('enterpris_type'));
+   });
+
+   $('.turnover').css("position","relative");
+});
+
+onvdcodeFocus();
+function onvdcodeFocus()
+{
+	$.post("<?php echo $this->url('admin-common',array('action'=>'generateCaptcha'))?>",
+		function(data){    		    	     
+			$("#Captcha").attr("src",data);
+		});
+}
+
+$('#user_name').blur(function(){
+	if(!$('#user_name').val())
+	{
+		$('#user_name').css('border' , "1px solid red");
+		$('#user_name').css('borderRadius' , "5px");
+		//$('#user_name').focus();
+	}
+	else
+	{
+		$('#user_name').css('border' , "1px solid #ccc");
+	}
+})
+
+$('#user_password').blur(function(){
+	if(!$('#user_password').val() || $('#user_password').val().length<6)
+	{
+		$('#user_password').css('border' , "1px solid red");
+		$('#user_password').css('borderRadius' , "5px");
+		//$('#user_password').focus();
+	}
+	else
+	{
+		$('#user_password').css('border' , "1px solid #ccc");
+	}
+})
+
+$('#code').blur(function(){
+	if(!$('#code').val())
+	{
+		$('#code').css('border' , "1px solid red");
+		$('#code').css('borderRadius' , "5px");
+		$('#code').focus();
+	}
+	else
+	{
+		$('#code').css('border' , "1px solid #ccc");
+	}
+})
+
+var actLogin = true;
+function login()
+{
+    if(!actLogin)
+    {
+        return false;
+    }
+	
+	var user_name = $('#user_name').val();
+	var user_password = $('#user_password').val();
+	if(!user_name)
+	{
+		$('#user_name').css('border' , "1px solid red");
+		$(' #user_name').css('borderRadius' , "5px");
+		return false;
+	}
+	
+	
+	if(!user_password  ||  user_password.length<6)
+	{
+		$('#user_password').css('border' , "1px solid red");
+		$('#user_password').css('borderRadius' , "5px");
+		return false;
+	}
+	
+    if($('#code').css("display") == "block" && $('#code').val() == '' )
+    {
+    	$('#code').css('border' , "1px solid red");
+		$('#code').css('borderRadius' , "5px");
+		return false;
+    }
+    
+    $('#code').css('border' , "1px solid #ccc");
+    $('#user_name').css('border' , "1px solid #ccc");
+    $('#user_password').css('border' , "1px solid #ccc");
+	
+    actLogin = false;
+	user_password = $.md5(user_password);
+    type = $('#enterprisType').val();
+    code = $('#code').val();
+    
+    $.post('<?php echo $this->url('index' , array('controller' => 'login' , 'action' => 'login'))?>' , {"name" : user_name , "password" : user_password ,"type" : type , 'captcha' : code } ,function(data){
+        console.log(data);
+        if(data.status == 0)
+        {
+            location.href="<?php echo $this->url('index', array('controller' =>'index', 'action' => 'index')) ; ?>";
+        }
+        else if(data.status == 1)
+        {
+            $('#errorTip').html(data.description);
+            if(data.login_number > 2)
+            {
+                $('#code').show();
+                $('#captchaImg').show();
+            }
+            onvdcodeFocus();
+        }
+        actLogin = true;
+     },"json" );
+}
+
+$(document).keydown(function(evt){
+	var evt = event || window.event || arguments.callee.caller.arguments[0];
+	if(evt && evt.keyCode==13){
+		login();
+    }
+})
+</script>

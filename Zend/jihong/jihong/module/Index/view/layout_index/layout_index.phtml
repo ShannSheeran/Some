@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="<?php echo $this->basePath();?>/css/platform/base.css" />
+    <link rel="stylesheet" href="<?php echo $this->basePath();?>/css/platform/content.css" />
+    <link rel="stylesheet" href="<?php echo $this->basePath();?>/css/platform/user.css" />
+    <link rel="stylesheet" href="<?php echo $this->basePath();?>/css/platform/index.css" />
+    <link rel="stylesheet" href="<?php echo $this->basePath();?>/css/platform/page.css" />
+    <link rel="stylesheet" href="<?php echo $this->basePath();?>/js/lhgcalendar.css" />
+    <script src="<?php echo $this->basePath();?>/js/jquery-1.7.2.min.js"></script>
+    <script src="<?php echo $this->basePath();?>/js/jquery.jqzoom.js"></script>
+    <script src="<?php echo $this->basePath();?>/js/jquery.SuperSlide.js"></script>
+    <script src="<?php echo $this->basePath();?>/js/base.js"></script> 
+    <script src="<?php echo $this->basePath();?>/js/index.js"></script> 
+    <script src="<?php echo $this->basePath();?>/js/lhgcore.js"></script>
+    <script  src="<?php echo $this->basePath();?>/js/lhgcalendar.js"></script>
+    <script type="text/javascript">
+    $(function(){
+        $('nav ul li').click(function(event) {
+             $(this).find('a').addClass('on');
+             $(this).siblings().find('a').removeClass('on');
+        });
+    })
+    </script>
+</head>
+<body>
+    <header>
+      <div class="wrap">
+        <div class="logo">
+          <a href="<?php echo ROOT_PATH?>">
+            <img src="<?php echo $this->basePath();?>/images/logo.png">
+          </a>
+        </div>
+        <div class="explain">全方位中国花卉交易平台</div>
+        <div class="header_phone">联系电话：<?php echo $setting[2]->text ?></div>
+      </div>
+      <div class="clear"></div>
+      <div class="header_bottom">
+        <div class="wrap">
+            <div class="account">
+              <span>账户：<?php echo $_SESSION['index_name']?><a href="<?php echo $this->url('index' , array('controller' => 'login' , 'action' => 'logout' ))?>" class="quit">[退出]</a></span>
+            </div>
+            <nav>
+              <ul class="nav clearfix">
+              <?php if($user_info->type == 1): ?>
+              <li  class="<?php  echo ($action == 'index') ? 'on' : ''?>"><a href="<?php echo $this->url('index' , array('controller' => 'user' , 'action' => 'index' ))?>">首页</a></li>
+              <li  class="<?php echo ($action == 'purchaseGoods') ? 'on' : ''?>"><a href="<?php echo $this->url('index' , array('controller' => 'goods' , 'action' => 'shopList','type'=>1))?>">盆栽订购</a></li>
+              <li  class="<?php echo ($action == 'purchaseEquip') ? 'on' : ''?>"><a href="<?php echo $this->url('index' , array('controller' => 'goods' , 'action' => 'shopList','type'=>2))?>">资材订购</a></li>
+              <li class="<?php echo ($action == 'supplyPlan') ? 'on' : ''?>"><a  href="<?php echo $this->url('index' , array('controller' => 'order' , 'action' => 'SupplyPlan' ))?>">供货计划</a></li>
+              <li class="<?php echo (in_array($action, array('goodsList' , 'orderList' , 'releaseGoods' , 'marketFeedback' , 'service'  ,'account' ,'editMobile' , 'editPassword','editMobile', 'userInfo'))) ? 'on' : ''?>"><a  href="<?php echo $this->url('index' , array('controller' => 'user' , 'action' => 'user' ))?>">会员中心</a></li>
+              <li class="<?php echo ($action == 'message') ? 'on' : ''?>"><a  href="<?php echo $this->url('index' , array('controller' => 'service' , 'action' => 'leaveMessage' ))?>">客户留言</a></li>
+              <?php elseif ($user_info->type == 2): ?>
+              <li class="<?php echo ($action == 'index') ? 'on' : ''?>"><a  href="<?php echo $this->url('index' , array('controller' => 'user' , 'action' => 'index' ))?>">首页</a></li>
+              <li class="<?php echo ($action == 'purchaseEquip') ? 'on' : ''?>" ><a class="" href="<?php echo $this->url('index' , array('controller' => 'goods' , 'action' => 'shopList','type'=>2))?>">资材订购</a></li>
+              <li  class="<?php echo ($action == 'marketFeedback') ? 'on' : ''?>"><a href="<?php echo $this->url('index' , array('controller' => 'service' , 'action' => 'marketFeedback' ))?>">市场反馈</a></li>
+              <li class="<?php echo ($action == 'account') ? 'on' : ''?>"><a  href="<?php echo $this->url('index' , array('controller' => 'order' , 'action' => 'supplierAccount' ))?>">对账单</a></li>
+              <li class="<?php echo (in_array($action, array('goodsList' , 'orderList' , 'releaseGoods' , 'service'  , 'userInfo' , 'editPassword','editMobile'))) ? 'on' : ''?>"><a  href="<?php echo $this->url('index' , array('controller' => 'user' , 'action' => 'user' ))?>">会员中心</a></li>
+              <li class="<?php echo ($action == 'hotSell') ? 'on' : ''?>"><a  href="<?php echo $this->url('index' , array('controller' => 'goods' , 'action' => 'hotSeller' ))?>">最新热销</a></li>
+              <?php endif;?>
+              </ul>
+            </nav>
+        </div>
+      </div>
+    </header>
+    <section style="min-height:720px">
+    <?php echo $this->content;?>
+    </section>
+    <div class="clear"></div>
+    <footer>
+      <div class="wrap">
+        <div class="external_links">
+          <a target="_blank" href="http://www.baidu.com" >百度</a>
+          <a target="_blank" href="http://baike.baidu.com/link?url=whR4hAfbIf565IKPecn1NvJ1qtHQc6_C_Om3QqPlq3Cowce_6MHl2k4vSpODLNMDjYb1VRaF7VSdOXuoq1uaKpntvppoKBBv93RYJINmtDi">植物百度百科</a>
+        </div>
+        <p class="tc">
+          <span>版权所有  <?php echo $setting[6]->text ?></span>
+          <span class="support">技术支持：爱特安为网络科技有限公司</span>
+          <p>
+            <span class="address">地址：<?php echo $setting[1]->text ?></span>
+            <span class="phone">免费咨询电话：<?php echo $setting[2]->text ?></span>
+            <span>传真：<?php echo $setting[3]->text ?></span>
+            <span class="email">E-MAIL: <?php echo $setting[4]->text ?></span>
+          </p>
+        </p>
+      </div>
+    </footer>
+</body>
+</html>

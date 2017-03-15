@@ -1,0 +1,229 @@
+@charset 'utf-8';
+*{
+	color:#666;
+}
+header{
+	position: relative;
+	background: #fff;
+}
+header .company_img{
+	float: left;
+	width:80px;
+	height: 60px;
+	border:1px solid #dedede;
+	margin-right: 10px;
+}
+.headerImg{
+	height:100%;
+	display:block;
+	overflow: hidden;
+	min-height: 180px;
+}
+header .logoName{
+	position: absolute;
+	padding:15px 5px 15px 10px;
+	width:95%;
+}
+@media(min-width: 414px){
+	header .logoName{
+		top:140px;
+	}
+}
+@media(min-width: 375px){
+	header .logoName{
+		top:171px;
+	}
+}
+@media(min-width: 320px){
+	header .logoName{
+		top:193px;
+	}
+}
+header .logoName .logoImg{
+  	float: left;
+  	width: 80px;
+  	height: 60px;
+  	border:1px solid #dedede;
+  	margin-right: 10px;
+}
+header .logoName .company_text li{
+  	height: 20px;
+  	line-height: 20px;
+}
+header .companyName {
+	margin-bottom: 5px;
+}
+header .companyName span{
+	color: #fff;
+	font-size: 1.2rem;
+	display: inline-block;
+	height: 20px;
+	overflow: hidden;
+	white-space:nowrap;
+    text-overflow:ellipsis;
+}
+header .companyName img{
+  	height: 15px;
+}
+.wBox{
+	height: 50px;
+	background: #fff;
+	border-bottom: 1px solid #dedede;
+}
+.companysite{
+  	padding:10px 0 10px 10px;
+  	overflow: hidden;
+  	background: #fff;
+  	border-bottom: 1px solid #dedede;
+}
+.companysite div{
+  	float: left;
+}
+.companyIcon{
+  padding:8px 15px;
+  background: #fff;
+}
+.companyIcon img{
+  height: 15px;
+  margin-right: 5px;
+}
+.companyIcon .iconVip{
+	width:18px;
+	height: 18px;
+	margin-top: 2px;
+}
+.companysiteLeft{
+  	width:75%;
+  	background: url(../../images/app/location.png) no-repeat center left;
+    background-size: 30px;
+}
+.companyzhiwei_wzand,.companyzhiwei_wzios,.companyzhiwei_wzwx{
+	width:30px;
+	height: 33px;
+}
+.companyzhiwei_adr{
+  	width:86%;
+  	line-height: 25px;
+}
+.companysite img{
+  	width:30px;
+}
+.companysite .a1and,.companysite .a1ios,.companysite .a1wx{
+  	text-align: center;
+  	width:24%;
+}
+.offer,.need,.favorable{
+	background: #fff;
+	margin-top: 10px;
+	padding-left:10px;
+	overflow: hidden;
+}
+.boxHead{
+	border-bottom: 1px solid #dedede;
+	overflow: hidden;
+	height:40px;
+	line-height: 40px;
+	display: block;
+}
+.boxHead .fl{
+	display: inline-block;
+	float: left;
+	padding-left: 40px;
+}
+.offer .boxHead .fl{
+	background: url(../../images/app/my_provide.png) no-repeat center left;
+	background-size:30px;
+}
+	
+.need .boxHead .fl{
+	background: url(../../images/app/my_need.png) no-repeat center left;
+	background-size: 30px;
+}
+.favorable .boxHead .fl{
+	background: url(../../images/app/discount.png) no-repeat center left;
+	background-size: 30px;
+}
+.boxHead .fr{
+	color:#c1c1c1;
+	display: inline-block;
+	float: right;
+	background: url(../../images/app/left_down.png) no-repeat 50px center;
+	background-size: 18px;
+	padding-right: 25px;
+}
+.offer ul,.need ul{
+	padding-top:10px;
+	overflow: hidden;
+}
+.offer ul li,.need ul li{
+	float: left;
+	padding:2px 5px;
+	border-radius: 3px;
+	color:#fff;
+	margin:0 10px 10px 0;
+	background: #868e99;
+}
+ .favorable .activity{
+ 	width:100%;
+ 	display: inline-block;
+	padding:10px 0;
+	border-top: 1px solid #eee;
+}
+.favorable .activity img{
+	width: 80px;
+	height: 60px;
+	border:1px solid #dedede;
+	float: left;
+	margin-right: -90px;
+}
+.favorable .activity .activityRight{
+	float: left;
+	margin-left: 90px;
+}
+.favorable .activity .activityRight div{
+	line-height: 20px;
+}
+.footerBox{
+	height: 56px;
+	display: none;
+}
+footer{
+  width: 100%;
+  height: 56px;
+  background:rgba(000,000,000, 0.8);
+  position: fixed;
+  bottom:0;
+  left: 0;
+  display: none;
+}
+footer .icon{
+  width:40px;
+  margin:9px 10px 0 10px;
+  height: 40px;
+  float: left;
+}
+footer div{
+  float: left;
+  margin-top: 8px;
+}
+footer div p{
+  color: #fff;
+} 
+footer .logo{
+  width:70px;
+  margin-top: 4px;
+}
+footer a{
+  display: inline-block;
+  float: right;
+  margin:13px 10px 0 0;
+  background: #008df1;
+  color:#fff;
+  width:100px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
+}

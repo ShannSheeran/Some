@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <meta name="description" content="RemoteSystemsTempFiles">
+<meta name="author" content="aiitec">	
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>快摇后台管理后台</title>	
+	 <link href="/svn_php/kuaiyao/public/images/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">
+<link href="/svn_php/kuaiyao/public/css/fonts/linecons/css/linecons.css" media="screen" rel="stylesheet" type="text/css">
+<link href="/svn_php/kuaiyao/public/css/fonts/fontawesome/css/font-awesome.min.css" media="screen" rel="stylesheet" type="text/css">
+<link href="/svn_php/kuaiyao/public/css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+<link href="/svn_php/kuaiyao/public/css/xenon-core.css" media="screen" rel="stylesheet" type="text/css">
+<link href="/svn_php/kuaiyao/public/css/xenon-forms.css" media="screen" rel="stylesheet" type="text/css">
+<link href="/svn_php/kuaiyao/public/css/xenon-components.css" media="screen" rel="stylesheet" type="text/css">
+<link href="/svn_php/kuaiyao/public/css/xenon-skins.css" media="screen" rel="stylesheet" type="text/css">
+<link href="/svn_php/kuaiyao/public/css/page.css" media="screen" rel="stylesheet" type="text/css">
+<link href="/svn_php/kuaiyao/public/css/custom.css" media="screen" rel="stylesheet" type="text/css">
+<link href="/svn_php/kuaiyao/public/css/main.css" media="screen" rel="stylesheet" type="text/css">
+<link href="/svn_php/kuaiyao/public/css/base2.css" media="screen" rel="stylesheet" type="text/css">	 
+	 <!--[if lt IE 9]><script type="text/javascript" src="/svn_php/kuaiyao/public/js/html5shiv.min.js"></script><![endif]-->
+<!--[if lt IE 9]><script type="text/javascript" src="/svn_php/kuaiyao/public/js/respond.min.js"></script><![endif]-->
+<script type="text/javascript" src="/svn_php/kuaiyao/public/js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/svn_php/kuaiyao/public/js/public.js"></script><script type="text/javascript">
+jQuery(document).ready(function($)
+		{
+			$("#example-4").dataTable({
+				dom: "<'row'<'col-sm-5'l><'col-sm-7'Tf>r>"+
+					 "t"+
+					 "<'row'<'col-xs-6'i><'col-xs-6'p>>",
+				tableTools: {
+					sSwfPath: "/svn_php/kuaiyao/public/js/datatables/tabletools/copy_csv_xls_pdf.swf"
+				}
+			});
+		});
+
+var Sys = {};
+var ua = navigator.userAgent.toLowerCase();
+if (window.ActiveXObject)
+{
+    Sys.ie = ua.match(/msie ([\d.]+)/)[1];
+}
+if (Sys.ie)
+{
+	var IE = navigator.userAgent.indexOf("MSIE 9.0")>0 ? 1 : 0;
+	  if(IE==0)
+	  {
+		  alert('系统检测到您正在使用IE内核浏览器，为了更好的体验，请升级至IE9及以上版本的浏览器！');
+	  }
+}
+
+</script>
+<style type="text/css">
+.DTTT_container{display:none;}	
+</style>
+</head>
+<body>
+	<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>首页</title>
+		<style type="text/css">
+		*
+		{
+			margin: 0px;
+			padding: 0px;
+		}
+		.wran_box
+		{
+			background: url(/svn_php/kuaiyao/public/images/wran_1.png) no-repeat center top;
+			position: relative;
+		}
+		.wran_code
+		{
+			font-size: 50px;
+			color: white;
+			left: 50%;
+			top: 100px;
+			padding-top: 111px;
+			padding-bottom: 200px;
+			text-align: center;
+		}
+		.wran_info,.behavior
+		{
+			font-size: 18px;
+			text-align: center;
+			padding: 5px 0px;
+		}
+		.wran_cat
+		{
+			width: 447px;
+			height: 295px;
+			position: absolute;
+			left: 50%;
+			margin-left: 50px;
+			top: 384px;
+			background: url(/svn_php/kuaiyao/public/images/wran_2.png) no-repeat left top;
+		}
+		</style>
+	</head>
+	<body>
+		<div class="wran_box">
+			<p class="wran_code">404</p>
+			<p class="wran_info">哦哟...页面错误</p>
+			<p class="behavior"><a href="javascript:history.go(-1);">返回上一页</a>，让我们重新来过</p>
+			<div class="wran_cat"></div>
+		</div>
+	</body>
+</html>	<!-- Bottom Scripts -->
+	<!-- JavaScripts initializations and stuff -->
+<script type="text/javascript" src="/svn_php/kuaiyao/public/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/svn_php/kuaiyao/public/js/TweenMax.min.js"></script>
+<script type="text/javascript" src="/svn_php/kuaiyao/public/js/resizeable.js"></script>
+<script type="text/javascript" src="/svn_php/kuaiyao/public/js/joinable.js"></script>
+<script type="text/javascript" src="/svn_php/kuaiyao/public/js/xenon-api.js"></script>
+<script type="text/javascript" src="/svn_php/kuaiyao/public/js/xenon-toggles.js"></script>
+<script type="text/javascript" src="/svn_php/kuaiyao/public/js/xenon-custom.js"></script>
+<script type="text/javascript" src="/svn_php/kuaiyao/public/js/inputmask/jquery.inputmask.bundle.js"></script>
+<!-- Imported styles on this page -->
+<link rel="stylesheet" href="/svn_php/kuaiyao/public/js/datatables/dataTables.bootstrap.css">
+<script src="/svn_php/kuaiyao/public/js/datatables/js/jquery.dataTables.min.js"></script>
+<!-- Imported scripts on this page -->
+<script src="/svn_php/kuaiyao/public/js/datatables/dataTables.bootstrap.js"></script>
+<script src="/svn_php/kuaiyao/public/js/datatables/yadcf/jquery.dataTables.yadcf.js"></script>
+<script src="/svn_php/kuaiyao/public/js/datatables/tabletools/dataTables.tableTools.min.js"></script>
+
+</body>
+</html>

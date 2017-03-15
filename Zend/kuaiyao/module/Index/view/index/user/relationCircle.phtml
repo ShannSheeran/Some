@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,inital-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-status-bar-style" content="block" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>分享人脉圈</title>
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/kuaiyao/common.css?v=<?php echo time() ?>">
+    <script type="text/javascript" src="<?php echo $this->basePath();?>/lib/jquery.2.1.4.min.js"></script>
+    <style type="text/css">
+    body{
+        background: #fff;
+    }
+    header{
+        margin-top: 10px;
+    }
+    .headerLeft{
+        float: left;
+        width:50px;
+        height: 50px;
+        border-radius: 50px;
+        overflow: hidden;
+        margin:0 10px 0 10px;
+    }
+    .headerLeft img{
+        width: 100%;
+    }
+    .headerRight{
+        float: left;
+    }
+    .headerRight b{
+        display: inline-block;
+        margin-top: 5px;
+        color:#444;
+    }
+    .headerRight p{
+        color: #555;
+    }
+    .headerRight p span{
+        display: inline-block;
+        overflow: hidden;
+    }
+    .headerRight p .companyName{
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .clear{
+        clear: both;
+    }
+    main{
+        margin:10px 10px 60px 10px;
+        color:#555;
+    }
+    main img{
+        margin-top: 5px;
+        width: 100%;
+    } 
+    footer{
+        width: 100%;
+        height: 56px;
+        background:rgba(000,000,000, 0.8);
+        position: fixed;
+        bottom:0;
+        left: 0;
+        color: #fff;
+    }
+    footer .icon{
+        width:40px;
+        margin:9px 10px 0 10px;
+        height: 40px;
+        float: left;
+    }
+    footer div{
+        float: left;
+        margin-top: 8px;
+    }
+    footer div p{
+        font-size: 0.8rem;
+        margin-top: -2px;
+    } 
+    footer .logo{
+        width:70px;
+        margin-top: 4px;
+    }
+    footer a{
+        display: inline-block;
+        float: right;
+        margin:13px 10px 0 0;
+        background: #008df1;
+        color:#fff;
+        width:100px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 8px;
+    }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="headerLeft">
+            <img id="headerImage" src="<?php echo $head_icon ? $this->basePath() . '/' . UPLOAD_PATH . $head_icon : $this->basePath(). '/images/app/img_headportrait.png';?>">
+        </div>
+        <div class="headerRight">
+            <b><?php echo $presonal['name'];?></b>
+            <p><span class="companyName"><?php echo $presonal['company'];?> |</span> <span class="position"><?php echo $presonal['position'];?></span></p>
+        </div>
+    </header>
+    <div class="clear"></div>
+    <main>
+    <?php echo $content;?><br>
+    <?php if($images){?>
+        <?php foreach($images as $v){?>
+        <img src="<?php echo ROOT_PATH.UPLOAD_PATH.$v;?>">
+        <?php }?>
+    <?php }?>
+    </main>
+    <footer>
+        <img class="icon" src="<?php echo ROOT_PATH.'images/app/icon.png'?>" alt="">
+        <div>
+            <img class="logo" src="<?php echo ROOT_PATH.'images/app/logo_text.png'?>" alt="">
+            <p>找人脉，谈生意</p>
+        </div>
+        <a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.aiitec.shakecard">立即下载</a>
+    </footer>
+</body>
+    <script>
+        var nameWidth = $(window).width()-$(".position").width()-85;
+        $(".companyName").css("maxWidth",nameWidth);
+    </script>
+</html>

@@ -1,0 +1,107 @@
+<div class="row">
+	<div class="col-sm-12">
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>推送详细</h3>
+				<div class="panel-options">
+					<a href="#" data-toggle="panel">
+						<span class="collapse-icon">&ndash;</span>
+						<span class="expand-icon">+</span>
+					</a>
+					<a href="#" data-toggle="remove"> &times; </a>
+				</div>
+			</div>
+			<form role="form" class="form-horizontal"
+				action="<?php echo $this->url('admin-notification',array('action'=>'addnotification'))?>"
+				method="post">
+				<div class="panel-body">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">设备类型：</label>
+						<div class="col-sm-10">
+							<p id="device">
+								<label class="radio-inline">
+									<input type="radio" value="0" name="device_type" checked>
+									全部
+								</label>
+								<label class="radio-inline">
+									<input type="radio" value="1" name="device_type">
+									IOS
+								</label>
+								<label class="radio-inline">
+									<input type="radio" value="2" name="device_type">
+									Android
+								</label>
+<!-- 								
+								<label class="radio-inline">
+									<input type="radio" value="3" name="device_type">
+									微信
+								</label>
+								<label class="radio-inline">
+									<input type="radio" value="4" name="device_type">
+									网页
+								</label>
+ -->
+							</p>
+
+						</div>
+					</div>
+					<div class="form-group-separator"></div>
+					<!-- 
+					<div class="form-group">
+						<label class="col-sm-2 control-label">用户分类：</label>
+						<div class="col-sm-10">
+							<p id="device">
+								<label class="radio-inline">
+									<input type="radio" value="0" name="send_to" checked>
+									全部
+								</label>
+								<label class="radio-inline">
+									<input type="radio" value="1" name="send_to">
+									注册用户
+								</label>
+								<label class="radio-inline">
+									<input type="radio" value="2" name="send_to">
+									快应人
+								</label>
+								<label class="radio-inline">
+									<input type="radio" value="3" name="send_to">
+									未提交认证用户
+								</label>
+							</p>
+
+						</div>
+					</div>
+				
+					<div class="form-group-separator"></div>	 -->
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="field-4">标题（仅Android支持）：</label>
+
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="field-4" name="title">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="field-4">内容：</label>
+
+						<div class="col-sm-10">
+
+							<textarea class="autogrow" name="content"></textarea>
+						</div>
+					</div>
+					<div class="form-group-separator"></div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="field-4"></label>
+
+						<div class="col-sm-10">
+
+							<button type="submit" class="btn btn-primary">保存并发送</button>
+							<button class="btn">取消</button>
+						</div>
+					</div>
+			</div>
+			</form>
+
+		</div>
+	</div>
+</div>

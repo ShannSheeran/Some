@@ -1,0 +1,189 @@
+@charset "gb2312";
+/* CSS Document */
+
+* {
+	-webkit-transition-timing-function: ease-in-out;
+	-moz-transition-timing-function: ease-in-out;
+	-ms-transition-timing-function: ease-in-out;
+	-o-transition-timing-function: ease-in-out;
+	transition-timing-function: ease-in-out;
+	padding:0;
+	margin:0;
+}
+html {
+	overflow: hidden;
+	font-size: 16px;
+	height:100%;
+}
+body {
+	position: relative;
+	font-family: "Î¢ÈíÑÅºÚ";
+	max-width: 640px;
+	margin: 0 auto;
+	overflow: hidden;
+	background: #efeff4;
+	min-height:100%;
+}
+img {
+	border: 0;
+	-ms-interpolation-mode: bicubic;
+	display: block;
+}
+p {
+	margin: 0;
+	padding: 0
+}
+.clearfix:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden
+}
+.clearfix {
+	display: inline-block
+}
+* html .clearfix {
+	height: 1%
+}
+
+.list{
+	margin-top:15px;
+	display:inline-block;
+	background:#fff;
+	width:100%;
+	padding:20px 0;}
+
+.list p.date{
+	line-height:200%;
+	border-bottom:1px solid #d6d6d6;
+	padding:0 5% 5px;}
+
+.list span{
+	float:right;
+	color:#ff7043;}
+.list dl{
+	padding:15px 5%;
+	border-bottom:1px solid #d6d6d6;
+	display:inline-block;
+	width:90%;
+/*	background:url(../images/pic01.png) no-repeat right center;*/
+	background-size:contain;
+	}
+.list dl dt{
+	float:left;}
+.list dl dt img{
+	display:block;}
+.list dl dd{
+	float:left;
+	padding:0 0 0 10px;}
+
+.list dl dd h2{
+	font-size:18px;
+	color:#333333;
+	margin:10px 0 10px 0;}
+.list dl dd p{
+	font-size:18px;
+	color:#666666;}
+.list p.num{
+	text-align:right;
+	padding:2% 5%;}
+.list p.num font{
+	color:#366afe;
+	font-size:20px;}
+	
+	
+.info{
+	background:#fff;
+	padding:3% 5%;}
+	
+.info dl dt{
+	font-size:18px;
+	color:#333}
+	
+.info dl dd{
+	font-size:16px;
+	padding:8px 0 0 0;
+	color:#333;}
+	
+.info dl dd font{
+	font-size:18px;
+	color:#ff7043;}
+	
+.info dl dd span{
+	float:right;}
+	
+.btn li{
+	width:100%;
+	text-align:center;
+	padding:13px 0 0 0 ;}
+.btn li input.submit{
+	width:85%;
+	background:#ff7043;
+	border:none;
+	height:40px;
+	color:#fff;
+	border:1px solid #ff7043;
+	border-radius:5px;}
+.btn li input.submit_k{
+	width:85%;
+	background:#366afe;
+	border:2px solid #366afe;}
+
+.txt{
+	width:100%;}
+
+.txt dl{
+	width:85%;
+	display:block;
+	margin:20px auto;}
+.txt dl dt{ color:#333;padding:0 0 15px;}
+.txt dl dd{ color:#999999; line-height:150%;}
+
+.sign_k{
+	width:300px;
+	height:180px;
+	background:#e3e6e8;
+	border:1px solid #e3e6e8;
+	border-radius:10px;
+	position:relative;
+	display:none;}
+	
+.sign_k h2{
+	padding:10px;
+	color:#333;
+	font-size:18px;
+	text-align:center;}
+.sign_k p input.text{
+	margin:0 10%;
+	width:70%;
+	color:#333;
+	font-size:18px;
+	height:38px;
+	line-height:38px;
+	border:1px solid #b2b2b6;
+	padding:0 5%;}
+	
+.sign_k dl{
+	height:40px;
+	line-height:40px;
+	position:absolute;
+	bottom:0;
+	left:0;
+	width:100%;
+	display:inline-block;
+	border-top:1px solid #b2b2b6}
+.sign_k dl dd{
+	float:left;
+	width:49%;
+	height:40px;
+	display:block;
+	text-align:center;
+}
+.sign_k dl dd input{
+	border:none;
+	background:none;
+	font-size:18px;
+	color:#8b8b8b;}
+
+.sign_k dl dd input.submit{ color:#266afe;}

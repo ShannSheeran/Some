@@ -1,0 +1,412 @@
+<?php use Core\System\WxApi\jssdk;?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,inital-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-status-bar-style" content="block" />
+    <meta name="format-detection" content="telephone=no" />
+    <title><?php echo isset($card['name']) ? $card['name'] : "";?>-快摇名片</title>
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/kuaiyao/common.css?v=<?php echo time() ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/kuaiyao/AppDetails.css?v=<?php echo time() ?>">
+    <!--只兼容移动端，所以直接使用jQuery 2.1.4-->
+    <script type="text/javascript" src="<?php echo $this->basePath();?>/lib/jquery.2.1.4.min.js"></script>
+    <!--调用微信js-->
+    <script src="<?php echo $this->basePath();?>/lib/jweixin-1.0.0.js"></script>
+    <style>
+        body:before{
+          content: ' ';
+          position: fixed;
+          width: 100%;
+          height: 100%;
+          z-index: -1;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background-image: url(<?php if($bg){echo ROOT_PATH.UPLOAD_PATH.$bg["path"].$bg["filename"];}else{echo ROOT_PATH."images/app/bg1.jpg";}?>);
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position :center;
+          color: #fff;
+        }
+        .clear{
+            clear:both;
+        }
+    </style>
+</head>
+<body onload="getJssdk()">
+    <!--头像、姓名、职业-->
+     <header>
+        <div class="headerTop">
+            <div class="headerImg" onclick="window.Interactive.magnify('<?php echo $card['head_icon'] ? $head_icon : 'images/app/img_headportrait.png';?>');">
+                <img id="headerImage" src="<?php echo isset($card['head_icon']) ? $this->basePath() . '/' . UPLOAD_PATH . $head_icon : $this->basePath(). '/images/app/img_headportrait.png';?>">
+            </div>
+            <div class="icon">
+                <!-- 设备认证 -->
+                <?php if($device){?>
+                    <span>
+	                    <img src="<?php echo ROOT_PATH.'images/app/personal_authentication2.png'?>" alt="">
+	                </span>
+                <?php }?>
+                <?php if(isset($newCompany) && $newCompany){?>
+                    <!-- 通过员工审核 -->
+                    <?php if($card['card_status']==3){?>
+                        <span>
+                            <img src="<?php echo ROOT_PATH.'images/app/equipment_certification_selected.png'?>" alt="">
+                        </span>
+                    <?php }?>
+                    <!-- 没通过员工审核 -->
+                    <div class="authentication">
+                        <?php if($card['card_status']!=3){?>
+                            <img src="<?php echo ROOT_PATH.'images/app/equipment_certification__normal.png'?>" alt="">
+                        <?php }?>
+                        <div class="remind">请联系贵公司管理员通过您的加入申请</div>
+                    </div>
+                <?php }?>
+                <span class="degree">
+                <?php if($degree==1){?>
+                    <img class="once" src="<?php echo ROOT_PATH.'images/app/1du.png'?>" alt="">
+                <?php }else if($degree==2){?>
+                    <img class="bis" src="<?php echo ROOT_PATH.'images/app/2du.png'?>" alt="">
+                <?php }?>
+                </span>
+            </div>
+        </div>
+        <div class="headerName">
+            <b id="title"><?php echo isset($card['name']) ? $card['name'] : "";?></b>
+        </div><br/>
+        <div class="companyBg mt10">
+             <?php if(isset($newCompany['name']) && $newCompany['name']){?>
+            <span class="companyName"><?php echo isset($newCompany['name']) ? $newCompany['name'] : "";?> | </span>
+        <?php }?>
+            <span class=""><?php echo $card['position'] ? $card['position'] : "未填写职位"?></span>
+        </div><br/>
+        <div class="companyBg mt10 mb10">
+            <?php if($p_region!==''){?>
+            <span class="city"><?php echo $p_region;?> | </span>
+            <?php }?>
+            <?php foreach($category as $k=>$v){?> 
+            <span class="industry"><?php if($card['c_category_id']==$k){echo $v;}?></span>
+            <?php }?>
+        </div>
+        <?php if(!$card['signature']==''){?>
+        <div class="signature mb10">
+            <p id="signature"><?php echo $card['signature']?></p>
+        </div>
+        <?php }?>
+    </header>
+    <!--联系方式-->
+    <div class="cardContact">
+        <ul id="contactList" class="notouchmove">
+            <!--手机号码-->
+            <li>
+                <div class="fl mobileHide">
+                    <p id="mobile" style="border-right:1px solid #a8a8ab;"><?php $mobile = explode(',', $card['mobile']);echo $mobile[0];?></p>
+
+                </div>
+                <div class="connect fr" >
+                    <a ontouchstart="touchTel('<?php echo $mobile[0];?>')">
+                        <img class="fa-tel" src="<?php echo ROOT_PATH.'images/app/white_dial_phone.png'?>" alt="">
+                    </a>
+                </div>
+            </li>
+            <!--邮件-->
+            <?php if($card['email']){?>
+            <li>
+                <div class="fl">
+                    <p id="email">
+                        <?php echo  $card['email']?>
+                    </p>
+                </div>
+            </li>
+            <?php }?>
+            <!--QQ-->
+            <?php if($card['qq']){?>
+            <li>
+                <div class="fl">
+                    <p id="qq"><?php echo $card['qq']?></p>
+                </div>
+            </li>
+            <?php }?>
+        </ul>
+    </div>
+
+    <!--公司信息-->
+    <?php if($newCompany){?>
+    <div class="cardCompany">
+        <?php if(isset($newCompany['name']) && $newCompany['name']){?>
+        <div class="logoName">
+            <a href="<?php echo $this->url('index', array('controller' => 'company', 'action' => 'pageContent', 'id' => $newCompany['id'], 'alert' => '1'));?>">
+            <div class="logoImg" style="background:url(<?php if($newCompany['logo']){echo ROOT_PATH.UPLOAD_PATH.$newCompany['logo'];}else{echo ROOT_PATH."/images/app/img_logo.png";}?>) no-repeat center center;background-size:cover" >
+            </div>
+            </a>
+            <a href="<?php echo $this->url('index',array('controller'=>'company','action'=>'index','id'=>$newCompany['id']))?>">
+            <ul class="companyBase">
+                <li class="companyName">
+                    <span><?php echo isset($newCompany['name']) ? $newCompany['name'] : "";?></span>
+                </li>
+                <li>
+                    <span class="city"><?php echo $newCompany['city'];?></span> |
+                    <?php foreach($category as $k=>$v){?>
+                    <span class="industry"><?php if($newCompany['category']==$k){echo $v;}?></span>
+                    <?php }?>
+                    |
+                    <?php foreach($scale as $k=>$v){?>
+                    <span class="scale"><?php if($newCompany['scale']==$k){echo $v;}?></span>
+                    <?php }?>
+                </li>
+                <li><?php echo $newCompany['web'];?></li>
+            </ul>
+            </a>
+        </div>
+        <?php }?>
+        <!-- add地址 -->
+        <?php if($newCompany) {?>
+        <div class="companyzhiwei">
+            <a href="javascript:openlocation()">
+            <div class="companyzhiweiLeft">
+                <div class="companyzhiwei_wzand">
+                    <img class="place" src="<?php echo ROOT_PATH.'images/app/white_location.png'?>" alt="">
+                </div>
+                <div class="companyzhiwei_adr">
+                    <span id="addr_h"><?php echo  $newCompany['address'].$newCompany['street'];?></span>
+                </div>
+            </div>
+            </a>
+            <div  class="a1and">
+            	<a ontouchstart="touchTel('<?php echo $newCompany['telephone']?>')">
+                <img src="<?php echo ROOT_PATH.'images/app/white_dial_phone.png'?>" alt="">
+                </a>
+            </div>
+        </div>
+        <?php }?>
+        <div class="companyIcon">
+            <?php if($newCompany['is_top']==1){?>
+            <img src="<?php echo ROOT_PATH.'images/app/icon_vip2.png'?>" alt="">
+            <?php }?>
+            <img src="<?php echo ROOT_PATH.'images/app/company_profile_icon.png'?>" alt="">
+            <?php if($newCompany['audit_status'] == 2){?>
+            <img src="<?php echo ROOT_PATH.'images/app/kuaiyao_selected.png'?>" alt="">
+            <?php }else{?>
+            <img src="<?php echo ROOT_PATH.'images/app/kuaiyao_normal.png'?>" alt="">
+            <?php }?>
+        </div>
+    </div>
+    <?php }?>
+    <!-- 收藏名片、微信关注 -->
+    <div class="cardOperation">
+        <a href="javascript:qrc_show('qrc_card')" id="qrc_save" class="fl"> <i class="fa fa-download"></i>
+            保存到通讯录
+        </a>
+        <a href="javascript:qrc_show('qrc_wx')" id="qrc_guanzhu" class="fr"> <i class="fa fa-weixin"></i>
+            微信关注
+        </a>
+    </div>
+
+    <!--底部浮动的下载APP提醒-->
+    <footer>
+        <img class="icon" src="<?php echo ROOT_PATH.'images/app/icon.png'?>" alt="">
+        <div>
+            <img class="logo" src="<?php echo ROOT_PATH.'images/app/logo_text2.png'?>" alt="">
+            <p>找人脉，谈生意</p>
+        </div>
+        <a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.aiitec.shakecard">立即下载</a>
+    </footer>
+
+    <!--遮罩层-->
+    <div id='qrc_bg' class='qrcBg'></div>
+    <!--弹出二维码-->
+    <div id="qrc_card" class="qrcBox">
+        <div> <b>长按二维码进行识别</b>
+            <img src="<?php echo $vcard ? $this->
+            basePath() . '/' . UPLOAD_PATH . $vcard['image_path'] : "";?>">
+            <i onClick="qrc_hide('qrc_card')">×</i>
+        </div>
+    </div>
+    <div id="qrc_wx" class="qrcBox">
+        <div>
+            <b>长按二维码进行识别</b>
+            <img src="<?php echo $wx_code_path ? $this->
+            basePath() . '/' . UPLOAD_PATH . $wx_code_path : ($erweima_path ? $this->basePath() . '/' . UPLOAD_PATH . $erweima_path : "");?>">
+            <i onClick="qrc_hide('qrc_wx')">×</i>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+function getJssdk(){
+        // 顶部边距
+        var headTop = $(window).height()-225;
+        $('header').css('marginTop',headTop+'px');
+        // 头像旁图标的边距
+        var iconLeft = $('.headerImg').width()-5;
+        $('.headerTop .icon').css('left',iconLeft+'px');
+    }
+    //页面弹跳动画
+    $(window).load(function() {
+        var headTop = $(window).height()-270;
+        var headerTop = $(window).height()-235;
+        $('header').stop().animate({
+                    'marginTop':headTop,
+                    // 
+            },300).animate({'marginTop':headerTop,},500);
+    });
+    //超出截取公司名
+    var cWidth = $(".companyBase .companyName").width()-125;
+    $(".companyBase  .companyName span").css("maxWidth",cWidth);
+    
+
+
+    function isMoblie(){
+        var browser = { versions: function() { 
+            var u = navigator.userAgent, app = navigator.appVersion; return {
+    //移动终端浏览器版本信息  
+    trident: u.indexOf('Trident') > -1, 
+        //IE内核 
+        presto: u.indexOf('Presto') > -1,
+         //opera内核
+         webKit: u.indexOf('AppleWebKit') > -1, 
+          //苹果、谷歌内核 
+          gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, 
+          //火狐内核 
+          mobile: !!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/), 
+          //是否为移动终端 
+          ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), 
+            //ios终端 
+            android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, 
+            //android终端或者uc浏览器 
+            iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, 
+            //是否为iPhone或者QQHD浏览器 
+            iPad: u.indexOf('iPad') > -1, 
+            //是否iPad 
+            webApp: u.indexOf('Safari') == -1 
+            //是否web应该程序，没有头部与底部 
+        }; }(), 
+        language: (navigator.browserLanguage || navigator.language).toLowerCase() 
+    }
+    //console.log(browser);
+    if (browser.versions.ios || browser.versions.iPhone || browser.versions.iPad) { 
+         $("#phoneclass").attr("href","https://itunes.apple.com/cn/app/kuai-yao-ming-pian-zui-ju/id1028830091?mt=8");
+         $(".emand").css("display","none");
+    } 
+    else if (browser.versions.android) { 
+
+         $("#phoneclass").attr("href","http://www.kuaiyao.name/download/ky.apk");
+         $(".emios").css("display","none");
+    }  
+
+}
+</script>
+<script type="text/javascript">
+    var user=(navigator.userAgent).toLocaleLowerCase(),isWeixin=false,ht="",hta="",addressObj,shareData,touchState=true;
+    
+
+        $('.notouchmove').bind({touchstart:function(e){touchState=true;},touchmove:function(e){touchState=false;}});
+        isMoblie();
+        /*判断是否在微信打开*/
+        if(user.indexOf('micromessenger')!==-1)
+        {
+            isWeixin=true;
+            <?php 
+            include_once APP_PATH . '/config.php';
+            $jssdk = new jssdk(WEIXIN_APP_ID, WEIXIN_APP_SECRET, "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+            $signPackage = $jssdk->getSignPackage();
+            ?>
+            
+            wx.config({
+                debug: false,
+                appId: '<?php echo WEIXIN_APP_ID;?>',
+                timestamp: <?php echo $signPackage['timestamp'];?>,
+                nonceStr: '<?php echo $signPackage['nonceStr'];?>',
+                signature: '<?php echo $signPackage['signature'];?>',
+                jsApiList: [
+                'checkJsApi',
+                'onMenuShareTimeline',
+                'onMenuShareAppMessage',
+                'onMenuShareQQ',
+                'onMenuShareWeibo',
+                'openLocation'
+                ]
+            });
+            wx.ready(function () {
+                /*设定微信分享内容*/
+                shareData = {title: '<?php echo $card['title'];?>的快摇名片',desc: '公司：<?php echo $card['company'];?>\n职位：<?php echo $card['position'];?>\n点击查看更多信息',imgUrl: '<?php echo 'http://' . $_SERVER['HTTP_HOST'] . $this->basePath() . '/' . UPLOAD_PATH . $head_icon;?>'};
+                /*设定微信地址导航*/
+                addressObj={latitude: <?php echo $card['latitude'] ? $card['latitude'] : 0.00;?>,longitude: <?php echo $card['longitude'] ? $card['longitude'] : 0.00;?>,name: '<?php echo $card['company'];?>',address: '<?php echo $card['address'];?>',scale: 14,infoUrl: '<?php echo $_SERVER['HTTP_HOST'] . $_SERVER['REDIRECT_URL'];?>'};
+                wx.onMenuShareAppMessage(shareData);
+                wx.onMenuShareTimeline(shareData);
+                wx.onMenuShareQQ(shareData);
+                wx.onMenuShareWeibo(shareData);
+            }); 
+            
+            // $("#qrc_save,#qrc_guanzhu").css("width","48%");
+            
+        }
+        else{
+            isWeixin=false;
+            // $("#qrc_save").css("width","100%");
+            // $("#qrc_guanzhu").hide();
+        }
+    
+
+
+    /*拨打电话*/
+    function touchTel(telnum){window.location.href="tel:"+telnum;}
+    /*查看位置*/
+    function openlocation(){if(isWeixin){wx.openLocation(addressObj);}else{alert("请在微信中打开名片才能定位")}}
+      /*判断是否是微信再判断是ios还是安卓并下载软件*/
+    function sAlert(){
+        if(isWeixin){
+          alert("请使用浏览器下载！");
+          
+      }else{
+
+        var browser = { versions: function() { 
+            var u = navigator.userAgent, app = navigator.appVersion; return {
+    //移动终端浏览器版本信息  
+    trident: u.indexOf('Trident') > -1, 
+        //IE内核 
+        presto: u.indexOf('Presto') > -1,
+         //opera内核
+         webKit: u.indexOf('AppleWebKit') > -1, 
+          //苹果、谷歌内核 
+          gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, 
+          //火狐内核 
+          mobile: !!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/), 
+          //是否为移动终端 
+          ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), 
+            //ios终端 
+            android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, 
+            //android终端或者uc浏览器 
+            iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, 
+            //是否为iPhone或者QQHD浏览器 
+            iPad: u.indexOf('iPad') > -1, 
+            //是否iPad 
+            webApp: u.indexOf('Safari') == -1 
+            //是否web应该程序，没有头部与底部 
+        }; }(), 
+        language: (navigator.browserLanguage || navigator.language).toLowerCase() 
+    }
+    //console.log(browser);
+    if (browser.versions.ios || browser.versions.iPhone || browser.versions.iPad) { 
+
+        $("#phoneclass").attr("href","https://itunes.apple.com/cn/app/kuai-yao-ming-pian-zui-ju/id1028830091?mt=8");
+    } 
+    else if (browser.versions.android) { 
+
+        $("#phoneclass").attr("href","http://www.kuaiyao.name/download/ky.apk");
+    }  
+    
+}}
+    /*弹出二维码*/
+    function qrc_show(qrc){
+        if(isWeixin){$("#"+qrc).css('top','0px').show();$("#qrc_bg").show();}
+        else{if(qrc=="qrc_card"){window.location.href="<?php echo HTTP;?>/uploadfiles/vcard/" + "<?php echo $vcard['vcard'];?>"/*vcard路径*/;}}
+    }
+    /*隐藏二维码*/
+    function qrc_hide(qrc){$("#"+qrc).css('top','100%').hide();$("#qrc_bg").hide();}
+
+    
+</script>
+</html>

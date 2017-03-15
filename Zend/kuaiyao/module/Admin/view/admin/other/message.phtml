@@ -1,0 +1,68 @@
+<!-- Responsive Table -->
+<!-- Table exporting -->
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			<a
+				href="<?php echo $this->url('admin-other',array('action'=>'message','cid'=>'1'))?>">
+				<button class="btn btn-large <?php if($cid==1){?>btn-info<?php }?>">
+					<i class="icon-edit icon-white"></i>
+					未回复
+				</button>
+			</a>
+			<a
+				href="<?php echo $this->url('admin-other',array('action'=>'message','cid'=>'2'))?>">
+				<button class="btn btn-large <?php if($cid==2){?>btn-info<?php }?>">
+					<i class="icon-edit icon-white"></i>
+					已回复
+				</button>
+			</a>
+		</h3>
+
+		<div class="panel-options">
+
+			<a href="#" data-toggle="panel">
+				<span class="collapse-icon">&ndash;</span>
+				<span class="expand-icon">+</span>
+			</a>
+			<a href="#" data-toggle="remove"> &times; </a>
+		</div>
+	</div>
+	<div class="panel-body">
+		<table class="table table-bordered table-striped" id="example-4">
+			<thead>
+				<tr>
+					<td>ID</td>
+					<th>用户</th>
+					<th>留言总条数</th>
+					<th>留言时间</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+						  <?php foreach ($paginator as $v){?>
+
+				<tr>
+					<td><?php echo $v->id?></td>
+					<td>
+						<a
+							href="<?php echo $this->url("admin-user",array('action'=>'details','id'=>$v->user_id))?>"><?php echo isset($user_name[$v->user_id]['nickname']) && $user_name[$v->user_id]['nickname'] ? $user_name[$v->user_id]['nickname'] : '';?></a>
+					</td>
+					<td><?php echo $v['number'];?></td>
+					<td><?php echo date("Y-m-d H:i",strtotime($v['timestamp']));?></td>
+					<td>
+						<a class="btn btn-success"
+							href="<?php echo $this->url("admin-other",array("action"=>"messageDetails","id"=>$v->user_id))?>">查看</a>
+					</td>
+				</tr>
+
+							<?PHP }?>
+							
+						  </tbody>
+		</table>
+
+						<?php    echo $this->paginationControl($paginator, 'Sliding', 'page',array('route' =>'new-admin-other','condition'=>$condition));?> 
+						</div>
+
+</div>
+

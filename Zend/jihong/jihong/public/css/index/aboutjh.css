@@ -1,0 +1,381 @@
+/* 
+* @Author: Marte
+* @Date:   2016-06-23 09:56:46
+* @Last Modified by:   Marte
+* @Last Modified time: 2016-07-27 09:28:57
+*/
+.banner {
+    height: 400px;
+    background:pink;
+}
+.tab_column {
+    margin-bottom: 28px;
+    height: 54px;
+}
+.tab_column ul {
+    width: 597px; 
+}
+.tab_column ul li {
+    float: left;
+    text-align: center;
+    height: 54px;
+    line-height: 54px;
+    width: 130px;
+    background-repeat: no-repeat;
+    font-size: 16px;
+   /* color:#666;*/
+    cursor: pointer;
+}
+.publicClass {
+    background-image: url(../../images/tabbg02.png);
+    margin-left: -15px;
+}
+.secon { 
+    background-image: url(../../images/tabbg03.png);
+    color:#fff!important;
+ }
+ .first{
+    background:url(../../images/tabbg01.png) no-repeat;
+ }
+
+   .tab_column li.current1{
+    background-image: url(../../images/tbbj_on_03.png);
+	color:#fff;
+ }
+   .tab_column li.current1 a{
+    color:#fff;
+ }
+ 
+ .tab_column li.current.first{ 
+    background-image: url(../../images/tbbj_on_03.png);
+    /*color:#fff;*/
+}
+ 
+.tab_column li.current { 
+    background-image: url(../../images/tabbg03.png);
+    /*color:#fff;*/
+}
+
+
+.pub {
+    display:none;
+}
+.pub_current {
+    display:block;
+}
+
+.tab_column a.choice_li{
+	display:inline-block;
+	color:#666;
+	width:inherit;
+	height:inherit;
+}
+.tab_column li.current a {
+    color:#fff!important;
+}
+/*常见问题*/
+
+.main_title {
+    height: 56px;
+    background:url(../../images/line.jpg) no-repeat left bottom;
+}
+.main_title h2 {
+    line-height: 52px;
+    width: 91px;
+    font-size: 22px;
+    color:#d04f70;
+    border-bottom: 4px solid #d04f70;
+}
+.main_con {
+    padding-top: 36px;
+}
+.main_con a {
+    display: block;
+    margin-top: 30px;
+}
+.main_con .pic {
+    width: 200px;
+    height: 150px;
+}
+.main_con .txt {
+    width:770px ;
+    height: 149px;
+    border-bottom: 1px dashed #ccc;
+}
+.main_con .txt h3 {
+    font-size: 18px;
+    color:#333;
+    line-height: 40px;
+}
+.main_con .txt .content {
+    margin-top: 10px;
+    line-height: 24px;
+    font-size: 14px;
+    color:#666;
+    width:770px;
+    height: 48px;
+    display: -webkit-box;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-break: break-all;
+}
+.main_con .txt .data {
+    line-height: 34px;
+    margin-top: 18px;
+    font-size: 14px;
+    color:#999;
+    text-align: right;
+}
+.main_con .page {
+    height: 90px;
+    padding-left: 308px;
+    padding-top: 29px;
+}
+.main_con .page ul {
+    margin-right: 15px;
+}
+.main_con .page ul li {
+    float: left;
+    margin-left: 15px;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+    border: 1px solid #ccc;
+    color:#333;
+    font-size: 14px;
+    cursor:pointer;
+}
+.main_con .page ul li.current {
+    background:#c4234c;
+    border-color:#c4234c ;
+    color:#fff;
+}
+
+.main_con .page ul li.more {
+    border:0 none;
+}
+.page .pre,.page .next {
+    width: 78px;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+    border: 1px solid #ccc;
+    color:#333;
+    font-size: 14px;
+    cursor:pointer;
+}
+
+/*吉宏团队*/
+.team .team_title {
+    height: 53px;
+    background:url(../../images/line.jpg) no-repeat left bottom;
+}
+.team_title li {
+    float: left;
+    width: 140px;
+    height: 49px;
+    line-height: 53px;
+    text-align: center;
+    font-size: 22px;
+    color:#999;
+    cursor:pointer;
+}
+.team_title li.current {
+    border-bottom: 4px solid #d04f70;
+    color:#d04f70;
+}
+.team_list {
+    height: 220px;
+    padding:36px 0 60px 0;
+}
+.team_list ul {
+    margin-left: -40px;
+}
+.team_list ul li {
+    float: left;
+    width: 220px;
+    height: 220px;
+    margin-left: 40px;
+    position: relative;
+    overflow: hidden;
+}
+.team_list ul li:hover .team_txt {
+    bottom:0;
+}
+.team_txt {
+    width: 220px;
+    height: 174px;
+    padding-top: 46px;
+    background:rgba(196,35,76,.8);
+    position: absolute;
+    left: 0;
+    bottom:-220px;
+    transition:all .5s;
+    background:#c4234c\9;
+    opacity: .8;
+    filter:Alpha(opacity=80)\9;
+
+}
+.re-adress {
+    width: 238px;
+    text-overflow:ellipsis;
+    overflow: hidden;
+    white-space:nowrap;
+}
+.team_txt .name {
+    line-height: 34px;
+    text-align: center;
+    color:#fff;
+    font-size: 24px;
+}
+.team_txt .post {
+    line-height: 35px;
+    text-align: center;
+    color:#fff;
+    font-size: 20px;
+}
+.team_txt .words {
+    line-height: 59px;
+    text-align: center;
+    color:#fff;
+    font-size: 20px;
+    margin-top: 12px;
+    width: 200px;
+    margin-left: 10px;
+    border-top:2px solid #fff;
+}
+
+/*招聘信息*/
+.advertise-l {
+    width: 141px;
+    padding-top: 18px;
+}
+.advertise-l ul li{
+    display:block;
+    line-height: 39px;
+    color:#333;
+    font-size: 16px;
+    cursor: pointer;
+}
+.advertise-l ul li.current {
+    color:#c4234c;
+}
+.advertise-r {
+    width: 839px;
+    /*height: 363px;*/
+
+    padding:0 0 20px 20px;
+    margin-top: 30px;
+    background:#f5f5f5;
+}
+.advertise-r .time{
+    height: 99px;
+    border-bottom: 1px solid #dedede;
+}
+.advertise-r .time .counterman {
+    width: 160px;
+    height: 48px;
+    line-height: 48px;
+    text-align: center;
+    background:#81c45d;
+    float: left;
+    font-size: 18px;
+    color:#fff;
+}
+.advertise-r .time .datas {
+    float: left;
+    width: 654px;
+    font-size: 14px;
+    color:#333;
+    padding: 30px 0 0 24px;
+}
+.lh41 {
+    line-height: 41px;
+}
+.pt12 {
+    padding-top: 12px;
+}
+.advertise-r .adver_con .request {
+    margin-top: 23px;
+    line-height: 30px;
+}
+.adver_con ul li {
+    line-height: 28px;
+}
+.sen_email {
+    height: 162px;
+    margin-left: 141px;
+    padding-top: 24px;
+    
+}
+.sen_email p {
+    line-height: 27px;
+}
+.sen_email .emailadr {
+    color:#3e79f2;
+}
+
+/*企业概况*/
+.achievement {
+    padding-bottom: 60px;
+}
+.lh30 {
+    line-height: 30px;
+}
+.introduction .intr_txt {
+    padding: 29px 0 60px 0;
+}
+.introduction .years {
+    margin-top: 31px;
+    width: 780px;
+    height: 50px;
+    background:url(../../images/qygk_03.jpg) no-repeat;
+}
+.introduction .years ul li {
+    float: left;
+    line-height: 50px;
+    width: 130px;
+    text-align: center;
+}
+
+.introduction .years_list ul li {
+    float: left;
+    width: 127px;
+    height: 235px;
+    text-align: center;
+    padding-top: 30px;
+    border-left: 1px dashed #ccc;
+    position:relative;
+}
+
+.years_list p {
+    /* height: 150px; */
+    /*text-overflow:ellipsis;
+    overflow: hidden;
+    white-space:nowrap;*/
+    padding:0 6px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    display:-webkit-box;
+    -webkit-line-clamp:6;
+    -webkit-box-orient:vertical;
+    word-break:break-all;
+}
+
+.turnover{
+	position:absolute;
+	left:0;
+	bottom:65px;
+}
+
+
+
+
+
+
+
+

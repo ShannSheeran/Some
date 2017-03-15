@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>吉宏园艺</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/index/base.css">
+<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/index/register.css">
+<script type="text/javascript" src="<?php echo $this->basePath();?>/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath();?>/js/index.js"></script>
+<?php echo $this->headScript()->prependFile($this->basePath() . '/js/admin/jq_area.js') ?>
+<?php echo $this->headScript()->prependFile($this->basePath() . '/js/admin/region.js') ?>
+<script type="text/javascript">
+    $(function(){
+        $('.reg_main .tittle h2').click(function(event) {
+            $(this).addClass('current').siblings('').removeClass('current');
+            //$('.pub').eq($(this).index()).addClass('pub_current').siblings('').removeClass('pub_current');
+            $('#enterprisType').val($(this).attr('enterpris_type'));
+        });
+
+         // 勾选阅读协议
+         $('.checkboxpic').click(function(event) {
+                $('.checkboxpic .gou').toggle();
+            });
+
+         // 协议弹窗
+         $('.check .xieyi').click(function(event) {
+             $('.popbox').show();
+             $('.popbj').show();
+         });
+         // 协议弹窗内容关闭
+         $('.popbox .cancel,.popbox .agree').click(function(event) {
+             $('.popbox').hide();
+             $('.popbj').hide();
+         });
+
+          // 注册成功弹窗
+/*          $('.form .btn').click(function(event) {
+             $('.login_success').show();
+             $('.popbj').show();
+         });*/
+         // 注册成功弹窗内容关闭
+         $('#register_success .sure').click(function(event) {
+             $('.login_success').hide();
+             $('.popbj').hide();
+             location.href = '<?php echo $this->url("index" , array('controller' => 'index' , 'action' => 'index' ))?>';
+         }); 
+         $('#register_failed .sure').click(function(event) {
+             $('.login_success').hide();
+             $('.popbj').hide();
+         }); 
+    })
+</script>
+</head>
+<body>
+    <div class="head">
+        <a href="<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'index'  ))?>" class="sylogo fl"></a>
+        <p class="fl font20 corgray6 fontb">全方位中国花卉交易平台</p>
+        <p class="trading_tittle fr"><a class="font14 corgray6" href="<?php echo $this->url('index' , array('controller' => 'login' , 'action' => 'index'))?>">已有账号？马上登陆</a></p>
+    </div>
+    <div class="bj"></div>
+    <div class="reg_main">
+        <div class="tittle clearfix mb">
+            <h2 class="fl current" enterpris_type="1">经销商</h2>
+            <h2 class="fr" enterpris_type="2">供应商</h2>
+        </div>
+        <div class="form pub pub_current">
+            <input type="hidden" name="type" value="1" id="enterprisType" >
+            <div class="form_con clearfix mb">
+                <span class="fl">企业名称：</span>
+                <input class="fl" type="text" name="company_name" id="company_name" />
+                <div class="warn fl" id="company_name_warn" style="display:none" >企业名称不为空</div>
+            </div>
+            <div class="form_con clearfix mb">
+                <span class="fl">联系人：</span>
+                <input class="fl" type="text"  name="contacts_name"  id="contacts_name" />
+                <div class="warn fl" id="contacts_name_warn" style="display:none" >联系人不为空</div>
+            </div>
+            <div class="form_con clearfix mb">
+                <span class="fl">联系电话：</span>
+                <input class="fl" type="mobile"  name="mobile"  maxLength="11"  id="mobile" />
+                <div class="warn fl" id="mobile_warn" style="display:none" ></div>
+            </div>
+            <div class="form_con dw clearfix mb">
+                <span class="fl">验证码：</span>
+                <input class="fl" type="text"  name="code"  id="code" />
+                <div class="warn fl" style="display: none" id="code_warn">请输入验证码</div>
+                <div class="codepic">
+                    <img id="Captcha" src="" onclick="onvdcodeFocus()"  width="100px" height="34px">
+                </div>
+            </div>
+            <div class="form_con phone clearfix mb">
+                <span class="fl">手机验证码：</span>
+                <input class="fl" type="text" name=""  id="mobile_code" />
+                <input type="hidden" name="code_id" id="code_id" value="">
+                <div class="gain_code fl">获取验证码</div>
+                <div class="warn fl" id="mobile_code_warn" style="display:none" >验证码不为空</div>
+            </div>
+            <div class="form_con clearfix mb">
+                <span class="fl">企业传真：</span>
+                <input class="fl" type="text" name="fax" id="fax" />
+                <div class="warn fl" id="fax_warn" style="display:none" >传真不为空</div>
+            </div>
+            <div class="form_con clearfix mb">
+                <span class="fl">QQ号码：</span>
+                <input class="fl" type="text"  name="qq"  id="qq" />
+                <div class="warn fl" id="qq_warn" style="display:none" >QQ不为空</div>
+            </div>
+            <div class="form_con clearfix mb">
+                <span class="fl">E-mail：</span>
+                <input class="fl" type="text" name="email"  id="email" />
+                <div class="warn fl" id="email_warn" style="display:none" >E-mail不为空</div>
+            </div>
+            <div class="form_con clearfix mb" id="area">
+                <span class="fl">所在地区：</span>
+                <select id="province" name="province" class="fl"></select>
+                <select id="city" name="city" class="fl"></select>
+            </div>
+            <div class="form_con clearfix mb">
+                <span class="fl">详细地址：</span>
+                <input class="fl" type="text"  name="street" id="street" />
+            </div>
+            <div class="form_con clearfix mb">
+                <span class="fl">企业描述：</span>
+                <textarea name="" id="description" cols="30" rows="10"  ></textarea>
+            </div>
+            <div class="check clearfix">
+                <div class="checkbox fl">
+                    <div class="checkboxpic">
+                        <div class="gou" style="display:block"></div>
+                    </div>
+                </div>
+                <p class="fl">我已阅读并同意<span class="corblue xieyi">《吉宏园艺注册协议》</span></p>
+            </div>
+            <div class="btn font18 corgrayf" onclick="register()">立即注册</div>
+        </div>
+    </div>
+
+
+        <!-- 弹窗 -->
+        <div class="popbj">   
+        </div>
+        <div class="popbox">
+                <h3 class="pop_tittle font16 corgrayf">
+                    吉宏园艺服务协议
+                    <div class="cancel"></div>
+                </h3>
+                <div class="pop_content">
+                    <p>一 入会资格：从事花卉经营工作的个人或单位</p>
+                    <p>二 会费：免会员费</p>
+                    <p>三 交易规则</p>
+                    <p>1.采用网上交易系统，凭本人会员号及密码上网交易，不议价。</p>
+                    <p>2.实行预付款交易，订购货品即减帐户余额，不设欠款或挂帐。</p>
+                    <p>3.每个植物品种整箱起订（可参考装箱数）</p>
+                    <p>4.每次订货在￥1000元以上。</p>
+                    <p>5.统一以吉宏园艺标准纸箱包装，需特别包装的费用由会员承担（详情见收费标准）。</p>
+                    <p>6.订购货品的交货地点为广州吉宏园艺现场部，</p>
+                    <p>7.于发货或送货产生的物流运费或送货费由会员自付（详情见收费标准），并根据产生的实际费用在会员的往来帐上代扣、代付。</p>
+                    <p>8.会员收货时请及时验收货品，如发现货品品质与等级不符或有参差,两天内在网上投诉，核实后不符部分货品将按实际开单金额赔偿或做等额 的商品补偿，补偿金额将划入会员往来账；遇运输造成的损坏，本网工作人员将尽力协助向承运商索赔，并积极协助物色更负责任的承运商。</p>
+                    <p>9.会员号只允许所属会员本人使用。会籍不得转让，帐户不得借人使用，违者将被收回会员号，并终止会籍，密码是会员的重要个人资料，需 认真设置、管理与使用，凡使用本网帐户和密码办理的业务,均视为会员本人亲自办理。</p>
+                </div>
+                <div class="agree font14 corgrayf">同意并继续</div>  
+        </div>
+
+        <div class="login_success"  id="register_success" >
+            <h3>注册成功</h3>
+            <p>您的注册信息已经成功提交至后台，系统将尽快审核。请保持通信畅通。</p>
+            <p class="sure">确定</p>
+        </div>
+        <div class="login_success"  id="register_failed">
+            <h3>注册失败</h3>
+            <p>您的注册信息，尚有部分未有填写或不正确，请修改再提交注册</p>
+            <p class="sure">确定</p>
+        </div>
+</body>
+<script type="text/javascript">
+$("#area").area({
+    cache: region,
+    p_id: 440000,
+    ci_id: 440100,
+});
+
+onvdcodeFocus();
+function onvdcodeFocus()
+{
+	$.post("<?php echo $this->url('admin-common',array('action'=>'generateCaptcha'))?>",function(data){    		    	     
+			$("#Captcha").attr("src",data);
+	});
+}
+
+$('#company_name').blur(function(){
+	if($("#company_name").val() == '')
+	{
+		$('#company_name_warn').show();
+		return false;
+	}
+	else
+	{
+	    $('#company_name_warn').hide();
+	} 
+})
+
+$('#contacts_name').blur(function(){
+	if($("#contacts_name").val() == '')
+	{
+		$('#contacts_name_warn').show();
+		return false;
+	}
+	else
+	{
+	    $('#contacts_name_warn').hide();
+	} 
+})
+
+$('#mobile').blur(function(){
+	if($("#mobile").val() == '')
+	{
+		$('#mobile_warn').html('请输入手机号');
+		$('#mobile_warn').show();
+		return false;
+	}
+
+	if(!isMobile($("#mobile").val())) 
+	{ 
+	    $('#mobile_warn').html('不合法手机号');
+	    $('#mobile_warn').show();
+	}
+	else
+	{
+	    $('#mobile_warn').hide();
+	} 
+})
+
+$('#mobile_code').blur(function(){
+	if($("#mobile_code").val() == '')
+	{
+		$('#mobile_code_warn').show();
+	}
+	else
+	{
+	    $('#mobile_code_warn').hide();
+	} 
+
+	$('#mobile_code_warn').width('115px');
+})
+
+$('#code').blur(function(){
+	if($("#code").val() == '')
+	{
+		$('#code_warn').show();
+	}
+	else
+	{
+		$('#code_warn').hide();
+	}
+})
+
+$('#fax').blur(function(){
+	if($("#fax").val() == '')
+	{
+		$('#fax_warn').show();
+	}
+	else
+	{
+		$('#fax_warn').hide();
+	}
+})
+
+$('#qq').blur(function(){
+	if($("#qq").val() == '')
+	{
+		$('#qq_warn').show();
+	}
+	else
+	{
+		$('#qq_warn').hide();
+	}
+})
+
+$('#email').blur(function(){
+	if($("#email").val() == '')
+	{
+		$('#email_warn').html('请输入邮箱');
+		$('#email_warn').show();
+		return false;
+	}
+
+	if(!isEmail($("#email").val())) 
+	{ 
+	    $('#email_warn').html('不合法邮箱');
+	    $('#email_warn').show();
+	}
+	else
+	{
+	    $('#email_warn').hide();
+	} 
+})
+
+var get_code_flag = true;
+$('.gain_code').click(function(){
+	if(get_code_flag)
+	{
+		if($("#mobile").val() == '')
+		{
+			$('#mobile_warn').html('请输入手机号');
+			$('#mobile_warn').show();
+			return false;
+		}
+		if(!isMobile($("#mobile").val())) 
+		{ 
+		    $('#mobile_warn').html('不合法手机号');
+		    $('#mobile_warn').show();
+		    return false;
+		}
+		if($("#code").val() == '')
+		{
+			$('#code_warn').show();
+			return false;
+		}
+		
+		get_code_flag = false;
+        var json = GetJson('SMSCode');
+        json.q.a = 1;
+        json.q.type = 1;
+        json.q.mobile = $("#mobile").val();
+        json.q.where = new Object();
+        json.q.where.verificationCode = $("#code").val();
+        json.json = JSON.stringify(json);
+        
+        $.post('<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'getJson'))?>' , json , function(data){
+            console.log(data);
+        	if(data.q.s=='0')
+    		{
+    			timeOuts();
+    			$('#code_id').val(data.q.id);
+    			$('.gain_code').css("background" , "grey");
+    		}
+    		else
+        	{
+    			get_code_flag  = true;
+    			onvdcodeFocus();
+    			$("#verificationCode").val('');
+
+    			$('#register_failed h3').html('获取验证码失败');
+    			$('#register_failed p').eq(0).html('您填写的手机号码有误，或者你已重复获取手机号码');
+    			$('#register_failed').show();
+        		$('.popbj').show();
+        		return false;
+    		}
+        },"json");
+	}
+})
+
+function timeOuts()
+{
+	var i=60;
+	timeOutInterval=setInterval(function(){
+		i--;
+		$('.gain_code').html( i+"秒后再获取");
+		if(i==0)
+		{  
+			get_code_flag = true;
+			$('.gain_code').html("获取验证码");
+			$('.gain_code').css("background" , "#81c45d");
+			onvdcodeFocus();  
+		    $("#verificationCode").val('');
+			clearInterval(timeOutInterval);
+		}
+	},1000);
+}
+
+var register_flag = true;
+function register()
+{
+	if(register_flag)
+	{
+		if($('.gou').css("display") != 'block')
+		{
+			return false;
+		}
+		
+    	var enterpris_type = $('#enterprisType').val();
+    	var company_name = $('#company_name').val();
+    	var contacts_name = $('#contacts_name').val();
+    	var mobile = $('#mobile').val();
+    	var code = $('#code').val();
+    	var mobile_code = $('#mobile_code').val();
+    	var fax = $('#fax').val();
+    	var qq = $('#qq').val();
+    	var email = $('#email').val();
+    	var regionId = $('#city').val();
+    	var street = $('#street').val();
+    	var description = $('#description').val();
+    	var code_id = $('#code_id').val();
+
+    	if(company_name == '')
+		{
+			$('#company_name_warn').show();
+			return false;
+		}
+		
+    	if(contacts_name == '')
+		{
+			$('#contacts_name_warn').show();
+			return false;
+		}
+
+		if($("#mobile").val() == '')
+		{
+			$('#mobile_warn').html('请输入手机号');
+			$('#mobile_warn').show();
+			return false;
+		}
+		if(!isMobile($("#mobile").val())) 
+		{ 
+		    $('#mobile_warn').html('不合法手机号');
+		    $('#mobile_warn').show();
+		    return false;
+		}
+
+		if($("#mobile_code").val() == '')
+		{
+			$('#mobile_code_warn').show();
+			$('#mobile_code_warn').width('115px');
+			return false;
+		}
+
+		if($("#code").val() == '')
+		{
+			$('#code_warn').show();
+			return false;
+		}
+
+		if($("#fax").val() == '')
+		{
+			$('#fax_warn').show();
+			return false;
+		}
+
+		if($("#qq").val() == '')
+		{
+			$('#qq_warn').show();
+			return false;
+		}
+
+		if($("#email").val() == '')
+		{
+			$('#email_warn').html('请输入邮箱');
+			$('#email_warn').show();
+			return false;
+		}
+		if(!isEmail($("#email").val())) 
+		{ 
+		    $('#email_warn').html('不合法邮箱');
+		    $('#email_warn').show();
+		    return false;
+		}
+
+    	register_flag = false;
+    	var json = GetJson('SMSCode');
+    	json.q.a = 2;
+        json.q.type = 1;
+        json.q.mobile = mobile;
+        json.q.where = new Object();   
+        json.q.where.code = mobile_code;
+        json.json = JSON.stringify(json);
+        $.post('<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'getJson'))?>' , json , function(data){
+            console.log(data);
+        	if(data.q.s=='0')
+    		{
+        		json = GetJson('UserRegister');
+        		json.q.smscodeId = code_id;
+        		json.q.user = new Object();
+        		json.q.user.type = enterpris_type;
+        		json.q.user.companyName = company_name;
+        		json.q.user.contactsName = contacts_name;
+        		json.q.user.mobile = mobile;
+        		json.q.user.fax = fax;
+        		json.q.user.qq = qq;
+        		json.q.user.email = email;
+        		json.q.user.description = description;
+        		json.q.user.regionId = regionId;
+        		json.q.user.street = street;
+        		json.json = JSON.stringify(json);
+        		$.post('<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'getJson'))?>' , json , function(data){
+        			console.log(data);
+        			register_flag = true;
+        		    if(data.q.s == '0')
+        		    {
+        		    	$('#register_success').show();
+     		    	    $('.popbj').show();
+        		    }
+        		    else
+        		    {
+            			$('#register_failed h3').html('注册失败');
+            			$('#register_failed p').eq(0).html('您的注册信息，尚有部分未有填写或不正确，请修改再提交注册');
+            		    
+        		    	$('#register_failed').show();
+        	    		$('.popbj').show();
+        	    		return false;
+        		    }
+        		},"json");
+    		}
+    		else
+        	{
+    			$('#register_failed h3').html('注册失败');
+    			$('#register_failed p').eq(0).html('您的注册信息，尚有部分未有填写或不正确，请修改再提交注册');
+
+    			register_flag = true;
+    			$('#register_failed').show();
+	    		$('.popbj').show();
+	    		return false;
+    		}
+        },"json");
+	}
+}
+</script>
+</html>

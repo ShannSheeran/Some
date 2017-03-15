@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<!-- saved from url=(0084)http://www.kuaiyao.name/user/pageDetails/128.html?from=groupmessage&isappinstalled=0 -->
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,inital-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-status-bar-style" content="block">
+    <meta name="fromat-detecition" content="telephone=no">
+    <title>公司访问量</title>
+    <script type="text/javascript" src="<?php echo ROOT_PATH;?>js/line/jquery.min.js"></script>
+    <script type="text/javascript" src="<?php echo ROOT_PATH;?>js/line/highcharts.js"></script>
+    <script type="text/javascript" src="<?php echo ROOT_PATH;?>js/line/exporting.js"></script>
+    <link rel="stylesheet" type="text/css" href="<?php echo ROOT_PATH;?>css/kuaiyao/common.css">
+    <style>
+    .head{
+        font-size: 20px; 
+        border-width: bold;
+        position: fixed;
+        left: 0px;
+        background: #fff;
+        width:100%;
+        text-align: center;
+        z-index: 100;
+    }
+    article{
+        background: #fff;
+    }
+    article header{
+        color:#007cff;
+        height: 30px;
+        line-height: 30px;
+        padding:0 15px;
+    }
+    .orange{
+        color: #ff5f2d;
+    }
+    .content{
+        padding:10px 25px 10px 15px;
+        background:#fff;
+        overflow: hidden;
+        border-top:1px solid #dedede;
+    }
+    #container{
+        background: #fff;
+    }
+    .highcharts-title{
+        display: none;
+    }
+    </style>
+    <script>
+    //���Javascript����
+
+    $(function () {
+        $('#container').highcharts({
+
+            chart: {
+                type: 'line'
+            },
+            title: {
+                text: '<?php echo $year;?>年访问量'
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+                categories: <?php echo $date;?>
+            },
+            yAxis: {
+                title: {
+                    text: ''
+                }
+            },
+            tooltip: {
+                enabled: false,
+                formatter: function() {
+                    return '';
+                }
+            },
+            plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: true
+                    },
+                    enableMouseTracking: false
+                }
+            },
+            series: [{
+                name: '公司访问量',
+                data: <?php echo $data;?>
+            }]
+        });
+    });
+
+  </script>
+</head>
+<body>
+    <div class="head">年访问量</div class="head">
+    <div id="container" style="height:200px"></div>
+    <article>
+        <header><span class="fl">访客日期</span><span class="fr">访客总量</span></header>
+        <div class="clear"></div>
+        <?php foreach($info as $k=>$v){?>
+        <?php if(($k+1)<10){ $month='0'.($k+1);}else{ $month=($k+1);}?>
+        <?php if($num<1){?>
+                <div class="content">
+                <time class="fl d_ib"><?php echo date('Y/m/d',strtotime($k));?></time>
+                <div class="fr orange"><?php echo $v;?></div>
+                </div>
+         <?php }else{?>
+                <a href="<?php echo $this->url('index',array('controller'=>'company','action'=>'pageDay','id'=>$companyId,'alert'=>$year,'page'=>$month))?>">
+                <div class="content" onclick="month();">
+                <time class="fl d_ib"><?php echo $year;?>/<?php echo ($k+1); ?></time>
+                <div class="fr orange"><?php echo $v;?></div>
+                </div>
+                </a>
+         <?php }?>   
+
+        </div>
+        <?php }?>
+    </article>
+
+<script type="text/javascript">
+    var browser = { versions: function() { 
+        var u = navigator.userAgent, app = navigator.appVersion; return {
+            //移动终端浏览器版本信息  
+            trident: u.indexOf('Trident') > -1, 
+            //IE内核 
+            presto: u.indexOf('Presto') > -1,
+            //opera内核
+            webKit: u.indexOf('AppleWebKit') > -1, 
+            //苹果、谷歌内核 
+            gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, 
+            //火狐内核 
+            mobile: !!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/), 
+            //是否为移动终端 
+            ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), 
+            //ios终端 
+            android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, 
+            //android终端或者uc浏览器 
+            iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, 
+            //是否为iPhone或者QQHD浏览器 
+            iPad: u.indexOf('iPad') > -1, 
+            //是否iPad 
+            webApp: u.indexOf('Safari') == -1 
+            //是否web应该程序，没有头部与底部 
+        }; }(), 
+        language: (navigator.browserLanguage || navigator.language).toLowerCase() 
+    }   
+    if (browser.versions.ios || browser.versions.iPhone || browser.versions.iPad) {
+        $("#container").css("paddingTop","60px");
+        $(".head").css("paddingTop","25px");
+    } 
+    else if (browser.versions.android){ 
+        $("#container").css("paddingTop","60px");
+        $(".head").css("paddingTop","10px");
+    } 
+</script>
+</body>
+</html>

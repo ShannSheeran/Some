@@ -1,0 +1,41 @@
+
+/*信誉度样式*/
+/*心*/
+.b_1{
+width: 16px;
+height: 16px;
+display: inline-block;
+background: url('../../images/b_1.gif') no-repeat;
+-webkit-background-size: contain;
+}
+/*钻*/
+.b_2{
+width: 16px;
+height: 16px;
+display: inline-block;
+background: url('../../images/b_2.gif') no-repeat;
+-webkit-background-size: contain;
+}
+/*皇冠*/
+.b_3{
+width: 16px;
+height: 16px;
+display: inline-block;
+background: url('../../images/b_3.gif') no-repeat;
+-webkit-background-size: contain;
+}
+/*黄冠*/
+.b_4{
+width: 16px;
+height: 16px;
+display: inline-block;
+background: url('../../images/b_4.gif') no-repeat;
+-webkit-background-size: contain;
+}
+
+
+
+
+
+
+

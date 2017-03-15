@@ -1,0 +1,180 @@
+<!-- Responsive Table -->
+<!-- Table exporting -->
+<script type="text/javascript" src="<?php echo $this->basePath();?>/js/public.js"></script>
+<style>
+    .dataTables_info{
+        display: none;
+    }
+    .example-4_paginate{
+        display: none;
+    }
+    .row{
+        display: none;
+    }
+    .fl{
+        width:60px;
+        height:60px;
+        float:left;
+    }
+    .fs{
+        margin:20px 0 0 10px;
+        float:left;
+    }
+    .f1{
+        display:block;
+        margin:20px;
+    }
+    .catch{
+        width:200px;
+        height:30px;
+    }
+    .fl1{
+        float:left;
+    }
+    .fl2{
+        margin-left: 5px;
+    }
+    .fl3{
+        margin-right: 5px;
+        margin-top: 5px;
+    }
+    .fla{
+        margin-top:5px;
+        margin-bottom:20px;
+    }
+    .fls1{
+        float:left;
+        color:black;
+    }
+    .fl2{
+        margin-left: 25px;
+    }
+    .list{
+        color: #6f6f6f;
+        font-size: 20px;
+        text-align: left;
+    }
+    .p30 img{
+        margin:20px 0 0 70px;
+        text-align: center;
+    }
+    .p30 p{
+        margin:20px 0 0 -10px;
+        text-align: center;
+    }
+</style>
+<div class="panel panel-default">
+    <div class="pa panel-heading" style="padding-bottom: 0">
+        <p class="fls1">公司管理员：<?php echo isset($user_info['name']) ? $user_info['name'] : '未填写'; ?></p>
+        <p class="fls1 fl2"><?php echo isset($user_info['mobile']) ? $user_info['mobile'] : '未填写'; ?></p><br>
+        <h4 class="list">
+            公司列表
+        </h4>
+
+    </div>
+    <div class="panel-body">
+        <table class="table table-bordered table-striped" id="example-4">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>公司名称</th>
+                <th>推荐公司</th>
+                <th>所属行业</th>
+                <th>所在城市</th>
+                <th>规模</th>
+                <th>入驻时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php if($info['list']){?>
+                <?php foreach($info['list'] as $v){?>
+                    <tr>
+                        <td><?php echo $v['id'];?></td>
+                        <td>
+                        <?php if($v['path']){?>
+                            <img class="fl" src="<?php echo ROOT_PATH.UPLOAD_PATH.$v['path'];?>">
+                        <?php }else{?>
+                            <img class="fl" src="<?php echo ROOT_PATH.'images/app/img_logo.png';?>">
+                        <?php }?>
+                            <span class="fs"><?php echo $v['name'];?></span>
+                        </td>
+                        <td class="p30">
+                            <?php if($v['is_top']==1){?>
+                                <img src="<?php echo ROOT_PATH."images/icon_vip@2x.png";?>" style="width:20px;height:20px;">
+                            <?php }else{?>
+                                <p class="is_top">---</p>
+                            <?php }?>
+                        </td>
+                        <td>
+                            <span class="lh60"><?php foreach($category as $key => $val){
+                                    if($v['category_id']==$key){
+                                        echo $val;
+                                    }}?>
+                            </span>
+                        </td>
+                        <td>
+                            <span class="f1"><?php echo $v['city']?></span>
+                        </td>
+                        <td>
+                            <span class="lh60"><?php foreach($scale as $key => $val){
+                                    if($v['scale']==$key){
+                                        echo $val;
+                                    }}?>
+                            </span>
+                        </td>
+                        <td>
+                            <span class="lh60"><?php echo $v['timestamp']?></span>
+                        </td>
+                        <td>
+                            <button class="btn btn-info" onclick="unblind(<?php echo $v['id'];?>)">解除管理</button>
+                        </td>
+                    </tr>
+                <?php }?>
+            <?php }?>
+            </tbody>
+        </table>
+    </div>
+    <div class="fla">
+        <span class="fl1 fl3">添加公司：</span>
+        <input type="hidden" name="idds" value="<?php echo $user_id;?>"  class="fl1 id">
+        <input type="text" name="addCompany" placeholder="请输入公司名" class="fl1 catch form-control input-sm">
+        <button class="fl1 btn btn-info fl2" onclick="add()">添加公司</button>
+    </div>
+</div>
+<script type="text/javascript">
+    function add()
+    {
+        var company = $.trim($('.catch').val());
+        var id = $('.id').val();
+        $.post('<?php echo $this->url('admin-user',array('action'=>'join'));?>',{company:company, id:id},function(data){
+            if(data==1){
+                alert('公司绑定成功');
+                location.reload();
+            }else if(data==2){
+                alert('绑定公司失败');
+            }else if(data==3){
+                alert('公司不存在');
+            }
+        });
+
+    }
+
+
+    function unblind(id)
+    {
+        var id = id;
+        if(confirm('你确定解除绑定吗？')){
+            $.post('<?php echo $this->url('admin-user',array('action'=>'unblind'));?>',{id:id},function(data){
+                if(data==1){
+                    alert('公司解绑成功');
+                    location.reload();
+                }else if(data==2 || data==3){
+                    alert('公司解绑失败');
+                }
+            });
+        }
+
+
+    }
+</script>

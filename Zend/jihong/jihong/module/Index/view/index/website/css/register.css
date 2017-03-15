@@ -1,0 +1,289 @@
+/* 
+* @Author: Marte
+* @Date:   2016-06-27 10:25:39
+* @Last Modified by:   Marte
+* @Last Modified time: 2016-07-06 10:28:58
+*/
+.head {
+    padding-top: 60px;
+    height: 75px;
+    width: 937px;
+    margin: 0 auto;
+    /*background: pink;*/
+}
+.head .sylogo {
+    width: 251px;
+    height: 33px;
+    background:url(../images/sylogin_logo_03.png) no-repeat;
+    margin-top: 14px;
+}
+.head p {
+    line-height: 75px;
+    margin-left: 28px;
+}
+.trading_tittle {
+    margin-right: 64px;
+}
+.bj {
+    height: 30px;
+    background: url(../images/registerbj.png) repeat-x left top;
+}
+.reg_main {
+    width: 937px;
+    margin: 0 auto;
+    padding-bottom: 87px;
+}
+.reg_main .tittle {
+    width: 221px;
+    height: 54px;
+    margin-left: 325px;
+}
+.reg_main .tittle h2 {
+    width: 90px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 22px;
+    text-align: center;
+    color: #999;
+    cursor:pointer;
+}
+.reg_main .tittle h2.current {
+    border-bottom: 4px solid #d04f70;
+    color:#d04f70;
+}
+.reg_main .form {
+    margin-left: 185px;
+    width: 607px;
+}
+.form .form_con span {
+    width: 85px;
+    height: 40px;
+    line-height: 40px;
+    display:block;
+    font-size: 14px;
+    color:#666;
+    margin-right: 12px;
+    text-align: right;
+}
+.form .form_con input {
+    width: 366px;
+    height: 38px;
+    line-height: 38px;
+    font-size: 14px;
+    color:#666;
+    padding-left: 12px;
+    border: 1px solid #ccc;
+}
+.form .form_con .warn {
+    width: 116px;
+    height: 40px;
+    line-height: 40px;
+    color:#e43f43;
+    text-align: right;
+    font-weight: bold;
+    margin-left: 14px;
+    background:url(../images/warn.png) no-repeat left center;
+
+}
+.form .dw {
+    position: relative;
+}
+.codepic {
+    width: 100px;
+    height: 34px;
+    position: absolute;
+    left: 372px;
+    top:3px;
+    cursor: pointer;
+}
+.form .phone input {
+    width: 253px;
+    height: 38px;
+    border-right: 0 none;
+}
+.form .form_con .gain_code {
+    width: 115px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background:#81c45d;
+    color:#fff;
+    cursor: pointer;
+}
+.form .form_con select {
+    outline-style: none;
+    width: 189px;
+    height: 38px;
+    line-height: 38px;
+    padding:4px 0 8px 0\9;
+    text-align: center;
+    border: 1px solid #ccc;
+    padding-left: 46px;
+    color:#b2b2b2;
+}
+.form .form_con select:nth-of-type(2) {
+    border-left:0 none;
+}
+.form .form_con textarea {
+    width: 366px;
+    height: 98px;
+    border: 1px solid #ccc;
+    resize: none;
+    padding-left: 12px;
+}
+.form .check {
+    margin-left: 96px;
+    margin-bottom: 10px;
+}
+.form .check .xieyi {
+    cursor:pointer;
+}
+.form .check .checkboxpic .gou {
+    display:none;
+    width: 13px;
+    height: 13px;
+    background:url(../images/gou_03.png) no-repeat center center;
+}
+.form .check .checkboxpic {
+    width: 13px;
+    height: 13px;
+    cursor:pointer;
+    background:url(../images/checkbox.png) no-repeat center center;
+}
+.form .check p {
+    line-height: 13px;
+    margin-left: 5px;
+}
+.form .btn {
+    width: 300px;
+    height: 42px;
+    line-height: 42px;
+    text-align: center;
+    background:#c4234c;
+    margin-left: 96px;
+    cursor:pointer;
+}
+.pub {
+    display: none;
+}
+.pub_current {
+    display: block;
+}
+
+
+/*阅读协议弹窗*/
+.popbj {
+    display:none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: #000;
+    opacity: .5;
+    filter:Alpha(opacity=50)\8;
+    z-index: 10;
+
+}
+.popbox {
+    width: 750px;
+    height: 600px;
+    background:#fff;
+    position: fixed;
+    left: 50%;
+    margin-left: -375px;
+    top: 50%;
+    margin-top: -300px;
+    z-index: 9999;
+    display:none;
+}
+.popbox .pop_tittle {
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background:#c4234c;
+    position: relative;
+}
+.popbox .pop_content {
+    line-height: 25px;
+    padding:8px 32px 0 30px;
+}
+.popbox .pop_content p {
+    color:#333;
+}
+.popbox .agree {
+    width: 300px;
+    height: 42px;
+    background:#c4234c;
+    line-height: 42px;
+    text-align: center;
+    margin:52px 0 0 232px;
+    cursor:pointer;
+}
+.popbox .cancel {
+    width: 16px;
+    height: 16px;
+    background:url(../images/cancel.png) no-repeat left center;
+    position: absolute;
+    right:30px;
+    top: 12px;
+    cursor: pointer;
+}
+
+/*注册成功弹框*/
+.login_success {
+    width: 290px;
+    height: 184px;
+    background:#fff;
+    position: fixed;
+    left: 50%;
+    margin-left: -175px;
+    top: 50%;
+    margin-top: -94.5px;
+    border-radius: 6px;
+    z-index: 9999;
+    padding:5px 30px 0 30px;
+    display:none;
+}
+.login_success h3 {
+    line-height: 58px;
+    text-align: center;
+    color:#333;
+    font-size: 22px;
+}
+.login_success p {
+    line-height: 25px;
+    font-size: 18px;
+    color:#666;
+    margin-bottom: 28px;
+}
+.login_success .sure {
+    font-size: 20px;
+    color:#1caff3;
+    line-height: 50px;
+    text-align: center;
+    border-top: 1px solid #d5d5d5;
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

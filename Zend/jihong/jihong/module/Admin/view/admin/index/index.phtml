@@ -1,0 +1,187 @@
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="tex/html; charset=gb2312">
+	<script type="text/javascript" src="<?php echo ROOT_PATH.'js/admin/line/jquery.min.js'?>"></script>
+	<script type="text/javascript" src="<?php echo ROOT_PATH.'js/admin/line/highcharts.js'?>"></script>
+	<script type="text/javascript" src="<?php echo ROOT_PATH.'js/admin/line/exporting.js'?>"></script>
+
+	<script>
+	$(function () {
+		$('#container').highcharts({
+			title: {
+				text: '统计',
+				x: -20 //center
+			},
+			subtitle: {
+				text: '',
+				x: -20
+			},
+			xAxis: {
+				categories: <?php echo $date;?>
+			},
+			yAxis: {
+				title: {
+					text: ''
+				},
+				plotLines: [{
+					value: 0,
+					width: 1,
+					color: '#808080'
+				}]
+			},
+			tooltip: {
+				valueSuffix: ''
+			},
+			legend: {
+				layout: 'vertical',
+				align: 'right',
+				verticalAlign: 'middle',
+				borderWidth: 0
+			},
+			series: [{
+				name: '<?php echo $title;?>',
+				data: <?php echo $data;?>
+			}]
+		});
+	});
+
+  </script>
+  <style type="text/css">
+	#container{
+		width: 1280px;
+		margin:0 auto;
+	}
+	.table{
+		width:1280px;
+		margin:0 auto;
+		margin-top:20px;
+	}
+	.panel{
+		width: 1280px;
+		margin:0 auto;
+	}
+	#tab{
+		margin-top: 50px;
+	}
+	.page{
+		margin-left: 280px;
+		margin-bottom: 20px;
+	}
+	.panel{
+		padding:0px;
+	}
+	.down{
+	   margin-left:1200px;
+	}
+	.commission{
+		padding: 8px 15px;
+        margin-bottom: 20px;
+        list-style: none;
+        background-color: none;
+        border-radius: 4px;
+	}
+	.commission_item{
+		display:inline-block;
+		width:5%;
+		height:0px;
+		padding-bottom: 5%;
+		border:1px solid #979898;
+		border-radius:10%;
+		text-align:center;
+		font-size:16px;
+		margin-right:3%
+	}
+	.commission_item:hover{
+		border:1px solid red;
+		cursor:pointer,
+	}
+	.commission_item p{
+		padding:10px 0;
+	}
+	.commission_item span{
+		display:inline-block;
+		font-size:23px;
+		color:red;
+	}
+  </style>
+</head>
+<body>
+<div class="page-title" >
+	<div class="title-env">
+		<h1 class="title">
+			<font class="OUTFOX_JTR_TRANS_NODE" id="OUTFOX_JTR_TRANS_NODE-168"
+				rel="168">主页</font>
+		</h1>
+	</div>
+</div>
+<div class="" style="margin-bottom:30px">
+    <ol class="commission">
+        <li class="commission_item">
+            <a href="<?php echo $this->url('admin-order' , array('action' => 'index' , 'type' => 1 ))?>">
+                <p>盆栽订单</p>
+                <span><?php echo $goods_order_count;?></span>
+            </a>
+        </li>
+        <li class="commission_item">
+            <a href="<?php echo $this->url('admin-order' , array('action' => 'index' , 'type' => 2 ))?>">
+                <p>资材订单</p>
+                <span><?php echo $equipment_order_count;?></span>
+            </a>
+        </li>
+        <li class="commission_item">
+            <a href="<?php echo $this->url('admin-user' , array('action' => 'applicationList' ))?>">
+                <p>会员申请</p>
+                <span><?php echo $users_count;?></span>
+            </a>
+        </li>
+        <li class="commission_item">
+            <a href="<?php echo $this->url('admin-service' , array('action' => 'index' ))?>">
+                <p>售后申请</p>
+                <span><?php echo $service_apply_count;?></span>
+            </a>
+        </li>
+        <li class="commission_item">
+            <a href="<?php echo $this->url('admin-service' , array('action' => 'message' ))?>">
+                <p>客户留言</p>
+                <span><?php echo $message_count;?></span>
+            </a>
+        </li>
+        <li class="commission_item">
+            <a href="<?php echo $this->url('admin-goods' , array('action' => 'shelvesManage' ))?>">
+                <p>可上架商品</p>
+                <span><?php echo $goods_count;?></span>
+            </a>
+        </li>
+    </ol>
+</div>
+<div class="page-title">
+	<div class="title-env">
+		<h1 class="title">
+			<font class="OUTFOX_JTR_TRANS_NODE" id="OUTFOX_JTR_TRANS_NODE-168"
+				rel="168">数据统计</font>
+		</h1>
+	</div>
+	<div class="breadcrumb-env">
+		<div class="breadcrumb bc-1">
+		   <form action="" method="post" name="form1" class="form-horizontal">
+    	       <select name="" class="form-control" onchange="selectOrderType(this)">
+                    <option value="0"  >总订单量</option>
+                	<option value="1" <?php echo isset($type) && $type == 1 ? 'selected' :''?>>盆栽订单量</option>
+                	<option value="2" <?php echo isset($type) && $type == 2 ? 'selected' :''?>>资材订单量</option>
+                </select>
+            </form>
+		</div>
+	</div>
+</div>
+
+<div id="container" ></div>
+</body>
+<script>
+function selectOrderType(evt)
+{
+	var type = $(evt).val();
+	location.href = '<?php echo $this->url('admin-index' )?>?type=' + type;
+}
+ </script>
+</html>

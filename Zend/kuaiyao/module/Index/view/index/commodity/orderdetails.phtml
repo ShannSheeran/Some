@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width,inital-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-status-bar-style" content="block" />
+	<meta name="format-detection" content="telephone=no" />
+	<title>确认支付</title>
+	<!-- 公用样式 -->
+	<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/kuaiyao/common.css">
+	<!-- 购买产品相关页面样式 -->
+	<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath();?>/css/kuaiyao/commodity.css">
+	 <!--只兼容移动端，所以直接使用jQuery 2.1.4-->
+	<script type="text/javascript" src="<?php echo $this->basePath();?>/lib/jquery.2.1.4.min.js"></script>
+	<!--调用微信js-->
+	<script type="text/javascript" src="<?php echo $this->basePath();?>/lib/jweixin-1.0.0.js"></script>
+	<style>
+		.bottom .pay{
+			width: 100%;
+		}
+	</style>
+</head>
+<body>
+
+<div class="indent bg_white mt10 pl15 pr15">
+	<!--从主名片提取-->
+	<div class="pt15">
+				<span class="name">
+					<?php echo isset($order_info['address_name']) ? $order_info['address_name'] :'';?>
+				</span>
+				<span class="phone">
+					<?php echo isset($order_info['address_telephone']) ? $order_info['address_telephone'] :'';?>
+				</span>
+	</div>
+	<p class="site pb15 pt10  mr20">
+		收件地址： <?php echo $address;echo isset($order_info['address_street']) ? $order_info['address_street'] :'';?>
+	</p>
+</div>
+
+<div class="commodity_price bg_white mt10  w pt15 pb15 d_ib">
+	<img class="fl mr15 pl15" src="<?php echo $this->basePath();?>/images/product.png" alt="" />
+	<div class="fl">
+		<h3 class="lh30 f120pct">个人快摇名片</h3>
+		<p class="lh30">原价购买：
+			<span class="f_color_red">￥198</span>
+		</p>
+	</div>
+	<div class="compile fr pr15">
+			<span class="count">
+				<span class="ride">×</span>
+				<a href="javascript:;" class="subtract dn"></a>
+				<a href="javascript:;" class="number pl5"><?php echo isset($order_info['number']) ? $order_info['number'] :'';?></a>
+				<a href="javascript:;" class="add dn"></a>
+			</span>
+	</div>
+</div>
+<div class="clear"></div>
+<?php if($order_info['code_id']){?>
+<div class="bg_white mt10  p15">
+	推荐码:
+	<?php foreach($code_arr as $v){?>
+		<span class="code_num"><?php echo $v;?></span>
+	<?php }?>
+</div>
+<?php }?>
+<?php if($order_info['invoice_status']==1){?>
+<div class="bg_white mt10 p15 invoice">
+	<p>发票信息</p>
+	<div class="s_type  pt10">
+		<div class="mb10">
+			<label for="" class="mr10">类型</label>
+			<span><?php if($order_info['invoice_type']==1){echo '个人';}else{echo '公司';}?></span>
+		</div>
+		<div>
+			<label for="" class="mr10">抬头</label>
+			<span><?php echo $order_info['invoice_name'];?></span>
+		</div>
+	</div>
+</div>
+<?php }?>
+<div class="bg_white mt10  p15">
+	总金额:<span class="code_num"><?php echo $order_info['total'];?>元</span>
+</div>
+<div class="mt50"></div>
+<div class="bottom">
+	<input class="fl pay bn" type="button" onclick="pay(<?php echo $order_id;?>)" value="确认支付"/>
+</div>
+</body>
+<script>
+
+	//调用JSApi支付
+	function jsApiCall()
+	{
+		
+		// 
+		$.post("<?php echo $_SERVER['SERVER_NAME'].ROOT_PATH.'wxpay/actions/jsapi.php'?>",{open_id:openId, price : price, order_sn : order_sn, total : total},function(data) {
+			WeixinJSBridge.invoke(
+				'getBrandWCPayRequest',
+				data,
+				function(res){
+					WeixinJSBridge.log(res.err_msg);
+					// alert(res.err_code+res.err_desc+res.err_msg);
+					if (res.err_msg.indexOf("ok") != -1) {
+						if (page_id) {
+							// 
+							window.location.href = "<?php echo WXPAY_HTTP . 'success.php'?>" + "?open_id="+open_id;
+						}
+						else {
+							// 
+							window.location.href = "<?php echo INDEX_HTTP . '/admin/usera/add'?>";
+						}
+					}
+				}
+			);
+		},"json");
+	}
+
+	function callpay()
+	{
+		if (typeof WeixinJSBridge == "undefined"){
+			if( document.addEventListener ){
+				document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+			}else if (document.attachEvent){
+				document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+				document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+			}
+		}else{
+			jsApiCall();
+		}
+	}
+
+
+	function pay(obj){
+		if(obj){
+			$.post("<?php echo $this->url('index',array('controller' =>'commodity','action'=>'getOrderInfo'));?>",{id: obj},function(data){
+				if(data.status==0){
+					price = data.price;
+					order_sn = data.order_sn;
+					openId = data.openId;
+					callpay();
+					return true;
+				}
+			},"json");
+		}
+
+	}
+
+
+
+</script>

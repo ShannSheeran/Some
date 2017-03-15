@@ -1,0 +1,109 @@
+<script src="<?php echo $this->basePath();?>/js/admin/ajaxfileupload.js"></script><!-- //上传JS -->
+<script src="<?php echo $this->basePath();?>/js/admin/jedate.min.js"></script>
+<script type="text/javascript">
+var url = '<?php echo $this->url('admin-common',array('action'=>'getAdminFile')) ;?>';
+</script>
+<style>
+    .tl{text-align: right;}
+    .main-nody{padding:5px 20px 0 20px;}
+    .main-nody h5{float: left;}
+    .tp{margin-top: 30px;}
+    .bc-1{display: none;}
+    .fl{float: left;}
+    .pd5{
+        padding:5px;	
+    }
+</style>
+<div class="panel panel-default">
+   <div class="panel-heading">
+       <div calss="row">
+           <div class="col-sm-6">
+               <a href="<?php echo $this->url('admin-information' , array('action' => 'platformInformation'));?>">信息管理 </a>
+                / 
+                <a href="<?php echo $this->url('admin-information' , array('action' => 'jhTeam'));?>">吉宏团队</a> 
+                / 
+                <a href="<?php echo $this->url('admin-information' , array('action' => ''));?>">员工信息</a>  
+
+           </div>
+       </div>
+   </div>
+    <div class="pannel-body main-nody">
+        <?php if(isset($id) && $id): ?>
+        <form class="form-horizontal" action="<?php echo $this->url('admin-information' , array('action' => 'editJhTeam'))?>" method="post" >
+        <?php else: ?>
+         <form class="form-horizontal" action="<?php echo $this->url('admin-information' , array('action' => 'AddJhTeam' ))?>" method="post" >
+        <?php endif; ?>
+            <div class="row">
+                <div class="col-lg-12">
+                    <h5>
+                        <?php if(isset($id) && $id): ?>
+                        编辑员工
+                        <?php else: ?>
+                        新增员工
+                        <?php endif; ?>
+                    </h5>
+                </div>
+                <div class="col-lg-12">
+                
+                    <table class="table table-striped" id="example-4" >
+                        <tbody>
+                            <tr>
+                                <td>员工姓名</td>
+                                <td>
+                                    <input type="text" name="name" value="<?php echo isset($team_info->name)? $team_info->name : ''?>"  class="pd5"  required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>所在部门</td>
+                                <td>
+                                    <select name="department_id" style="padding:5px">
+                                        <?php foreach ($department_list as $value): ?>
+                                        <option value="<?php echo $value->id;?>" <?php  echo  isset($team_info->department_id) && $team_info->department_id == $value->id ? 'selected' : ''; ?>><?php echo $value->name?></option>
+                                        <?php endforeach;?>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>员工职位</td>
+                                <td>
+                                    <input type="text" name="position" value="<?php echo isset($team_info->position)? $team_info->position : ''?>"  class="pd5"  required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>座右铭</td>
+                                <td>
+                                    <input type="text" name="description" value="<?php echo isset($team_info->description)? $team_info->description : ''?>"  class="pd5"  required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>排序</td>
+                                <td>
+                                    <input type="number" min="0" name="sort" value="<?php echo isset($team_info->sort)? $team_info->sort : ''?>"  class="pd5"  required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>员工头像</td>
+                                <td>
+                                    <input type="file" id="img0" name="Filedata" onchange="return ajaxFileUpload('0');" />
+                                    <input type="hidden" name="image" value="<?php echo isset($image) ? $image['id'] : ''?>" id="img_id_0" /> <br />
+                                    <span style="clear: both;">
+        							     <img src="<?php if($image){echo ROOT_PATH.UPLOAD_PATH.$image['path'].$image['filename'];}else{echo ROOT_PATH . 'images/no_pic.gif';}?>" width="200" height="200" id="img_0" />
+        							</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="row tp">
+                <div class="col-lg-12">
+                    <h5>
+                        <input type="hidden" name="id" value="<?php echo isset($id)? $id : ''; ?>">
+                        <button type="submit" name="submit" value="保存"  class="btn btn-info btn-large">保存</button>
+                     </h5>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

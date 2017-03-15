@@ -1,0 +1,64 @@
+<style>
+	.dataTables_info{
+		display:none;
+	}
+	.dataTables_paginate{
+		display: none;
+	}
+	.bc-1{display: none;}
+	.col-sm-5{display: none;}
+	.col-sm-7{display:none;}
+	.fl{
+		float:left;
+	}
+</style>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+        <a href="<?php echo $this->url('admin-information' , array('action' => 'platform')) ?>">信息管理 / <a href="">合作生产商</a>
+		</h3>
+	</div>
+	
+	<div class="panel-body">
+	    <div class="fl" >
+		    <a class="btn btn-info fl " href="<?php echo $this->url('admin-information' , array('action' => 'producerOperate')) ?>" >添加生产商</a>
+		</div>
+		<table class="table table-bordered table-striped" id="example-4">
+			<thead>
+				<tr>
+					<th>生产商名称</th>
+					<th>排序</th>
+					<th>创建时间</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			     <?php foreach ($production_list as $value): ?>
+                <tr class="tr_list" valign="middle">
+					<td style="padding-top:18px;"><?php echo $value->name; ?></td>
+					<td style="padding-top:18px;"><?php echo $value->sort; ?></td>
+					<td style="padding-top:18px;"><?php echo $value->timestamp; ?></td>
+					<td>
+					   <a href="<?php echo $this->url('admin-information' , array('action' => 'producerOperate' , 'id' => $value->id)) ?>" class="btn btn-info">编辑</a>
+					   <a href="#" onclick="show_confirm('<?php echo $this->url('admin-information' , array('action' => 'deleteProducer' , 'id' => $value->id)); ?>')" class="btn btn-info">删除</a>
+					 </td>
+				</tr>
+				<?php endforeach;?>
+            </tbody>
+		</table>
+        <?php echo $this->paginationControl($paginator, 'Sliding', 'page',array('route' =>'admin-information','condition'=>$condition));?>       </div>
+</div>
+
+<script>
+function show_confirm(url)
+{
+	if(confirm('确认删除？'))
+	{
+		location.href = url;
+	}
+	else
+	{
+		return false;
+	}
+}
+</script>

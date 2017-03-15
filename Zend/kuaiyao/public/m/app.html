@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="UTF-8">
+<meta name="Keywords" content="快摇名片" />
+<meta name="Description" content="快摇名片" />
+<title>快摇名片</title>
+<meta name="viewport" content="width=device-width,inital-scale=1.0,minimum-scale=1.0,maximum-scale=1.0" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="stylesheet" type="text/css" href="css/home.css?=212" />
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/javascript.fullPage.min.js"></script>
+</head>
+<body>
+<div class="header">
+	<div class="logo"><a href="home.html"><img  src="images/logo.png" alt=""/></a></div>
+	<span>App</span>
+</div>
+<div class="app">
+	<!-- 第一个模块 -->
+	<div class="section app_one">
+		<div class="one_head"><img src="images/title5.jpg" alt=""></div>
+		<div class="one_text"><img src="images/written-words5.png" alt=""></div>
+		<!-- <div class="one_img"><img src="images/a_iphone.png" alt=""></div> -->
+		<div class="down"><img src="images/down_arrow.png" alt=""></div>
+	</div>
+	<!-- 第二个模块 -->
+	<div class="section app_two">
+		<div class="two_head"><img src="images/title6.jpg" alt=""></div>
+		<div class="two_text"><img src="images/written-words6.jpg" alt=""></div>
+		<div class="two_icon"><img src="images/a_icon.jpg" alt=""></div>
+		<div class="two_img"><img src="images/iphone6.jpg" alt=""></div>
+		<div class="down"><img src="images/down_arrow.png" alt=""></div>
+	</div>
+	<!-- 第三个模块 -->
+	<div class="section app_three">
+		<div class="three_head"><img src="images/title7.jpg" alt=""></div>
+		<div class="three_text"><img src="images/written-words7.jpg" alt=""></div><div class="three_img"><img src="images/map.png" alt=""></div>
+		<div class="three_phone"><img src="images/iphone7.png" alt=""></div>
+		<div class="three_move"><img src="images/map-pin.png" alt=""></div>
+		<div class="down"><img src="images/down_arrow.png" alt=""></div>	
+	</div>
+	<!-- 第四个模块 -->
+	<div class="section app_four">
+		<div class="four_head"><img src="images/title8.jpg" alt=""></div>
+		<div class="four_text"><img src="images/written-words8.jpg" alt=""></div>
+		<div class="four_img"><img src="images/connection.jpg" alt=""></div>
+		<div class="down"><img src="images/down_arrow.png" alt=""></div>
+	</div>
+	<!-- 第五个模块 -->
+	<div class="section app_five">
+		<div class="five_head"><img src="images/title9.jpg" alt=""/></div>
+		<div class="five_text"><img src="images/written-words9.jpg" alt=""/></div>
+		<div class="five_phone"><img src="images/iphone9.jpg" alt=""/></div>
+		<div class="five_img">
+			<div class="f_map">
+				<img src="images/map2.png" alt="">
+				<div class="coord1"><img src="images/map-pin1.png" alt=""/></div>
+				<div class="coord2"><img src="images/map-pin2.png" alt=""/></div>
+				<div class="coord3"><img src="images/map-pin3.png" alt=""/></div>
+				<div class="coord4"><img src="images/map-pin4.png" alt=""/></div>
+				<div class="coord5"><img src="images/map-pin5.png" alt=""/></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 横屏幕提示 -->
+<div id="orientLayer" class="mod-orient-layer">
+<div class="mod-orient-layer__content"> <i class="icon mod-orient-layer__icon-orient"></i>
+  <div class="mod-orient-layer__desc">为了更好的体验，请使用竖屏浏览</div>
+</div>
+</div>
+
+<script type="text/javascript">
+	// 滚动切换
+	$(document).ready(function(){
+		fullpage.initialize('.app', {
+			anchors: ['page1', 'page2', 'page3', 'page4','page5'],
+			afterLoad: function(anchorLink, index){
+				if(anchorLink == "page1"){ //第一个模块动画
+					$(".app_one").animate({backgroundSize:'150%'},10000);
+				}
+
+				if(anchorLink == "page3"){//第三个模块动画
+					$(".three_move").animate({top:'67%'},800)
+								    .animate({top:'72%'},700)
+								    .animate({top:'69%'},600)
+								    .animate({top:'72%'},500)
+								    .animate({top:'71%'},400)
+								    .animate({top:'72%'},300);
+				}
+
+				if(anchorLink == "page5"){//第五个模块动画
+					$(".coord1").animate({top:'19%'},500).animate({top:'25%'}, 500, 
+						function(){
+						$(".coord4").animate({top:'5%'},500).animate({top:'10%'},500, 
+							function(){
+							$(".coord3").animate({bottom:'45%'},500).animate({bottom:'39%'},500, 
+								function(){
+								$(".coord5").animate({bottom:'34%'},500).animate({bottom:'30%'},500,
+									function(){
+									$(".coord2").animate({top:'0px'},500).animate({top:'3%'},500);
+								});
+							});
+						});
+					});
+				}
+
+			},
+			menu: '#menu',
+			
+		});
+    });
+
+		
+	
+</script>
+
+	
+</body>
+</html>
+

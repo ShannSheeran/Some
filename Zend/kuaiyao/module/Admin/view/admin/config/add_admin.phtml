@@ -1,0 +1,132 @@
+
+<div class="row">
+	<div class="col-sm-12">
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>管理员详细</h3>
+				<div class="panel-options">
+					<a href="#" data-toggle="panel">
+						<span class="collapse-icon">&ndash;</span>
+						<span class="expand-icon">+</span>
+					</a>
+					<a href="#" data-toggle="remove"> &times; </a>
+				</div>
+			</div>
+			<form role="form" class="form-horizontal"
+				action="<?php echo $this->url('admin-config',array('action'=>'ActAddAdmin'));?>"
+				onsubmit="return check()" method="post">
+				<div class="panel-body">
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="field-1">用户名：</label>
+
+						<div class="col-sm-10">
+							<input type="text" class="form-control" name="admin_name"
+								id="admin_name">
+						</div>
+					</div>
+					<div class="form-group-separator"></div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="field-1">所属角色：</label>
+
+						<div class="col-sm-10">
+							<select  id="sboxit-2" name="super">
+								<option value="2">普通管理员</option>
+								<option value="3">运营管理员</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group-separator"></div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="field-1">密码：</label>
+
+						<div class="col-sm-10">
+							<input class="form-control" name="password" type="password"
+								id="password">
+						</div>
+					</div>
+					<div class="form-group-separator"></div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="field-1">确认密码：</label>
+
+						<div class="col-sm-10">
+							<input class="form-control" name="password1" id="password1"
+								type="password">
+						</div>
+					</div>
+					<div class="form-group-separator"></div>
+
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="field-1"></label>
+
+						<div class="col-sm-10">
+							<input type="submit" name="submit" value="提交"
+								class="btn btn-success" id="submit">
+							<a class="btn btn-danger"
+								href="<?php echo $this->url('admin-config',array('action'=>'index')); ?>">返回</a>
+						</div>
+					</div>
+					<div class="form-group-separator"></div>
+				</div>
+			</form>
+
+		</div>
+	</div>
+</div>
+<link rel="stylesheet"
+	href="<?php echo ROOT_PATH;?>js/daterangepicker/daterangepicker-bs3.css">
+<link rel="stylesheet"
+	href="<?php echo ROOT_PATH;?>js/select2/select2.css">
+<link rel="stylesheet"
+	href="<?php echo ROOT_PATH;?>js/select2/select2-bootstrap.css">
+<link rel="stylesheet"
+	href="<?php echo ROOT_PATH;?>js/multiselect/css/multi-select.css">
+<script src="<?php echo ROOT_PATH;?>js/select2/select2.min.js"></script>
+<script src="<?php echo ROOT_PATH;?>js/jquery-ui/jquery-ui.min.js"></script>
+<script
+	src="<?php echo ROOT_PATH;?>js/selectboxit/jquery.selectBoxIt.min.js"></script>
+<script src="assets/js/tagsinput/bootstrap-tagsinput.min.js"></script>
+<script
+	src="<?php echo ROOT_PATH;?>js/multiselect/js/jquery.multi-select.js"></script>
+<script>
+$("#admin_name").blur(function(){
+    var name = $(this).val();
+    if(name){
+    	$.post("<?php echo $this->url('admin-config',array('action'=>'check'))?>", {name: name,type:'name'},
+     		   function(data){
+     		     if(data==1){
+   		    	         alert('用户名已存在，请重新换个！');
+   		    	         $("#submit").attr("disabled","disabled");
+	        	}else{
+	        		     $("#submit").removeAttr("disabled","disabled");
+	             }
+     		   });
+	        }
+}) 
+
+$("#password1").blur(function(){
+    var password1 = $(this).val();
+    var password = $("#password").val();
+    if(password1 != password){
+ 	       alert('两次输入密码不一至！');
+  	      $("#submit").attr("disabled","disabled");
+	   }else{
+		   $("#submit").removeAttr("disabled","disabled");
+		   }
+}) 
+
+function check(){
+	if($("#password").val()==''){
+		  alert('密码不能为空!');
+		   return false;
+		}
+	if($("#admin_name").val()==''){
+		 alert('用户名不能为空!');
+		   return false;
+		}
+}
+</script>

@@ -1,0 +1,26 @@
+        <div class="main trends pub pub_current wrap">
+        <div class="main_con clearfix">
+            <?php if(!empty($notice)):?>
+            <?php foreach ($notice as $v):?>
+            <a href="<?php echo $this->url('index',array('controller'=>'user','action'=>'noticeDetail','id'=>$v->id))?>">
+                <div class="main_con_bd mb30 clearfix">
+                <?php if(isset($v->image_path)&&$v->image_path):?>
+                    <div class="pic fl">
+                        <img src="<?php echo $v->image_path?>" height="150" width="200" alt="" />
+                    </div>
+                <?php endif;?>
+                    <div class="txt fr">
+                        <h3><?php echo $v->title?></h3>
+                        <p class="content"><?php echo $v->description?></p>
+                        <p class="data"><?php echo substr($v->timestamp, 0 , 10)?></p>
+                    </div>
+                </div>
+            </a>
+            <div class="clear"></div>
+            <?php endforeach;?>
+            <?php endif;?>
+            <?php echo $this->paginationControl($paginator, 'Sliding', 'layout_index/page',array('route' =>'index','condition'=>$condition));?>
+            <div class="clear"></div>
+        </div>
+    </div>
+     <!-- 企业动态部分完成 -->

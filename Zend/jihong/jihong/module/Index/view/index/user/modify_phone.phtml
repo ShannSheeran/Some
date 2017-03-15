@@ -1,0 +1,272 @@
+        <script type="text/javascript">
+            $(function(){
+                 // 弹窗内容关闭
+                 $('.confirm').click(function(event) {
+                     $('.pop_phonenumber').hide();
+                     $('.pop_phonenumber_bj').hide();
+                     window.location.reload();
+                 });
+            })
+        </script>
+        <section>
+                <div class="phonenumber">
+                    <h3>修改手机号码</h3>
+                    <p>已验证手机：<?php echo isset($phone) ? $phone : ''?></p>
+                    <input type="hidden" id="fullPhone" value="<?php echo isset($fullPhone) ? $fullPhone : ''?>"/>
+                    <div class="code">
+                        <span class="fl">手机验证码：</span>
+                        <input class="codebox fl" type="text" id="firstcode"/>
+                        <span class="gain_code" id="oldCode">获取验证码</span>
+                    </div>
+                    <div class="next_step" id="next_step">下一步</div>  
+                </div>
+                <!-- 新手机号码 -->
+                <div class="phone_newnumber none">
+                    <h3>修改手机号码</h3>
+                    <div class="code">
+                        <div class="fl">
+                            <span class="fl">新手机号码：</span>
+                            <input class="new_phone fl" type="number" id="newPhone"/> 
+                        </div>
+                        <div class="fl mt20">
+                            <span class="fl">手机验证码：</span>
+                            <input class="codebox fl" type="text" id="secondcode"/>
+                            <span class="gain_code" id="newCode">获取验证码</span>
+                        </div>
+                    </div>
+                    <div class="fl next_step" id="complete">完成</div>  
+                </div>
+                <!-- 新手机号码 -->
+            </div>
+        </div>
+    </section>
+
+
+<!-- 弹窗 -->
+    <div class="pop_phonenumber_bj"></div>
+    <div class="pop_phonenumber success">
+        <h4>修改成功</h4>
+        <p>手机号码修改成功</p>
+        <p class="confirm">确定</p>
+    </div>
+    <div class="pop_phonenumber failed">
+        <h4>修改失败</h4>
+        <p></p>
+        <p class="confirm">确定</p>
+    </div>
+    
+    <script type="text/javascript">
+    var get_code_flag = true;
+    var check_code_flag = true;
+   $("#oldCode").click(function(){
+    	var oldPhone = $("#fullPhone").val();
+    	
+		if(oldPhone == '' || !isMobile(oldPhone))
+		{
+			return false;
+		}
+
+        //SMSCode(oldPhone,1);
+		getCode(oldPhone);
+    });
+    
+    $("#next_step").click(function(){
+        var firstcode = $("#firstcode").val();
+        var oldPhone = $("#fullPhone").val();
+
+		if(firstcode == ''  || oldPhone == '' || !isMobile(oldPhone) )
+		{
+			return false;
+		}
+
+    	//SMSCode(oldPhone,2,firstcode,1);
+    	checkCode(oldPhone , firstcode ,1);
+    });
+
+    $("#newCode").click(function(){
+    	var newPhone = $("#newPhone").val();
+    	
+		if(newPhone == '' || !isMobile(newPhone))
+		{
+			return false;
+		}
+
+		getCode(newPhone);
+        //SMSCode(newPhone,1);
+    });
+    
+    $("#complete").click(function(){
+        var secondcode = $("#secondcode").val();
+        var newPhone = $("#newPhone").val();
+
+		if(secondcode == '' || newPhone == '' || !isMobile(newPhone))
+		{
+			return false;
+		}
+		
+    	//SMSCode(newPhone,2,secondcode,2);
+		checkCode(newPhone , secondcode ,2);
+    });
+
+    function getCode(mobile)
+    {
+        if(!get_code_flag)
+        {
+            return false;
+        }
+        
+        var json = GetJson('SMSCode');
+        json.q.a = 1;
+        json.q.type = 3;
+        json.q.mobile = mobile;
+        json.json = JSON.stringify(json);
+        get_code_flag = false;
+        $.post('<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'getJson'))?>' ,  {request: json} , function(data){
+            console.log(data);
+            if(data.q.s == '0')
+            {
+            	timeOuts();
+            }
+            else
+            {
+            	get_code_flag = true;
+            	$('.failed').show();
+            	$('.failed p').eq(0).html(data.q.d);
+             	$('.pop_phonenumber_bj').show();
+            }
+        },"json");
+    }
+
+    function checkCode(mobile , code ,step)
+    {
+    	if(!check_code_flag)
+    	{
+        	return false;
+    	}
+
+    	check_code_flag = false;
+    	var json = GetJson('SMSCode');
+        json.q.a = 2;
+        json.q.type = 3;
+        json.q.mobile = mobile;
+        json.q.where = new Object();
+        json.q.where.code = code;
+        json.json = JSON.stringify(json);
+        $.post('<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'getJson'))?>' ,  {request: json} , function(data){
+            console.log(data);
+            if(data.q.s == '0')
+            {
+            	if(step == 1)
+            	{
+            		get_code_flag = true;
+            		check_code_flag = true;
+            		$('.phone_newnumber').show();
+                    $('.phonenumber').hide();
+
+                    clearInterval(timeOutInterval);
+        			$('.gain_code').html("获取验证码");
+        			$('.gain_code').css("background" , "#81c45d");
+            	}
+            	else if(step == 2)
+            	{
+            		updateMobile(mobile , data.q.id);
+            	}
+            }
+            else
+            {
+            	check_code_flag = true;
+            	$('.failed').show();
+            	$('.failed p').eq(0).html(data.q.d);
+             	$('.pop_phonenumber_bj').show();
+            }
+        },"json");
+    }
+    
+    /*function SMSCode(mobile,action,code,step)
+    {
+    	if(get_code_flag){
+        	get_code_flag = false;
+        	var json = new Object();
+            json.n = "SMSCode";
+            json.q = new Object();
+            json.q.a = action;
+            json.q.type = 3;
+            json.q.mobile = mobile;
+            if(action == '2')
+            {
+                json.q.where = new Object();
+                json.q.where.code = code;
+            }
+            $.post('<?php //echo $this->url('index' , array('controller' => 'index' , 'action' => 'getJson'))?>' ,  {request: json} , function(data){
+                console.log(data);
+                if(data.q.s == '0')
+                {
+                	if(action == 1)//获取验证码
+                	{
+                	    timeOuts();
+                    }
+                    if(action == 2 && step==1)//验证验证码
+                    {
+                    	$('.phone_newnumber').show();
+                        $('.phonenumber').hide();
+
+                        clearInterval(timeOutInterval);
+            			get_code_flag = true;
+            			$('.gain_code').html("获取验证码");
+            			$('.gain_code').css("background" , "#81c45d");
+                    }
+                    if(action == 2 && step == 2)
+                    {
+                    	updateMobile(mobile,data.q.id);
+                    }
+                }
+                else
+                {
+                    $('.gain_code').css("background" , "#81c45d");
+                    clearInterval(timeOutInterval);
+            		get_code_flag = true;
+            		$('.gain_code').html("获取验证码");
+                	alert(data.q.d);
+                }
+            },"json");
+    	}
+    }*/
+    
+    function timeOuts()
+    {
+    	var i=60;
+    	timeOutInterval=setInterval(function(){
+    		i--;
+    		$('.gain_code').html( i+"秒后再获取");
+    		$('.gain_code').css("background" , "grey");
+    		if(i==0)
+    		{  
+        		clearInterval(timeOutInterval);
+    			get_code_flag = true;
+    			$('.gain_code').html("获取验证码");
+    			$('.gain_code').css("background" , "#81c45d");
+    		}
+    	},1000);
+    }
+
+    function updateMobile(mobile,id)
+    {
+    	var json = new Object();
+        json.n = "UserBindMobile";
+        json.q = new Object();
+        json.q.smscodeId = id;
+        json.q.mobile = mobile;
+        $.post('<?php echo $this->url('index' , array('controller' => 'index' , 'action' => 'getJson'))?>' ,  {request: json} , function(data){
+            console.log(data);
+            if(data.q.s == '0')
+            {
+                $('.success').show();
+             	$('.pop_phonenumber_bj').show();
+            }
+            else
+            {
+                alert(data.q.d);
+            }
+        },"json");
+    }
+    </script>

@@ -1,0 +1,182 @@
+<!-- Responsive Table -->
+<!-- Table exporting -->
+ <script type="text/javascript">
+// $(function(){
+// 	$("#addCard").appendTo("#example-4_length");
+// 	$(".all").appendTo(".dataTables_filter");
+// 	$("#example-4_filter").addClass("fl");
+// 	$(".col-sm-5").addClass("col-sm-3");
+// 	$(".col-sm-7").removeClass("col-sm-7");
+// 	$(".dataTables_filter").css("float","left");
+// 	// $(".dataTables_filter label").css("float","left");
+// })
+
+</script>
+<style type="text/css">
+	.form-control{width:110px;}
+	#form{float:left;margin-right:5px;}
+	#sure{width:55px;float:left;margin-right:3px;background:#ccc;}
+	.panel-heading{margin-left:100px;}
+	.condition{width:100%;float: left;}
+	.is_top{text-align: center;}
+	.csd{margin-left:20px;}
+	.cdf{float: left;}
+	.pt25{
+		width:20%;
+	}
+	.pt25 .btn{
+		width:23%;
+	}
+	.p30 img{
+		margin:20px 0 0 35px;
+		text-align: center;
+	}
+	.p30 p{
+		margin:20px 0 0 -10px;
+		text-align: center;
+	}
+
+</style>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+	
+		</h3>
+		<div class="cdf">
+		&nbsp;&nbsp;<a class="btn btn-info" href="<?php echo $this->url('admin-company',array('action'=>'indexTwo'))?>">公司名片审核（<?php echo $audit;?>家）</a>
+		<div class="d_ib fl" id="addCard"><a id="csd" class="btn btn-info csd" href="<?php echo $this->url('admin-company',array('action' =>'companydetails'))?>">新增公司名片</a></div>
+		</div>
+		<div style="float:right;">
+		<div class="condition">
+		<form action="" method="post">
+
+			<!--公司-->
+				<select name="recommend" id="form" class="form-control" title="请选择公司">
+					<option value="0" <?php if($is_top == 0){ echo 'selected';}?>>全部公司</option>
+					<option value="1" <?php if($is_top == 1){ echo 'selected';}?>> 推荐公司</option>
+					<option value="2" <?php if($is_top == 2){ echo 'selected';}?>>未推荐公司</option>
+				</select>
+				<!--城市-->
+
+				<select name="city" id="form" class="form-control">
+					<option value="0" <?php if($c_id == 0){echo 'selected';}?>>所有城市</option>
+					<?php foreach($city_info as $k=>$v):?>
+						<option value="<?php echo $k?>" <?php if($k==$c_id){echo 'selected';}?>><?php echo $v?></option>
+					<?php endforeach?>
+				</select>
+				<!--所属行业-->
+				<select name="category" id="form" class="form-control">
+					<?php foreach($category as $k=>$v):?>
+						<option value="<?php echo $k?>" <?php if($k==$cate){echo 'selected';}?>><?php echo $v?></option>
+					<?php endforeach?>
+				</select>
+				<!--规模-->
+				<select name="scale" id="form" class="form-control">
+					<?php foreach($scale as $k=>$v):?>
+						<option value="<?php echo $k?>" <?php if($k == $c_scale){ echo 'selected';}?> ><?php echo $v?></option>
+					<?php endforeach?>
+				</select>
+			<input type="submit" value="确定" name="choose"  class="form-control" id="sure"/>
+			<button onclick="cancel()" class="form-control" id="sure" style="display:none;">重置</button>
+		</form>
+		</div>
+
+		<!--<div class="panel-options" style="float:left;margin-left:30px;">
+
+            
+			<a href="#" data-toggle="panel"> <span class="collapse-icon">&ndash;</span>
+				<span class="expand-icon">+</span>
+			</a> <a href="#" data-toggle="remove"> &times; </a>
+		</div>-->
+		</div>
+	</div>
+	
+	<div class="panel-body">
+	<div class="">
+		</div>
+	<div style="clear:both;"></div>
+		<table class="table table-bordered table-striped" id="example-4">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>公司名称</th>
+					<th>推荐公司</th>
+					<th>所属行业</th>
+					<th>所在城市</th>
+					<th>规模</th>
+					<th>入驻时间</th>
+					<th>更新时间</th>
+					<th>操作</th>
+					<!--<th>审核状态</th>-->
+				</tr>
+			</thead>
+			<tbody>
+            <?php if(isset($company)){?>
+            <?php foreach($company['list'] as $v){?>
+
+                <tr class="tr_list">
+					<td><?php echo $v['id']?></td>
+					<td>
+					<a href="<?php echo $this->url('admin-company',array('action'=>'companydetails','id'=>$v['id']))?>">
+						<img class="fl" src="<?php echo isset($image[$v['image']]) ? $this->basepath() . '/' . UPLOAD_PATH . $image[$v['image']] :$this->basepath().'/images/img_logo@3x.png';?>"/>
+						 <span class="pl10 lh60"><?php echo $v['name']?></span>
+					</a>
+					</td>
+					<td class="p30">
+						<?php if($v['is_top']==1){?>
+							<img src="<?php echo ROOT_PATH."images/icon_vip2.png";?>" style="width:20px;height:20px;">
+						<?php }else{?>
+							<p class="is_top">---</p>
+						<?php }?>
+					</td>
+					<td><span class="lh60"><?php foreach($category as $key => $val){
+					    if($v['category_id']==$key){
+					    echo $val;
+					}}?></span></td>
+					<td><span class="lh60"><?php echo isset($v['city']) ? $v['city'] : '未填写';?></td>
+					<td><span class="lh60"><?php foreach($scale as $key => $val){
+					    if($v['scale']==$key){
+					    echo $val;
+					}}?></span></td>
+					<td><span class="lh60"><?php echo $v['timestamp']?></span></td>
+					<td><span class="lh60"><?php echo $v['timestamp_update'];?></span></td>
+					<td class="pt25">
+						<a class="btn btn-info fl mr10" href="<?php echo $this->url('admin-company',array('action' =>'companydetails','id'=>$v['id'])); ?>">编辑</a>
+					
+						<a class=" btn btn-danger fl mr10" href="<?php echo $this->url('admin-company',array('action' =>'delcompany','id'=>$v['id'])); ?>">删除</a>
+						<?php if($v['is_top']==1){?>
+						<a style="width:30%;" class="btn btn-info fl mr10" href="<?php echo $this->url('admin-activity',array('action'=>'index' ,'other'=>$v['id']))?>">查看活动(<?php echo isset($v['a_total'])?$v['a_total']:'';?>)</a>
+						<?php }?>
+					</td>
+					<!--<td>
+						<?php
+/*							if($v['audit_status']==2)
+							{
+								echo "审核通过";
+							}
+							else if($v['audit_status']==3){
+								echo '审核未通过';
+							}
+							else if($v['audit_status']==1)
+							{
+								echo "待审核";
+							}
+						*/?>
+
+                   </td>-->
+				</tr>
+			</a>
+            <?php }}?>
+            </tbody>
+		</table>
+        <?php //echo $this->paginationControl($paginator, 'Sliding', 'page',array('route' =>'admin-company','condition'=>$condition));?>       </div>
+</div>
+<script>
+
+
+       $('.btn-danger').click(function(){
+   	       if(!window.confirm('确定删除公司名片？')){
+      	        return false;
+    	   }
+       });
+</script>

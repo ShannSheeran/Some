@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+<head>
+<title>公司简介</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="<?php echo ROOT_PATH?>css/webuploader.css">
+<link rel="stylesheet" type="text/css" href="<?php echo ROOT_PATH?>css/diyUpload.css">
+<script src="<?php echo ROOT_PATH?>js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="<?php echo ROOT_PATH?>js/webuploader.html5only.min.js"></script>
+<script type="text/javascript" src="<?php echo ROOT_PATH?>js/diyUpload.js"></script>
+<link rel="stylesheet" href="<?php echo ROOT_PATH?>css/kuaiyao.css" type="text/css"/>
+
+</head>
+<body>
+<form class="ky-form"  action="<?php echo $this->url('admin-user',array('action'=>'temporaryData'));?>" method="post" id="apply_form">
+	<textarea class="miaosu" value="" placeholder="多些描述，多些了解，向大家展示自己的公司吧！" name="description"><?php echo isset($_SESSION['description']) ? $_SESSION['description'] : '';?></textarea>
+	
+	 <div id="box" style="margin:20px 4.9% 0 4.9%">
+		<div id="test" >
+		</div>
+		<?php if(isset($_SESSION['company_album_path']) && $_SESSION['company_album_path']){?>
+		<div class="parentFileBox" style=""> 	
+				<ul class="fileBoxUl">
+				<?php foreach ($_SESSION['company_album_path'] as $k=>$v){?>
+						<li class="diyUploadHover" id="fileBox_WU_FILE_<?php echo $k;?>"> 	
+								<div class="viewThumb">
+										 <img src="<?php echo $v['path']?>">
+							    </div> 					
+							    <div class="diyCancel">x</div> 	
+							    <div class="diySuccess"></div>
+							     <input type="hidden" name="company_album[]" id="file_WU_FILE_<?php echo $k?>" value="<?php echo $k?>"> 
+							     <div class="diyFileName"><?php echo $v['path']?></div>
+							     <div class="diyBar">
+							     <div class="diyProgress"></div>
+							     <div class="diyProgressText">0%</div>
+							     </div>
+					     </li>
+				<?php }?>
+				</ul>
+	</div>
+	<?php }?>
+	</div>
+	
+	<input type="submit" name="submit" value="保存" class="form-submit"/>
+</form>
+</body>
+</html>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script> 
+<script type="text/javascript">
+	var user=(navigator.userAgent).toLocaleLowerCase(),isWeixin=false;
+	var ht="";
+	var hta="";
+	if(user.indexOf('micromessenger')!==-1)
+	{
+		isWeixin=true;
+	}
+
+    function getJssdk()
+    {
+		
+        $.post("<?php echo $this->url('admin-user',array('action'=>'getJssdk')); ?>",'',function(data){
+            data = $.parseJSON(data);
+            if(data)
+            {
+				
+				hta=data.url;
+				ht=data.htt;
+                wx.config({
+                    debug: false,
+                    appId: data.appId,
+                    timestamp: data.timestamp,
+                    nonceStr: data.nonceStr,
+                    signature: data.signature,
+                    jsApiList: [
+                        'checkJsApi',
+                        'onMenuShareTimeline',
+                        'onMenuShareAppMessage',
+                        'onMenuShareQQ',
+                        'onMenuShareWeibo',
+                        'openLocation'
+                    ]
+                });
+				
+            }
+        });
+    };
+	wx.ready(function () {
+	var shareData = {
+		title: '邀请您申请快摇名片',
+		desc: '快来加入最具价值的商务人脉平台',
+		link: 'http://www.kuaiyao.name/admin/usera/add',
+		imgUrl: 'http://www.kuaiyao.name/images/logo2.png'
+	};
+	wx.onMenuShareAppMessage(shareData);
+	wx.onMenuShareTimeline(shareData);
+	wx.onMenuShareQQ(shareData);
+	wx.onMenuShareWeibo(shareData);
+});
+
+var temp_input = new Array();
+var q=0;
+var n=0;
+/*
+* 服务器地址,成功返回,失败返回参数格式依照jquery.ajax习惯;
+* 其他参数同WebUploader
+*/
+
+$('#test').diyUpload({
+	url:'<?php echo $this->url('admin-common',array('action'=>'getFile'));?>',
+	success:function( data ) {
+		$("#"+temp_input[n]).val(data.id);
+		n++;
+		console.info( data );
+	},
+	error:function( err ) {
+		console.info( err );	
+	},
+	buttonText : '选择公司图片'
+});
+
+</script>

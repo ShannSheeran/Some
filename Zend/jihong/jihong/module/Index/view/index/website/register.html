@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>吉宏园艺</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="css/base.css">
+<link rel="stylesheet" type="text/css" href="css/register.css">
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $('.reg_main .tittle h2').click(function(event) {
+            $(this).addClass('current').siblings('').removeClass('current');
+            $('.pub').eq($(this).index()).addClass('pub_current').siblings('').removeClass('pub_current');
+
+        });
+
+         // 勾选阅读协议
+         $('.checkboxpic').click(function(event) {
+                $('.checkboxpic .gou').toggle();
+            });
+
+         // 协议弹窗
+         $('.check .xieyi').click(function(event) {
+             $('.popbox').show();
+             $('.popbj').show();
+         });
+         // 协议弹窗内容关闭
+         $('.popbox .cancel,.popbox .agree').click(function(event) {
+             $('.popbox').hide();
+             $('.popbj').hide();
+         });
+
+          // 注册成功弹窗
+         $('.form .btn').click(function(event) {
+             $('.login_success').show();
+             $('.popbj').show();
+         });
+         // 注册成功弹窗内容关闭
+         $('.login_success .sure').click(function(event) {
+             $('.login_success').hide();
+             $('.popbj').hide();
+         });
+    })
+</script>
+</head>
+<body>
+    <div class="head">
+        <div class="sylogo fl"></div>
+        <p class="fl font20 corgray6 fontb">全方位中国花卉交易平台</p>
+        <p class="trading_tittle fr"><a class="font14 corgray6" href="">已有账号？马上登陆</a></p>
+    </div>
+    <div class="bj"></div>
+    <div class="reg_main">
+        <div class="tittle clearfix mb">
+            <h2 class="fl current">经销商</h2>
+            <h2 class="fr">供应商</h2>
+        </div>
+        <div class="form pub pub_current">
+            <div class="form_con clearfix mb">
+                <span class="fl">企业名称：</span>
+                <input class="fl" type="text" />
+            </div>
+            <div class="form_con clearfix mb">
+                <span class="fl">联系人：</span>
+                <input class="fl" type="text" />
+            </div>
+            <div class="form_con clearfix mb">
+                <span class="fl">联系电话：</span>
+                <input class="fl" type="text" />
+                <div class="warn fl">请输入手机号</div>
+            </div>
+            <div class="form_con dw clearfix mb">
+                <span class="fl">验证码：</span>
+                <input class="fl" type="text" />
+                <div class="warn fl">请输入验证码</div>
+                <div class="codepic">
+                    <img src="images/codepic_03.png" alt="" />
+                </div>
+            </div>
+            <div class="form_con phone clearfix mb">
+                <span class="fl">手机验证码：</span>
+                <input class="fl" type="text" />
+                <div class="gain_code fl">获取验证码</div>
+            </div>
+            <div class="form_con clearfix mb">
+                <span class="fl">企业传真：</span>
+                <input class="fl" type="text" />
+            </div>
+            <div class="form_con clearfix mb">
+                <span class="fl">QQ号码：</span>
+                <input class="fl" type="text" />
+            </div>
+            <div class="form_con clearfix mb">
+                <span class="fl">E-mail：</span>
+                <input class="fl" type="text" />
+            </div>
+            <div class="form_con clearfix mb">
+                <span class="fl">所在地区：</span>
+                <select class="fl" name="" id="">
+                    <option value="">请选择省份</option>
+                    <option value="广东省">广东省</option>
+                    <option value="北京市">北京市</option>
+                    <option value="上海">上海市</option>
+                    <option value="深圳">四川省</option>
+                    <option value="深圳">河南省</option>
+                    <option value="深圳">湖南省</option>
+                </select>
+                <select class="fl" name="" id="">
+                    <option value="">请选择城市</option>
+                    <option value="1">广州市</option>
+                    <option value="2">上海市</option>
+                    <option value="3">郑州</option>
+                    <option value="4">洛阳</option>
+                    <option value="4">长沙</option>
+                    <option value="4">长沙</option>
+                </select>
+            </div>
+            <div class="form_con clearfix mb">
+                <span class="fl">详细地址：</span>
+                <input class="fl" type="text" />
+            </div>
+            <div class="form_con clearfix mb">
+                <span class="fl">企业描述：</span>
+                <textarea name="" id="" cols="30" rows="10"></textarea>
+            </div>
+            <div class="check clearfix">
+                <div class="checkbox fl">
+                    <div class="checkboxpic">
+                        <div class="gou"></div>
+                    </div>
+                </div>
+                <p class="fl">我已阅读并同意<span class="corblue xieyi">《吉宏园艺注册协议》</span></p>
+            </div>
+            <div class="btn font18 corgrayf">立即注册</div>
+        </div>
+        <div class="form pub">
+            <div class="form_con clearfix mb">
+                <span class="fl">企业名称：</span>
+                <input class="fl" type="text" />
+            </div>
+            <div class="form_con clearfix mb">
+                <span class="fl">联系人：</span>
+                <input class="fl" type="text" />
+            </div>
+            <div class="form_con clearfix mb">
+                <span class="fl">联系电话：</span>
+                <input class="fl" type="text" />
+                <div class="warn fl">请输入手机号</div>
+            </div>
+            <div class="form_con dw clearfix mb">
+                <span class="fl">验证码：</span>
+                <input class="fl" type="text" />
+                <div class="warn fl">请输入验证码</div>
+                <div class="codepic">
+                    <img src="images/codepic_03.png" alt="" />
+                </div>
+            </div>
+            <div class="form_con phone clearfix mb">
+                <span class="fl">手机验证码：</span>
+                <input class="fl" type="text" />
+                <div class="gain_code fl">获取验证码</div>
+            </div>
+            <div class="form_con clearfix mb">
+                <span class="fl">企业传真：</span>
+                <input class="fl" type="text" />
+            </div>
+            <div class="form_con clearfix mb">
+                <span class="fl">QQ号码：</span>
+                <input class="fl" type="text" />
+            </div>
+            <div class="form_con clearfix mb">
+                <span class="fl">E-mail：</span>
+                <input class="fl" type="text" />
+            </div>
+            <div class="form_con clearfix mb">
+                <span class="fl">所在地区：</span>
+                <select class="fl" name="" id="">
+                    <option value="请选择省份">请选择省份</option>
+                    <option value="广东省">广东省</option>
+                    <option value="北京市">北京市</option>
+                    <option value="上海">上海市</option>
+                    <option value="深圳">四川省</option>
+                    <option value="深圳">河南省</option>
+                    <option value="深圳">湖南省</option>
+                </select>
+                <select class="fl" name="" id="">
+                    <option value="请选择城市">请选择城市</option>
+                    <option value="1">广州市</option>
+                    <option value="2">上海市</option>
+                    <option value="3">郑州</option>
+                    <option value="4">洛阳</option>
+                    <option value="4">长沙</option>
+                    <option value="4">长沙</option>
+                </select>
+            </div>
+            <div class="form_con clearfix mb">
+                <span class="fl">详细地址：</span>
+                <input class="fl" type="text" />
+            </div>
+            <div class="form_con clearfix mb">
+                <span class="fl">企业描述：</span>
+                <textarea name="" id="" cols="30" rows="10"></textarea>
+            </div>
+            <div class="check clearfix">
+                <div class="checkbox fl">
+                    <div class="checkboxpic">
+                        <div class="gou"></div>
+                    </div>
+                </div>
+                <p class="fl">我已阅读并同意<span class="corblue xieyi">《吉宏园艺注册协议》</span></p>
+            </div>
+            <div class="btn font18 corgrayf">立即注册</div>
+        </div>
+    </div>
+
+
+        <!-- 弹窗 -->
+        <div class="popbj">   
+        </div>
+        <div class="popbox">
+                <h3 class="pop_tittle font16 corgrayf">
+                    吉宏园艺服务协议
+                    <div class="cancel"></div>
+                </h3>
+                <div class="pop_content">
+                    <p>一 入会资格：从事花卉经营工作的个人或单位</p>
+                    <p>二 会费：免会员费</p>
+                    <p>三 交易规则</p>
+                    <p>1.采用网上交易系统，凭本人会员号及密码上网交易，不议价。</p>
+                    <p>2.实行预付款交易，订购货品即减帐户余额，不设欠款或挂帐。</p>
+                    <p>3.每个植物品种整箱起订（可参考装箱数）</p>
+                    <p>4.每次订货在￥1000元以上。</p>
+                    <p>5.统一以吉宏园艺标准纸箱包装，需特别包装的费用由会员承担（详情见收费标准）。</p>
+                    <p>6.订购货品的交货地点为广州吉宏园艺现场部，</p>
+                    <p>7.于发货或送货产生的物流运费或送货费由会员自付（详情见收费标准），并根据产生的实际费用在会员的往来帐上代扣、代付。</p>
+                    <p>8.会员收货时请及时验收货品，如发现货品品质与等级不符或有参差,两天内在网上投诉，核实后不符部分货品将按实际开单金额赔偿或做等额 的商品补偿，补偿金额将划入会员往来账；遇运输造成的损坏，本网工作人员将尽力协助向承运商索赔，并积极协助物色更负责任的承运商。</p>
+                    <p>9.会员号只允许所属会员本人使用。会籍不得转让，帐户不得借人使用，违者将被收回会员号，并终止会籍，密码是会员的重要个人资料，需 认真设置、管理与使用，凡使用本网帐户和密码办理的业务,均视为会员本人亲自办理。</p>
+                </div>
+                <div class="agree font14 corgrayf">同意并继续</div>  
+        </div>
+
+        <div class="login_success">
+            <h3>注册成功</h3>
+            <p>您的注册信息已经成功提交至后台，系统将尽快审核。请保持通信畅通。</p>
+            <p class="sure">确定</p>
+        </div>
+</body>
+</html>

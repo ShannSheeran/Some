@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <?php echo $this->headMeta()
+    ->appendName('description', 'RemoteSystemsTempFiles')
+    ->appendName('author', 'aiitec'); ?>
+	
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <?php 
+		echo $this->headTitle('快摇后台管理'. $this->translate('登录'))->setSeparator(' - ')->setAutoEscape(false);
+	?>
+	
+	 <?php 
+		echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/adminStyle/img/favicon.ico'))
+                    ->appendStylesheet($this->basePath() . '/css/fonts/linecons/css/linecons.css')
+                    ->appendStylesheet($this->basePath() . '/css/fonts/fontawesome/css/font-awesome.min.css')
+                    ->appendStylesheet($this->basePath() . '/css/bootstrap.css')
+                    ->appendStylesheet($this->basePath() . '/css/xenon-core.css')
+                    ->appendStylesheet($this->basePath() . '/css/xenon-forms.css')
+                    ->appendStylesheet($this->basePath() . '/css/xenon-components.css')
+                    ->appendStylesheet($this->basePath() . '/css/xenon-skins.css')
+					->appendStylesheet($this->basePath() . '/css/page.css')
+                    ->appendStylesheet($this->basePath() . '/css/custom.css');
+     ?>
+	<script src="<?php echo ROOT_PATH;?>js/jquery-1.11.1.min.js"></script>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+		<script src="<?php echo ROOT_PATH;?>js/html5shiv.min.js"></script>
+		<script src="<?php echo ROOT_PATH;?>js/respond.min.js"></script>
+	<![endif]-->
+<script type="text/javascript">
+$(function(){ 
+	onvdcodeFocus();
+});
+function onvdcodeFocus()
+{
+	$.post("<?php echo $this->url('admin-common',array('action'=>'generateCaptcha'))?>",
+ 		   function(data){    		    	     
+		     $("#Captchas").attr("src",data);
+ 		   });
+}
+</script>
+</head>
+<body class="page-body login-page login-light">
+	<div class="login-container">
+	
+		<div class="row">
+		
+			<div class="col-sm-6">
+				<!-- Errors container -->
+				<div class="errors-container">
+				
+									
+				</div>
+				
+				<!-- Add class "fade-in-effect" for login form effect -->
+				<form method="post" action="<?php echo $this->url('admin-index',array('action'=>'login'));?>" class="login-form fade-in-effect in">
+					
+					<div class="login-header">
+						<a href="dashboard-1.html" class="logo">
+							<img src="<?php echo ROOT_PATH;?>images/logo20.png" alt="" width="80" />
+							<span>用户登录</span>
+						</a>
+						
+						<p>亲爱的用户，登录进入管理区！</p>
+					</div>
+	
+					
+					<div class="form-group">
+						
+						<input type="text" class="form-control" name="admin_name" id="username"  placeholder="用户名" autocomplete="off"/>
+					</div>
+					
+					<div class="form-group">
+						
+						<input type="password" class="form-control" name="password" id="passwd" autocomplete="off" placeholder="密码"/>
+					</div>
+					<?php if(isset($_SESSION['login_number']) &&  ($_SESSION['login_number'] > 2)){?>
+					<div class="form-group" for="captcha">
+						
+						<input type="text" class="form-control" name="captcha" id="captcha" style="width:150px;float:left;" placeholder="验证码" autocomplete="off"/>
+						<img id="Captchas" src="" onclick="onvdcodeFocus()" style="cursor: pointer; margin-left:10px;" width="120" height="40px;">
+					</div>
+					<?php }?>
+					<div class="form-group">
+						<button type="submit" class="btn btn-dark  btn-block text-left" name="submit">
+							<i class="fa-lock"></i>
+							登录
+						</button>
+						<a href="https://kefu.easemob.com/mo/login">客服登陆</a>
+					</div>
+				</form>
+			</div>
+		</div>
+		
+	</div>
+	<!-- Bottom Scripts -->
+	<!-- JavaScripts initializations and stuff -->
+	<?php 
+		echo $this->headScript()->offsetSetFile(100,$this->basePath() . '/js/bootstrap.min.js')
+								->offsetSetFile(101,$this->basePath() . '/js/TweenMax.min.js')
+                                ->offsetSetFile(102,$this->basePath() . '/js/resizeable.js')
+								->offsetSetFile(103,$this->basePath() . '/js/joinable.js')
+								->offsetSetFile(104,$this->basePath() . '/js/xenon-api.js')
+								->offsetSetFile(105,$this->basePath() . '/js/xenon-toggles.js')
+								->offsetSetFile(107,$this->basePath() . '/js/toastr/toastr.min.js')
+								->offsetSetFile(108,$this->basePath() . '/js/xenon-custom.js');
+	?>
+</body>
+
+</html>
+
