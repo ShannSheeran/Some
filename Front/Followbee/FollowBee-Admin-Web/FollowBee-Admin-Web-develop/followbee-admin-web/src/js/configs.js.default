@@ -1,0 +1,70 @@
+/**
+* @Author: Kongho
+* @Date:   2017-01-18 12:12:17
+* @Email:  kongho@3ncto.com
+* @Filename: configs.js
+* @Last modified by:   Kongho
+* @Last modified time: 2017-01-18 14:48:48
+* @Copyright: 3NCTO Co., Ltd.
+*/
+
+
+
+app.constant('configs', {
+    // 接口请求配置
+    api: {
+        // 请求协议
+        protocol: 'http',
+        // 请求域名
+        host: 'followbee.3ncto.com.cn',
+        // 基础路径
+        basePath: '/api/api.php'
+    },
+
+    adminV1: {
+        basePath: 'http://manager.followbee.com', // 基础url
+        login: '/system.php/Public/index', // 登录url
+        menus: [
+            {
+                icon: '',
+                name: '栏目分类',
+                path: '/system.php/Index/index?controller=Articlecat&action=index'
+            },
+            {
+                icon: '',
+                name: '文章管理',
+                path: '/system.php/Index/index?controller=Articlecat&action=index2'
+            },
+            {
+                icon: '',
+                name: '展会管理',
+                path: '/system.php/Index/index?controller=Pavilion&action=index'
+            },
+            {
+                icon: '',
+                name: '图片管理',
+                path: '/system.php/Index/index?controller=Ads&action=index'
+            },
+            {
+                icon: '',
+                name: '标签管理',
+                path: '/system.php/Index/index?controller=Attrlist&action=index'
+            },
+            {
+                icon: '',
+                name: '会员管理',
+                path: '/system.php/Index/index?controller=User&action=index'
+            },
+            {
+                icon: '',
+                name: '系统管理',
+                path: '/system.php/Index/index?controller=Webinfo&action=index'
+            },
+            {
+                icon: '',
+                name: '管理员设置',
+                path: '/system.php/Index/index?controller=Webinfo&action=index'
+            },
+        ]
+    },
+})

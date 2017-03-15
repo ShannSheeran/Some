@@ -1,0 +1,139 @@
+<!--
+@Author: Kongho
+@Date:   2017-01-22 18:51:00
+@Email:  kongho@3ncto.com
+@Filename: data-statistics-sign-details.html
+@Last modified by:   Kongho
+@Last modified time: 2017-01-24 14:59:51
+@Copyright: 3NCTO Co., Ltd.
+-->
+
+
+
+<div ui-view>
+    <div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">{{data.title}}</h1>
+    </div>
+    <div class="wrapper-md">
+    <button ng-click="goBack()" class="btn btn-white btn-addon btn-ms f-mb10">返回</button>
+        <div class="tab-content">
+            <div>
+                <form class="form-horizontal" name="myForm">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">
+                                    签到时间：
+                                </label>
+                                <div class="col-sm-8">
+                                    <label class="control-label">
+                                        {{data.detail.sign_time*1000 | date:'yyyy-MM-dd HH:mm:ss'}}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">
+                                    公司名称：
+                                </label>
+                                <div class="col-sm-8">
+                                    <label class="control-label">
+                                        {{data.detail.company}}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">
+                                    联系人：
+                                </label>
+                                <div class="col-sm-8">
+                                    <label class="control-label">
+                                        {{data.detail.contacts}}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">
+                                    联系方式：
+                                </label>
+                                <div class="col-sm-8">
+                                    <label class="control-label">
+                                        {{data.detail.phone}}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">
+                                    产品类型：
+                                </label>
+                                <div class="col-sm-8">
+                                    <label class="control-label">
+                                        {{data.detail.product_type_name}}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-show="data.type == 1">
+                                <label class="col-sm-2 control-label">
+                                   展位号：
+                                </label>
+                                <div class="col-sm-8">
+                                    <label class="control-label">
+                                        {{data.detail.stand_number}}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">
+                                    产品详细信息：
+                                </label>
+                                <div class="col-sm-8">
+                                    <label class="control-label">
+                                        {{data.detail.products_details}}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">
+                                    上传图片：
+                                </label>
+                                <div class="col-sm-2" ng-repeat="(index, image) in data.detail.products_imgs">
+                                    <img src="{{image}}" alt="..." width="100%">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <h5 class="f-bold f-mb20 col-sm-2 control-label">展商邀约观众情况：</h5>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-striped b-light text-center table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center"></th>
+                                            <th class="text-center">邀约观众账号</th>
+                                            <th class="text-center">观众公司</th>
+                                            <th class="text-center">邀约时间</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="(index, item) in data.detail.invite_user">
+                                            <td >{{item.invite_id}}</td>
+                                            <td >{{item.user_name}}</td>
+                                            <td >{{item.company}}</td>
+                                            <td >{{item.invite_time*1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                        </tr>
+                                    </tbody>
+        		                    <tfoot>
+        		                        <tr>
+        		                            <td colspan="10" class="text-left" style="padding-top:13px;">
+        		                                <my-pagination conf="data.paginationConf"></my-pagination>
+        		                            </td>
+        		                        </tr>
+        		                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>

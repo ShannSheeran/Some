@@ -1,0 +1,102 @@
+<!--
+@Author: Kongho
+@Date:   2017-01-22 18:51:00
+@Email:  kongho@3ncto.com
+@Filename: data-statistics-sign.html
+@Last modified by:   Kongho
+@Last modified time: 2017-01-24 11:00:21
+@Copyright: 3NCTO Co., Ltd.
+-->
+
+
+
+<div ui-view>
+	<div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">签到数据统计（{{data.pavilionName}}）</h1>
+    </div>
+    <div class="wrapper-md">
+    <button ng-click="goBack()" class="btn btn-white btn-addon btn-ms f-mb10">返回</button>
+        <ul class="nav nav-pills nav-justified f-mb10" style="width: 50%;">
+		  <li ng-class="{ 'active' : data.params.type == 1 }" ng-click="setCurrentTab(1)" class="border"><a>展商签到</a></li>
+		  <li ng-class="{ 'active' : data.params.type == 2 }" ng-click="setCurrentTab(2)"><a>观众签到</a></li>
+		</ul>
+		<div class="tab-content">
+			<div ng-show="data.params.type == 1">
+				<div class="panel panel-default">
+		            <div class="table-responsive">
+		                <table class="table table-striped b-light text-center table-bordered">
+		                    <thead>
+		                        <tr>
+		                            <th class="text-center">展商账号</th>
+		                            <th class="text-center">展商公司</th>
+		                            <th class="text-center">展商联系人</th>
+		                            <th class="text-center">签到时间</th>
+		                            <th class="text-center">邀约用户数</th>
+		                            <th class="text-center">操作</th>
+		                        </tr>
+		                    </thead>
+		                    <tbody>
+		                        <tr ng-repeat="(index, item) in list">
+		                            <td >{{item.account}}</td>
+		                            <td >{{item.pavilion_name}}</td>
+		                            <td >{{item.user_name}}</td>
+		                            <td >{{item.sign_time*1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+		                            <td >{{item.invited_user_num}}</td>
+		                            <td>
+		                                <a href="#/app/data-statistics-sign-details?type=1&pavilionId={{data.params.pavilion_id}}&signInfoId={{item.sign_id}}" class="btn btn-sm btn-primary">详情</a>
+		                            </td>
+		                        </tr>
+
+		                    </tbody>
+		                    <tfoot>
+		                        <tr>
+		                            <td colspan="10" class="text-left" style="padding-top:13px;">
+		                                <my-pagination conf="data.paginationConf"></my-pagination>
+		                            </td>
+		                        </tr>
+		                    </tfoot>
+		                </table>
+		            </div>
+				</div>
+			</div>
+			<div ng-show="data.params.type == 2">
+				<div class="panel panel-default">
+		            <div class="table-responsive">
+		                <table class="table table-striped b-light text-center table-bordered">
+		                    <thead>
+		                        <tr>
+		                            <th class="text-center">观众账号</th>
+		                            <th class="text-center">观众公司</th>
+		                            <th class="text-center">姓名</th>
+		                            <th class="text-center">签到时间</th>
+		                            <th class="text-center">收到邀约数</th>
+		                            <th class="text-center">操作</th>
+		                        </tr>
+		                    </thead>
+		                    <tbody>
+		                        <tr ng-repeat="(index, item) in list">
+		                            <td >{{item.account}}</td>
+		                            <td >{{item.user_name}}</td>
+		                            <td >{{item.user_name}}</td>
+		                            <td >{{item.sign_time*1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+		                            <td >{{item.invited_user_num}}</td>
+		                            <td>
+		                                <a href="#/app/data-statistics-sign-details?type=2&pavilionId={{data.params.pavilion_id}}&signInfoId={{item.sign_id}}" class="btn btn-sm btn-primary">详情</a>
+		                            </td>
+		                        </tr>
+		                    </tbody>
+		                    <tfoot>
+		                        <tr>
+		                            <td colspan="10" class="text-left" style="padding-top:13px;">
+		                                <my-pagination conf="data.paginationConf"></my-pagination>
+		                            </td>
+		                        </tr>
+		                    </tfoot>
+		                </table>
+		            </div>
+				</div>
+			</div>
+		</div>
+
+    </div>
+</div>

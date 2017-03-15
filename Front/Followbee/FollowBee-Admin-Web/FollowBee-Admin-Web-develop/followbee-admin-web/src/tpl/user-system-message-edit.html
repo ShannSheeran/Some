@@ -1,0 +1,63 @@
+<div ui-view>
+	<div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">新增系统消息</h1>
+    </div>
+    <div class="wrapper-md">
+    <button ui-sref="app.user-system-message-list" class="btn btn-white btn-addon btn-ms f-mb10">返回</button>
+    	<form class="form-horizontal ng-pristine ng-valid" name="myForm">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">
+                            用户：
+                        </label>
+                        <div class="col-sm-10">
+                            <label class="text-left control-label col-sm-2">
+                                <input type="radio" name="radio" value="全体展商" ng-click="Statefalse()" />全体展商
+                            </label>
+                            <label class="text-left control-label col-sm-2">
+                                <input type="radio" name="radio" value="全体观众" ng-click="Statefalse()"/>全体观众
+                            </label>
+                            <label class="text-left control-label col-sm-2">
+                                <input type="radio" name="radio" value="指定用户" ng-click="Statetrue()" />指定用户
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="state">
+                        <label class="col-sm-2 control-label">
+                        </label>
+                        <label class="text-left col-sm-6 control-label">
+                        	导入用户账号
+                        	<button type="submit" class="btn btn-primary btn-addon btn-ms f-ml10">上传</button>
+                        	<button href="" class="f-ml10 btn btn-link">下载excel模板</button>
+                    	</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">
+                            标题：
+                        </label>
+                        <div class="col-sm-4">
+                            <input class="form-control" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">
+                            内容：
+                        </label>
+                        <div class="col-sm-8">
+                        <label class="control-label" style="text-align: left;">
+                            <div class="ueditor" ready="ready" ng-model="content" config="simpleConfig" style="width: 100%;"></div>
+                         </label>   
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                    	<div class="col-sm-4 col-sm-offset-2">
+                            <a class="btn btn-success">提交</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>    

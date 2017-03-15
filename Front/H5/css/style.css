@@ -1,0 +1,62 @@
+html, body{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: auto;
+    font-size: 16px;
+    font-family: "Microsoft YaHei", "Î¢ÈíÑÅºÚ", Helvetica, Tahoma, STXihei, "»ªÎÄÏ¸ºÚ", STHeiti, "Helvetica Neue", Helvetica, Tahoma, "Droid Sans", "wenquanyi micro hei", FreeSans, Arimo, Arial, SimSun, "ËÎÌå", Heiti, "ºÚÌå", sans-serif;
+}
+.container{
+    width: 100%;
+    height: auto;
+    position: relative;
+}
+.container .top-nav{
+    position: fixed;
+    height: 3rem;
+    width: 100%;
+    line-height: 3rem;
+    text-align: center;
+    background: #bbbbbb;
+    top: 0;
+}
+.container .bottom-nav{
+    position: fixed;
+    height: 3rem;
+    width: 100%;
+    line-height: 3rem;
+    text-align: center;
+    background: #bbbbbb;
+    bottom: 0;
+    display: flex;
+    flex-direction: row;
+}
+.container .middle-content{
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    overflow-y: scroll;
+    padding: 0.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+}
+.bottom-nav .b-c-samll{
+    width: 50%;
+
+}
+.middle-content .b-c-m{
+    width: 100%;
+    border-bottom: 1px solid #cccccc;
+}
+.middle-content .c-list {
+    display: flex;
+    flex-direction: row;
+}
+.middle-content .d-len{
+    width: 70% !important;
+}
+
+/*list*/
+#sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+#sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
+#sortable li span { position: absolute; margin-left: -1.3em; }
+

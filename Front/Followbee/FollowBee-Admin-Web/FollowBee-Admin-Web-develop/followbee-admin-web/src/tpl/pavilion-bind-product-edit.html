@@ -1,0 +1,40 @@
+<!--
+@Author: Kongho
+@Date:   2017-01-22 18:51:00
+@Email:  kongho@3ncto.com
+@Filename: pavilion-bind-product-edit.html
+@Last modified by:   Kongho
+@Last modified time: 2017-01-22 22:21:05
+@Copyright: 3NCTO Co., Ltd.
+-->
+
+
+
+<div ui-view>
+	<div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">绑定产品类型</h1>
+    </div>
+    <div class="wrapper-md">
+    	<div class="m-form m-tab-pc-table" style="z-index:2;">
+            <form class="form-inline" style="background-color:#F0F3F4;padding: 20px 10px 10px;margin-top: -20px;">
+                <div style="position:relative;margin: 0 0 20px 85px;">
+                    <label for="">展会：</label>
+                    <input type="text" disabled="true" class="form-control filter-status" style="width: 223px;" value="{{data.params.pavilionName}}">
+                </div>
+               <div>
+                    <label for="">一级产品类型分类：</label>
+                    <select class="form-control" ng-model="data.params.product_type_id" style="width:223px;">
+						<<option value="0">--请选择--</option>
+                    	<option ng-repeat="(index, productType) in list" value="{{productType.product_type_id}}">{{productType.product_type_name}}</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+        <div class="form-group">
+        	<div class="col-sm-4" style="padding-left: 140px;margin-top: 20px;">
+                <button class="btn btn-inverse" ng-click="cancel()">取消</button>
+            	<button class="btn btn-success" ng-click="save()">保存</button>
+            </div>
+    	</div>
+    </div>
+ </div>

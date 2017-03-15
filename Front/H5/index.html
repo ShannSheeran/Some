@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone = no" />
+    <title>ES6</title>
+    <link href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
+    <link href="http://jqueryui.com/resources/demos/style.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="container" class="container" ng-controller="myCtl">
+        <div class="top-nav">TOP</div>
+        <div class="middle-content">
+            <div class="b-c-m">
+                <ul id="sortable">
+                    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 1</li>
+                    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 2</li>
+                    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 3</li>
+                    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 4</li>
+                    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 5</li>
+                    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 6</li>
+                    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 7</li>
+                </ul>
+            </div>
+            <div class="b-c-m c-list">
+                <div class="d-list d-len">
+                    How do you say goodbye
+                    How do you say goodbye
+                    How do you say goodbye
+                    How do you say goodbye
+                    How do you say goodbye
+                    How do you say goodbye
+                </div>
+                <div class="d-lis d-len2">
+                    How do you say goodbye
+                </div>
+
+            </div>
+        </div>
+        <div class="bottom-nav" style="font-family:Microsoft YaHei">
+            <div class="b-c-samll"><a href="" ng-click="first()">First</a></div>
+            <div class="b-c-samll"><a href="" ng-click="second()">Second</a></div>
+            <div class="b-c-samll"><a href="">Three</a></div>
+            <div class="b-c-samll"><a href="">Four</a></div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="lib/angular/angular.js"></script>
+<script src="lib/angular/angular-ui-router.min.js"></script>
+<script src="lib/other/jquery.min.js"></script>
+<script src="lib/mobile/layer.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    var App=angular.module('myApp', ['ui.router']);
+    App.controller('myCtl', ['$scope', function($scope){
+        $scope.first=function(){
+            layer.open(
+                    {
+                        title:'请输入关键字',
+                        content: 'This is content',
+                        btn: ['确定', '取消'],
+                        yes: function(index, layero){
+                            layer.closeAll();
+                        },
+                        no:function(){
+                            alert(33);
+                        }
+                    });
+        }
+        $scope.second=function(){
+            alert(222);
+        }
+        $scope.data=[
+            {
+                id:12,
+                name:'jack',
+                word:'I am the master of my soul'
+            },
+            {
+                id:13,
+                name:'Block',
+                word:'tomorrow will be better'
+            },
+            {
+                id:14,
+                name:'France',
+                word:'Gone with the wind'
+            }
+        ];
+    }]);
+</script>
+<script>
+    $( function() {
+        $( "#sortable" ).sortable();
+        $( "#sortable" ).disableSelection();
+    } );
+</script>

@@ -1,0 +1,84 @@
+<!--
+@Author: Kongho
+@Date:   2017-01-22 15:26:18
+@Email:  kongho@3ncto.com
+@Filename: product-type-other-list.html
+@Last modified by:   Kongho
+@Last modified time: 2017-01-24 14:25:52
+@Copyright: 3NCTO Co., Ltd.
+-->
+
+
+
+<div ui-view>
+	<div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">其他产品</h1>
+    </div>
+    <div class="wrapper-md">
+		<div class="m-form m-tab-pc-table" style="z-index:2;">
+            <form class="form-inline" style="background-color:#F0F3F4;padding: 20px 10px 10px;margin-top: -20px;">
+                <div class="form-group" style="position:relative;margin-bottom:20px">
+                    <label for="">产品类型名称:</label>
+                    <input ng-model="data.params.product_type_name" type="text" class="form-control filter-status" style="width: 223px;">
+                </div>
+                <div class="form-group" style="position:relative">
+                    <label>提交时间:</label>
+                    <div class="f-dib">
+                        <div class="input-group" style="width:90px">
+                            <input type="text" class="form-control" name="start_time" uib-datepicker-popup="yyyy-MM-dd" is-open="popup7.opened" ng-model="data.start_time"  datepicker-options="dateOptions" close-text="关闭" current-text="今天" clear-text="清空" ng-click="popup7.opened = true">
+                        </div>
+                    </div>
+                    -
+                    <div class="f-dib">
+                        <div class="input-group" style="width:90px">
+                            <input type="text" class="form-control" name="end_time" uib-datepicker-popup="yyyy-MM-dd" is-open="popup8.opened" ng-model="data.end_time" datepicker-options="dateOptions" close-text="关闭" current-text="今天" clear-text="清空" ng-click="popup8.opened = true">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" style="position:relative;margin-bottom:20px">
+                    <label for="">展会名称:</label>
+                    <input type="text" ng-model="data.params.pavilion_name" class="form-control filter-status" style="width: 223px;">
+                </div>
+                <div class="form-group">
+                    <button type="submit" ng-click="search()" class="btn btn-primary btn-addon btn-ms">搜索</button>
+                </div>
+                <div class="form-group">
+                    <a href="{{exportUrl}}" target="_blank" class="btn btn-info btn-addon btn-ms">导出</a>
+                </div>
+            </form>
+        </div>
+        <div class="panel panel-default">
+        	<div class="table-responsive">
+                <table class="table table-striped b-light text-center table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="text-center">ID</th>
+                            <th class="text-center">用户账号</th>
+                            <th class="text-center">展会</th>
+                            <th class="text-center">提交时间</th>
+                            <th class="text-center">产品类型(中文)</th>
+                            <th class="text-center">产品类型(中文)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="(index, productType) in list">
+                            <td >{{productType.product_type_id}}</td>
+                            <td >{{productType.user_name}}</td>
+                            <td >{{productType.pavilion_name}}</td>
+                            <td >{{productType.create_time*1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                            <td >{{productType.product_type_name}}</td>
+                            <td >{{productType.en_product_type_name}}</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="10" class="text-left" style="padding-top:13px;">
+                                <my-pagination conf="data.paginationConf"></my-pagination>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+		</div>
+    </div>
+</div>
