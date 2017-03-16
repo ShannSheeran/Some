@@ -1,0 +1,37 @@
+<!--
+@Author: Kongho
+@Date:   2017-01-22 11:57:45
+@Email:  kongho@3ncto.com
+@Filename: product-type-edit.html
+@Last modified by:   Kongho
+@Last modified time: 2017-01-22 18:52:08
+@Copyright: 3NCTO Co., Ltd.
+-->
+
+
+
+<div ui-view>
+	<div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">{{title}}</h1>
+    </div>
+    <div class="wrapper-md">
+    <button ng-click="goBack()" class="btn btn-white btn-addon btn-ms f-mb10">返回</button>
+    	<div class="m-form m-tab-pc-table" style="z-index:2;">
+            <form class="form-inline" style="background-color:#F0F3F4;padding: 20px 0 10px;margin-top: -20px;">
+                <div style="position:relative;margin-bottom:20px">
+                	<label class="text-danger">*</label>
+                    <label for="">产品类型（中文）：</label>
+                    <input type="text" class="form-control filter-status" style="width: 223px;" placeholder="请输入产品类型中文名称" ng-model="params.product_type_name" ng-disabled="type == 'view'">
+                </div>
+                <div style="position:relative;margin-bottom:20px">
+                	<label class="text-danger">*</label>
+                    <label for="">产品类型（英文）：</label>
+                    <input type="text" class="form-control filter-status" style="width: 223px;" placeholder="请输入产品类型英文名称" ng-model="params.en_product_type_name" ng-disabled="type == 'view'">
+                </div>
+            </form>
+        </div>
+        <div class="m-form-header" ng-show="{{type != 'view'}}">
+            <button class="btn btn-success btn-addon btn-ms" ng-click="save()">{{buttonTitle}}</button>
+        </div>
+    </div>
+</div>

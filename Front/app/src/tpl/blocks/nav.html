@@ -1,0 +1,114 @@
+<!--
+@Author: Kongho
+@Date:   2017-01-20 11:54:35
+@Email:  kongho@3ncto.com
+@Filename: nav.html
+@Last modified by:   Kongho
+@Last modified time: 2017-02-16 20:35:11
+@Copyright: 3NCTO Co., Ltd.
+-->
+
+
+
+<ul class="nav">
+    <!-- <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+    <span translate="aside.nav.HEADER">Navigation</span>
+  </li>
+  <li> -->
+    <!--  <a href class="auto">
+      <span class="pull-right text-muted">
+        <i class="fa fa-fw fa-angle-right text"></i>
+        <i class="fa fa-fw fa-angle-down text-active"></i>
+      </span>
+      <i class="glyphicon glyphicon-stats icon text-primary-dker"></i>
+      <span class="font-bold" translate="aside.nav.DASHBOARD">Dashboard</span>
+    </a>
+    <ul class="nav nav-sub dk">
+      <li class="nav-sub-header">
+        <a href>
+          <span translate="aside.nav.DASHBOARD">Dashboard</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.dashboard-v1">
+          <span>Dashboard v1</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="app.dashboard-v2">
+          <b class="label bg-info pull-right">N</b>
+          <span>Dashboard v2</span>
+        </a>
+      </li>
+    </ul>
+  </li> -->
+    <!-- 旧后台菜单列表 -->
+    <li ng-repeat="menu in adminV1.menus">
+        <a href="{{adminV1.basePath}}{{menu.path}}">
+            <!-- <b class="badge bg-info pull-right">9</b> -->
+            <i class="glyphicon glyphicon-list-alt icon text-info-lter"></i>
+            <span class="font-bold" translate="aside.nav.EMAIL">{{menu.name}}</span>
+        </a>
+    </li>
+
+    <li>
+        <a href class="auto">
+            <span class="pull-right text-muted">
+        <i class="fa fa-fw fa-angle-right text"></i>
+        <i class="fa fa-fw fa-angle-down text-active"></i>
+      </span>
+            <i class="glyphicon glyphicon-th-list icon text-success"></i>
+            <span class="font-bold">产品类型管理</span>
+        </a>
+        <ul class="nav nav-sub dk">
+            <li ui-sref-active="active">
+                <a ui-sref="app.product-type-list">
+                    <span>产品类型管理</span>
+                </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="app.product-type-other-list">
+                    <span>其他产品</span>
+                </a>
+            </li>
+        </ul>
+    </li>
+    <!-- <li class="line dk"></li>
+
+  <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+    <span translate="aside.nav.components.COMPONENTS">Components</span>
+  </li> -->
+    <li>
+        <a href class="auto">
+            <span class="pull-right text-muted">
+        <i class="fa fa-fw fa-angle-right text"></i>
+        <i class="fa fa-fw fa-angle-down text-active"></i>
+      </span>
+            <!-- <b class="badge bg-info pull-right">3</b> -->
+            <i class="glyphicon glyphicon-pencil"></i>
+            <span>数据统计</span>
+        </a>
+        <ul class="nav nav-sub dk">
+            <!--  <li class="nav-sub-header">
+        <a href>
+          <span>Layout</span>
+        </a>
+      </li> -->
+            <li ui-sref-active="active">
+                <a ui-sref="app.data-statistics-list">
+                    <span>签到数据统计</span>
+                </a>
+            </li>
+            <!--  <li ui-sref-active="active">
+        <a ui-sref="layout.fullwidth">
+          <span>Full width</span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="layout.mobile">
+          <span>Mobile</span>
+        </a>
+      </li> -->
+        </ul>
+    </li>
+</ul>

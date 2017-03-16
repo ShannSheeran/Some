@@ -1,0 +1,111 @@
+<!--
+@Author: Kongho
+@Date:   2017-01-20 11:54:35
+@Email:  kongho@3ncto.com
+@Filename: product-type-list.html
+@Last modified by:   Kongho
+@Last modified time: 2017-02-18 13:58:55
+@Copyright: 3NCTO Co., Ltd.
+-->
+
+
+
+<div ui-view>
+	<div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">产品类型管理{{data.title}}</h1>
+    </div>
+    <div class="wrapper-md">
+    <button ng-if="data.level == 2" ng-click="manageLevel1()" class="btn btn-white btn-addon btn-ms f-mb10">返回</button>
+    	<div class="m-form m-tab-pc-table" style="z-index:2;">
+            <form class="form-inline" ng-submit="search()" style="background-color:#F0F3F4;padding: 20px 0 10px;margin-top: -20px;">
+                <div class="form-group" style="position:relative;margin-bottom:20px">
+                    <label for="">产品类型名称:</label>
+                    <input type="text" ng-model="data.params.product_type_name" class="form-control filter-status" style="width: 223px;">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-addon btn-ms">搜索</button>
+                </div>
+            </form>
+        </div>
+        <div class="m-form-header">
+            <button class="btn btn-primary btn-addon btn-ms" ng-click="addProductType()"><i class="fa fa-plus"></i>新增</button>
+        </div>
+        <div class="panel panel-default" ng-if="data.level == 1">
+            <div class="table-responsive">
+                <table class="table table-striped b-light text-center table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="text-center">ID</th>
+                            <th class="text-center">产品类型(中文)</th>
+                            <th class="text-center">产品类型(英文)</th>
+                            <th class="text-center">创建时间</th>
+                            <th class="text-center">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="(index, productType) in list">
+                            <td >{{productType.product_type_id}}</td>
+                            <td >{{productType.product_type_name}}</td>
+                            <td >{{productType.en_product_type_name}}</td>
+                            <td >{{productType.create_time*1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                            <td>
+                                <a href="#/app/product-type-edit?type=view&level=1&productTypeId={{productType.product_type_id}}" class="btn btn-sm btn-primary">查看</a>
+                                <a href="#/app/product-type-edit?type=edit&level=1&productTypeId={{productType.product_type_id}}" class="btn btn-sm btn-success">修改</a>
+                                <a href="" ng-click="delete(productType)" class="btn btn-sm btn-danger">删除</a>
+                                <a href="" class="btn btn-sm btn-info" ng-click="manageLevel2(index)">管理二级页面</a>
+                            </td>
+                        </tr>
+                    </tbody>
+					<tfoot>
+                        <tr>
+                            <td colspan="10" class="text-left" style="padding-top:13px;">
+                                <my-pagination conf="paginationConf"></my-pagination>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+		</div>
+        <!-- 二级 -->
+        <div class="panel panel-default" ng-if="data.level == 2">
+        	<div class="table-responsive">
+                <table class="table table-striped b-light text-center table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="text-center">ID</th>
+                            <th class="text-center">一级分类名称</th>
+                            <th class="text-center">一级分类名称(英文)</th>
+                            <th class="text-center">二级分类名称</th>
+                            <th class="text-center">二级分类名称(英文)</th>
+                            <th class="text-center">创建时间</th>
+                            <th class="text-center">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="(index, productType) in list">
+                            <td >{{productType.product_type_id}}</td>
+                            <td >{{data.parent_name}}</td>
+                            <td >{{data.en_parent_name}}</td>
+                            <td >{{productType.product_type_name}}</td>
+                            <td >{{productType.en_product_type_name}}</td>
+                            <td >{{productType.create_time*1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                            <td>
+                                <a href="#/app/product-type-edit?type=view&level=2&productTypeId={{productType.product_type_id}}" class="btn btn-sm btn-primary">查看</a>
+                                <a href="#/app/product-type-edit?type=edit&level=2&productTypeId={{productType.product_type_id}}" class="btn btn-sm btn-success">修改</a>
+                                <a href="" ng-click="delete(productType)" class="btn btn-sm btn-danger">删除</a>
+                            </td>
+                        </tr>
+                    </tbody>
+					<tfoot>
+                        <tr>
+                            <td colspan="10" class="text-left" style="padding-top:13px;">
+                                <my-pagination conf="paginationConf"></my-pagination>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+		</div>
+        <!-- 二级 -->
+    </div>
+</div>

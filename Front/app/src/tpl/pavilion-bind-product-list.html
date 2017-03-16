@@ -1,0 +1,55 @@
+<!--
+@Author: Kongho
+@Date:   2017-01-22 15:26:18
+@Email:  kongho@3ncto.com
+@Filename: pavilion-bind-product-list.html
+@Last modified by:   Kongho
+@Last modified time: 2017-02-18 15:44:00
+@Copyright: 3NCTO Co., Ltd.
+-->
+
+
+
+<div ui-view>
+	<div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">绑定产品类型（{{data.params.pavilionName}}）</h1>
+    </div>
+    <div class="wrapper-md">
+		<button ng-click="goBack()" class="btn btn-white btn-addon btn-ms f-mb10">返回</button>
+    	<div class="m-form-header">
+            <button class="btn btn-primary btn-addon btn-ms" ng-click="addProductType()"><i class="fa fa-plus"></i>新增绑定</button>
+        </div>
+        <div class="panel panel-default">
+            <div class="table-responsive">
+                <table class="table table-striped b-light text-center table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="text-center">编号</th>
+                            <th class="text-center">产品类型(中文)</th>
+                            <th class="text-center">产品类型(英文)</th>
+                            <th class="text-center">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="(index, productType) in list">
+                            <td >{{productType.product_type_id}}</td>
+                            <td >{{productType.product_type_name}}</td>
+                            <td >{{productType.en_product_type_name}}</td>
+                            <td>
+                                <a href="#/app/pavilion-bind-product-edit?pavilionId={{data.params.pavilionId}}&productTypeId={{productType.product_type_id}}&pavilionName={{data.params.pavilionName}}" class="btn btn-sm btn-success">编辑</a>
+                                <a href="" ng-click="delete(productType)" class="btn btn-sm btn-danger">删除</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="10" class="text-left" style="padding-top:13px;">
+                                <my-pagination conf="paginationConf"></my-pagination>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+		</div>
+    </div>
+</div>

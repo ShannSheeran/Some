@@ -1,0 +1,54 @@
+<!--
+@Author: Kongho
+@Date:   2017-01-22 15:26:18
+@Email:  kongho@3ncto.com
+@Filename: data-statistics-list.html
+@Last modified by:   Kongho
+@Last modified time: 2017-02-18 15:19:46
+@Copyright: 3NCTO Co., Ltd.
+-->
+
+
+
+<div ui-view>
+	<div class="bg-light lter b-b wrapper-md">
+        <h1 class="m-n font-thin h3">签到数据统计</h1>
+    </div>
+    <div class="wrapper-md">
+		<div class="panel panel-default">
+            <div class="table-responsive">
+                <table class="table table-striped b-light text-center table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="text-center">展会名</th>
+                            <th class="text-center">举办时间</th>
+                            <th class="text-center">举办地点</th>
+                            <th class="text-center">展商签到人数</th>
+                            <th class="text-center">观众签到人数</th>
+                            <th class="text-center">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="(index, item) in list">
+                            <td >{{item.pavilion}}</td>
+                            <td >{{item.hold_time}}</td>
+                            <td >{{item.hold_place}}</td>
+                            <td >{{item.exhibitors_num}}</td>
+                            <td >{{item.audience_num}}</td>
+                            <td>
+                                <a href="#/app/data-statistics-sign?pavilionId={{item.pavilion_id}}&pavilionName={{item.pavilion}}" class="btn btn-sm btn-primary">详情</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="10" class="text-left" style="padding-top:13px;">
+                                <my-pagination conf="paginationConf"></my-pagination>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+		</div>
+    </div>
+</div>

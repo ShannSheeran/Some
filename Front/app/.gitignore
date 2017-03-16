@@ -1,0 +1,4 @@
+.tags*
+dist
+node_modules
+configs.js
