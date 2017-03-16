@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/page.css" rel="stylesheet">
+    <script src="./lib/angular/angular.js"></script>
+    <script src="./lib/angular/angular-ui-router.min.js"></script>
+    <script src="./js/tm.pagination.js"></script>
+</head>
+<body ng-controller="testController">
+    <a href="http://www.3n.com/api.php/download" target="_top">文件下载</a>
+    {{data}}
+    <div class="container">
+        <h3 style="text-align: center;">Angular 分页(指令)</h3>
+    </div>
+
+    <table class="table">
+        <tr>
+            <th>编号</th>
+            <th>项目编号</th>
+            <th>项目名称</th>
+            <th>地区</th>
+            <th>创建人</th>
+            <th>创建时间</th>
+        </tr>
+        <tr ng-repeat="item in products">
+            <td>{{ item.id }}</td>
+            <td>{{ item.item_number }}</td>
+            <td>{{ item.title }}</td>
+            <td>{{ item.region_name }}</td>
+            <td>{{ item.create_user }}</td>
+            <td>{{ item.created * 1000 | date: 'yyyy-MM-dd' }}</td>
+        </tr>
+    </table>
+<tm-pagination conf="paginationConf"></tm-pagination>
+</body>
+</html>
+<script>
+    angular.module('myApp', ['tm.pagination']).controller('testController', function($scope, $http){
+
+        // 重新获取数据条目
+        var reGetProducts = function(){
+            var page_no=$scope.paginationConf.currentPage;
+            var page_size=$scope.paginationConf.itemsPerPage;
+            $scope.data={
+                page_no: $scope.paginationConf.currentPage,
+                page_size: $scope.paginationConf.itemsPerPage
+            };
+            $http({
+                url:"http://www.3n.com/api.php/projects?page_no="+page_no+"&page_size="+page_size,
+                method:'GET'
+            }).success(function(d){
+                $scope.paginationConf.totalItems = d.data.count;
+                $scope.products = d.data.data_list;
+            }).error(function(e){
+                alert(e);
+            });
+        };
+
+        // 配置分页基本参数
+        $scope.paginationConf = {
+            currentPage: 1,
+            itemsPerPage: 5
+        };
+
+        // 通过$watch currentPage和itemperPage 当他们一变化的时候，重新获取数据条目
+        $scope.$watch('paginationConf.currentPage + paginationConf.itemsPerPage', reGetProducts);
+
+    })
+</script>

@@ -1,0 +1,29 @@
+<div class="container">
+    <table class="table">
+        <thead>
+        <tr>
+            <td>id</td>
+            <td>title</td>
+            <td>name</td>
+            <td>city</td>
+            <td>number</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="v in item">
+            <td>{{v.id}}</td>
+            <td>{{v.title}}</td>
+            <td>{{v.create_user}}</td>
+            <td>{{v.region_name}}</td>
+            <td>{{v.item_number}}</td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="page">
+        <button ng-click="previous()">Previous</button>
+        <button ng-click="next()">Next</button>
+        <input type="number" ng-model="currentPage" class="pageNum">
+        <button ng-click="goToPage()">Go</button>
+        <span class="totalPages">共 {{allPage}} 页</span>
+    </div>
+</div>

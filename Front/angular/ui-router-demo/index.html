@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="Demo" ng-controller="testCtrl as ctrl">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="./css/layer.css" media="all">
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <script src="http://cdn.bootcss.com/angular.js/1.5.8/angular.js"></script>
+    <script src="http://cdn.bootcss.com/angular-ui-router/1.0.0-alpha0/angular-ui-router.min.js"></script>
+</head>
+<style>
+    #layui-layer1{
+        width: 200px;
+        height: 50px;
+    }
+</style>
+<body>
+<div >
+    <ol>
+        <li><a ui-sref="app">app</a></li>
+        <li><a ui-sref="form">form</a></li>
+        <li><a ui-sref="about">about</a></li>
+        <li><a ui-sref="table">table</a></li>
+    </ol>
+    <div ui-view>
+
+    </div>
+    <script type="text/ng-template" id="'page1.html'">
+        <div class="container">
+            <p class="btn btn-info">APP</p>
+        </div>
+    </script>
+    <script type="text/ng-template" id="'page3.html'">
+        this is page 1 for test.
+    </script>
+</div>
+</body>
+</html>
+<script src="http://cdn.bootcss.com/angular-file-upload/2.3.4/angular-file-upload.js"></script>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+<script src="./js/layer.js"></script>
+<script>
+    angular.module('Demo', ['ui.router','angularFileUpload'])
+            .config(["$stateProvider","$urlRouterProvider",routeConfig])
+            .controller("testCtrl", angular.noop)
+            .service('demoService', serviceFunction) //服务
+            .directive('se', secondDirective)
+            .directive('direc', directionF)
+
+    //directive
+    function secondDirective(){
+        return {
+            restrict:'AECM',
+            transclude:true,
+            templateUrl:'./directive.html',
+            controller:function($scope){
+                $scope.data ="绑定的过程:先在指令元素中创建a-attr或b-attr属性，" +
+                        "由于HTML不区分大小写，因此使用-隔开。需要注意的是：" +
+                        "由于在指令中绑定策略不同，" +
+                        "在指令元素中，属性绑定属性值也会有些变化，使用@绑定的属性，" +
+                        "绑定属性值的方式为双大括号{{}}，而使用=绑定的属性，绑定属性值" +
+                        "的方式为等于号=，不需要双大括号";
+            }
+        }
+    }
+
+    function directionF(){
+        return{
+            restrict:'AECM',
+            transclude:true,
+            template:"指令（Directive）:<div>This Is a Directive</div><p>Hello {{index}}</p>",
+            controller:function($scope){
+                $scope.index='Jack';
+            }
+        }
+    }
+
+    //service
+    function serviceFunction(){
+        'use stricts';
+        this.publicAuthor = {
+            name: 'rose',
+            sex: 'female'
+        }
+        this.getPriAuthor = function (a,b) {
+            return a*b;
+        }
+        this.injetctor='服务依赖注入';
+    }
+    //ui-router
+    function routeConfig($stateProvider,$urlRouterProvider){
+        $urlRouterProvider.otherwise("/app");
+        $stateProvider
+                .state("app",{
+                    url:"/app",
+                    templateUrl:"./app.html",
+                    controller:['$scope', 'demoService', function($scope, demoService){//（依赖注入）
+                        $scope.author = demoService.publicAuthor
+                        $scope.result = demoService.getPriAuthor(33,66)
+                        $scope.injetctor=demoService.injetctor
+                    }]
+                })
+                .state("form",{
+                    url:"/form",
+                    templateUrl:'./list.html',
+                    controller:['$scope', '$http', 'FileUploader', function($scope, $http, FileUploader){
+                        $scope.save=function(){
+                            let data=[{title:'nihao', content:'Hello'},{title:'Hello', content:'world'}];
+                            let postData={
+                                financing_round:2,
+                                finance_amount:345,
+                                sell_shares:2,
+                                funds_use_date:12,
+                            }
+                            $http({
+                                url:'http://www.3n.com/api.php/projects/101',
+                                method:'PUT',
+                                data:postData
+                            }).success(function(res){
+                                console.log(res);
+                            });
+                        }
+
+                    }]
+                })
+                .state('about', {
+                    url:'/about',
+                    templateUrl:'./about.html',
+                    controller:['$scope','$state', function($scope, $state){
+                        $scope.data=[
+                            {
+                                id:1,
+                                name:'Jack',
+                                city:'北京'
+                            },
+                            {
+                                id:2,
+                                name:'Sheeran',
+                                city:'昆明'
+                            },
+                            {
+                                id:3,
+                                name:'Mark',
+                                city:'广州'
+                            }
+                        ]
+                        $scope.name='Angular';
+                        //$state.go('test', {});
+                    }],
+
+                })
+                .state('table',{
+                    url:'/table',
+                    templateUrl:'./form.html',
+                    controller:['$scope', '$state', '$http', '$location', function($scope, $state, $http, $location){
+                        //console.log($location);
+                        $http({
+                            method:'GET',
+                            url:'http://bp.3ncto.cn/api.php/projects',
+                            ///url:'http://www.3n.com/api.php/comments/24',
+                        }).success(function(d){
+                            $scope.item= d.data.data_list;
+                        }).error(function(e){
+
+                        })
+                    }]
+                })
+    }
+</script>
+<script src="./js/file.js"></script>
