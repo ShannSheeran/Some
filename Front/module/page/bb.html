@@ -1,0 +1,23 @@
+
+<div class="container" ms-controller="bat">
+    <p>Name: {{title}}</p>
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Id</td>
+                <td>City</td>
+                <td>Name</td>
+                <td>Openid</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ms-repeat="data">
+                <td>{{el.id}}</td>
+                <td>{{el.city}}</td>
+                <td>{{el.name}}</td>
+                <td>{{el.openid}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <button class="btn btn-info" ms-click="click()">Button</button>
+</div>

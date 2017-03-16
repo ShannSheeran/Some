@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="./mobile/need/layer.css" rel="stylesheet">
+    <link href="./css/boomstrap.css" rel="stylesheet">
+</head>
+<style>
+    .url-class{
+        width: 100%;
+        height: 50px;
+        background: #3C3636;
+    }
+    .h-url{
+        float: left;
+        width: 20%;
+        height: 50px;
+        background: #3C3636;
+        text-align: center;
+        line-height: 50px;
+        font-size: 20px;
+    }
+</style>
+<body ms-controller="test">
+    <p>This Page is Based On Avalon!</p>
+    <div class="container" id="test" >
+        <div class="url-class">
+            <a class="h-url" href="#!/">首页</a>
+            <a class="h-url" href="#!/home">简介</a>
+            <a class="h-url" href="#!/bb">bb</a>
+            <a class="h-url" href="#!/cc/22/33">Params</a>
+            <a class="h-url" href="#!/list">list</a>
+        </div>
+            <div ms-view style='width: 100%;height: 500px;'></div>
+    </div>
+</body>
+</html>
+<script data-main="main" src="require.js"></script>
+
+<script src="./avalon.js"></script>
+<script src="./js/index.js"></script>
+<script src="./js/vmodels.js"></script>
+<script src="./jquery.js"></script>
+<script src="./mobile/layer.js"></script>
+

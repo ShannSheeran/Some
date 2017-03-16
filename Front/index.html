@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone = no" />
+    <title>ES6</title>
+    <script src=""></script>
+</head>
+<style>
+    html, body{
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: auto;
+        font-size: 16px;
+    }
+    .container{
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+    .container .top-nav{
+        position: fixed;
+        height: 3rem;
+        width: 100%;
+        line-height: 3rem;
+        text-align: center;
+        background: #bbbbbb;
+        top: 0;
+    }
+    .container .bottom-nav{
+        position: fixed;
+        height: 3rem;
+        width: 100%;
+        line-height: 3rem;
+        text-align: center;
+        background: #bbbbbb;
+        bottom: 0;
+        display: flex;
+        flex-direction: row;
+    }
+    .container .middle-content{
+        margin-top: 3rem;
+        margin-bottom: 3rem;
+        overflow-y: scroll;
+        padding: 0.5rem 1rem;
+        display: flex;
+        flex-direction: column;
+    }
+    .bottom-nav .b-c-samll{
+        width: 50%;
+
+    }
+    .middle-content .b-c-m{
+        width: 100%;
+        padding: 0.5rem;
+        border-bottom: 1px solid #cccccc;
+    }
+
+</style>
+
+<body>
+    <div id="container" class="container">
+        <div class="top-nav">TOP</div>
+        <div class="middle-content">
+            <div class="b-c-m">
+                法static forRoot(routes: Routes, config?: ExtraOptions): ModuleWithProviders 及static forChild(routes: Routes): ModuleWithProviders 。这两个方法都返回ModulewithProviders，结果就是返回一个选定的ngModule和一个注射器providers[]，来对构造函数的装饰器进行注射实例化。providers数组里面不是useFactory用的就是我们用的。剩下就是一些optional方法让我们继续深度配置router，这段话有点逻辑混乱。整理来说route_module.ts文件，通过构造函数里面的一个类symbol类装饰器来提供给我们一堆的依赖注入（providers[]），结果就是实例化一个RouterModule时，选择forRoot和forChildern都会返回一堆依赖关系实例，这一大堆实例中我们就举其中一个例子，让大家感受下这个RouterModule里的依赖关系的多和复杂：forRoot中provider了一个ROUTER_PROVIDERS，这是一个provider[]，其中又provider了一个Router，然后这个Router是使用setupRouter进行实例化（useFactory），其中又依赖
+            </div>
+            <div class="b-c-m">
+                法static forRoot(routes: Routes, config?: ExtraOptions): ModuleWithProviders 及static forChild(routes: Routes): ModuleWithProviders 。这两个方法都返回ModulewithProviders，结果就是返回一个选定的ngModule和一个注射器providers[]，来对构造函数的装饰器进行注射实例化。providers数组里面不是useFactory用的就是我们用的。剩下就是一些optional方法让我们继续深度配置router，这段话有点逻辑混乱。整理来说route_module.ts文件，通过构造函数里面的一个类symbol类装饰器来提供给我们一堆的依赖注入（providers[]），结果就是实例化一个RouterModule时，选择forRoot和forChildern都会返回一堆依赖关系实例，这一大堆实例中我们就举其中一个例子，让大家感受下这个RouterModule里的依赖关系的多和复杂：forRoot中provider了一个ROUTER_PROVIDERS，这是一个provider[]，其中又provider了一个Router，然后这个Router是使用setupRouter进行实例化（useFactory），其中又依赖
+            </div>
+            <div class="b-c-m">
+                法static forRoot(routes: Routes, config?: ExtraOptions): ModuleWithProviders 及static forChild(routes: Routes): ModuleWithProviders 。这两个方法都返回ModulewithProviders，结果就是返回一个选定的ngModule和一个注射器providers[]，来对构造函数的装饰器进行注射实例化。providers数组里面不是useFactory用的就是我们用的。剩下就是一些optional方法让我们继续深度配置router，这段话有点逻辑混乱。整理来说route_module.ts文件，通过构造函数里面的一个类symbol类装饰器来提供给我们一堆的依赖注入（providers[]），结果就是实例化一个RouterModule时，选择forRoot和forChildern都会返回一堆依赖关系实例，这一大堆实例中我们就举其中一个例子，让大家感受下这个RouterModule里的依赖关系的多和复杂：forRoot中provider了一个ROUTER_PROVIDERS，这是一个provider[]，其中又provider了一个Router，然后这个Router是使用setupRouter进行实例化（useFactory），其中又依赖
+            </div>
+        </div>
+        <div class="bottom-nav">
+            <div class="b-c-samll"><a href="">First</a></div>
+            <div class="b-c-samll"><a href="">Second</a></div>
+            <div class="b-c-samll"><a href="">Three</a></div>
+            <div class="b-c-samll"><a href="">Four</a></div>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+
+    function GetQueryString(name)
+    {
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+    }
+
+    function redirect(m,a)
+    {
+        var domain=document.domain;
+        window.location.href=domain+'/system.php/'+m+'/'+a;
+    }
+</script>
