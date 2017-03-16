@@ -1,0 +1,16 @@
+<div ms-controller="detail">
+    <h3>Detail</h3>
+    <p>Id:{{id}}</p>
+    <input name="aa[]">
+    <input name="aa[]">
+    <input name="aa[]">
+
+    <button ms-click="getV()">Button</button>
+    <button ms-click="getV2()">Button</button>
+
+    <ul ms-repeat="aa1">
+        <li>{{el}}<a ms-click="$remove">删除</a></li>
+    </ul>
+
+    wwd
+</div>

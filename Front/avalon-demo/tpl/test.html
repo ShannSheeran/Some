@@ -1,0 +1,24 @@
+<div class="table">
+    <table class="table">
+        <thread>
+            <tr>
+                <td>Id</td>
+                <td>Name</td>
+                <td>City</td>
+                <td>Province</td>
+                <td>Time</td>
+                <td>Detail</td>
+            </tr>
+        </thread>
+        <tbody>
+            <tr ms-repeat="data">
+                <td>{{el.id}}</td>
+                <td>{{el.name}}</td>
+                <td>{{el.city}}</td>
+                <td>{{el.province}}</td>
+                <td>{{el.created}}</td>
+                <td><a ms-href="#!/detail/{{el.id}}">Detail</a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

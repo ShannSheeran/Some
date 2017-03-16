@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Avalon</title>
+    <script src="http://cdn.bootcss.com/avalon.js/1.5.5/avalon.js"></script>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+</head>
+<style>
+    .m-l-div ul li{
+        list-style: none;
+    }
+    .m-l-div span {
+        margin-left: 10px;
+    }
+</style>
+<body>
+    <div class="container" ms-controller="toList">
+        <h3>This is a todoList demo which is based on Avalon</h3>
+        <form ms-on-submit="add">
+            <input class="form-control" type="text" ms-duplex-string="txt">
+        </form>
+        <p ms-if="toList.size()>0">共{{toList.size()}} 项todoList</p>
+        <ol>
+            <li ms-repeat="toList" ms-click="$remove">{{el}}</li>
+        </ol>
+
+    </div>
+</body>
+</html>
+<script>
+    var vm=avalon.define({
+        $id:'toList',
+        toList:[],
+        txt:'',
+        add:function(e){
+            e.preventDefault();
+            if (confirm('确定添加吗')) {
+                vm.txt.trim() && vm.toList.push(vm.txt);
+                vm.txt='';
+            }
+        },
+    });
+</script>
