@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" ms-controller="dd" >
+<head>
+    <meta charset="UTF-8">
+    <title>{{avalon}}</title>
+    <script src="http://cdn.bootcss.com/avalon.js/1.5.5/avalon.js"></script>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+</head>
+<style>
+    .red{
+        color: red;
+    }
+    .obj{
+        background: #000033;
+        color:#ee162d;
+    }
+    .gg{
+        background: #121212;
+    }
+</style>
+<body>
+    <div class="container" >
+        <ul >
+            <li>{{a}}</li>
+            <li><input ms-duplex="a"></li>
+            <li ms-mouseover="change(1)">鼠标事件</li>
+            <li>
+                <input ms-duplex="price">
+                <input ms-duplex="quntity">
+                <span>{{price*quntity}}</span>
+            </li>
+        </ul>
+        <div ms-if="obj.id==2">
+            {{obj.msg}}
+        </div>
+        <div ms-data-num="num"
+             ms-data-mbs="mbs"
+             ms-data-mf="mf"
+             ms-data-kl="kl"
+             ms-click="show"   >
+            点击
+        </div>
+       <select>
+           <option>A</option>
+           <option ms-attr-selectd="obj.id=2">B</option>
+           <option>C</option>
+           <option>D</option>
+       </select>
+        <input ms-attr-disabled="obj.id==2">
+        <input ms-atr-readonly="obj.id==2">
+        <input type="radio" ms-duplex-string="obj.id" value="21">A
+        <input type="radio" ms-duplex-string="obj.id" value="2">B
+        <p>HK</p>
+        <a ms-attr-href="{{path}}">ddd</a>
+        <div ms-attr-title="{{titl}}">fff</div>
+        <div ms-class="red:obj.id==2"> wdwwddw</div>
+        <div ms-active="obj">swwswsws</div>
+        <div ms-hover="gg">llllll</div>
+        <div>
+            <ul ms-repeat="data">
+                <li><input type="text" ms-duplex="el.id"></li>
+                <li ms-duplex="el.title"><input type="text" ms-duplex="el.title"></li>
+            </ul>
+        </div>
+        <div>
+            <button class="btn btn-info" ms-click="confirm">Confirm</button>
+        </div>
+        <div ms-include-src="test" data-include-rendered='callback'></div>
+    </div>
+
+    <script type="avalon" id="test">
+        <div>
+            <button class="btn btn-info">测试页面</button>
+        </div>
+    </script>
+</body>
+</html>
+<script>
+    var vm=avalon.define({
+        $id:'dd',
+        json:'hello',
+        a:'wwww',
+        price:3,
+        quntity:10,
+        obj:{id:2,msg:'Hello World'},
+        num:'test',
+        mbs:false,
+        avalon:"Avalon",
+        mf:function(){},
+        kl:[1,2,4],
+        change:function(obj){
+            //alert(33);
+        },
+        show:function(){
+            var ele=avalon(this);
+            console.log(ele.data('num'), ele.data('msb'), ele.data('mf'), this['data-kl']);
+        },
+        path:"https://www.baidu.com",
+        titl:"kkkkk",
+        data:[
+            {id:1,title:'Jack'},
+            {id:2,title:'Jack'},
+            {id:3,title:'Jack'},
+            {id:4,title:'Jack'},
+            {id:5,title:'Jack'},
+        ],
+        confirm:function(e){
+            var ele = avalon.data;
+            console.log(vm.$model.data);
+        },
+        adjust:function(){
+            alert(333);
+        },
+        test:"test.html",
+        callback:function(){
+            alert('when the template is loaded, this callback will be tiggered');
+        }
+    });
+    vm.$watch('a', function(){
+        alert('this is a callback');
+    });
+
+    avalon.scan();
+</script>

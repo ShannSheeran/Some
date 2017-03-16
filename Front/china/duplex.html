@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" ms-controller="me">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="http://cdn.bootcss.com/avalon.js/1.5.5/avalon.js"></script>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <p>{{title}}</p>
+    </div>
+</body>
+</html>
+<script>
+    avalon.config({
+        ss:123
+    });
+    avalon.define({
+        $id:'me',
+        title:'Avalon',
+    });
+    avalon.scan();
+</script>
