@@ -1,0 +1,62 @@
+
+<div ms-controller="ch">
+<p>陈翰,{{name}}</p>
+
+    <div class="container">
+        <table class="table">
+            <thread>
+                <tr>
+                    <td>编号</td>
+                    <td>城市</td>
+                    <td>姓名</td>
+                    <td>openid</td>
+                    <td>省分</td>
+                    <td>创建时间</td>
+                    <td>详情</td>
+                    <td>删除</td>
+                </tr>
+            </thread>
+            <tbody>
+                <tr ms-repeat="data">
+                    <td>{{el.id}}</td>
+                    <td>{{el.city}}</td>
+                    <td>{{el.name}}</td>
+                    <td>{{el.openid}}</td>
+                    <td>{{el.province}}</td>
+                    <td>{{el.created | dates()}}</td>
+                    <td><a style="display: block;width:30px;" ms-href="#!/detail/{{el.id}}">详情</a></td>
+                    <td><span ms-click="$remove">remove</span></td>
+                </tr>
+                </tbody>
+        </table>
+        <button class="btn btn-success" ms-click="next()">Next</button>
+        <button class="btn btn-info">第{{current_page}}页</button>
+        <button class="btn btn-info">共{{count}}页</button>
+
+    </div>
+    <div class="container">
+        <h3 style="text-align: center;">双向数据绑定</h3>
+        <table class="table">
+            <thread>
+                <tr>
+                    <td>编号</td>
+                    <td>城市</td>
+                    <td>姓名</td>
+                    <td>openid</td>
+                    <td>省分</td>
+                    <td>创建时间</td>
+                </tr>
+            </thread>
+            <tbody>
+            <tr ms-repeat="data">
+                <td>{{el.id}}</td>
+                <td><input ms-duplex="el.city"></td>
+                <td><input ms-duplex="el.name"></td>
+                <td><input ms-duplex="el.openid"></td>
+                <td><input ms-duplex="el.province"></td>
+                <td>{{el.created|dates()}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
